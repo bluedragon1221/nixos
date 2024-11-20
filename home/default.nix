@@ -1,8 +1,6 @@
 {pkgs, inputs, ...}: {
   home-manager = {
-    extraSpecialArgs = { inherit inputs; };
-    useGlobalPkgs = true;
-    useUserPackages = true;
+    extraSpecialArgs = { inherit inputs pkgs; };
     backupFileExtension = "bak";
     users.collin = {
       imports = [
@@ -17,6 +15,7 @@
 
         ./hyprland.nix
         ./vscode.nix
+        ./cursor.nix
       ];
     };
   };

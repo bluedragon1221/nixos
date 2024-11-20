@@ -103,7 +103,7 @@
   programs.nh = {
     enable = true;
     clean.enable = true;
-    flake = "/etc/nixos";
+    flake = "/home/collin/nixos";
   };
 
   system.stateVersion = "24.05";

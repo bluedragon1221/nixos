@@ -3,7 +3,7 @@
     enable = true;
     settings = {
       bind = [
-        ", Print, exec, ${pkgs.cmus}/bin/cmus-remote -u"
+        ", Print, exec, ${pkgs.my-cmus}/bin/cmus-remote -u"
         "Mod4, b, exec, firefox"
         "Mod4 SHIFT, b, exec, zen"
         "Mod4, x, exec, kitty"

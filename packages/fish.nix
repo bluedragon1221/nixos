@@ -7,7 +7,7 @@
     ${my-starship}/bin/starship init fish | source
 
     # aliases
-    abbr -a nh nh os switch /etc/nixos
+    abbr -a nh nh os switch ~/nixos
     abbr -a gc --set-cursor "git commit -m '%'"
 
     alias ls '${pkgs.eza}/bin/eza -A -w 80 --group-directories-first'
@@ -16,7 +16,7 @@
     # environment variables
     set -x EDITOR hx
     set -x VISUAL hx
-    set -x LS_COLORS "(${pkgs.vivid} generate catppuccin-macchiato)"
+    # set -x LS_COLORS (${pkgs.vivid}/bin/vivid generate catppuccin-macchiato)
 
     set -x XDG_DATA_HOME ~/.local/share
     set -x XDG_CONFIG_HOME ~/.config
