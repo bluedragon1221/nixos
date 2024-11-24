@@ -1,4 +1,9 @@
-{ inputs, pkgs, lib, ... }: {
+{
+  inputs,
+  pkgs,
+  lib,
+  ...
+}: {
   imports = [
     inputs.home-manager.nixosModules.home-manager
     ./hardware.nix
@@ -18,13 +23,13 @@
     plymouth = {
       enable = true;
       theme = "catppuccin-macchiato";
-      themePackages = [ pkgs.catppuccin-plymouth ];
+      themePackages = [pkgs.catppuccin-plymouth];
     };
   };
 
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" "pipe-operators" ];
-    allowed-users = [ "@wheel" ];
+    experimental-features = ["nix-command" "flakes" "pipe-operators"];
+    allowed-users = ["@wheel"];
     allow-import-from-derivation = false;
     use-xdg-base-directories = true; # gets rid of .nix-* directories in $HOME
   };
@@ -48,8 +53,10 @@
   services.sshd.enable = true;
   services.pipewire = {
     enable = true;
-    alsa.enable = true;
     wireplumber.enable = true;
+
+    alsa.enable = true;
+    pulse.enable = false;
   };
 
   # Users
@@ -63,7 +70,7 @@
       collin = {
         isNormalUser = true;
         description = "Collin";
-        extraGroups = [ "networkmanager" "wheel" ];
+        extraGroups = ["networkmanager" "wheel"];
         hashedPassword = "$y$j9T$08yFysn8jr9K4Wk.hYXbG0$NzY9vIbNknJViA..Jw.vF8wmQtBgEZZU.cdLQOmDvU2";
       };
 
@@ -77,27 +84,29 @@
   };
 
   environment.defaultPackages = lib.mkForce [];
-  environment.systemPackages = with pkgs; [
-    musescore
-    nuclear
-    # obsidian
-    kdePackages.kleopatra
+  environment.systemPackages = with pkgs;
+    [
+      musescore
+      nuclear
+      # obsidian
+      kdePackages.kleopatra
 
-    # fr33zmenu
-    hover-rs
-    my-kitty
-    my-firefox
+      hover-rs
+      bangscript
+      my-kitty
+      my-firefox
+      my-fuzzel
 
-    cargo
-    hyprcursor
+      cargo
 
-    my-cmus
-    my-cava
-  ] ++ [ inputs.zen-browser.packages."${system}".default ];
+      my-cmus
+      my-cava
+    ]
+    ++ [inputs.zen-browser.packages."${system}".default];
 
   fonts = {
     enableDefaultPackages = false;
-    packages = [ pkgs.ibm-plex ];
+    packages = [pkgs.ibm-plex];
   };
 
   programs.nh = {

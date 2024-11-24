@@ -8,5 +8,5 @@ pkgs.rustPlatform.buildRustPackage {
     rev = "c319db25c831f3d10b7cbb3ba97c6ddd6c229f00";
   };
 
-  cargoHash = "";
+  cargoHash = "sha256-1TxtF8MU7fE9jAHvk4cvoNie98ZaoSaVMgfQl0nMVV4=";
 }

@@ -1,4 +1,12 @@
-{ cfgWrapper, pkgs, my-helix, my-starship, lowfi, my-git, ... }: let
+{
+  cfgWrapper,
+  pkgs,
+  my-helix,
+  my-starship,
+  lowfi,
+  my-git,
+  ...
+}: let
   shellInit = pkgs.writeText "config.fish" ''
     # ugly greeting gone
     set fish_greeting
@@ -25,27 +33,35 @@
 
     set -x CARGO_HOME $XDG_DATA_HOME/cargo
     set -x PYTHON_HISTORY $XDG_DATA_HOME/python/python_history
+    set -x GOPATH $XDG_DATA_HOME/go
+    set -x HISTFILE $XDG_DATA_HOME/bash/history
   '';
 
-  extraPkgs = with pkgs; [
-    # basic shell utilities
-    fd fzf ripgrep entr
-    glow bat jq
-    moreutils
-    broot
-    comma # use ',' to use nix-shell
-  ] ++ [ my-git my-helix my-starship lowfi ];
+  extraPkgs = with pkgs;
+    [
+      # basic shell utilities
+      fd
+      fzf
+      ripgrep
+      entr
+      glow
+      bat
+      jq
+      moreutils
+      broot
+      comma # use ',' to use nix-shell
+    ]
+    ++ [my-git my-helix my-starship lowfi];
+in
+  cfgWrapper {
+    pkg = pkgs.fish;
+    binName = "fish";
 
-in cfgWrapper {
-  pkg = pkgs.fish;
-  binName = "fish";
+    extraFlags = ["--init-command 'source ${shellInit}'"];
 
-  extraFlags = [ "--init-command 'source ${shellInit}'" ];
+    inherit extraPkgs;
+    hidePkgs = true;
 
-  inherit extraPkgs;
-  hidePkgs = true;
-
-  # disable command-not-found (its broken unless I use nix channels)
-  postBuild = ''rm $out/share/fish/functions/fish_command_not_found.fish'';
-}
-
+    # disable command-not-found (its broken unless I use nix channels)
+    postBuild = ''rm $out/share/fish/functions/fish_command_not_found.fish'';
+  }

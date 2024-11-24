@@ -2,18 +2,20 @@
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
-      bind = [
-        ", Print, exec, ${pkgs.my-cmus}/bin/cmus-remote -u"
-        "Mod4, b, exec, firefox"
-        "Mod4 SHIFT, b, exec, zen"
-        "Mod4, x, exec, kitty"
-        "Mod4, q, killactive"
-        "Mod4 SHIFT, q, exit"
-
-      ] ++ (builtins.concatLists (builtins.genList (i: [
-        "Mod4, ${toString i}, workspace, ${toString i}"
-        "Mod4 SHIFT, ${toString i}, movetoworkspace, ${toString i}"
-      ]) 9));
+      bind =
+        [
+          ", Print, exec, ${pkgs.my-cmus}/bin/cmus-remote -u"
+          "Mod4, b, exec, firefox"
+          "Mod4 SHIFT, b, exec, zen"
+          "Mod4, x, exec, kitty"
+          "Mod4, q, killactive"
+          "Mod4 SHIFT, q, exit"
+        ]
+        ++ (builtins.concatLists (builtins.genList (i: [
+            "Mod4, ${toString i}, workspace, ${toString i}"
+            "Mod4 SHIFT, ${toString i}, movetoworkspace, ${toString i}"
+          ])
+          9));
 
       binde = let
         set-vol = vol: "wpctl set-volume @DEFAULT_AUDIO_SINK@ ${vol}";
@@ -22,7 +24,7 @@
         ", XF86AudioLowerVolume, exec, ${set-vol "5%-"}"
       ];
 
-      monitor = [ ", preferred, auto, 1" ];
+      monitor = [", preferred, auto, 1"];
 
       general = {
         gaps_in = 5;
@@ -70,9 +72,9 @@
   in {
     enable = true;
     settings = {
-      preload = [ wallpaper ];
+      preload = [wallpaper];
 
-      wallpaper = [ ",${wallpaper}" ];
+      wallpaper = [",${wallpaper}"];
     };
   };
 }

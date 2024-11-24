@@ -1,5 +1,6 @@
-{ pkgs, ... }: {
-  pkg, binName,
+{pkgs, ...}: {
+  pkg,
+  binName,
   extraFlags ? [],
   extraPkgs ? [],
   extraEnv ? {},
@@ -7,11 +8,13 @@
   postBuild ? "",
   hidePkgs ? false,
 }: let
-  extraFlagsArgs = extraFlags
-    |> builtins.map (x: ''--add-flags "${x}" '')
-    |> builtins.concatStringsSep " ";
+  extraFlagsArgs = pkgs.lib.pipe extraFlags [
+    (builtins.map (x: ''--add-flags "${x}" ''))
+    (builtins.concatStringsSep " ")
+  ];
 
-  pathArg = if (extraPkgs != [])
+  pathArg =
+    if (extraPkgs != [])
     then ''--prefix PATH : "${pkgs.lib.makeBinPath extraPkgs}"''
     else "";
 
@@ -19,23 +22,25 @@
   #   VAR = "value";
   #   VAR2 = "value_again";
   # }
-  envArgs = extraEnv
-    |> builtins.mapAttrs (k: v: ''--set ${k} "${v}"'')
-    |> builtins.attrValues
-    |> builtins.concatStringsSep " ";
+  envArgs = pkgs.lib.pipe extraEnv [
+    (builtins.mapAttrs (k: v: ''--set ${k} "${v}"''))
+    builtins.attrValues
+    (builtins.concatStringsSep " ")
+  ];
 
-  fileSetup = files
-    |> pkgs.lib.mapAttrsToList (filename: contentFn: ''
+  fileSetup = pkgs.lib.pipe files [
+    (pkgs.lib.mapAttrsToList (filename: contentFn: ''
       mkdir -p "$(dirname $out/${filename})"
       echo '${contentFn "$out"}' > "$out/${filename}"
-    '')
-    |> builtins.concatStringsSep "";
+    ''))
+    (builtins.concatStringsSep "")
+  ];
 
   wrapped-program = pkgs.symlinkJoin {
     name = binName;
-    paths = [ pkg ] ++ extraPkgs;
+    paths = [pkg] ++ extraPkgs;
 
-    buildInputs = [ pkgs.makeWrapper ];
+    buildInputs = [pkgs.makeWrapper];
     postBuild = ''
       ${fileSetup}
       ${postBuild}
@@ -43,10 +48,13 @@
       wrapProgram $out/bin/${binName} ${extraFlagsArgs} ${pathArg} ${envArgs}
     '';
   };
-in if (hidePkgs) then (pkgs.linkFarm "wrapped-${binName}" [
-  {
-    name = "bin/${binName}";
-    path = "${wrapped-program}/bin/${binName}";
-  }
-]) else wrapped-program
-
+in
+  if hidePkgs
+  then
+    (pkgs.linkFarm "wrapped-${binName}" [
+      {
+        name = "bin/${binName}";
+        path = "${wrapped-program}/bin/${binName}";
+      }
+    ])
+  else wrapped-program

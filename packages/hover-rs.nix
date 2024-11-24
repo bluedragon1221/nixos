@@ -1,4 +1,5 @@
-{ pkgs, ... }: pkgs.rustPlatform.buildRustPackage {
+{pkgs, ...}:
+pkgs.rustPlatform.buildRustPackage {
   pname = "hover";
   version = "1.0";
 

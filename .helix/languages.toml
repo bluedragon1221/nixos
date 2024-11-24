@@ -1,0 +1,7 @@
+[[language]]
+name = "nix"
+file-types = ["nix"]
+language-servers = ["nil"]
+indent = { tab-width = 2, unit = "  " }
+formatter = { command = "alejandra" }
+auto-format = true

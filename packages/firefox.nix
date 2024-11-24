@@ -1,4 +1,4 @@
-{ pkgs, ... }: let
+{pkgs, ...}: let
   # Preferences
   Preferences = let
     val = Value: {
@@ -6,7 +6,7 @@
       Status = "locked";
     };
   in {
-    "extensions.activeThemeID"        = val "catppuccin-macchiato-blue@mozilla.org"; # theme
+    "extensions.activeThemeID" = val "catppuccin-macchiato-blue@mozilla.org"; # theme
     "browser.aboutConfig.showWarning" = val false; # I sometimes know what I'm doing
     "browser.download.useDownloadDir" = val false; # Ask where to save stuff
     "browser.tabs.tabmanager.enabled" = val false;
@@ -14,20 +14,20 @@
 
   # Extensions
   ExtensionSettings = let
-   ext = url: {
+    ext = url: {
       installation_mode = "force_installed";
       install_url = "https://addons.mozilla.org/firefox/downloads/latest/${url}/latest.xpi";
     };
   in {
     "{446900e4-71c2-419f-a6a7-df9c091e268b}" = ext "bitwarden-password-manager";
     "{d49033ac-8969-488c-afb0-5cdb73957f41}" = ext "catppuccin-macchiato-blue";
-    "uBlock0@raymondhill.net"                = ext "ublock-origin";
+    "uBlock0@raymondhill.net" = ext "ublock-origin";
   };
 
   # Bookmarks
   ManagedBookmarks = let
-    bookmark = name: url: { inherit name url; };
-    folder = name: children: { inherit name children; };
+    bookmark = name: url: {inherit name url;};
+    folder = name: children: {inherit name children;};
   in [
     (folder "School" [
       (bookmark "Google Classroom" "https://classroom.google.com")
@@ -88,9 +88,9 @@
     # Disable Builtin Password Manager
     PasswordManagerEnabled = false;
     OfferToSaveLogins = false;
-  
+
     # Allow Popups for specific sites
-    PopupBlocking.Allow = [ "https://classroom.google.com" ];
+    PopupBlocking.Allow = ["https://classroom.google.com"];
 
     # Bookmarks
     DisplayBookmarksToolbar = "always";
@@ -98,23 +98,7 @@
 
     inherit ManagedBookmarks ExtensionSettings Preferences;
   };
-
-  wrapped-firefox = pkgs.firefox.override {
+in
+  pkgs.firefox.override {
     inherit extraPolicies;
-  };
-
-in wrapped-firefox
-
-# pkgs.symlinkJoin {
-#   name = "wrapped-firefox";
-#   paths = [ wrapped-firefox ];
-#   buildInputs = [ pkgs.makeWrapper ];
-#   postBuild = ''
-#     # This solves the ~/.mozilla problem
-#     wrapProgram "$out/bin/firefox" \
-#       --run "trap 'rm -rf $HOME/.mozilla' EXIT INT TERM"
-#     fi
-#   '';
-# }
-
-
+  }

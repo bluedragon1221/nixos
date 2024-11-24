@@ -1,4 +1,9 @@
-{ cfgWrapper, pkgs, my-fish, ... }: let
+{
+  cfgWrapper,
+  pkgs,
+  my-fish,
+  ...
+}: let
   catppuccin_kitty = builtins.fetchGit {
     url = "https://github.com/catppuccin/kitty";
     rev = "1f99e6682d84fe4d8e3177d3add8d0591607a2ac";
@@ -8,7 +13,7 @@
     url = "https://github.com/mrjones2014/smart-splits.nvim";
     rev = "aa657c1a0ac5556fb268c4cf063e876117d0edd6";
   };
-  
+
   # Fetch Iosevka Nerd Font
   iosevka = pkgs.nerdfonts.override {fonts = ["Iosevka"];};
 
@@ -22,9 +27,9 @@
   '';
 
   relative-resize = pkgs.writeTextFile {
-    destination = "/relative-resize.py";
-    name = "relative-resize";
-    text = (builtins.readFile "${smart_splits}/kitty/relative_resize.py");
+    destination = "/relative_resize.py";
+    name = "relative_resize";
+    text = builtins.readFile "${smart_splits}/kitty/relative_resize.py";
   };
 
   settings = pkgs.writeTextFile {
@@ -32,9 +37,9 @@
     name = "kitty-config";
     text = ''
       include ${catppuccin_kitty}/themes/macchiato.conf
-  
+
       shell ${my-fish}/bin/fish
-      
+
       font_family Iosevka Nerd Font
       font_size 13
       adjust_line_height 3
@@ -48,7 +53,7 @@
       window_margin_width 0
       window_padding_width 5
       background_opacity 0.8
-    
+
       tab_bar_align left
       tab_bar_edge bottom
       tab_bar_min_tabs 2
@@ -74,13 +79,13 @@
       relative-resize
     ];
   };
-
-in cfgWrapper {
-  pkg = pkgs.kitty;
-  binName = "kitty";
-  extraPkgs = [ iosevka ];
-  extraEnv = {
-    KITTY_CONFIG_DIRECTORY = kitty-dir;
-    FONTCONFIG_FILE = fontconfig;
-  };
-}
+in
+  cfgWrapper {
+    pkg = pkgs.kitty;
+    binName = "kitty";
+    extraPkgs = [iosevka];
+    extraEnv = {
+      KITTY_CONFIG_DIRECTORY = kitty-dir;
+      FONTCONFIG_FILE = fontconfig;
+    };
+  }

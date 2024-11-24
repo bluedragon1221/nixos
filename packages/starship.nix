@@ -1,4 +1,4 @@
-{pkgs, ... }: let
+{pkgs, ...}: let
   settings = (pkgs.formats.toml {}).generate "starship.toml" {
     add_newline = false;
     format = ''$nix_shell$directory$git_branch$git_status $character'';
@@ -27,13 +27,13 @@
       format = "[$name](blue bold) ";
     };
   };
-in pkgs.symlinkJoin {
-  name = "starship";
-  paths = [ pkgs.starship ];
-  buildInputs = [ pkgs.makeWrapper ];
-  postBuild = ''
-    wrapProgram $out/bin/starship \
-      --set STARSHIP_CONFIG ${settings}
-  '';
-}
-
+in
+  pkgs.symlinkJoin {
+    name = "starship";
+    paths = [pkgs.starship];
+    buildInputs = [pkgs.makeWrapper];
+    postBuild = ''
+      wrapProgram $out/bin/starship \
+        --set STARSHIP_CONFIG ${settings}
+    '';
+  }

@@ -1,4 +1,7 @@
-{ cfgWrapper, pkgs }: let
+{
+  cfgWrapper,
+  pkgs,
+}: let
   settings = (pkgs.formats.toml {}).generate "config.toml" {
     theme = "catppuccin_macchiato";
     editor = {
@@ -22,23 +25,24 @@
     keys = {
       normal = {
         "C-space" = "expand_selection";
-        "A-down" = [ "extend_to_line_bounds" "delete_selection" "paste_after" ];
-        "A-up" = [ "extend_to_line_bounds" "delete_selection" "move_line_up" "paste_before" ];
-        "X" = [ "extend_line_up" "extend_to_line_bounds" ];
+        "A-down" = ["extend_to_line_bounds" "delete_selection" "paste_after"];
+        "A-up" = ["extend_to_line_bounds" "delete_selection" "move_line_up" "paste_before"];
+        "X" = ["extend_line_up" "extend_to_line_bounds"];
         "C-left" = "goto_line_start";
         "C-right" = "goto_line_end";
         ";" = "flip_selections";
-        "esc" = [ "collapse_selection" "keep_primary_selection" ];
+        "esc" = ["collapse_selection" "keep_primary_selection"];
       };
 
       select = {
-        "esc" = [ "collapse_selection" "insert_mode" ];
+        "esc" = ["collapse_selection" "insert_mode"];
       };
     };
   };
 
   extraPkgs = with pkgs; [
     nil
+    alejandra
     rust-analyzer
     lua-language-server
     superhtml
@@ -46,12 +50,14 @@
     python312Packages.python-lsp-server
     python312Packages.python-lsp-ruff
     python312Packages.pylsp-rope
+    emmet-language-server
   ];
-  
-in cfgWrapper {
-  pkg = pkgs.helix;
-  binName = "hx";
-  inherit extraPkgs;
-  extraFlags = [ "-c ${settings}" ];
-  hidePkgs = true;
-}
+in
+  cfgWrapper {
+    pkg = pkgs.helix;
+    binName = "hx";
+    inherit extraPkgs;
+    extraFlags = ["-c ${settings}"];
+    hidePkgs = true;
+
+  }

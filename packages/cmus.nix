@@ -1,4 +1,8 @@
-{ cfgWrapper, pkgs, ... }: let
+{
+  cfgWrapper,
+  pkgs,
+  ...
+}: let
   cache-dir = "$HOME/.local/share/cmus";
   theme = builtins.fetchGit {
     url = "https://github.com/Sekki21956/cmus";
@@ -21,7 +25,7 @@
   '';
 
   album-art = pkgs.writeShellScriptBin "album-art.sh" ''
-    echo "${cache-dir}/curr_song.txt" | ${pkgs.entr}/bin/entr -cs '[ -f ${cache-dir}/curr_cover.jpg ] && kitten icat $HOME/.cmus/curr_cover.jpg; cat ${cache-dir}/curr_song.txt'
+    echo "${cache-dir}/curr_song.txt" | ${pkgs.entr}/bin/entr -cs '[ -f ${cache-dir}/curr_cover.jpg ] && kitten icat ${cache-dir}/curr_cover.jpg; cat ${cache-dir}/curr_song.txt'
   '';
 
   config = pkgs.writeTextFile {
@@ -40,7 +44,7 @@
 
   playlists-dir = pkgs.writeTextFile {
     name = "playlists-dir";
-    text = '' '';
+    text = "";
     destination = "/playlists/.git-keep";
   };
 
@@ -52,11 +56,12 @@
       playlists-dir
     ];
   };
-in cfgWrapper {
-  pkg = pkgs.cmus;
-  binName = "cmus";
-  extraPkgs = [ album-art ];
-  extraEnv = {
-    CMUS_HOME = cmus-dir;
-  };
-}
+in
+  cfgWrapper {
+    pkg = pkgs.cmus;
+    binName = "cmus";
+    extraPkgs = [album-art];
+    extraEnv = {
+      CMUS_HOME = cmus-dir;
+    };
+  }
