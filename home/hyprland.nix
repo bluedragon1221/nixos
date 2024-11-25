@@ -2,14 +2,18 @@
   wayland.windowManager.hyprland = {
     enable = true;
     settings = {
+      exec = "${pkgs.my-mako}/bin/mako";
       bind =
         [
           ", Print, exec, ${pkgs.my-cmus}/bin/cmus-remote -u"
+          "Mod4, SPACE, exec, ${pkgs.my-fuzzel}/bin/fuzzel"
           "Mod4, b, exec, firefox"
           "Mod4 SHIFT, b, exec, zen"
           "Mod4, x, exec, kitty"
           "Mod4, q, killactive"
           "Mod4 SHIFT, q, exit"
+          "Mod4 SHIFT, s, exec, ${pkgs.hyprshot}/bin/hyprshot -m region"
+          "Mod4, ., exec, ${pkgs.my-mako}/bin/makoctl dismiss -a"
         ]
         ++ (builtins.concatLists (builtins.genList (i: [
             "Mod4, ${toString i}, workspace, ${toString i}"

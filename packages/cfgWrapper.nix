@@ -4,7 +4,6 @@
   extraFlags ? [],
   extraPkgs ? [],
   extraEnv ? {},
-  files ? {},
   postBuild ? "",
   hidePkgs ? false,
 }: let
@@ -28,21 +27,12 @@
     (builtins.concatStringsSep " ")
   ];
 
-  fileSetup = pkgs.lib.pipe files [
-    (pkgs.lib.mapAttrsToList (filename: contentFn: ''
-      mkdir -p "$(dirname $out/${filename})"
-      echo '${contentFn "$out"}' > "$out/${filename}"
-    ''))
-    (builtins.concatStringsSep "")
-  ];
-
   wrapped-program = pkgs.symlinkJoin {
     name = binName;
     paths = [pkg] ++ extraPkgs;
 
     buildInputs = [pkgs.makeWrapper];
     postBuild = ''
-      ${fileSetup}
       ${postBuild}
 
       wrapProgram $out/bin/${binName} ${extraFlagsArgs} ${pathArg} ${envArgs}

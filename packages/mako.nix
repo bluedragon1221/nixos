@@ -9,5 +9,7 @@
 in
   cfgWrapper {
     pkg = pkgs.mako;
-    extraFlags = ["-c ${catppuccin-mako}/themes/catppuccin-late/catppuccin-latte-mauve"];
+    extraPkgs = [pkgs.libnotify];
+    binName = "mako";
+    extraFlags = ["-c ${catppuccin-mako}/themes/catppuccin-macchiato/catppuccin-macchiato-mauve"];
   }

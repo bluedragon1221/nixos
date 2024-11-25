@@ -59,5 +59,4 @@ in
     inherit extraPkgs;
     extraFlags = ["-c ${settings}"];
     hidePkgs = true;
-
   }

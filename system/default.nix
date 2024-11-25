@@ -51,12 +51,13 @@
   };
   services.blueman.enable = true;
   services.sshd.enable = true;
+  services.printing.enable = false;
   services.pipewire = {
+    # fine, i'll do pipewire-pulse
     enable = true;
-    wireplumber.enable = true;
-
     alsa.enable = true;
-    pulse.enable = false;
+
+    pulse.enable = true;
   };
 
   # Users
@@ -96,6 +97,7 @@
       my-kitty
       my-firefox
       my-fuzzel
+      my-mako
 
       cargo
 
@@ -106,7 +108,12 @@
 
   fonts = {
     enableDefaultPackages = false;
-    packages = [pkgs.ibm-plex];
+    packages = [
+      pkgs.ibm-plex
+      (pkgs.nerdfonts.override {
+        fonts = ["Iosevka"];
+      })
+    ];
   };
 
   programs.nh = {

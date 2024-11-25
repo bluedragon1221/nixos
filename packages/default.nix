@@ -21,5 +21,7 @@ in {
   # GUI
   my-kitty = pkgs.callPackage ./kitty.nix {};
   my-firefox = pkgs.callPackage ./firefox.nix {};
+
   my-fuzzel = pkgs.callPackage ./fuzzel.nix {};
+  my-mako = pkgs.callPackage ./mako.nix {};
 }

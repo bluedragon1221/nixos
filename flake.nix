@@ -12,8 +12,9 @@
   };
 
   outputs = inputs: let
+    system = "x86_64-linux";
     pkgs = import inputs.nixpkgs {
-      system = "x86_64-linux";
+      inherit system;
       config.allowUnfree = true;
       overlays = [
         (import ./packages)
@@ -21,13 +22,14 @@
     };
   in {
     nixosConfigurations."collinux" = inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit inputs pkgs; };
+      specialArgs = {inherit inputs pkgs;};
       modules = [
         inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
         ./system
         ./home
       ];
     };
+
+    packages.${system}.default = import ./packages;
   };
 }
-

@@ -1,6 +1,7 @@
 {
   cfgWrapper,
   pkgs,
+  my-mako,
   ...
 }: let
   cache-dir = "$HOME/.local/share/cmus";
@@ -21,6 +22,12 @@
     if [ -n "$_file" ]; then
     	${pkgs.ffmpeg}/bin/ffmpeg -i "$_file" -y -an -c:v copy ${cache-dir}/curr_cover.jpg || rm ${cache-dir}/curr_cover.jpg
     	echo "[$_status] $_album - $_title - $_artist" > ${cache-dir}/curr_song.txt
+    fi
+
+    if [[ "$_status" = "playing" ]]; then
+      ${my-mako}/bin/notify-send -t 3000 -u low "Now Playing: $_title" "$_artist"
+    elif [[ "$_status" = "stopped" ]]; then
+      ${my-mako}/bin/notify-send -t 3000 -u low "Paused"
     fi
   '';
 

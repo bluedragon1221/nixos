@@ -14,18 +14,6 @@
     rev = "aa657c1a0ac5556fb268c4cf063e876117d0edd6";
   };
 
-  # Fetch Iosevka Nerd Font
-  iosevka = pkgs.nerdfonts.override {fonts = ["Iosevka"];};
-
-  # Create a directory with just our needed font
-  fontconfig = pkgs.writeText "fontconfig.conf" ''
-    <?xml version="1.0"?>
-    <!DOCTYPE fontconfig SYSTEM "fonts.dtd">
-    <fontconfig>
-      <dir>${iosevka}/share/fonts/truetype</dir>
-    </fontconfig>
-  '';
-
   relative-resize = pkgs.writeTextFile {
     destination = "/relative_resize.py";
     name = "relative_resize";
@@ -83,9 +71,7 @@ in
   cfgWrapper {
     pkg = pkgs.kitty;
     binName = "kitty";
-    extraPkgs = [iosevka];
     extraEnv = {
       KITTY_CONFIG_DIRECTORY = kitty-dir;
-      FONTCONFIG_FILE = fontconfig;
     };
   }

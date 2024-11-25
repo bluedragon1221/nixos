@@ -30,6 +30,7 @@
     set -x XDG_CONFIG_HOME ~/.config
     set -x XDG_STATE_HOME ~/.local/state
     set -x XDG_CACHE_HOME ~/.cache
+    set -x XDG_PICTURES_DIR ~/Pictures
 
     set -x CARGO_HOME $XDG_DATA_HOME/cargo
     set -x PYTHON_HISTORY $XDG_DATA_HOME/python/python_history

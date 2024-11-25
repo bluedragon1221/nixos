@@ -12,5 +12,6 @@ in
     extraFlags = [
       ''-c user.name='${name}' ''
       ''-c user.email='${email}' ''
+      ''-c init.defaultbranch='main' ''
     ];
   }
