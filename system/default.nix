@@ -89,15 +89,11 @@
     [
       musescore
       nuclear
-      # obsidian
+      obsidian
       kdePackages.kleopatra
 
       hover-rs
       bangscript
-      my-kitty
-      my-firefox
-      my-fuzzel
-      my-mako
 
       cargo
 

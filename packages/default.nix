@@ -10,9 +10,7 @@ in {
   my-git = pkgs.callPackage ./git.nix {};
 
   # Build from source
-  lowfi = pkgs.callPackage ./lowfi.nix {};
   hover-rs = pkgs.callPackage ./hover-rs.nix {};
-  bangscript = pkgs.callPackage ./bangscript.nix {};
 
   ## Shell
   my-starship = pkgs.callPackage ./starship.nix {};
@@ -24,4 +22,6 @@ in {
 
   my-fuzzel = pkgs.callPackage ./fuzzel.nix {};
   my-mako = pkgs.callPackage ./mako.nix {};
+
+  my-hyprland = pkgs.callPackage ./hyprland.nix {};
 }

@@ -7,8 +7,17 @@
   my-firefox,
   my-kitty,
 }: let
+  wallpapers = builtins.fetchGit {
+    url = "https://github.com/bluedragon1221/wallpapers";
+    rev = "f9316b382c86f6454e593c20e6e51846c077a317";
+  };
+
   settings = pkgs.writeText "hyprland.conf" ''
-    exec=${my-mako}/bin/mako
+    exec-once=${my-mako}/bin/mako
+    exec-once=${pkgs.swaybg}/bin/swaybg -i ${wallpapers}/wallpaper_legal.png
+
+    env=XCURSOR_PATH,${pkgs.vanilla-dmz}/share/icons
+    env=XCURSOR_THEME,Vanilla-DMZ
 
     animations {
       bezier=ease,.25,.1,.25,1
@@ -92,5 +101,4 @@ in
     pkg = pkgs.hyprland;
     binName = "Hyprland";
     extraFlags = ["-c ${settings}"];
-    extraEnv.XCURSOR_PATH = "${pkgs.vanilla-dmz}/share/icons";
   }
