@@ -19,6 +19,8 @@
     env=XCURSOR_PATH,${pkgs.vanilla-dmz}/share/icons
     env=XCURSOR_THEME,Vanilla-DMZ
 
+    env=HYPRSHOT_DIR,Pictures/hyprshot
+
     animations {
       bezier=ease,.25,.1,.25,1
       animation=workspaces, 1, 2, ease
@@ -60,6 +62,7 @@
     bind=Mod4, x, exec, ${my-kitty}/bin/kitty
     bind=Mod4, SPACE, exec, ${my-fuzzel}/bin/fuzzel
     bind=Mod4, b, exec, ${my-firefox}/bin/firefox
+    bind=Mod4, m, exec, ${my-kitty}/bin/kitty --session ${my-cmus}/session.conf
     bind=Mod4 SHIFT, b, exec, zen
 
     bind=Mod4, q, killactive

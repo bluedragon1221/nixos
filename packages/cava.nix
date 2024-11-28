@@ -28,44 +28,9 @@
     noise_reduction = 70
     waves = 0
   '';
-
-  mini-settings = pkgs.writeText "config" ''
-    [general]
-    bars = 12
-
-    [output]
-    method = raw
-    raw_target = /tmp/cava.fifo
-    data_format = ascii
-    ascii_max_range = 7
-  '';
-
-  mini-cava-script = pkgs.writeShellScriptBin "mini-cava.sh" ''
-    # set up pipe
-    mkfifo /tmp/cava.fifo
-    trap 'unlink /tmp/cava.fifo' EXIT
-
-    # run cava in the background
-    cava -p ${mini-settings} &
-
-    # set up terminal
-    clear
-    tput civis
-    trap 'tput cnorm' EXIT
-
-    # read data from fifo
-    while read -r cmd; do
-      tput cup 0 0
-      echo $cmd | sed "s/;//g;s/0/▁/g;s/1/▂/g;s/2/▃/g;s/3/▄/g;s/4/▅/g;s/5/▆/g;s/6/▇/g;s/7/█/g;"
-    done < /tmp/cava.fifo
-  '';
 in
   cfgWrapper {
     pkg = pkgs.cava;
     binName = "cava";
-
     extraFlags = ["-p ${settings}"];
-
-    extraPkgs = [mini-cava-script];
-    hidePkgs = false;
   }

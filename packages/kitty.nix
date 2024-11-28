@@ -74,4 +74,5 @@ in
     extraEnv = {
       KITTY_CONFIG_DIRECTORY = kitty-dir;
     };
+    extraFlags = ["--single-instance"];
   }

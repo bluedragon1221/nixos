@@ -3,8 +3,8 @@
   pkgs,
   my-helix,
   my-starship,
-  lowfi,
   my-git,
+  hover-rs,
   ...
 }: let
   shellInit = pkgs.writeText "config.fish" ''
@@ -52,7 +52,7 @@
       broot
       comma # use ',' to use nix-shell
     ]
-    ++ [my-git my-helix my-starship lowfi];
+    ++ [my-git my-helix my-starship hover-rs];
 in
   cfgWrapper {
     pkg = pkgs.fish;

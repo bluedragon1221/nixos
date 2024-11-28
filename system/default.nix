@@ -32,6 +32,7 @@
     allowed-users = ["@wheel"];
     allow-import-from-derivation = false;
     use-xdg-base-directories = true; # gets rid of .nix-* directories in $HOME
+    auto-optimise-store = true; # makes nix store more efficient
   };
 
   # Hyprland (cfg in home-manager)
@@ -93,7 +94,6 @@
       kdePackages.kleopatra
 
       hover-rs
-      bangscript
 
       cargo
 

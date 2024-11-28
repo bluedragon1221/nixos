@@ -2,6 +2,7 @@
   cfgWrapper,
   pkgs,
   my-mako,
+  my-cava,
   ...
 }: let
   cache-dir = "$HOME/.local/share/cmus";
@@ -26,7 +27,7 @@
 
     if [[ "$_status" = "playing" ]]; then
       ${my-mako}/bin/notify-send -t 3000 -u low "Now Playing: $_title" "$_artist"
-    elif [[ "$_status" = "stopped" ]]; then
+    elif [[ "$_status" = "paused" ]]; then
       ${my-mako}/bin/notify-send -t 3000 -u low "Paused"
     fi
   '';
@@ -38,7 +39,10 @@
   config = pkgs.writeTextFile {
     name = "cmus-config";
     text = ''
+      add ~/Music
+
       set status_display_program=${status-display}/bin/status.sh
+      set format_title="cmus: %t - %A"
 
       fset ambient=genre="Ambient"
       fset classical=genre="Classical*"
@@ -63,12 +67,22 @@
       playlists-dir
     ];
   };
+
+  kitty-session = pkgs.writeTextFile {
+    name = "session.conf";
+    destination = "/session.conf";
+    text = ''
+      layout splits
+      launch --var window=first cmus
+      launch --location=hsplit --bias 30 ${my-cava}/bin/cava
+      focus_matching_window var:window=first
+      launch --location=vsplit --bias 20 ${album-art}/bin/album-art.sh
+    '';
+  };
 in
   cfgWrapper {
     pkg = pkgs.cmus;
     binName = "cmus";
-    extraPkgs = [album-art];
-    extraEnv = {
-      CMUS_HOME = cmus-dir;
-    };
+    extraPkgs = [album-art kitty-session];
+    extraEnv.CMUS_HOME = cmus-dir;
   }
