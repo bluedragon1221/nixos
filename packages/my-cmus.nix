@@ -3,7 +3,6 @@
   pkgs,
   my-mako,
   my-cava,
-  ...
 }: let
   cache-dir = "$HOME/.local/share/cmus";
   theme = builtins.fetchGit {

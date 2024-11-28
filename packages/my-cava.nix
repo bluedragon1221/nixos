@@ -1,7 +1,6 @@
 {
   cfgWrapper,
   pkgs,
-  ...
 }: let
   settings = pkgs.writeText "cava" ''
     [color]

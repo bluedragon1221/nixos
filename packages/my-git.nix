@@ -1,7 +1,6 @@
 {
   cfgWrapper,
   pkgs,
-  ...
 }: let
   name = "Collin Williams";
   email = "96917990+bluedragon1221@users.noreply.github.com";

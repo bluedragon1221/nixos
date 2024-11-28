@@ -1,4 +1,4 @@
-{pkgs, ...}: let
+{pkgs}: let
   # Preferences
   Preferences = let
     val = Value: {

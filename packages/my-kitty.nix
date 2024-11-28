@@ -2,7 +2,6 @@
   cfgWrapper,
   pkgs,
   my-fish,
-  ...
 }: let
   catppuccin_kitty = builtins.fetchGit {
     url = "https://github.com/catppuccin/kitty";

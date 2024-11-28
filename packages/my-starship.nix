@@ -1,4 +1,4 @@
-{pkgs, ...}: let
+{pkgs}: let
   settings = (pkgs.formats.toml {}).generate "starship.toml" {
     add_newline = false;
     format = ''$nix_shell$directory$git_branch$git_status $character'';

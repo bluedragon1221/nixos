@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{pkgs}: {
   pkg,
   binName,
   extraFlags ? [],

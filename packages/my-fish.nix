@@ -5,7 +5,6 @@
   my-starship,
   my-git,
   hover-rs,
-  ...
 }: let
   shellInit = pkgs.writeText "config.fish" ''
     # ugly greeting gone
@@ -24,7 +23,6 @@
     # environment variables
     set -x EDITOR hx
     set -x VISUAL hx
-    # set -x LS_COLORS (${pkgs.vivid}/bin/vivid generate catppuccin-macchiato)
 
     set -x XDG_DATA_HOME ~/.local/share
     set -x XDG_CONFIG_HOME ~/.config
@@ -41,16 +39,15 @@
   extraPkgs = with pkgs;
     [
       # basic shell utilities
+      bat
+      broot
+      entr
       fd
       fzf
-      ripgrep
-      entr
       glow
-      bat
       jq
       moreutils
-      broot
-      comma # use ',' to use nix-shell
+      ripgrep
     ]
     ++ [my-git my-helix my-starship hover-rs];
 in
