@@ -6,15 +6,16 @@
   my-fuzzel,
   my-firefox,
   my-kitty,
+  kitty-music,
 }: let
   wallpapers = builtins.fetchGit {
     url = "https://github.com/bluedragon1221/wallpapers";
-    rev = "f9316b382c86f6454e593c20e6e51846c077a317";
+    rev = "24dfb80741381c9c240f108b796e3d8f4896f04d";
   };
 
   settings = pkgs.writeText "hyprland.conf" ''
     exec-once=${my-mako}/bin/mako
-    exec-once=${pkgs.swaybg}/bin/swaybg -i ${wallpapers}/wallpaper_legal.png
+    exec-once=${pkgs.swaybg}/bin/swaybg -i ${wallpapers}/yosemite-lowpoly.jpg
 
     env=XCURSOR_PATH,${pkgs.vanilla-dmz}/share/icons
     env=XCURSOR_THEME,Vanilla-DMZ
@@ -62,7 +63,7 @@
     bind=Mod4, x, exec, ${my-kitty}/bin/kitty
     bind=Mod4, SPACE, exec, ${my-fuzzel}/bin/fuzzel
     bind=Mod4, b, exec, ${my-firefox}/bin/firefox
-    bind=Mod4, m, exec, ${my-kitty}/bin/kitty --session ${my-cmus}/session.conf
+    bind=Mod4, m, exec, ${kitty-music}/bin/kitty-music
     bind=Mod4 SHIFT, b, exec, zen
 
     bind=Mod4, q, killactive

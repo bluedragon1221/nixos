@@ -2,7 +2,6 @@
   cfgWrapper,
   pkgs,
   my-mako,
-  my-cava,
 }: let
   cache-dir = "$HOME/.local/share/cmus";
   theme = builtins.fetchGit {
@@ -26,8 +25,6 @@
 
     if [[ "$_status" = "playing" ]]; then
       ${my-mako}/bin/notify-send -t 3000 -u low "Now Playing: $_title" "$_artist"
-    elif [[ "$_status" = "paused" ]]; then
-      ${my-mako}/bin/notify-send -t 3000 -u low "Paused"
     fi
   '';
 
@@ -66,22 +63,10 @@
       playlists-dir
     ];
   };
-
-  kitty-session = pkgs.writeTextFile {
-    name = "session.conf";
-    destination = "/session.conf";
-    text = ''
-      layout splits
-      launch --var window=first cmus
-      launch --location=hsplit --bias 30 ${my-cava}/bin/cava
-      focus_matching_window var:window=first
-      launch --location=vsplit --bias 20 ${album-art}/bin/album-art.sh
-    '';
-  };
 in
   cfgWrapper {
     pkg = pkgs.cmus;
     binName = "cmus";
-    extraPkgs = [album-art kitty-session];
+    extraPkgs = [album-art];
     extraEnv.CMUS_HOME = cmus-dir;
   }

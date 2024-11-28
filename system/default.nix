@@ -37,10 +37,6 @@
 
   # Hyprland (cfg in home-manager)
   programs.hyprland.enable = true;
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
-    WLR_NO_HARDWARE_CURSORS = "1";
-  };
 
   # Services
   networking.networkmanager.enable = true;
@@ -51,15 +47,16 @@
     powerOnBoot = true;
   };
   services.blueman.enable = true;
-  services.sshd.enable = true;
-  services.printing.enable = false;
-  services.pipewire = {
-    # fine, i'll do pipewire-pulse
-    enable = true;
-    alsa.enable = true;
 
-    pulse.enable = true;
+  services.pipewire = {
+    enable = true;
+    pulse.enable = false;
+    wireplumber.enable = true;
+    alsa.enable = true;
   };
+
+  services.printing.enable = false;
+  services.sshd.enable = true;
 
   # Users
   networking.hostName = "collinux";
@@ -100,7 +97,9 @@
       my-cmus
       my-cava
     ]
-    ++ [inputs.zen-browser.packages."${system}".default];
+    ++ [
+      inputs.zen-browser.packages.${system}.default
+    ];
 
   fonts = {
     enableDefaultPackages = false;
