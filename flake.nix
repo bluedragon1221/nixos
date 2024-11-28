@@ -30,6 +30,22 @@
       ];
     };
 
-    packages.${system}.default = import ./packages;
+    packages.${system} =
+      pkgs
+      // {
+        dependency-graph = pkgs.writeShellScriptBin "graph" ''
+          cat <<EOF | ${pkgs.graphviz}/bin/dot -Tpng | kitten icat
+          digraph {
+            $(fd . packages -E "default.nix" | xargs -I{} -P10 sh -c '
+              cat "{}" \
+                | grep -zoE "^\{[^:]*\}:" \
+                | tr -d "\n,:" \
+                | tr "-" "_" \
+                | xargs -0 printf "$(basename "{}" ".nix" | tr "-" "_") -> %s [dir=back]\n" &'
+            )
+          }
+          EOF
+        '';
+      };
   };
 }
