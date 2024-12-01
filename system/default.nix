@@ -5,7 +5,6 @@
   ...
 }: {
   imports = [
-    inputs.home-manager.nixosModules.home-manager
     ./hardware.nix
     ./locale.nix
     ./greetd.nix
@@ -16,7 +15,10 @@
     initrd.verbose = false;
 
     loader = {
-      systemd-boot.enable = true;
+      systemd-boot = {
+        enable = true;
+        configurationLimit = 3;
+      };
       efi.canTouchEfiVariables = true;
     };
 
@@ -85,6 +87,7 @@
   environment.defaultPackages = lib.mkForce [];
   environment.systemPackages = with pkgs;
     [
+      library-web
       musescore
       nuclear
       obsidian
