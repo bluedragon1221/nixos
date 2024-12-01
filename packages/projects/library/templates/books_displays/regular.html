@@ -1,0 +1,19 @@
+<div class="books-view" style="display: flex; flex-direction: row; flex-wrap: wrap">
+    {% for book in books_for_users %}
+    <div class="book-card" style="border: black 2px solid; width: 180px; height: 320px; margin: 20px">
+        {% if book.base64_image %}
+            <img src="data:image/jpeg;base64,{{ book.base64_image | safe }}" style="width: 100%; height: 75%; object-fit: cover">
+        {% else %}
+            <div style="width: 100%; height: 75%; background-color: #f0f0f0; display: flex; justify-content: center; align-items: center;">
+                <p>No image available</p>
+            </div>
+        {% endif %}
+
+        <a class="name" 
+            {% if can_download_books %}
+                href="/users/{{user_hash}}/dl/{{ book.path }}"
+            {% endif %}
+        >{{ book.title }} - {{ book.author }}</a>
+    </div>
+    {% endfor %}
+</div>

@@ -1,0 +1,37 @@
+<style>
+nav{
+    display: flex;
+    background: #f0f0f0;
+    padding: 10px;
+
+    .left {
+        flex:1 1 200px;
+    }
+
+    .right > form {
+        display: inline;
+    }
+}
+</style>
+
+<nav>
+    <div class="left">
+        <span style="display: inline">
+            <a href="/users/{{user_hash}}">{{ name | capitalize }}</a>
+            {% if is_admin %}
+            - <span style="color: red; font-weight: bold" >admin</span>
+            {% endif %}
+        </span>
+    </div>
+    <div class="right">
+        <form action="/users/{{user_hash}}/epub-to-mobi">
+            <input type="submit" value="Convert books to Kindle Format">
+        </form>
+        <form action="/users/{{user_hash}}/submit-a-book">
+            <input type="submit" value="Submit a Book">
+        </form>
+        <form action="/login">
+            <input type="submit" value="Log out">
+        </form>
+    </div>
+</nav>

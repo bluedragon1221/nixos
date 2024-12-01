@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Convert Epub to Mobi</title>
+</head>
+<body>
+    {% include "header_bar.html" %}
+    <p>For whatever reason, Kindles can't read .epub files. You can convert your epubs to kindle-readable files here</p>
+    <p>Note this takes a while, but it <em>is</em> working!</p>
+    <form action="/users/{{user_hash}}/epub-to-mobi" enctype="multipart/form-data" method="post">
+        <label for="file">Select file to upload:</label>
+        <input type="file" name="file" id="file" accept=".epub">
+        <button type="submit">Convert</button>
+    </form>
+</body>
+</html>

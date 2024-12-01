@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Library</title>
+</head>
+<body>
+    {% include "header_bar.html" %}
+    {% if error_message %}
+        <p style="color: red">{{error_message}}</p>
+    {% endif %}
+    {% if is_admin and books_to_consider|count > 0 %}
+        <h2>Books to consider</h2>
+        {% include "books_displays/admin.html" %}
+    {% endif %}
+    <h2>All books</h2>
+    {% include "books_displays/regular.html" %}
+</body>
+</html>

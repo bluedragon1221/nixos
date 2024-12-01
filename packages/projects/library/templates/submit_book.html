@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit a Book</title>
+</head>
+<body>
+    {% include "header_bar.html" %}
+    <p>This is where you can add a new book to our library. We only accept .epubs at this time</p>
+    {% if is_admin %}
+        <p>Since you are an admin, your book will be added immediately.</p>
+    {% else %}
+        <p>Please note that your book will not be immediately added, and must be manually approved by an admin</p>
+    {% endif %}
+
+    <form action="/users/{{user_hash}}/submit-a-book" enctype="multipart/form-data" method="post">
+        <label for="file">Select file to upload:</label>
+        <input type="file" name="file" id="file" accept=".epub">
+        <button type="submit">
+            {% if is_admin %}
+                Submit
+            {% else %}
+                Submit for Consideration
+            {% endif %}
+        </button>
+    </form>
+</body>
+</html>
