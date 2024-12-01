@@ -15,12 +15,17 @@
 
   settings = pkgs.writeText "hyprland.conf" ''
     exec-once=${my-mako}/bin/mako
-    exec-once=${pkgs.swaybg}/bin/swaybg -i ${wallpapers}/yosemite-lowpoly.jpg
+    exec-once=${pkgs.swaybg}/bin/swaybg -i ${wallpapers}/wallpaper_legal.png
 
     env=XCURSOR_PATH,${pkgs.vanilla-dmz}/share/icons
     env=XCURSOR_THEME,Vanilla-DMZ
 
     env=HYPRSHOT_DIR,Pictures/hyprshot
+
+    env=QT_QPA_PLATFORM,wayland
+    xwayland {
+      enabled=false
+    }
 
     animations {
       bezier=ease,.25,.1,.25,1

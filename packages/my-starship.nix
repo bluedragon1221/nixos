@@ -1,4 +1,7 @@
-{pkgs}: let
+{
+  cfgWrapper,
+  pkgs,
+}: let
   settings = (pkgs.formats.toml {}).generate "starship.toml" {
     add_newline = false;
     format = ''$nix_shell$directory$git_branch$git_status $character'';
@@ -28,12 +31,8 @@
     };
   };
 in
-  pkgs.symlinkJoin {
-    name = "starship";
-    paths = [pkgs.starship];
-    buildInputs = [pkgs.makeWrapper];
-    postBuild = ''
-      wrapProgram $out/bin/starship \
-        --set STARSHIP_CONFIG ${settings}
-    '';
+  cfgWrapper {
+    pkg = pkgs.starship;
+    binName = "starship";
+    extraEnv.STARSHIP_CONFIG = settings;
   }

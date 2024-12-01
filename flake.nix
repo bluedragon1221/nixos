@@ -36,12 +36,15 @@
         dependency-graph = pkgs.writeShellScriptBin "graph" ''
           cat <<EOF | ${pkgs.graphviz}/bin/dot -Tpng | kitten icat
           digraph {
+            bgcolor="transparent"
+            node [color="#cad3f5" fontcolor="#8aadf4"]
+            edge [color="#cad3f5" dir=back]
             $(fd . packages -E "default.nix" | xargs -I{} -P10 sh -c '
               cat "{}" \
                 | grep -zoE "^\{[^:]*\}:" \
                 | tr -d "\n,:" \
                 | tr "-" "_" \
-                | xargs -0 printf "$(basename "{}" ".nix" | tr "-" "_") -> %s [dir=back]\n" &'
+                | xargs -0 printf "$(basename "{}" ".nix" | tr "-" "_") -> %s\n" &'
             )
           }
           EOF

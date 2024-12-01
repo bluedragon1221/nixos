@@ -12,6 +12,7 @@
 
     # prompt
     ${my-starship}/bin/starship init fish | source
+    ${pkgs.fzf}/bin/fzf --fish | source
 
     # aliases
     abbr -a nh nh os switch ~/nixos
@@ -36,9 +37,9 @@
     set -x HISTFILE $XDG_DATA_HOME/bash/history
   '';
 
-  extraPkgs = with pkgs;
-    [
-      # basic shell utilities
+  shell-programs = pkgs.symlinkJoin {
+    name = "shell-programs";
+    paths = with pkgs; [
       bat
       broot
       entr
@@ -48,8 +49,10 @@
       jq
       moreutils
       ripgrep
-    ]
-    ++ [my-git my-helix my-starship hover-rs];
+      zip
+      unzip
+    ];
+  };
 in
   cfgWrapper {
     pkg = pkgs.fish;
@@ -57,7 +60,7 @@ in
 
     extraFlags = ["--init-command 'source ${shellInit}'"];
 
-    inherit extraPkgs;
+    extraPkgs = [shell-programs my-git my-helix my-starship hover-rs];
     hidePkgs = true;
 
     # disable command-not-found (its broken unless I use nix channels)
