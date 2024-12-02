@@ -16,8 +16,9 @@
     git_branch.format = "[@$branch](underline)";
 
     git_status = {
-      format = "$modified";
-      modified = "[*](red bold)";
+      format = "$modified$staged";
+      modified = "[!](red bold)";
+      staged = "[+](green bold)";
     };
 
     directory = {

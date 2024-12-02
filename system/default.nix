@@ -87,7 +87,6 @@
   environment.defaultPackages = lib.mkForce [];
   environment.systemPackages = with pkgs;
     [
-      library-web
       musescore
       nuclear
       obsidian

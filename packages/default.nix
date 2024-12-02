@@ -25,7 +25,4 @@ in {
   my-mako = pkgs.callPackage ./my-mako.nix {};
 
   my-hyprland = pkgs.callPackage ./my-hyprland.nix {};
-
-  # My random projects
-  library-web = pkgs.callPackage ./projects/library {};
 }
