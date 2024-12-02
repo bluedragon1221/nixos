@@ -23,6 +23,7 @@
     env=HYPRSHOT_DIR,Pictures/hyprshot
 
     env=QT_QPA_PLATFORM,wayland
+    env=ELECTRON_OZONE_PLATFORM_HINT,wayland
     xwayland {
       enabled=false
     }
