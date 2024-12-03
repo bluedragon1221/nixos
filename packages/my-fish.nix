@@ -20,6 +20,7 @@
 
     alias ls '${pkgs.eza}/bin/eza -A -w 80 --group-directories-first'
     alias tree '${pkgs.eza}/bin/eza -T'
+    alias icat 'kitten icat'
 
     # environment variables
     set -x EDITOR hx
