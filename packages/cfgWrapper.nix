@@ -2,6 +2,7 @@
   pkg,
   binName,
   extraFlags ? [],
+  extraWrapperFlags ? [],
   extraPkgs ? [],
   extraEnv ? {},
   postBuild ? "",
@@ -11,6 +12,8 @@
     (builtins.map (x: ''--add-flags "${x}" ''))
     (builtins.concatStringsSep " ")
   ];
+
+  extraWrapperFlagsArgs = builtins.concatStringsSep " " extraWrapperFlags;
 
   pathArg =
     if (extraPkgs != [])
@@ -35,7 +38,7 @@
     postBuild = ''
       ${postBuild}
 
-      wrapProgram $out/bin/${binName} ${extraFlagsArgs} ${pathArg} ${envArgs}
+      wrapProgram $out/bin/${binName} ${extraFlagsArgs} ${pathArg} ${envArgs} ${extraWrapperFlagsArgs}
     '';
   };
 in

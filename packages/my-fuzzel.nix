@@ -1,6 +1,8 @@
 {
   cfgWrapper,
   pkgs,
+  my-kitty,
+  my-firefox,
 }: let
   catppuccin-config = builtins.fetchGit {
     url = "https://github.com/catppuccin/fuzzel";
@@ -25,10 +27,29 @@
     radius=0
     width=2
   '';
+
+  extraDesktopFiles = pkgs.symlinkJoin {
+    name = "extra-desktop-files";
+    paths = [
+      (pkgs.makeDesktopItem {
+        name = "kitty";
+        desktopName = "Kitty";
+        exec = "${my-kitty}/bin/kitty";
+        icon = "kitty";
+      })
+      (pkgs.makeDesktopItem {
+        name = "firefox";
+        desktopName = "Firefox";
+        exec = "${my-firefox}/bin/firefox";
+        icon = "firefox";
+      })
+    ];
+  };
 in
   cfgWrapper {
     pkg = pkgs.fuzzel;
     binName = "fuzzel";
 
     extraFlags = ["--config=${settings}" "--hide-before-typing"];
+    extraWrapperFlags = ["--prefix XDG_DATA_DIRS : ${extraDesktopFiles}/share"];
   }
