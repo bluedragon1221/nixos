@@ -13,12 +13,6 @@
     rev = "aa657c1a0ac5556fb268c4cf063e876117d0edd6";
   };
 
-  relative-resize = pkgs.writeTextFile {
-    destination = "/relative_resize.py";
-    name = "relative_resize";
-    text = builtins.readFile "${smart_splits}/kitty/relative_resize.py";
-  };
-
   settings = pkgs.writeTextFile {
     destination = "/kitty.conf";
     name = "kitty-config";
@@ -28,6 +22,7 @@
       shell ${my-fish}/bin/fish
 
       font_family Iosevka Nerd Font
+      # font_family Monocraft
       font_size 13
       adjust_line_height 3
       allow_remote_control yes
@@ -40,6 +35,7 @@
       window_margin_width 0
       window_padding_width 5
       background_opacity 0.8
+      transparent_background_colors #303347@0.8
 
       tab_bar_align left
       tab_bar_edge bottom
@@ -63,7 +59,11 @@
     name = "kitty-dir";
     paths = [
       settings
-      relative-resize
+      (pkgs.writeTextFile {
+        destination = "/relative_resize.py";
+        name = "relative_resize";
+        text = builtins.readFile "${smart_splits}/kitty/relative_resize.py";
+      })
     ];
   };
 in

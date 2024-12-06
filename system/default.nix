@@ -107,6 +107,7 @@
     enableDefaultPackages = false;
     packages = [
       pkgs.ibm-plex
+      pkgs.scientifica
       (pkgs.nerdfonts.override {
         fonts = ["Iosevka"];
       })

@@ -24,9 +24,9 @@
 
     env=QT_QPA_PLATFORM,wayland
     env=ELECTRON_OZONE_PLATFORM_HINT,wayland
-    xwayland {
-      enabled=false
-    }
+    # xwayland {
+    #   enabled=false
+    # }
 
     animations {
       bezier=ease,.25,.1,.25,1
@@ -54,12 +54,18 @@
     }
 
     general {
+      layout=dwindle
       border_size=2
       col.active_border=rgba(c6a0f6ff)
       col.inactive_border=rgba(24273acc)
       gaps_in=5
       gaps_out=8
       resize_on_border=true
+    }
+
+    dwindle {
+      force_split=2
+      pseudotile=true
     }
 
     misc {
