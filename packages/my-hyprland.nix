@@ -2,6 +2,7 @@
   cfgWrapper,
   pkgs,
   my-mako,
+  my-waybar,
   my-cmus,
   my-fuzzel,
   my-firefox,
@@ -15,6 +16,7 @@
 
   settings = pkgs.writeText "hyprland.conf" ''
     exec-once=${my-mako}/bin/mako
+    exec-once=${my-waybar}/bin/waybar
     exec-once=${pkgs.swaybg}/bin/swaybg -i ${wallpapers}/wallpaper_legal.png
 
     env=XCURSOR_PATH,${pkgs.vanilla-dmz}/share/icons
@@ -24,13 +26,13 @@
 
     env=QT_QPA_PLATFORM,wayland
     env=ELECTRON_OZONE_PLATFORM_HINT,wayland
-    # xwayland {
-    #   enabled=false
-    # }
 
     animations {
       bezier=ease,.25,.1,.25,1
-      animation=workspaces, 1, 2, ease
+      bezier = menu_decel, 0.1, 1, 0, 1
+
+      # animation=workspaces, 1, 2, ease
+      animation=workspaces, 1, 7, menu_decel, slidefade 15%
       animation=global,     1, 2.5, ease
       animation=windowsIn,  1, 2.75, ease, slide
       animation=windowsOut, 1, 2.75, ease, slide
@@ -43,9 +45,7 @@
         vibrancy=0.169600
       }
 
-      shadow {
-        enabled=false
-      }
+      shadow:enabled=false
       layerrule=dimaround, ^(launcher)
       layerrule=animation popin, ^(launcher)
       layerrule=blur, ^(launcher)
@@ -69,9 +69,11 @@
     }
 
     misc {
+      vfr=true
       disable_hyprland_logo=true
       disable_splash_rendering=true
     }
+
     bind=Mod4, x, exec, ${my-kitty}/bin/kitty
     bind=Mod4, SPACE, exec, ${my-fuzzel}/bin/fuzzel
     bind=Mod4, b, exec, ${my-firefox}/bin/firefox
