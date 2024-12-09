@@ -80,6 +80,8 @@
     bind=Mod4, m, exec, ${kitty-music}/bin/kitty-music
     bind=Mod4 SHIFT, b, exec, zen
 
+    bind=Mod4, p, pin
+
     bind=Mod4, q, killactive
     bind=Mod4 SHIFT, q, exit
 
@@ -118,5 +120,6 @@ in
   cfgWrapper {
     pkg = pkgs.hyprland;
     binName = "Hyprland";
+    extraPkgs = [my-waybar];
     extraFlags = ["-c ${settings}"];
   }

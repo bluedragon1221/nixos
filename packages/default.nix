@@ -23,7 +23,7 @@ in {
   # Desktop
   my-fuzzel = pkgs.callPackage ./my-fuzzel.nix {};
   my-mako = pkgs.callPackage ./my-mako.nix {};
-  my-waybar = pkgs.callPackage ./my-waybar {};
+  my-waybar = pkgs.callPackage ./my-waybar.nix {};
 
   my-hyprland = pkgs.callPackage ./my-hyprland.nix {};
 }

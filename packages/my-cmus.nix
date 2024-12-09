@@ -38,7 +38,7 @@
       add ~/Music
 
       set status_display_program=${status-display}/bin/status.sh
-      set format_title="cmus: %t - %A"
+      set format_title=cmus: %t - %A
 
       fset ambient=genre="Ambient"
       fset classical=genre="Classical*"

@@ -1,12 +1,13 @@
 {
   cfgWrapper,
   pkgs,
+  my-fuzzel,
 }: let
   config = (pkgs.formats.json {}).generate "config.jsonc" {
     spacing = 4;
-    modules-left = ["hyprland/workspaces"];
+    modules-left = ["custom/launcher" "hyprland/workspaces"];
     modules-center = ["hyprland/window"];
-    modules-right = ["wireplumber" "battery" "clock"];
+    modules-right = ["bluetooth" "wireplumber" "battery" "clock"];
 
     "hyprland/workspaces" = {
       disable-scroll = true;
@@ -20,6 +21,10 @@
         "4" = "";
         "5" = "";
       };
+    };
+    "custom/launcher" = {
+      format = " ";
+      on-click = "${my-fuzzel}/bin/fuzzel";
     };
     "hyprland/window".format = "<b>{title}</b>";
     "clock" = {
@@ -38,6 +43,11 @@
       format-muted = "󰖁 {volume}%";
       format-icons.default = ["󰕿" "󰖀" "󰕾"];
     };
+    "bluetooth" = {
+      format = "";
+      format-connected = "󰂯 {device_alias}";
+      on-click = "blueman-manager";
+    };
   };
 
   catppuccin = builtins.fetchGit {
@@ -46,7 +56,7 @@
   };
 
   style = pkgs.writeText "style.css" ''
-    @import "${catppuccin}/themes/macchiato.css";
+    @import "${catppuccin}/themes/mocha.css";
 
     * {
       font-family: Iosevka Nerd Font;
@@ -87,19 +97,29 @@
       margin: 0;
     }
 
-    #custom-music,
-    #tray,
-    #backlight,
     #clock,
     #battery,
     #wireplumber,
-    #custom-lock,
-    #custom-power {
+    #bluetooth.connected {
       background-color: @surface0;
       padding: 0.5rem 1rem;
       margin: 5px 0;
     }
 
+    #custom-launcher {
+      color: @blue;
+      background: @base;
+      font-size: 12pt;
+      padding: 0;
+      margin: 0;
+
+      margin-left: 1rem;
+    }
+
+    #bluetooth.connected {
+      color: @blue;
+      border-radius: 1rem;
+    }
 
     #wireplumber {
       color: @maroon;
@@ -121,9 +141,5 @@ in
   cfgWrapper {
     pkg = pkgs.waybar;
     binName = "waybar";
-    postBuild = ''
-      rm $out/etc/xdg/waybar/*
-      cp ${config} $out/etc/xdg/waybar/config.jsonc
-      cp ${style} $out/etc/xdg/waybar/style.css
-    '';
+    extraFlags = ["-c ${config}" "-s ${style}"];
   }

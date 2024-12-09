@@ -89,7 +89,7 @@
     [
       musescore
       nuclear
-      obsidian
+      # obsidian
       kdePackages.kleopatra
 
       hover-rs
@@ -98,6 +98,7 @@
 
       my-cmus
       my-cava
+      pwvucontrol
     ]
     ++ [
       inputs.zen-browser.packages.${system}.default
@@ -105,12 +106,11 @@
 
   fonts = {
     enableDefaultPackages = false;
-    packages = [
-      pkgs.ibm-plex
-      pkgs.scientifica
-      (pkgs.nerdfonts.override {
-        fonts = ["Iosevka"];
-      })
+    packages = with pkgs; [
+      ibm-plex
+      scientifica
+      nerd-fonts.iosevka
+      # (pkgs.nerdfonts.override {fonts = ["Iosevka"];})
     ];
   };
 
