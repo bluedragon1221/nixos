@@ -11,13 +11,13 @@
 }: let
   wallpapers = builtins.fetchGit {
     url = "https://github.com/bluedragon1221/wallpapers";
-    rev = "24dfb80741381c9c240f108b796e3d8f4896f04d";
+    rev = "9b55aea64af79d04d6135d66edd6be317cb3a529";
   };
 
   settings = pkgs.writeText "hyprland.conf" ''
     exec-once=${my-mako}/bin/mako
     exec-once=${my-waybar}/bin/waybar
-    exec-once=${pkgs.swaybg}/bin/swaybg -i ${wallpapers}/wallpaper_legal.png
+    exec-once=${pkgs.swaybg}/bin/swaybg -i ${wallpapers}/astronaut.jpg
 
     env=XCURSOR_PATH,${pkgs.vanilla-dmz}/share/icons
     env=XCURSOR_THEME,Vanilla-DMZ

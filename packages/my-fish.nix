@@ -16,6 +16,7 @@
 
     # aliases
     abbr -a nh nh os switch ~/nixos
+    abbr -a ga "git add ."
     abbr -a gc --set-cursor "git commit -m '%'"
 
     alias ls '${pkgs.eza}/bin/eza -A -w 80 --group-directories-first'

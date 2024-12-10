@@ -1,12 +1,14 @@
 {pkgs, ...}: {
   services.greetd = {
     enable = true;
-    settings = rec {
-      initial_session = {
+    settings = let
+      s = {
         command = "${pkgs.my-hyprland}/bin/Hyprland";
         user = "collin";
       };
-      default_session = initial_session;
+    in {
+      initial_session = s;
+      default_session = s;
     };
   };
 }

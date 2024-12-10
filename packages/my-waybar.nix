@@ -3,34 +3,62 @@
   pkgs,
   my-fuzzel,
 }: let
+  power_menu = pkgs.writeText "power_menu.xml" ''
+      <?xml version="1.0" encoding="UTF-8"?>
+    <interface>
+      <object class="GtkMenu" id="menu">
+        <child>
+      		<object class="GtkMenuItem" id="logout">
+      			<property name="label">Log Out</property>
+          </object>
+      	</child>
+        <child>
+          <object class="GtkSeparatorMenuItem" id="delimiter1"/>
+        </child>
+        <child>
+      		<object class="GtkMenuItem" id="reboot">
+      			<property name="label">Reboot</property>
+      		</object>
+        </child>
+        <child>
+          <object class="GtkMenuItem" id="shutdown">
+      			<property name="label">Shutdown</property>
+          </object>
+        </child>
+      </object>
+    </interface>
+  '';
+
   config = (pkgs.formats.json {}).generate "config.jsonc" {
     spacing = 4;
     modules-left = ["custom/launcher" "hyprland/workspaces"];
     modules-center = ["hyprland/window"];
-    modules-right = ["bluetooth" "wireplumber" "battery" "clock"];
+    modules-right = ["bluetooth" "wireplumber" "battery" "clock" "custom/power"];
 
+    "custom/launcher" = {
+      format = " ";
+      on-click = "${my-fuzzel}/bin/fuzzel";
+    };
     "hyprland/workspaces" = {
       disable-scroll = true;
       all-outputs = true;
       warp-on-scroll = false;
       format = "{icon}";
       format-icons = {
-        "1" = "";
-        "2" = "";
-        "3" = "";
-        "4" = "";
+        "1" = "";
+        "2" = "󰈹";
+        "3" = "󰝚";
+        "4" = "󰎚";
         "5" = "";
       };
     };
-    "custom/launcher" = {
-      format = " ";
-      on-click = "${my-fuzzel}/bin/fuzzel";
+    "hyprland/window" = {
+      on-click = "hyprctl dispatch float";
     };
-    "hyprland/window".format = "<b>{title}</b>";
-    "clock" = {
-      format = "{:%I:%M}";
-      format-alt = "/{:%Y/%b/%d-%a}";
-      tooltip = false;
+    "bluetooth" = {
+      format = "";
+      format-connected = "󰂯 {device_alias}";
+      on-click = "blueman-manager";
     };
     "battery" = {
       format = "{icon} {capacity}%";
@@ -42,11 +70,23 @@
       format-alt = "{icon}";
       format-muted = "󰖁 {volume}%";
       format-icons.default = ["󰕿" "󰖀" "󰕾"];
+      tooltip = false;
     };
-    "bluetooth" = {
-      format = "";
-      format-connected = "󰂯 {device_alias}";
-      on-click = "blueman-manager";
+    "clock" = {
+      format = "{:%I:%M}";
+      format-alt = "/{:%Y/%b/%d-%a}";
+      tooltip = false;
+    };
+    "custom/power" = {
+      format = "  collin";
+      tooltip = false;
+      menu = "on-click";
+      menu-file = "${power_menu}";
+      menu-actions = {
+        logout = "hyprctl dispatch exit";
+        reboot = "reboot";
+        shutdown = "poweroff";
+      };
     };
   };
 
@@ -69,12 +109,19 @@
       color: @text;
     }
 
-    #workspaces {
-      background-color: @surface0;
-      padding: 0rem 0.75rem;
-      margin: 5px 0;
-      margin-left: 1rem;
+    #workspaces,
+    #clock,
+    #battery,
+    #wireplumber,
+    #bluetooth.connected,
+    #custom-power {
+      color: @text;
+      background: @surface0;
+
+      padding: 0.5rem 1rem;
       border-radius: 1rem;
+
+      margin: 5px 0;
     }
 
     #workspaces button {
@@ -97,44 +144,45 @@
       margin: 0;
     }
 
-    #clock,
-    #battery,
-    #wireplumber,
-    #bluetooth.connected {
-      background-color: @surface0;
-      padding: 0.5rem 1rem;
-      margin: 5px 0;
+    #window {
+      font-size: 12pt;
     }
 
     #custom-launcher {
       color: @blue;
-      background: @base;
       font-size: 12pt;
       padding: 0;
       margin: 0;
 
       margin-left: 1rem;
+      margin-right: 1rem;
     }
 
     #bluetooth.connected {
       color: @blue;
-      border-radius: 1rem;
     }
 
     #wireplumber {
       color: @maroon;
-      border-radius: 1rem 0px 0px 1rem;
+      border-radius: 1rem 0 0 1rem;
       margin-left: 1rem;
     }
 
     #battery {
       color: @green;
+      border-radius: 0;
     }
 
     #clock {
       color: @blue;
-      border-radius: 0px 1rem 1rem 0px;
+      border-radius: 0 1rem 1rem 0;
       margin-right: 1rem;
+    }
+
+    #custom-power {
+      color: @rosewater;
+      margin-right: 1rem;
+      /* border: @rosewater 1px solid; */
     }
   '';
 in
