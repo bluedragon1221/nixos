@@ -10,7 +10,6 @@
     ./greetd.nix
   ];
 
-  # Bootloader
   boot = {
     initrd.verbose = false;
 
@@ -89,15 +88,10 @@
     [
       musescore
       nuclear
-      # obsidian
+      obsidian
       kdePackages.kleopatra
 
-      hover-rs
-
-      cargo
-
-      my-cmus
-      my-cava
+      blueman
       pwvucontrol
     ]
     ++ [
@@ -110,7 +104,6 @@
       ibm-plex
       scientifica
       nerd-fonts.iosevka
-      # (pkgs.nerdfonts.override {fonts = ["Iosevka"];})
     ];
   };
 

@@ -2,6 +2,7 @@ final: prev: let
   pkgs = prev;
 in {
   cfgWrapper = pkgs.callPackage ./cfgWrapper.nix {};
+  forceXdg = pkgs.callPackage ./forceXdg.nix {};
 
   # GUI Apps
   my-kitty = pkgs.callPackage ./my-kitty.nix {};

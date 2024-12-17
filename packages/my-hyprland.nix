@@ -76,7 +76,7 @@
 
     bind=Mod4, x, exec, ${my-kitty}/bin/kitty
     bind=Mod4, SPACE, exec, ${my-fuzzel}/bin/fuzzel
-    bind=Mod4, b, exec, ${my-firefox}/bin/firefox
+    bind=Mod4, b, exec, ${my-kitty}/bin/kitty ${my-firefox}/bin/firefox
     bind=Mod4, m, exec, ${kitty-music}/bin/kitty-music
     bind=Mod4 SHIFT, b, exec, zen
 
@@ -110,6 +110,10 @@
 
     binde=, XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
     binde=, XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+
+    binde=, XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl s +5%
+    binde=, XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 5%-
+
     bindm=Mod4, mouse:272, movewindow
     bindm=Mod4, mouse:273, resizewindow
 

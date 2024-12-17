@@ -1,4 +1,7 @@
-{pkgs}: let
+{
+  pkgs,
+  forceXdg,
+}: let
   # Preferences
   Preferences = let
     val = Value: {
@@ -98,7 +101,13 @@
 
     inherit ManagedBookmarks ExtensionSettings Preferences;
   };
-in
-  pkgs.firefox.override {
+
+  wrapped-firefox = pkgs.firefox.override {
     inherit extraPolicies;
+  };
+in
+  forceXdg {
+    pkg = wrapped-firefox;
+    binName = "firefox";
+    preDelete = ["~/.pki" "~/.mozilla"];
   }
