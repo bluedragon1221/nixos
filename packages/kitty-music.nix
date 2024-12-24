@@ -12,4 +12,4 @@
     launch --location=vsplit --bias 20 ${my-cmus}/bin/album-art.sh
   '';
 in
-  pkgs.writeShellScriptBin "kitty-music" ''${my-kitty}/bin/kitty --session ${kitty-session}''
+  pkgs.writeShellScriptBin "kitty-music" ''${my-kitty}/bin/kitty --session ${kitty-session} -o dim_opacity=1''

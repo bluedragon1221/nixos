@@ -7,6 +7,7 @@
   extraEnv ? {},
   postBuild ? "",
   hidePkgs ? false,
+  reducePath ? false,
 }: let
   extraFlagsArgs = pkgs.lib.pipe extraFlags [
     (builtins.map (x: ''--add-flags "${x}" ''))
@@ -30,9 +31,18 @@
     (builtins.concatStringsSep " ")
   ];
 
+  extraPkgs2 =
+    if reducePath
+    then
+      (pkgs.symlinkJoin {
+        name = "${binName}-extra-pkgs";
+        paths = extraPkgs;
+      })
+    else extraPkgs;
+
   wrapped-program = pkgs.symlinkJoin {
     name = binName;
-    paths = [pkg] ++ extraPkgs;
+    paths = [pkg] ++ extraPkgs2;
 
     buildInputs = [pkgs.makeWrapper];
     postBuild = ''

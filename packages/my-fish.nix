@@ -38,24 +38,6 @@
     set -x GOPATH $XDG_DATA_HOME/go
     set -x HISTFILE $XDG_DATA_HOME/bash/history
   '';
-
-  shell-programs = pkgs.symlinkJoin {
-    name = "shell-programs";
-    paths = with pkgs; [
-      bat
-      broot
-      entr
-      fd
-      fzf
-      glow
-      jq
-      moreutils
-      ripgrep
-      zip
-      unzip
-      unimatrix
-    ];
-  };
 in
   cfgWrapper {
     pkg = pkgs.fish;
@@ -63,7 +45,23 @@ in
 
     extraFlags = ["--init-command 'source ${shellInit}'"];
 
-    extraPkgs = [shell-programs my-git my-helix my-starship hover-rs];
+    extraPkgs =
+      (with pkgs; [
+        bat
+        broot
+        entr
+        fd
+        fzf
+        glow
+        jq
+        moreutils
+        ripgrep
+        zip
+        unzip
+        unimatrix
+      ])
+      ++ [my-git my-helix my-starship hover-rs];
+
     hidePkgs = true;
 
     # disable command-not-found (its broken unless I use nix channels)

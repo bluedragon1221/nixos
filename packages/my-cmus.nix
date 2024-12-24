@@ -49,18 +49,12 @@
     destination = "/rc";
   };
 
-  playlists-dir = pkgs.writeTextFile {
-    name = "playlists-dir";
-    text = "";
-    destination = "/playlists/.git-keep";
-  };
-
   cmus-dir = pkgs.symlinkJoin {
     name = "cmus-dir";
     paths = [
       config
       theme
-      playlists-dir
+      (pkgs.runCommand "playlists-dir" {} ''mkdir -p $out/playlists'')
     ];
   };
 in

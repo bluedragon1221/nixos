@@ -76,7 +76,7 @@
 
     bind=Mod4, x, exec, ${my-kitty}/bin/kitty
     bind=Mod4, SPACE, exec, ${my-fuzzel}/bin/fuzzel
-    bind=Mod4, b, exec, ${my-kitty}/bin/kitty ${my-firefox}/bin/firefox
+    bind=Mod4, b, exec, ${my-firefox}/bin/firefox
     bind=Mod4, m, exec, ${kitty-music}/bin/kitty-music
     bind=Mod4 SHIFT, b, exec, zen
 
