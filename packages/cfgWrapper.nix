@@ -41,7 +41,7 @@
     else extraPkgs;
 
   wrapped-program = pkgs.symlinkJoin {
-    name = binName;
+    name = "wrapped-${binName}";
     paths = [pkg] ++ extraPkgs2;
 
     buildInputs = [pkgs.makeWrapper];

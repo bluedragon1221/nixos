@@ -9,15 +9,23 @@
     };
 
     zen-browser.url = "github:MarceColl/zen-browser-flake";
+    ghostty = {
+      url = "github:ghostty-org/ghostty";
+      inputs.nixpkgs-unstable.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs: let
     system = "x86_64-linux";
     pkgs = import inputs.nixpkgs {
       inherit system;
-      config.allowUnfree = true;
+      config = {
+        allowUnfree = true;
+        extra-substituters = ["https://ghostty.cachix.org"];
+        extra-trusted-public-keys = ["ghostty.cachix.org-1:QB389yTa6gTyneehvqG58y0WnHjQOqgnA+wBnpWWxns="];
+      };
       overlays = [
-        (import ./packages)
+        (import ./packages inputs)
       ];
     };
   in {

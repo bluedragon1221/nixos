@@ -9,10 +9,11 @@
       Status = "locked";
     };
   in {
-    "extensions.activeThemeID" = val "catppuccin-macchiato-blue@mozilla.org"; # theme
+    # "extensions.activeThemeID" = val "catppuccin-macchiato-blue@mozilla.org"; # theme
     "browser.aboutConfig.showWarning" = val false; # I sometimes know what I'm doing
     "browser.download.useDownloadDir" = val false; # Ask where to save stuff
     "browser.tabs.tabmanager.enabled" = val false;
+    "toolkit.legacyUserProfileCustomizations.stylesheets" = val true;
   };
 
   # Extensions
@@ -104,10 +105,18 @@
 
   wrapped-firefox = pkgs.firefox.override {
     inherit extraPolicies;
+    extraPrefsFiles = [
+      (builtins.fetchurl {
+        url = "https://raw.githubusercontent.com/MrOtherGuy/fx-autoconfig/master/program/config.js";
+        sha256 = "1mx679fbc4d9x4bnqajqx5a95y1lfasvf90pbqkh9sm3ch945p40";
+      })
+    ];
   };
 in
-  forceXdg {
-    pkg = wrapped-firefox;
-    binName = "firefox";
-    preDelete = ["~/.pki" "~/.mozilla"];
-  }
+  wrapped-firefox
+# forceXdg {
+#   pkg = wrapped-firefox;
+#   binName = "firefox";
+#   preDelete = ["~/.pki" "~/.mozilla"];
+# }
+

@@ -34,8 +34,8 @@
       window_border_width 2
       window_margin_width 0
       window_padding_width 5
-      background_opacity 0.8
-      transparent_background_colors #303347@0.8
+      background_opacity 0.7
+      transparent_background_colors #303347@0.7
 
       tab_bar_align left
       tab_bar_edge bottom
@@ -48,8 +48,8 @@
       map ctrl+t new_tab
       map ctrl+w close_window
 
-      map ctrl+shift+left kitten relative_resize.py left 1
-      map ctrl+shift+right kitten relative_resize.py right 1
+      map ctrl+shift+left kitten relative_resize.py left 2
+      map ctrl+shift+right kitten relative_resize.py right 2
       map ctrl+shift+up kitten relative_resize.py up 1
       map ctrl+shift+down kitten relative_resize.py down 1
     '';

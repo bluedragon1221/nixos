@@ -90,12 +90,15 @@
       nuclear
       obsidian
       kdePackages.kleopatra
+      lutris
+      mpv
 
       blueman
       pwvucontrol
     ]
     ++ [
       inputs.zen-browser.packages.${system}.default
+      inputs.ghostty.packages.${system}.default
     ];
 
   fonts = {

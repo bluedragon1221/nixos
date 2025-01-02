@@ -7,11 +7,18 @@
   my-fuzzel,
   my-firefox,
   my-kitty,
+  my-ghostty,
   kitty-music,
 }: let
   wallpapers = builtins.fetchGit {
     url = "https://github.com/bluedragon1221/wallpapers";
     rev = "9b55aea64af79d04d6135d66edd6be317cb3a529";
+  };
+
+  hyprshot = cfgWrapper {
+    pkg = pkgs.hyprshot;
+    binName = "hyprshot";
+    extraEnv.HYPRSHOT_DIR = "Pictures/hyprshot";
   };
 
   settings = pkgs.writeText "hyprland.conf" ''
@@ -21,10 +28,11 @@
 
     env=XCURSOR_PATH,${pkgs.vanilla-dmz}/share/icons
     env=XCURSOR_THEME,Vanilla-DMZ
+    env=XCURSOR_SIZE,24
+    env=HYPRCURSOR_THEME,24
+    exec-once=dconf write /org/gnome/desktop/interface/cursor-theme "'Vanilla-DMZ'"
 
-    env=HYPRSHOT_DIR,Pictures/hyprshot
-
-    env=QT_QPA_PLATFORM,wayland
+    env=QT_QPA_PLATFORM,wayland;xcb # fallback to x11 if wayland isn't available
     env=ELECTRON_OZONE_PLATFORM_HINT,wayland
 
     animations {
@@ -50,7 +58,6 @@
       layerrule=animation popin, ^(launcher)
       layerrule=blur, ^(launcher)
       rounding=0
-      windowrule=noblur, ^(?!(kitty))
     }
 
     general {
@@ -74,44 +81,36 @@
       disable_splash_rendering=true
     }
 
-    bind=Mod4, x, exec, ${my-kitty}/bin/kitty
+    input:touchpad:disable_while_typing=false
+
+    bind=Mod4 SHIFT, x, exec, ${my-kitty}/bin/kitty
+    bind=Mod4, x, exec, ${my-ghostty}/bin/ghostty
     bind=Mod4, SPACE, exec, ${my-fuzzel}/bin/fuzzel
     bind=Mod4, b, exec, ${my-firefox}/bin/firefox
     bind=Mod4, m, exec, ${kitty-music}/bin/kitty-music
     bind=Mod4 SHIFT, b, exec, zen
 
-    bind=Mod4, p, pin
-
     bind=Mod4, q, killactive
     bind=Mod4 SHIFT, q, exit
 
-    bind=Mod4 SHIFT, s, exec, ${pkgs.hyprshot}/bin/hyprshot -m region
+    bind=Mod4 SHIFT, s, exec, ${hyprshot}/bin/hyprshot -m region
     bind=, Print, exec, ${my-cmus}/bin/cmus-remote -u
     bind=Mod4, ., exec, ${my-mako}/bin/makoctl dismiss -a
 
-    bind=Mod4, 0, workspace, 0
-    bind=Mod4, 1, workspace, 1
-    bind=Mod4, 2, workspace, 2
-    bind=Mod4, 3, workspace, 3
-    bind=Mod4, 4, workspace, 4
-    bind=Mod4, 5, workspace, 5
-    bind=Mod4, 6, workspace, 6
-    bind=Mod4, 7, workspace, 7
-    bind=Mod4, 8, workspace, 8
-    bind=Mod4 SHIFT, 0, movetoworkspace, 0
-    bind=Mod4 SHIFT, 1, movetoworkspace, 1
-    bind=Mod4 SHIFT, 2, movetoworkspace, 2
-    bind=Mod4 SHIFT, 3, movetoworkspace, 3
-    bind=Mod4 SHIFT, 4, movetoworkspace, 4
-    bind=Mod4 SHIFT, 5, movetoworkspace, 5
-    bind=Mod4 SHIFT, 6, movetoworkspace, 6
-    bind=Mod4 SHIFT, 7, movetoworkspace, 7
-    bind=Mod4 SHIFT, 8, movetoworkspace, 8
+    ${builtins.concatStringsSep "\n" (builtins.genList (
+        i: let
+          s = toString i;
+        in ''
+          bind=Mod4, ${s}, workspace, ${s}
+          bind=Mod4 SHIFT, ${s}, movetoworkspace, ${s}
+        ''
+      )
+      9)}
 
     binde=, XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
     binde=, XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 
-    binde=, XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl s +5%
+    binde=, XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 5%+
     binde=, XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 5%-
 
     bindm=Mod4, mouse:272, movewindow
@@ -124,6 +123,5 @@ in
   cfgWrapper {
     pkg = pkgs.hyprland;
     binName = "Hyprland";
-    extraPkgs = [my-waybar];
     extraFlags = ["-c ${settings}"];
   }

@@ -15,13 +15,16 @@
     ${pkgs.fzf}/bin/fzf --fish | source
 
     # aliases
-    abbr -a nh nh os switch ~/nixos
-    abbr -a ga "git add ."
+    abbr -a nh nh os switch
+    abbr -a ga --set-cursor "git add %"
     abbr -a gc --set-cursor "git commit -m '%'"
 
     alias ls '${pkgs.eza}/bin/eza -A -w 80 --group-directories-first'
     alias tree '${pkgs.eza}/bin/eza -T'
     alias icat 'kitten icat'
+
+    alias cat '${pkgs.bat}'
+    alias bc '${pkgs.numbat}'
 
     # environment variables
     set -x EDITOR hx
@@ -31,12 +34,11 @@
     set -x XDG_CONFIG_HOME ~/.config
     set -x XDG_STATE_HOME ~/.local/state
     set -x XDG_CACHE_HOME ~/.cache
-    set -x XDG_PICTURES_DIR ~/Pictures
 
     set -x CARGO_HOME $XDG_DATA_HOME/cargo
     set -x PYTHON_HISTORY $XDG_DATA_HOME/python/python_history
     set -x GOPATH $XDG_DATA_HOME/go
-    set -x HISTFILE $XDG_DATA_HOME/bash/history
+    set -x HISTFILE $XDG_DATA_HOME/bash/history # for children bash sessions
   '';
 in
   cfgWrapper {
@@ -47,18 +49,18 @@ in
 
     extraPkgs =
       (with pkgs; [
-        bat
-        broot
+        # broot
         entr
-        fd
         fzf
-        glow
+        fd
         jq
-        moreutils
+        bat
+        numbat
         ripgrep
-        zip
-        unzip
-        unimatrix
+        glow
+        moreutils # includes vidir
+        ouch # compression utility (zip, tar, rar, 7z, etc)
+        unimatrix # cmatrix with more options
       ])
       ++ [my-git my-helix my-starship hover-rs];
 

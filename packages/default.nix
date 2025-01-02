@@ -1,11 +1,13 @@
-final: prev: let
+inputs': final: prev: let
   pkgs = prev;
 in {
+  inherit inputs';
   cfgWrapper = pkgs.callPackage ./cfgWrapper.nix {};
   forceXdg = pkgs.callPackage ./forceXdg.nix {};
 
   # GUI Apps
   my-kitty = pkgs.callPackage ./my-kitty.nix {};
+  my-ghostty = pkgs.callPackage ./my-ghostty.nix {};
   my-firefox = pkgs.callPackage ./my-firefox.nix {};
 
   # Music
