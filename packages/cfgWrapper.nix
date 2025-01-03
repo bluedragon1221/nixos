@@ -41,7 +41,7 @@
     else extraPkgs;
 
   wrapped-program = pkgs.symlinkJoin {
-    name = "wrapped-${binName}";
+    name = binName;
     paths = [pkg] ++ extraPkgs2;
 
     buildInputs = [pkgs.makeWrapper];
@@ -54,7 +54,7 @@
 in
   if hidePkgs
   then
-    (pkgs.linkFarm "wrapped-${binName}" [
+    (pkgs.linkFarm "${binName}" [
       {
         name = "bin/${binName}";
         path = "${wrapped-program}/bin/${binName}";

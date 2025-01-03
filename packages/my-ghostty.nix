@@ -64,7 +64,6 @@
   '';
 
   ghostty-config = pkgs.writeText "config" ''
-    command = ${my-fish}/bin/fish
     gtk-single-instance = true
     desktop-notifications = false
     confirm-close-surface = false

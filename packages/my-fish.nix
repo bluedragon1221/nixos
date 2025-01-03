@@ -4,6 +4,7 @@
   my-helix,
   my-starship,
   my-git,
+  my-tmux,
   hover-rs,
 }: let
   shellInit = pkgs.writeText "config.fish" ''
@@ -18,13 +19,14 @@
     abbr -a nh nh os switch
     abbr -a ga --set-cursor "git add %"
     abbr -a gc --set-cursor "git commit -m '%'"
+    abbr -a gp "git push"
 
     alias ls '${pkgs.eza}/bin/eza -A -w 80 --group-directories-first'
     alias tree '${pkgs.eza}/bin/eza -T'
     alias icat 'kitten icat'
 
-    alias cat '${pkgs.bat}'
-    alias bc '${pkgs.numbat}'
+    alias cat '${pkgs.bat}/bin/bat'
+    alias bc '${pkgs.numbat}/bin/numbat'
 
     # environment variables
     set -x EDITOR hx
@@ -62,7 +64,7 @@ in
         ouch # compression utility (zip, tar, rar, 7z, etc)
         unimatrix # cmatrix with more options
       ])
-      ++ [my-git my-helix my-starship hover-rs];
+      ++ [my-git my-helix my-starship my-tmux hover-rs];
 
     hidePkgs = true;
 

@@ -65,13 +65,13 @@
 
   users = {
     mutableUsers = false;
-    defaultUserShell = pkgs.bash;
     users = {
       collin = {
         isNormalUser = true;
         description = "Collin";
         extraGroups = ["networkmanager" "wheel"];
         hashedPassword = "$y$j9T$08yFysn8jr9K4Wk.hYXbG0$NzY9vIbNknJViA..Jw.vF8wmQtBgEZZU.cdLQOmDvU2";
+        shell = "${pkgs.my-fish}/bin/fish";
       };
 
       # ssh demo
@@ -79,6 +79,7 @@
         isNormalUser = true;
         description = "Bob";
         hashedPassword = "$y$j9T$uYADjl9Jv3IN6xrKyIqy11$gCIa0bHsuDO4IRyVlhq45wO8oHf7.BaAq4pDc.fKbVD";
+        shell = pkgs.bash;
       };
     };
   };

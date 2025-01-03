@@ -8,6 +8,7 @@ in {
   # GUI Apps
   my-kitty = pkgs.callPackage ./my-kitty.nix {};
   my-ghostty = pkgs.callPackage ./my-ghostty.nix {};
+  my-foot = pkgs.callPackage ./my-foot.nix {};
   my-firefox = pkgs.callPackage ./my-firefox.nix {};
 
   # Music
@@ -20,12 +21,12 @@ in {
   my-starship = pkgs.callPackage ./my-starship.nix {};
   my-helix = pkgs.callPackage ./my-helix.nix {};
   my-git = pkgs.callPackage ./my-git.nix {};
+  my-tmux = pkgs.callPackage ./my-tmux.nix {};
 
   hover-rs = pkgs.callPackage ./hover-rs.nix {};
 
   # Desktop
   my-fuzzel = pkgs.callPackage ./my-fuzzel.nix {};
-  my-tofi = pkgs.callPackage ./my-tofi.nix {};
   my-mako = pkgs.callPackage ./my-mako.nix {};
   my-waybar = pkgs.callPackage ./my-waybar.nix {};
 

@@ -7,7 +7,7 @@
   my-fuzzel,
   my-firefox,
   my-kitty,
-  my-ghostty,
+  my-foot,
   kitty-music,
 }: let
   wallpapers = builtins.fetchGit {
@@ -64,7 +64,7 @@
       layout=dwindle
       border_size=2
       col.active_border=rgba(c6a0f6ff)
-      col.inactive_border=rgba(24273acc)
+      col.inactive_border=rgba(24273Aff)
       gaps_in=5
       gaps_out=8
       resize_on_border=true
@@ -83,8 +83,8 @@
 
     input:touchpad:disable_while_typing=false
 
+    bind=Mod4, x, exec, ${my-foot}/bin/foot
     bind=Mod4 SHIFT, x, exec, ${my-kitty}/bin/kitty
-    bind=Mod4, x, exec, ${my-ghostty}/bin/ghostty
     bind=Mod4, SPACE, exec, ${my-fuzzel}/bin/fuzzel
     bind=Mod4, b, exec, ${my-firefox}/bin/firefox
     bind=Mod4, m, exec, ${kitty-music}/bin/kitty-music

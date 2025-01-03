@@ -42,15 +42,17 @@
 
   extraPkgs = with pkgs; [
     nil
-    alejandra
     rust-analyzer
     lua-language-server
-    superhtml
     vscode-langservers-extracted
     python312Packages.python-lsp-server
     python312Packages.python-lsp-ruff
     python312Packages.pylsp-rope
+
+    # not supported (must be added in project-specific .helix/languages.toml)
+    alejandra
     emmet-language-server
+    superhtml
   ];
 in
   cfgWrapper {
