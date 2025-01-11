@@ -3,8 +3,6 @@
   pkgs,
   my-kitty,
   my-firefox,
-  my-ghostty,
-  my-helix,
 }: let
   catppuccin-config = builtins.fetchGit {
     url = "https://github.com/catppuccin/fuzzel";
@@ -44,12 +42,6 @@
         desktopName = "Firefox";
         exec = "${my-firefox}/bin/firefox";
         icon = "firefox";
-      })
-      (pkgs.makeDesktopItem {
-        name = "helix";
-        desktopName = "Helix";
-        exec = "${my-ghostty}/bin/ghostty -e ${my-helix}/bin/hx";
-        icon = "helix";
       })
     ];
   };

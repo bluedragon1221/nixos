@@ -7,8 +7,9 @@ in {
 
   # GUI Apps
   my-kitty = pkgs.callPackage ./my-kitty.nix {};
-  my-ghostty = pkgs.callPackage ./my-ghostty.nix {};
+  # my-ghostty = pkgs.callPackage ./my-ghostty.nix {};
   my-foot = pkgs.callPackage ./my-foot.nix {};
+
   my-firefox = pkgs.callPackage ./my-firefox.nix {};
 
   # Music
@@ -17,7 +18,7 @@ in {
   kitty-music = pkgs.callPackage ./kitty-music.nix {};
 
   # Terminal
-  my-fish = pkgs.callPackage ./my-fish.nix {};
+  my-fish = pkgs.callPackage ./my-fish {};
   my-starship = pkgs.callPackage ./my-starship.nix {};
   my-helix = pkgs.callPackage ./my-helix.nix {};
   my-git = pkgs.callPackage ./my-git.nix {};

@@ -23,50 +23,62 @@
     '';
   };
 
-  tmux-bar = let
-    arrow = "";
-    text = "#c6d0f5";
-    blue = "#8aadf4";
-    green = "#a6d189";
-    bg_dark = "#1D1F32";
-    bg_lighter = "#343950";
-  in ''
-    # Status options
-    set -gq status on
+  tmux-bar = pkgs.writeTextFile {
+    name = "tmux-bar";
+    executable = true;
+    text = ''
+      #!${pkgs.bash}/bin/bash
+      arrow=""
+      text="#c6d0f5"
+      blue="#8aadf4"
+      green="#a6d189"
+      bg_dark="#1D1F32"
+      bg_lighter="#343950"
 
-    # Basic status bar colors
-    set -gq status-bg "${bg_dark}"
-    set -gq status-attr none
+      set() {
+        ${pkgs.tmux}/bin/tmux set "$@"
+      }
 
-    # session
-    set -gq status-left-length 150
-    set -gq status-left "#[fg=${green},bg=${bg_lighter}]   #S #[fg=${bg_lighter},bg=${bg_dark}]${arrow}"
+      # Status options
+      set -gq status on
 
-    # Window status format
-    set -gq window-status-format         "#[fg=${bg_dark},bg=${bg_lighter}]${arrow}#[fg=${text},bg=${bg_lighter}] #I:#W #[fg=${bg_lighter},bg=${bg_dark}]${arrow}"
-    set -gq window-status-current-format "#[fg=${bg_dark},bg=${blue}]${arrow}#[fg=${bg_dark},bg=${blue},bold] #I:#W #[fg=${blue},bg=${bg_dark},nobold]${arrow}"
-    set -gq window-status-style          "fg=${blue},bg=${bg_dark},none"
-    set -gq window-status-separator ""
+      # Basic status bar colors
+      set -gq status-bg "$bg_dark"
+      set -gq status-attr none
 
-    set -gq status-right " "
-  '';
+      # session
+      set -gq status-left-length 150
+      set -gq status-left "#[fg=$green,bg=$bg_lighter]   #S #[fg=$bg_lighter,bg=$bg_dark]$arrow"
+
+      # Window status format
+      set -gq window-status-format         "#[fg=$bg_dark,bg=$bg_lighter]$arrow#[fg=$text,bg=$bg_lighter] #I:#W #[fg=$bg_lighter,bg=$bg_dark]$arrow"
+      set -gq window-status-current-format "#[fg=$bg_dark,bg=$blue]$arrow#[fg=$bg_dark,bg=$blue,bold] #I:#W #[fg=$blue,bg=$bg_dark,nobold]$arrow"
+      set -gq window-status-separator ""
+
+      set -gq status-right " "
+    '';
+  };
 
   tmux-conf = pkgs.writeText "tmux.conf" ''
     set -g mouse on
     set -g destroy-unattached on
 
+    # Panes/Splitting
     bind-key -n C-Enter run-shell "${tmux-split}"
     bind-key -n C-w     kill-pane
 
+    # Windows
     bind-key -n C-t     new-window
     bind-key -n C-Tab   next-window
     bind-key -n C-S-Tab previous-window
 
-    ${tmux-bar}
+    set -g allow-rename off
 
-    if -F "#{==:#{session_windows},1}" "set -g status off" "set -g status on"
-    set-hook -g window-linked 'if -F "#{==:#{session_windows},1}" "set -g status off" "set -g status on"'
-    set-hook -g window-unlinked 'if -F "#{==:#{session_windows},1}" "set -g status off" "set -g status on"
+    run-shell "${tmux-bar}"
+
+    set-hook -g client-attached 'if -F "#{==:#{session_windows},1}" "set status off" "set status on"'
+    set-hook -g window-linked 'if -F "#{==:#{session_windows},1}" "set status off" "set status on"'
+    set-hook -g window-unlinked 'if -F "#{==:#{session_windows},1}" "set status off" "set status on"
   '';
 in
   cfgWrapper {

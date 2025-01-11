@@ -59,6 +59,8 @@
   services.printing.enable = false;
   services.sshd.enable = true;
 
+  services.upower.enable = true;
+
   # Users
   networking.hostName = "collinux";
   programs.command-not-found.enable = false;
@@ -88,10 +90,8 @@
   environment.systemPackages = with pkgs;
     [
       musescore
-      nuclear
       obsidian
       kdePackages.kleopatra
-      lutris
       mpv
 
       blueman
@@ -99,7 +99,6 @@
     ]
     ++ [
       inputs.zen-browser.packages.${system}.default
-      inputs.ghostty.packages.${system}.default
     ];
 
   fonts = {

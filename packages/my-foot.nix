@@ -10,6 +10,7 @@
     [colors]
     foreground=cad3f5
     background=24273a
+    alpha=0.8
 
     regular0=494d64
     regular1=ed8796
@@ -19,7 +20,6 @@
     regular5=f5bde6
     regular6=8bd5ca
     regular7=b8c0e0
-
     bright0=5b6078
     bright1=ed8796
     bright2=a6da95
@@ -28,22 +28,15 @@
     bright5=f5bde6
     bright6=8bd5ca
     bright7=a5adcb
-
     16=f5a97f
     17=f4dbd6
 
     selection-foreground=cad3f5
     selection-background=454a5f
 
-    search-box-no-match=181926 ed8796
-    search-box-match=cad3f5 363a4f
-
-    jump-labels=181926 f5a97f
-    urls=8aadf4
-
     [main]
-    font=Iosevka Nerd Font:pixelsize=16
-    line-height=22px
+    font=Iosevka Nerd Font:size=12
+    underline-offset=1px
 
     shell=${my-tmux}/bin/tmux
   '';

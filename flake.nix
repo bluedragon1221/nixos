@@ -3,16 +3,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
 
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     zen-browser.url = "github:MarceColl/zen-browser-flake";
-    ghostty = {
-      url = "github:ghostty-org/ghostty";
-      inputs.nixpkgs-unstable.follows = "nixpkgs";
-    };
   };
 
   outputs = inputs: let
@@ -34,7 +25,6 @@
       modules = [
         inputs.nixos-hardware.nixosModules.lenovo-thinkpad-x1-6th-gen
         ./system
-        ./home
       ];
     };
 
@@ -42,7 +32,7 @@
       pkgs
       // {
         dependency-graph = pkgs.writeShellScriptBin "graph" ''
-          cat <<EOF | ${pkgs.graphviz}/bin/dot -Tpng | kitten icat
+          cat <<EOF | ${pkgs.graphviz}/bin/dot -Tpng | ${pkgs.timg}/bin/timg -p sixel -
           digraph {
             bgcolor="transparent"
             node [color="#cad3f5" fontcolor="#8aadf4"]
@@ -50,7 +40,7 @@
             $(fd . packages -E "default.nix" | xargs -I{} -P10 sh -c '
               cat "{}" \
                 | grep -zoE "^\{[^:]*\}:" \
-                | tr -d "\n,:" \
+                | tr -d "\n,:\047" \
                 | tr "-" "_" \
                 | xargs -0 printf "$(basename "{}" ".nix" | tr "-" "_") -> %s\n" &'
             )

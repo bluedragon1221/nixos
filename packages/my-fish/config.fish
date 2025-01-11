@@ -11,8 +11,8 @@ abbr -a ga --set-cursor "git add %"
 abbr -a gc --set-cursor "git commit -m '%'"
 abbr -a gp "git push"
 
-alias ls '${pkgs.eza}/bin/eza -A -w 80 --group-directories-first'
-alias tree '${pkgs.eza}/bin/eza -T'
+alias ls 'eza -A -w 80 --group-directories-first'
+alias tree 'eza -T'
 
 alias cat 'bat'
 alias icat 'kitten icat'
