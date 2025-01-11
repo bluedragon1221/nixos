@@ -22,7 +22,7 @@ in {
   my-starship = pkgs.callPackage ./my-starship.nix {};
   my-helix = pkgs.callPackage ./my-helix.nix {};
   my-git = pkgs.callPackage ./my-git.nix {};
-  my-tmux = pkgs.callPackage ./my-tmux.nix {};
+  my-tmux = pkgs.callPackage ./my-tmux {};
 
   hover-rs = pkgs.callPackage ./hover-rs.nix {};
 
