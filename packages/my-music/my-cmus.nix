@@ -4,10 +4,6 @@
   my-mako,
 }: let
   cache-dir = "$HOME/.local/share/cmus";
-  theme = builtins.fetchGit {
-    url = "https://github.com/Sekki21956/cmus";
-    rev = "e9b01942f26c7cd8c30a367fd349c8a27d1c04c9";
-  };
 
   status-display = pkgs.writeShellScriptBin "status.sh" ''
     while [ $# -ge 2 ]; do
@@ -53,7 +49,7 @@
     name = "cmus-dir";
     paths = [
       config
-      theme
+      ./catppuccin.theme
       (pkgs.runCommand "playlists-dir" {} ''mkdir -p $out/playlists'')
     ];
   };

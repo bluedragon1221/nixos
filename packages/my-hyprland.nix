@@ -1,5 +1,6 @@
 {
   cfgWrapper,
+  inputs',
   pkgs,
   my-mako,
   my-waybar,
@@ -88,7 +89,7 @@
     bind=Mod4, SPACE, exec, ${my-fuzzel}/bin/fuzzel
     bind=Mod4, b, exec, ${my-firefox}/bin/firefox
     bind=Mod4, m, exec, ${kitty-music}/bin/kitty-music
-    bind=Mod4 SHIFT, b, exec, zen
+    bind=Mod4 SHIFT, b, exec, ${inputs'.zen-browser.packages."x86_64-linux".default}/bin/zen
 
     bind=Mod4, q, killactive
     bind=Mod4 SHIFT, q, exit

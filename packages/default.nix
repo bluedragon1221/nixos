@@ -7,13 +7,12 @@ in {
 
   # GUI Apps
   my-kitty = pkgs.callPackage ./my-kitty.nix {};
-  # my-ghostty = pkgs.callPackage ./my-ghostty.nix {};
   my-foot = pkgs.callPackage ./my-foot.nix {};
 
   my-firefox = pkgs.callPackage ./my-firefox.nix {};
 
   # Music
-  my-cmus = pkgs.callPackage ./my-cmus.nix {};
+  my-cmus = pkgs.callPackage ./my-cmus {};
   my-cava = pkgs.callPackage ./my-cava.nix {};
   kitty-music = pkgs.callPackage ./kitty-music.nix {};
 
