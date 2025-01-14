@@ -3,6 +3,7 @@ inputs': final: prev: let
 in {
   inherit inputs';
   cfgWrapper = pkgs.callPackage ./cfgWrapper.nix {};
+  substituteAll = import ./callPackage.nix {inherit pkgs;};
   forceXdg = pkgs.callPackage ./forceXdg.nix {};
 
   # GUI Apps
@@ -12,9 +13,7 @@ in {
   my-firefox = pkgs.callPackage ./my-firefox.nix {};
 
   # Music
-  my-cmus = pkgs.callPackage ./my-cmus {};
-  my-cava = pkgs.callPackage ./my-cava.nix {};
-  kitty-music = pkgs.callPackage ./kitty-music.nix {};
+  my-music = pkgs.callPackage ./my-music/default.nix {};
 
   # Terminal
   my-fish = pkgs.callPackage ./my-fish {};

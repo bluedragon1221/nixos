@@ -1,12 +1,11 @@
 {
   cfgWrapper,
+  substituteAll,
   pkgs,
 }: let
-  tmux-bar = pkgs.runCommand "tmux-bar" {} ''
-    mkdir -p $out/bin
-    tmux=${pkgs.tmux} substituteAll ${./tmux-bar.sh} $out/bin/tmux-bar.sh
-    chmod +x $out/bin/tmux-bar.sh
-  '';
+  tmux-bar = substituteAll ./tmux-bar.sh {
+    "tmux" = pkgs.tmux;
+  };
 in
   cfgWrapper {
     pkg = pkgs.tmux;

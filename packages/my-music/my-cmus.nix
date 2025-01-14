@@ -49,8 +49,10 @@
     name = "cmus-dir";
     paths = [
       config
-      ./catppuccin.theme
-      (pkgs.runCommand "playlists-dir" {} ''mkdir -p $out/playlists'')
+      (pkgs.runCommand "playlists-dir" {} ''
+        mkdir -p $out/playlists
+        cp ${./catppuccin.theme} $out/catppuccin.theme
+      '')
     ];
   };
 in

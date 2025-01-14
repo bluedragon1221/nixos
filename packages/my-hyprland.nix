@@ -4,12 +4,11 @@
   pkgs,
   my-mako,
   my-waybar,
-  my-cmus,
   my-fuzzel,
   my-firefox,
   my-kitty,
   my-foot,
-  kitty-music,
+  my-music,
 }: let
   wallpapers = builtins.fetchGit {
     url = "https://github.com/bluedragon1221/wallpapers";
@@ -88,14 +87,14 @@
     bind=Mod4 SHIFT, x, exec, ${my-kitty}/bin/kitty
     bind=Mod4, SPACE, exec, ${my-fuzzel}/bin/fuzzel
     bind=Mod4, b, exec, ${my-firefox}/bin/firefox
-    bind=Mod4, m, exec, ${kitty-music}/bin/kitty-music
+    bind=Mod4, m, exec, ${my-music}/bin/kitty-music
     bind=Mod4 SHIFT, b, exec, ${inputs'.zen-browser.packages."x86_64-linux".default}/bin/zen
 
     bind=Mod4, q, killactive
     bind=Mod4 SHIFT, q, exit
 
     bind=Mod4 SHIFT, s, exec, ${hyprshot}/bin/hyprshot -m region
-    bind=, Print, exec, ${my-cmus}/bin/cmus-remote -u
+    bind=, Print, exec, ${my-music}/bin/cmus-remote -u
     bind=Mod4, ., exec, ${my-mako}/bin/makoctl dismiss -a
 
     ${builtins.concatStringsSep "\n" (builtins.genList (
