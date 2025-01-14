@@ -3,7 +3,7 @@ inputs': final: prev: let
 in {
   inherit inputs';
   cfgWrapper = pkgs.callPackage ./cfgWrapper.nix {};
-  substituteAll = import ./callPackage.nix {inherit pkgs;};
+  subAll = import ./substituteAll.nix {inherit pkgs;};
   forceXdg = pkgs.callPackage ./forceXdg.nix {};
 
   # GUI Apps
@@ -27,7 +27,7 @@ in {
   # Desktop
   my-fuzzel = pkgs.callPackage ./my-fuzzel.nix {};
   my-mako = pkgs.callPackage ./my-mako.nix {};
-  my-waybar = pkgs.callPackage ./my-waybar.nix {};
+  my-waybar = pkgs.callPackage ./my-waybar {};
 
   my-hyprland = pkgs.callPackage ./my-hyprland.nix {};
 }
