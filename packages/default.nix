@@ -20,8 +20,6 @@ in {
   # Terminal
   my-fish = pkgs.callPackage ./my-fish {};
   my-helix = pkgs.callPackage ./my-helix.nix {};
-  my-git = pkgs.callPackage ./my-git.nix {};
-  my-tmux = pkgs.callPackage ./my-tmux {};
 
   hover-rs = pkgs.callPackage ./hover-rs.nix {};
 
