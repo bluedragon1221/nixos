@@ -1,7 +1,7 @@
 {
   cfgWrapper,
   pkgs,
-  my-tmux,
+  my-term,
 }: let
   config = pkgs.writeText "foot.ini" ''
     [cursor]
@@ -38,7 +38,7 @@
     font=Iosevka Nerd Font:size=12
     underline-offset=1px
 
-    shell=${my-tmux}/bin/tmux
+    shell=${my-term}/bin/tmux
   '';
 in
   cfgWrapper {

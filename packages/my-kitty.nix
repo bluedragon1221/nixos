@@ -1,7 +1,6 @@
 {
   cfgWrapper,
   pkgs,
-  my-fish,
 }: let
   catppuccin_kitty = builtins.fetchGit {
     url = "https://github.com/catppuccin/kitty";
@@ -18,8 +17,6 @@
     name = "kitty-config";
     text = ''
       include ${catppuccin_kitty}/themes/macchiato.conf
-
-      shell ${my-fish}/bin/fish
 
       font_family Iosevka Nerd Font
       # font_family Monocraft

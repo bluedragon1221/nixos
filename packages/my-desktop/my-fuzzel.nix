@@ -4,12 +4,19 @@
   my-kitty,
   my-firefox,
 }: let
-  catppuccin-config = builtins.fetchGit {
-    url = "https://github.com/catppuccin/fuzzel";
-    rev = "0af0e26901b60ada4b20522df739f032797b07c3";
-  };
   settings = pkgs.writeText "fuzzel.ini" ''
-    include=${catppuccin-config}/themes/catppuccin-macchiato/blue.ini
+    [colors]
+    background=24273add
+    text=cad3f5ff
+    prompt=b8c0e0ff
+    placeholder=8087a2ff
+    input=cad3f5ff
+    match=8aadf4ff
+    selection=5b6078ff
+    selection-text=cad3f5ff
+    selection-match=8aadf4ff
+    counter=8087a2ff
+    border=8aadf4ff
 
     [main]
     dpi-aware=no

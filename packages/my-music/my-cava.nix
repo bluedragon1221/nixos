@@ -5,5 +5,5 @@
 cfgWrapper {
   pkg = pkgs.cava;
   binName = "cava";
-  extraFlags = ["-p ${./cava}"];
+  extraFlags = ["-p ${./cava_config}"];
 }
