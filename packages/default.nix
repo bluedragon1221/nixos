@@ -12,7 +12,10 @@ in {
   my-kitty = pkgs.callPackage ./my-kitty.nix {};
   my-foot = pkgs.callPackage ./my-foot.nix {};
   my-firefox = pkgs.callPackage ./my-firefox.nix {};
+
   hover-rs = pkgs.callPackage ./hover-rs.nix {};
+
+  my-mako = pkgs.callPackage ./my-mako.nix {};
 
   my-music = pkgs.callPackage ./my-music {};
   my-term = pkgs.callPackage ./my-term {};

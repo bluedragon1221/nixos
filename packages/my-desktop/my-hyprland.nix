@@ -10,11 +10,6 @@
   my-foot,
   my-music,
 }: let
-  wallpapers = builtins.fetchGit {
-    url = "https://github.com/bluedragon1221/wallpapers";
-    rev = "9b55aea64af79d04d6135d66edd6be317cb3a529";
-  };
-
   hyprshot = cfgWrapper {
     pkg = pkgs.hyprshot;
     binName = "hyprshot";
@@ -24,7 +19,7 @@
   settings = pkgs.writeText "hyprland.conf" ''
     exec-once=${my-mako}/bin/mako
     exec-once=${my-waybar}/bin/waybar
-    exec-once=${pkgs.swaybg}/bin/swaybg -i ${wallpapers}/astronaut.jpg
+    exec-once=${pkgs.swaybg}/bin/swaybg -i ${./wallpaper.jpg}
 
     env=XCURSOR_PATH,${pkgs.vanilla-dmz}/share/icons
     env=XCURSOR_THEME,Vanilla-DMZ
