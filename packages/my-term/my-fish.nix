@@ -19,7 +19,6 @@
 in
   cfgWrapper {
     pkg = pkgs.fish;
-    binName = "fish";
 
     extraFlags = ["--init-command 'source ${./config.fish}'"];
 

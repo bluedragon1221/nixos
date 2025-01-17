@@ -114,9 +114,3 @@
   };
 in
   wrapped-firefox
-# forceXdg {
-#   pkg = wrapped-firefox;
-#   binName = "firefox";
-#   preDelete = ["~/.pki" "~/.mozilla"];
-# }
-

@@ -7,7 +7,6 @@
 in
   cfgWrapper {
     pkg = pkgs.git;
-    binName = "git";
     extraFlags = [
       ''-c user.name='${name}' ''
       ''-c user.email='${email}' ''

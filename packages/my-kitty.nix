@@ -66,7 +66,6 @@
 in
   cfgWrapper {
     pkg = pkgs.kitty;
-    binName = "kitty";
     extraEnv.KITTY_CONFIG_DIRECTORY = kitty-dir;
     extraFlags = ["--single-instance"];
   }

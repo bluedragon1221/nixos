@@ -10,6 +10,5 @@ in
   cfgWrapper {
     pkg = pkgs.mako;
     extraPkgs = [pkgs.libnotify];
-    binName = "mako";
     extraFlags = ["-c ${catppuccin-mako}/themes/catppuccin-macchiato/catppuccin-macchiato-mauve"];
   }

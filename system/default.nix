@@ -1,5 +1,4 @@
 {
-  inputs,
   pkgs,
   lib,
   ...
@@ -56,8 +55,15 @@
     alsa.enable = true;
   };
 
-  services.printing.enable = false;
   services.sshd.enable = true;
+
+  services.printing.enable = true;
+  # auto-discover printers
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+    openFirewall = true;
+  };
 
   services.upower.enable = true;
 
@@ -73,7 +79,7 @@
         description = "Collin";
         extraGroups = ["networkmanager" "wheel"];
         hashedPassword = "$y$j9T$08yFysn8jr9K4Wk.hYXbG0$NzY9vIbNknJViA..Jw.vF8wmQtBgEZZU.cdLQOmDvU2";
-        shell = "${pkgs.my-fish}/bin/fish";
+        shell = "${pkgs.my-term}/bin/fish";
       };
 
       # ssh demo
@@ -87,19 +93,15 @@
   };
 
   environment.defaultPackages = lib.mkForce [];
-  environment.systemPackages = with pkgs;
-    [
-      musescore
-      obsidian
-      kdePackages.kleopatra
-      mpv
+  environment.systemPackages = with pkgs; [
+    musescore
+    obsidian
+    kdePackages.kleopatra
+    mpv
 
-      blueman
-      pwvucontrol
-    ]
-    ++ [
-      inputs.zen-browser.packages.${system}.default
-    ];
+    blueman
+    pwvucontrol
+  ];
 
   fonts = {
     enableDefaultPackages = false;

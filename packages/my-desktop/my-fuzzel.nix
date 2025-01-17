@@ -24,7 +24,6 @@
 in
   cfgWrapper {
     pkg = pkgs.fuzzel;
-    binName = "fuzzel";
 
     extraFlags = ["--config=${./fuzzel.ini}" "--hide-before-typing"];
     extraWrapperFlags = ["--prefix XDG_DATA_DIRS : ${extraDesktopFiles}/share"];

@@ -57,7 +57,6 @@
 in
   cfgWrapper {
     pkg = pkgs.helix;
-    binName = "hx";
     inherit extraPkgs;
     extraFlags = ["-c ${settings}"];
     hidePkgs = true;

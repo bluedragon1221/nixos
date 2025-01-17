@@ -52,6 +52,6 @@
 in
   cfgWrapper {
     pkg = pkgs.cmus;
-    binName = "cmus";
+    binName = "cmus"; # pkgs.cmus doesn't have a meta.mainProgram
     extraEnv.CMUS_HOME = cmus-dir;
   }

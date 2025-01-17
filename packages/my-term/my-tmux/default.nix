@@ -13,7 +13,6 @@
 in
   cfgWrapper {
     pkg = pkgs.tmux;
-    binName = "tmux";
     extraPkgs = [tmux-bar];
     extraFlags = ["-f ${./tmux.conf}"];
   }

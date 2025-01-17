@@ -12,7 +12,6 @@
 }: let
   hyprshot = cfgWrapper {
     pkg = pkgs.hyprshot;
-    binName = "hyprshot";
     extraEnv.HYPRSHOT_DIR = "Pictures/hyprshot";
   };
 
@@ -117,6 +116,5 @@
 in
   cfgWrapper {
     pkg = pkgs.hyprland;
-    binName = "Hyprland";
     extraFlags = ["-c ${settings}"];
   }

@@ -43,6 +43,5 @@
 in
   cfgWrapper {
     pkg = pkgs.foot;
-    binName = "foot";
     extraFlags = ["-c ${config}"];
   }

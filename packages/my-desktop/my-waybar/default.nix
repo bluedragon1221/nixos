@@ -12,6 +12,5 @@
 in
   cfgWrapper {
     pkg = pkgs.waybar;
-    binName = "waybar";
     extraFlags = ["-c ${config}" "-s ${style}"];
   }
