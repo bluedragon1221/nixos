@@ -14,6 +14,7 @@
       statusline = {
         left = ["mode" "file-name" "spacer" "file-modification-indicator"];
         right = ["spinner" "spacer" "workspace-diagnostics" "file-type"];
+        separator = "x";
       };
 
       cursor-shape = {

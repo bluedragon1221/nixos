@@ -9,7 +9,7 @@
   my-tmux = pkgs.callPackage ./my-tmux {};
   my-helix = pkgs.callPackage ./my-helix.nix {};
   my-fish = pkgs.callPackage ./my-fish.nix {
-    extraApplications = [my-git my-bat my-helix my-starship my-tmux hover-rs my-starship];
+    extraApplications = [my-git my-bat my-helix my-starship my-tmux hover-rs my-starship pkgs.jujutsu];
   };
 in
   pkgs.symlinkJoin {

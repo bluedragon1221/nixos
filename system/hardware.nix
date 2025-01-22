@@ -1,12 +1,4 @@
-{
-  config,
-  modulesPath,
-  ...
-}: {
-  imports = [
-    (modulesPath + "/installer/scan/not-detected.nix")
-  ];
-
+_: {
   boot = {
     initrd = {
       availableKernelModules = ["nvme" "usb_storage" "sd_mod" "bluetooth"];
@@ -30,5 +22,5 @@
   swapDevices = [];
 
   nixpkgs.hostPlatform = "x86_64-linux";
-  hardware.cpu.intel.updateMicrocode = config.hardware.enableRedistributableFirmware;
+  hardware.cpu.intel.updateMicrocode = true;
 }

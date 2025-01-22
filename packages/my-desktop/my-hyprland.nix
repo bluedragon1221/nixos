@@ -75,7 +75,10 @@
       disable_splash_rendering=true
     }
 
-    input:touchpad:disable_while_typing=false
+    input {
+      kb_options=caps:enter
+      touchpad:disable_while_typing=false
+    }
 
     bind=Mod4, x, exec, ${my-foot}/bin/foot
     bind=Mod4 SHIFT, x, exec, ${my-kitty}/bin/kitty

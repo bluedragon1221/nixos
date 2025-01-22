@@ -10,11 +10,7 @@
     system = "x86_64-linux";
     pkgs = import inputs.nixpkgs {
       inherit system;
-      config = {
-        allowUnfree = true;
-        extra-substituters = ["https://ghostty.cachix.org"];
-        extra-trusted-public-keys = ["ghostty.cachix.org-1:QB389yTa6gTyneehvqG58y0WnHjQOqgnA+wBnpWWxns="];
-      };
+      config.allowUnfree = true;
       overlays = [
         (import ./packages inputs)
       ];
