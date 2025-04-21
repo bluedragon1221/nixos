@@ -8,6 +8,7 @@
     ./git.nix
     ./firefox.nix
     ./gtk.nix
+    ./dunst.nix
     ./waybar
   ];
 
