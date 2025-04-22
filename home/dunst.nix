@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   catppuccin.dunst.enable = true;
-  programs.dunst = {
+  services.dunst = {
     enable = true;
     iconTheme = {
       name = "Papirus";

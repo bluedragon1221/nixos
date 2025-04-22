@@ -27,7 +27,6 @@
   "bluetooth" = {
     format = "";
     format-connected = "󰂯 {device_alias}";
-    on-click = "blueman-manager";
   };
   "battery" = {
     format = "{icon} {capacity}%";

@@ -19,6 +19,8 @@
     obsidian
     kdePackages.kleopatra
     mpv
+    btop
+    wl-clipboard
   ];
   home.preferXdgDirectories = true;
 

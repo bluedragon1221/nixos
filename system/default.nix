@@ -34,6 +34,7 @@
     enable = true;
     package = pkgs.hyprland;
     portalPackage = pkgs.xdg-desktop-portal-hyprland;
+    withUWSM = true;
   };
 
   # Services
@@ -44,7 +45,6 @@
     enable = true;
     powerOnBoot = true;
   };
-  services.blueman.enable = true;
 
   ## ssh
   services.sshd.enable = false;

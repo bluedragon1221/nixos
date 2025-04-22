@@ -2,8 +2,10 @@
   catppuccin.hyprland.enable = true;
   wayland.windowManager.hyprland = {
     enable = true;
+    systemd.enable = false; # conflicts with uwsm
 
     settings = {
+      xwayland.enabled = false; # all of my apps are compatible with wayland
       exec-once = [
         "${pkgs.waybar}/bin/waybar"
       ];
@@ -16,7 +18,7 @@
       };
       bind = [
         "Mod4, q, killactive"
-        "Mod4, x, exec, ${pkgs.foot}/bin/foot"
+        "Mod4, x, exec, ${pkgs.foot}/bin/footclient"
         "Mod4, b, exec, ${pkgs.firefox}/bin/firefox"
         "Mod4, h, exec, ${pkgs.obsidian}/bin/obsidian"
       ]
@@ -33,6 +35,20 @@
           9)
       );
 
+      binde = [
+        ", XF86AudioRaiseVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+        ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+
+      
+        ", XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 5%+"
+        ", XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 5%-"
+      ];
+
+      bindm = [
+        "Mod4, mouse:272, movewindow"
+        "Mod4, mouse:273, resizewindow"
+      ];
+      
       monitor = ", prefred, auto, 1"; 
       animations = {
         bezier = [
