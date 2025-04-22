@@ -1,4 +1,8 @@
-{pkgs, ...}: {
+{config, pkgs, ...}: {
+  home.file."${config.xdg.configHome}/uwsm/env".text = ''
+      export QT_QPA_PLATFORM=wayland
+  '';
+
   catppuccin.hyprland.enable = true;
   wayland.windowManager.hyprland = {
     enable = true;
@@ -6,9 +10,6 @@
 
     settings = {
       xwayland.enabled = false; # all of my apps are compatible with wayland
-      exec-once = [
-        "${pkgs.waybar}/bin/waybar"
-      ];
       general = {
         "col.active_border" = "$accent";
         "col.inactive_border" = "$base";
@@ -19,7 +20,7 @@
       bind = [
         "Mod4, q, killactive"
         "Mod4, x, exec, ${pkgs.foot}/bin/footclient"
-        "Mod4, b, exec, ${pkgs.firefox}/bin/firefox"
+        "Mod4, b, exec, uwsm app -- ${pkgs.firefox}/bin/firefox"
         "Mod4, h, exec, ${pkgs.obsidian}/bin/obsidian"
       ]
       ++ (

@@ -7,6 +7,7 @@
     ./shell.nix
     ./git.nix
     ./firefox.nix
+    ./cmus
     ./gtk.nix
     ./dunst.nix
     ./waybar

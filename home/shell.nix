@@ -17,7 +17,6 @@
     '';
   };
 
-
   # currently starship, fzf, and other catppuccin-nix cfgs use IFD, making them unusable to me. I'll use these modules once they get fixed to not use IFD. https://github.com/catppuccin/nix/issues/392
   catppuccin.fzf.enable = false;
   programs.fzf = {
@@ -27,6 +26,7 @@
     enableBashIntegration = false;
   };
 
+  catppuccin.starship.enable = false;
   programs.starship = {
     enable = true;
     enableFishIntegration = true;
