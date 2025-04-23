@@ -1,8 +1,11 @@
 {pkgs, ...}: {
-  programs.uwsm = {
+  programs.uwsm.enable = true;
+  programs.hyprland = {
     enable = true;
+    package = pkgs.hyprland;
+    portalPackage = pkgs.xdg-desktop-portal-hyprland;
+    withUWSM = true;
   };
-
 
   services.greetd = {
     enable = true;

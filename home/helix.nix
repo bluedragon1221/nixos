@@ -3,8 +3,9 @@
   programs.helix = {
     enable = true;
     defaultEditor = true;
+
+    # lsp servers
     extraPackages = with pkgs; [
-      # lsp servers
       nil
       rust-analyzer
       lua-language-server
@@ -12,12 +13,34 @@
       python312Packages.python-lsp-server
       python312Packages.python-lsp-ruff
       python312Packages.pylsp-rope
-
-      # not supported (must be added in project-specific .helix/languages.toml)
       alejandra
-      emmet-language-server
       superhtml
+      emmet-language-server
     ];
+
+    languages = {
+      language-server = {
+        command = "emmet-language-server";
+        args = ["--stdio"];
+      };
+
+      language = [
+        {
+          name = "nix";
+          file-types = ["nix"];
+          language-servers = ["nil"];
+          indent = {tab-width = 2; unit = "  ";};
+          formatter = {command = "alejandra";};
+          auto-format = true;
+        }
+        {
+          name = "html";
+          file-types = ["html"];
+          language-servers = ["emmet-language-server" "superhtml"];
+          auto-format = true;
+        }
+      ];
+    };
 
     settings = lib.mkMerge [
       {

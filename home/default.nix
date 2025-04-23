@@ -4,6 +4,7 @@
     ./hyprland.nix
     ./helix.nix
     ./foot.nix
+    ./fuzzel.nix
     ./shell.nix
     ./git.nix
     ./firefox.nix

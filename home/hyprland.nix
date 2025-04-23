@@ -3,6 +3,8 @@
       export QT_QPA_PLATFORM=wayland
   '';
 
+  home.packages = with pkgs; [wl-clipboard hyprshot brightnessctl];
+
   catppuccin.hyprland.enable = true;
   wayland.windowManager.hyprland = {
     enable = true;
@@ -19,9 +21,10 @@
       };
       bind = [
         "Mod4, q, killactive"
-        "Mod4, x, exec, ${pkgs.foot}/bin/footclient"
-        "Mod4, b, exec, uwsm app -- ${pkgs.firefox}/bin/firefox"
-        "Mod4, h, exec, ${pkgs.obsidian}/bin/obsidian"
+        "Mod4, x, exec, footclient"
+        "Mod4, b, exec, firefox"
+        "Mod4, h, exec, obsidian"
+        "Mod4, SPACE, exec, fuzzel"
       ]
       ++ (
         # workspaces
@@ -41,8 +44,8 @@
         ", XF86AudioLowerVolume, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
 
       
-        ", XF86MonBrightnessUp, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 5%+"
-        ", XF86MonBrightnessDown, exec, ${pkgs.brightnessctl}/bin/brightnessctl s 5%-"
+        ", XF86MonBrightnessUp, exec, brightnessctl s 5%+"
+        ", XF86MonBrightnessDown, exec, brightnessctl s 5%-"
       ];
 
       bindm = [
@@ -68,22 +71,14 @@
     };
   };
 
-  home.file."wallpaper" = {
-    source = ../wallpaper.jpg;
-    target = "Pictures/wallpaper.jpg";
-  };
+  home.file."Pictures/wallpaper.jpg".source = ../wallpaper.jpg;
   
   services.hyprpaper = {
     enable = true;
-    settings = let
-      w = "~/Pictures/wallpaper.jpg";
-    in {
+    settings = {
       ipc = false;
-      preload = [w];
-
-      wallpaper = [
-        ",${w}"
-      ];
+      preload = ["Pictures/wallpaper.jpg"];
+      wallpaper = ",Pictures/wallpaper.jpg";
     };
   };
 }

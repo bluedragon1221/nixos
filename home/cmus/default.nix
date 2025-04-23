@@ -21,9 +21,8 @@
     '';
   in {
     enable = true;
+    theme = "catppuccin";
     extraConfig = ''
-      colorscheme catppuccin
-
       add ~/Music
       set status_display_program=${status-display}/bin/status.sh
     '';

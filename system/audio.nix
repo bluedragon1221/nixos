@@ -5,4 +5,5 @@
     wireplumber.enable = true;
     alsa.enable = true;
   };
+  environment.systemPackages = [pkgs.pwvucontrol];
 }

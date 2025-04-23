@@ -70,63 +70,6 @@
         "svg.context-properties.content.enabled" = val true;
         "browser.compactmode.show" = val true;
         "browser.uidensity" = val 1;
-        "browser.uiCustomization.state" = val ''
-          {
-            "placements": {
-              "widget-overflow-fixed-list": [],
-              "unified-extensions-area": [
-                "ublock0_raymondhill_net-browser-action",
-                "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action"
-              ],
-              "nav-bar": [
-                "customizableui-special-spring1",
-                "customizableui-special-spring14",
-                "back-button",
-                "forward-button",
-                "stop-reload-button",
-                "vertical-spacer",
-                "urlbar-container",
-                "save-to-pocket-button",
-                "downloads-button",
-                "fxa-toolbar-menu-button",
-                "unified-extensions-button",
-                "customizableui-special-spring13",
-                "customizableui-special-spring2",
-                "simple-tab-groups_drive4ik-browser-action"
-              ],
-              "toolbar-menubar": [
-                "menubar-items"
-              ],
-              "TabsToolbar": [
-                "tabbrowser-tabs",
-                "new-tab-button",
-                "alltabs-button"
-              ],
-              "vertical-tabs": [],
-              "PersonalToolbar": [
-                "import-button",
-                "personal-bookmarks"
-              ]
-            },
-            "seen": [
-              "save-to-pocket-button",
-              "developer-button",
-              "ublock0_raymondhill_net-browser-action",
-              "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action",
-              "simple-tab-groups_drive4ik-browser-action"
-            ],
-            "dirtyAreaCache": [
-              "nav-bar",
-              "vertical-tabs",
-              "PersonalToolbar",
-              "toolbar-menubar",
-              "TabsToolbar",
-              "unified-extensions-area"
-            ],
-            "currentVersion": 21,
-            "newElementCount": 17
-          }
-        '';
       };
 
       ExtensionSettings = let

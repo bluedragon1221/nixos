@@ -1,4 +1,15 @@
 {pkgs, ...}: {
+  home.packages = with pkgs; [
+    unzip zip jq rg btop    
+  ];
+
+  programs.command-not-found.enable = false; # errors unless I use nix channels (eww)
+  home.shell = {
+    enableBashIntegration = false;    
+    enableZshIntegration = false;
+    enableFishIntegration = true;
+  };
+
   catppuccin.fish.enable = true;
   programs.fish = {
     enable = true;
@@ -7,7 +18,6 @@
       ls = "${pkgs.eza}/bin/eza -A -w 80 --group-directories-first";
       tree = "${pkgs.eza}/bin/eza -T";
       cat = "${pkgs.bat}/bin/bat";
-      rg = "${pkgs.ripgrep}/bin/rg";
     };
     shellAbbrs = {
       nh = "nh os switch";
@@ -17,22 +27,15 @@
     '';
   };
 
-  # currently starship, fzf, and other catppuccin-nix cfgs use IFD, making them unusable to me. I'll use these modules once they get fixed to not use IFD. https://github.com/catppuccin/nix/issues/392
+  # currently starship, fzf, and other catppuccin/nix cfgs use IFD, making them unusable to me.
+  # IFD is a bug. I'll use them once their bugs are worked out. https://github.com/catppuccin/nix/issues/392
+
   catppuccin.fzf.enable = false;
-  programs.fzf = {
-    enable = true;
-    enableFishIntegration = true;
-    enableZshIntegration = false;
-    enableBashIntegration = false;
-  };
+  programs.fzf.enable = true;
 
   catppuccin.starship.enable = false;
   programs.starship = {
     enable = true;
-    enableFishIntegration = true;
-    enableZshIntegration = false;
-    enableBashIntegration = false;
-
     settings = {
       format = ''$directory$git_branch$git_status $character'';
 

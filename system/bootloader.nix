@@ -2,16 +2,15 @@
   boot = {
     initrd = {
       verbose = false;
-      availableKernelModules = [ "xhci_pci" "nvme" "usb_storage" "sd_mod" ];
-      kernelModules = [];
+      systemd.enable = true;
     };
-
     loader = {
       systemd-boot = {
         enable = true;
         configurationLimit = 3;
       };
       efi.canTouchEfiVariables = true;
+      timeout = 0; # spam space to get boot menu
     };
 
     plymouth = {
@@ -19,11 +18,5 @@
       theme = "catppuccin-macchiato";
       themePackages = [pkgs.catppuccin-plymouth];
     };
-    
-    kernelModules = [ "kvm-intel" ];
-    extraModulePackages = [];
   };
-
-  hardware.cpu.intel.updateMicrocode = true;
-  hardware.firmware = [pkgs.linux-firmware];
 }
