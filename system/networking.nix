@@ -1,9 +1,4 @@
 {
-  config,
-  pkgs,
-  ...
-}: {
-  # environment.etc."wpa_supplicant.conf" = config.age.secrets.wifi.path;
   networking.networkmanager.enable = true;
   networking.resolvconf.enable = false;
   services.resolved = {

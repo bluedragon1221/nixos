@@ -1,12 +1,6 @@
-{pkgs, inputs, ...}: {
+{pkgs, ...}: {
   imports = [
-    ./disks.nix
-
-    ../../system/bootloader.nix
     ../../system/battery.nix
-    ../../system/audio.nix
-    ../../system/bluetooth.nix
-    ../../system/networking.nix
 
     ../../system/nix.nix
     ../../system/fonts.nix

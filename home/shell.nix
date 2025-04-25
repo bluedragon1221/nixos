@@ -1,11 +1,16 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    unzip zip jq ripgrep btop    
+    unzip
+    zip
+    jq
+    ripgrep
+    btop
+    fd
   ];
 
   programs.command-not-found.enable = false; # errors unless I use nix channels (eww)
   home.shell = {
-    enableBashIntegration = false;    
+    enableBashIntegration = false;
     enableZshIntegration = false;
     enableFishIntegration = true;
   };
