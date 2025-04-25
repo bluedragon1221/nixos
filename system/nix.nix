@@ -18,12 +18,6 @@
     flake = "/home/collin/nixos";
   };
 
-  # make rebuilds faster?
-  system.switch = {
-    enable = false;
-    enableNg = true;
-  };
-
   nixpkgs = {
     config.allowUnfree = true;
     overlays = [

@@ -1,6 +1,6 @@
 {pkgs, ...}: {
   home.packages = with pkgs; [
-    unzip zip jq rg btop    
+    unzip zip jq ripgrep btop    
   ];
 
   programs.command-not-found.enable = false; # errors unless I use nix channels (eww)

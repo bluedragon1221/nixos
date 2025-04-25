@@ -6,7 +6,6 @@ let
       { networking.hostName = name; }
 
       ./${name}/system.nix
-      ./${name}/home.nix
 
       # Hardware-specific configuration
       inputs.nixos-facter-modules.nixosModules.facter
@@ -17,7 +16,7 @@ let
       {
         home-manager = {
           backupFileExtension = "bak";
-          userGlobalPkgs = true;
+          useGlobalPkgs = true;
           useUserPackages = true;
           users.collin = ./${name}/home.nix;
           extraSpecialArgs = {inherit inputs;};

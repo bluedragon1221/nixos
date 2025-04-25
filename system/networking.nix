@@ -1,0 +1,16 @@
+{
+  config,
+  pkgs,
+  ...
+}: {
+  # environment.etc."wpa_supplicant.conf" = config.age.secrets.wifi.path;
+  networking.networkmanager.enable = true;
+  networking.resolvconf.enable = false;
+  services.resolved = {
+    enable = true;
+    domains = [
+      "10.0.0.1"
+      "10.0.0.10"
+    ];
+  };
+}

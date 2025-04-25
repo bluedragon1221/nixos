@@ -6,14 +6,13 @@
     ../../system/battery.nix
     ../../system/audio.nix
     ../../system/bluetooth.nix
+    ../../system/networking.nix
 
     ../../system/nix.nix
     ../../system/fonts.nix
     ../../system/firefox.nix
     ../../system/desktops/hyprland.nix
   ];
-
-  networking.wireless.iwd.enable = true;
 
   users = {
     mutableUsers = false;

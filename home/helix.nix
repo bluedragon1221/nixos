@@ -19,7 +19,7 @@
     ];
 
     languages = {
-      language-server = {
+      language-server."emmet-language-server" = {
         command = "emmet-language-server";
         args = ["--stdio"];
       };

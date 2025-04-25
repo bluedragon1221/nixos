@@ -1,4 +1,8 @@
-{pkgs, inputs, ...}: {
+{
+  pkgs,
+  inputs,
+  ...
+}: {
   imports = [
     inputs.catppuccin.homeModules.catppuccin
 
@@ -17,8 +21,11 @@
     ../../home/shell.nix
     ../../home/helix.nix
     ../../home/git.nix
+    ../../home/tmux
     ../../home/cmus
   ];
+
+  programs.foot.settings.main.shell = "${pkgs.tmux}/bin/tmux";
 
   home.preferXdgDirectories = true;
   home.packages = with pkgs; [
