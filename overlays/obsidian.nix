@@ -1,6 +1,6 @@
 {pkgs, ...}: let
   pname = "obsidian";
-  version = "1.8.4";
+  version = "1.8.10";
 
   src = pkgs.fetchurl {
     url = "https://github.com/obsidianmd/obsidian-releases/releases/download/v${version}/obsidian-${version}.tar.gz";

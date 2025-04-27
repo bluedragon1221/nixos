@@ -9,6 +9,7 @@
     settings = {
       extra-experimental-features = ["nix-command" "flakes"];
       auto-optimise-store = true;
+      use-xdg-base-directories = true;
     };
   };
 
@@ -22,7 +23,7 @@
     config.allowUnfree = true;
     overlays = [
       (pkgs: super: {
-        obsidian = pkgs.callPackage ../overlays/obsidian.nix {};
+        obsidian = pkgs.callPackage ../overlays/obsidian {};
       })
     ];
   };
