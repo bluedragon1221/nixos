@@ -8,6 +8,8 @@
     ../../system/desktops/hyprland.nix
   ];
 
+  programs.command-not-found.enable = false;
+
   users = {
     mutableUsers = false;
     users.collin = {

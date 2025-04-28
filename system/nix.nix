@@ -11,6 +11,7 @@
       auto-optimise-store = true;
       use-xdg-base-directories = true;
     };
+    channel.enable = false; # eww gross
   };
 
   programs.nh = {
