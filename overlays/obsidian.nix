@@ -4,7 +4,7 @@
 
   src = pkgs.fetchurl {
     url = "https://github.com/obsidianmd/obsidian-releases/releases/download/v${version}/obsidian-${version}.tar.gz";
-    hash = "sha256-bvmvzVyHrjh1Yj3JxEfry521CMX3E2GENmXddEeLwiE=";
+    hash = "sha256-xZoi4Z9JMM/FEPfvjBXEag3pT/uJH9dvFp8qHnTFNKE=";
   };
 in
   pkgs.stdenv.mkDerivation {

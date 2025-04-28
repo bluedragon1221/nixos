@@ -23,7 +23,7 @@
     config.allowUnfree = true;
     overlays = [
       (pkgs: super: {
-        obsidian = pkgs.callPackage ../overlays/obsidian {};
+        obsidian = pkgs.callPackage ../overlays/obsidian.nix {};
       })
     ];
   };

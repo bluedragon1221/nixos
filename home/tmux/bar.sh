@@ -2,10 +2,10 @@
 
 arrow=""
 text="#c6d0f5"
-blue="#b7bdf8"
+blue="#b3befe"
 green="#a6d189"
-bg_dark="#1d1f32"
-bg_lighter="#343950"
+bg_dark="#181828"
+bg_lighter="#232839"
 
 tset() {
   tmux set -gq "$@"
