@@ -62,11 +62,6 @@
           id = 1;
         };
       };
-      userChrome = ''
-        #alltabs-button {
-          display: none !important;
-        }
-      '';
     };
   };
 }

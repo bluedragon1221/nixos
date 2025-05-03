@@ -1,35 +1,74 @@
 {inputs, ...}: let
-  mkHost = name:
+  mkUser = hostname: username: {
+    isAdmin,
+    password,
+  }: {
+    pkgs,
+    lib,
+    ...
+  }: {
+    home-manager = {
+      backupFileExtension = "bak";
+      useGlobalPkgs = true;
+      useUserPackages = true;
+      extraSpecialArgs = {inherit inputs;};
+      users."${username}" = {
+        imports = [
+          inputs.catppuccin.homeModules.catppuccin
+          ../modules/home/terminal
+          ../modules/home/firefox
+
+          ../home/common.nix
+
+          ./${hostname}/home.nix
+        ];
+      };
+    };
+
+    users.users."${username}" = {
+      isNormalUser = true;
+      shell = pkgs.bash;
+      ignoreShellProgramCheck = true;
+      description = username;
+      extraGroups =
+        ["networkmanager" "disks"]
+        ++ (
+          if isAdmin
+          then ["wheel"]
+          else []
+        );
+      hashedPassword = password;
+    };
+  };
+
+  mkHost = hostname:
     inputs.nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
       modules = [
-        {networking.hostName = name;}
+        {networking.hostName = hostname;}
 
-        ./common.nix
+        ../system/common.nix
 
-        ./${name}/system.nix
+        ./${hostname}/system.nix
 
         inputs.disko.nixosModules.disko
-        ./${name}/disks.nix
+        ./${hostname}/disks.nix
 
         # Hardware-specific configuration
         inputs.nixos-facter-modules.nixosModules.facter
-        {config.facter.reportPath = ./${name}/facter.json;}
+        {config.facter.reportPath = ./${hostname}/facter.json;}
 
         # Home-manager
         inputs.home-manager.nixosModules.home-manager
-        {
-          home-manager = {
-            backupFileExtension = "bak";
-            useGlobalPkgs = true;
-            useUserPackages = true;
-            users.collin = ./${name}/home.nix;
-            extraSpecialArgs = {inherit inputs;};
-          };
-        }
+        (mkUser hostname "collin" {
+          isAdmin = true;
+          password = "$y$j9T$08yFysn8jr9K4Wk.hYXbG0$NzY9vIbNknJViA..Jw.vF8wmQtBgEZZU.cdLQOmDvU2";
+        })
       ];
     };
 in {
-  mercury = mkHost "mercury";
-  jupiter = mkHost "jupiter";
+  nixosConfigurations = {
+    mercury = mkHost "mercury";
+    jupiter = mkHost "jupiter";
+  };
 }

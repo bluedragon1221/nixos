@@ -6,6 +6,8 @@
   imports = [
     inputs.catppuccin.homeModules.catppuccin
 
+    ../../modules/home/terminal
+
     # Desktop
     ../../home/hyprland.nix
     ../../home/waybar
@@ -18,15 +20,47 @@
     ../../home/foot.nix
 
     # Term
-    ../../home/shell.nix
-    ../../home/helix.nix
     ../../home/git.nix
     ../../home/nh.nix
-    ../../home/tmux
     ../../home/cmus
   ];
 
-  programs.foot.settings.main.shell = "${pkgs.tmux}/bin/tmux";
+  collinux.terminal = {
+    terminalEmulators.foot = {
+      enable = true;
+      useTmux = true;
+    };
+
+    theme = "catppuccin";
+
+    shells = {
+      fish.enable = true;
+    };
+
+    programs = {
+      starship = {
+        enable = true;
+        theme = "minimal";
+      };
+
+      bat = {
+        enable = true;
+        alias = true;
+      };
+
+      eza = {
+        enable = true;
+        alias = true;
+      };
+
+      fzf.enable = true;
+
+      helix = {
+        enable = true;
+        hardMode = true;
+      };
+    };
+  };
 
   home.preferXdgDirectories = true;
   home.packages = with pkgs; [

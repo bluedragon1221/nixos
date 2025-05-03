@@ -8,7 +8,6 @@
     fd
   ];
 
-  programs.command-not-found.enable = false; # errors unless I use nix channels (eww)
   home.shell = {
     enableBashIntegration = false;
     enableZshIntegration = false;

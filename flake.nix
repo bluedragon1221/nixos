@@ -12,7 +12,5 @@
     };
   };
 
-  outputs = inputs: {
-    nixosConfigurations = import ./hosts {inherit inputs;};
-  };
+  outputs = inputs: import ./hosts {inherit inputs;};
 }
