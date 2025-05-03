@@ -1,14 +1,18 @@
 {pkgs, ...}: {
   imports = [
     ../../system/battery.nix
+    # ../../system/networking.nix
+    ../../system/networking_iwd.nix
 
-    ../../system/nix.nix
     ../../system/fonts.nix
-    ../../system/firefox.nix
     ../../system/desktops/hyprland.nix
   ];
 
   programs.command-not-found.enable = false;
+
+  environment.systemPackages = with pkgs; [foot.terminfo];
+
+  services.sshd.enable = true;
 
   users = {
     mutableUsers = false;

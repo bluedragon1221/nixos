@@ -21,6 +21,7 @@
     ../../home/shell.nix
     ../../home/helix.nix
     ../../home/git.nix
+    ../../home/nh.nix
     ../../home/tmux
     ../../home/cmus
   ];

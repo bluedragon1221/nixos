@@ -4,6 +4,6 @@
       enable = true;
       wayland = true;
     };
-    gnome.enable = true;
+    desktopManager.gnome.enable = true;
   };
 }

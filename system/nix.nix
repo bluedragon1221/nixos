@@ -1,4 +1,4 @@
-{
+{pkgs, ...}: {
   nix = {
     gc.automatic = false; # use nh cleaner instead
 
@@ -11,21 +11,16 @@
       auto-optimise-store = true;
       use-xdg-base-directories = true;
     };
-    channel.enable = false; # eww gross
   };
 
-  programs.nh = {
-    enable = true;
-    clean.enable = true;
-    flake = "/home/collin/nixos";
-  };
+  # Disable channels
+  nix.channel.enable = false;
+  programs.command-not-found.enable = false; # breaks unless you use channels
 
   nixpkgs = {
     config.allowUnfree = true;
     overlays = [
-      (pkgs: super: {
-        obsidian = pkgs.callPackage ../overlays/obsidian.nix {};
-      })
+      (import ../overlays/obsidian.nix {})
     ];
   };
 }

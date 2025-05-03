@@ -20,9 +20,9 @@
     enable = true;
     generateCompletions = true;
     shellAliases = {
-      ls = "${pkgs.eza}/bin/eza -A -w 80 --group-directories-first";
-      tree = "${pkgs.eza}/bin/eza -T";
-      cat = "${pkgs.bat}/bin/bat";
+      ls = "eza";
+      tree = "eza -T";
+      cat = "bat";
     };
     shellAbbrs = {
       nh = "nh os switch";
@@ -37,6 +37,22 @@
 
   catppuccin.fzf.enable = false;
   programs.fzf.enable = true;
+
+  catppuccin.bat.enable = false;
+  programs.bat = {
+    enable = true;
+    config.theme = "base16";
+  };
+
+  programs.eza = {
+    enable = true;
+    extraOptions = [
+      "-A"
+      "-w"
+      "80"
+      "--group-directories-first"
+    ];
+  };
 
   catppuccin.starship.enable = false;
   programs.starship = {

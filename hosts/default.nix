@@ -8,6 +8,8 @@
         ./common.nix
 
         ./${name}/system.nix
+
+        inputs.disko.nixosModules.disko
         ./${name}/disks.nix
 
         # Hardware-specific configuration
@@ -29,5 +31,5 @@
     };
 in {
   mercury = mkHost "mercury";
-  # jupiter = mkHost "jupiter";
+  jupiter = mkHost "jupiter";
 }
