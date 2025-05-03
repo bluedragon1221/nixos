@@ -19,15 +19,15 @@
           install_url = "https://addons.mozilla.org/firefox/downloads/latest/${name}/latest.xpi";
         };
       in
-        lib.mkMerge [
-          {
-            "{446900e4-71c2-419f-a6a7-df9c091e268b}" = ext "bitwarden-password-manager";
-            "uBlock0@raymondhill.net" = ext "uBlock0@raymondhill.net";
-          }
-          (lib.mkIf (config.collinux.firefox.theme == "catppuccin") {
-            "{88b098c8-19be-421e-8ffa-85ddd1f3f004}" = ext "catppuccin-mocha-blue";
-          })
-        ];
+        # lib.mkMerge [
+        {
+          "{446900e4-71c2-419f-a6a7-df9c091e268b}" = ext "bitwarden-password-manager";
+          "uBlock0@raymondhill.net" = ext "uBlock0@raymondhill.net";
+        };
+      #   (lib.mkIf (config.collinux.firefox.theme == "catppuccin") {
+      #     "{88b098c8-19be-421e-8ffa-85ddd1f3f004}" = ext "catppuccin-mocha-blue";
+      #   })
+      # ];
     };
   };
 }

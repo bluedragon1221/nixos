@@ -5,7 +5,7 @@
 }: {
   imports = [
     ../../system/bootloader.nix
-    ../../system/networking_iwd.nix
+    ../../system/networking.nix # apparently gnome only supports networkmanager
 
     ../../system/desktops/gnome.nix
   ];

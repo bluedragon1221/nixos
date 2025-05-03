@@ -15,4 +15,29 @@
       package = pkgs.adw-gtk3;
     };
   };
+
+  home.packages = with pkgs.gnomeExtensions; [
+    blur-my-shell
+  ];
+
+  dconf = {
+    enable = true;
+    settings = {
+      "org/gnome/desktop/interface" = {
+        color-scheme = "prefer-dark";
+      };
+
+      "org/gnome/desktop/background" = rec {
+        picture-uri = "file://${pkgs.gnome-backgrounds}/share/backgrounds/gnome/blobs-d.svg";
+        picture-uri-dark = picture-uri;
+      };
+
+      "org/gnome/shell" = {
+        disable-user-extensions = false;
+        enabled-extensions = with pkgs.gnomeExtensions; [
+          blur-my-shell.extensionUuid
+        ];
+      };
+    };
+  };
 }

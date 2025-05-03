@@ -27,6 +27,7 @@
     dhcpcd.enable = false;
     useDHCP = false;
     resolvconf.enable = false;
+    networkmanager.enable = false;
   };
 
   environment.systemPackages = [pkgs.openvpn];

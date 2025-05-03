@@ -8,6 +8,8 @@
     ../../system/desktops/hyprland.nix
   ];
 
+  services.blueman.enable = true;
+
   programs.command-not-found.enable = false;
 
   environment.systemPackages = with pkgs; [foot.terminfo];
