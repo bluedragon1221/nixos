@@ -4,8 +4,6 @@
   ...
 }: {
   imports = [
-    inputs.catppuccin.homeModules.catppuccin
-
     ../../modules/home/terminal
 
     # Desktop
@@ -15,7 +13,6 @@
     ../../home/gtk.nix
 
     # GUI
-    ../../home/firefox.nix
     ../../home/fuzzel.nix
     ../../home/foot.nix
 
@@ -25,40 +22,46 @@
     ../../home/cmus
   ];
 
-  collinux.terminal = {
-    terminalEmulators.foot = {
-      enable = true;
-      useTmux = true;
+  collinux = {
+    terminal = {
+      theme = "catppuccin";
+
+      terminalEmulators.foot = {
+        enable = true;
+        useTmux = true;
+      };
+
+      shells = {
+        fish.enable = true;
+      };
+
+      programs = {
+        starship = {
+          enable = true;
+          theme = "minimal";
+        };
+
+        bat = {
+          enable = true;
+          alias = true;
+        };
+
+        eza = {
+          enable = true;
+          alias = true;
+        };
+
+        fzf.enable = true;
+
+        helix = {
+          enable = true;
+          hardMode = true;
+        };
+      };
     };
-
-    theme = "catppuccin";
-
-    shells = {
-      fish.enable = true;
-    };
-
-    programs = {
-      starship = {
-        enable = true;
-        theme = "minimal";
-      };
-
-      bat = {
-        enable = true;
-        alias = true;
-      };
-
-      eza = {
-        enable = true;
-        alias = true;
-      };
-
-      fzf.enable = true;
-
-      helix = {
-        enable = true;
-        hardMode = true;
-      };
+    firefox = {
+      theme = "catppuccin";
+      profileName = "default";
     };
   };
 
