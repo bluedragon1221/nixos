@@ -4,6 +4,8 @@ in {
   imports = [
     ./package.nix
     ./profile.nix
+    ./theme_gtk.nix
+    ./theme_catppuccin.nix
   ];
 
   options = {

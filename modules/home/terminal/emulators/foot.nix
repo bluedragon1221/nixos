@@ -12,6 +12,7 @@ in {
       useTmux = mkOption {
         type = types.bool;
         description = "Make new tmux sessions in new foot windows to allow for splitting and tabs";
+        default = false;
       };
     };
   };

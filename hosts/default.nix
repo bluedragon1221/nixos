@@ -15,8 +15,7 @@
       users."${username}" = {
         imports = [
           inputs.catppuccin.homeModules.catppuccin
-          ../modules/home/terminal
-          ../modules/home/firefox
+          ../modules/home
 
           ../home/common.nix
 
@@ -27,7 +26,7 @@
 
     users.users."${username}" = {
       isNormalUser = true;
-      shell = pkgs.bash;
+      shell = pkgs.fish;
       ignoreShellProgramCheck = true;
       description = username;
       extraGroups =
