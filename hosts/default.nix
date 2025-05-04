@@ -15,19 +15,21 @@
       users."${username}" = {
         imports = [
           inputs.catppuccin.homeModules.catppuccin
-          ../modules/home
+          ../modules/home.nix
 
           ../home/common.nix
 
           ./${hostname}/home.nix
+
+          ./${hostname}/config.nix
         ];
       };
     };
 
     users.users."${username}" = {
       isNormalUser = true;
-      shell = pkgs.fish;
-      ignoreShellProgramCheck = true;
+      # shell = pkgs.fish;
+      # ignoreShellProgramCheck = true;
       description = username;
       extraGroups =
         ["networkmanager" "disks"]
@@ -46,9 +48,12 @@
       modules = [
         {networking.hostName = hostname;}
 
+        ../modules/nixos.nix
+
         ../system/common.nix
 
         ./${hostname}/system.nix
+        ./${hostname}/config.nix
 
         inputs.disko.nixosModules.disko
         ./${hostname}/disks.nix
