@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  inherit (lib) mkEnableOption mkOption types;
+  inherit (lib) mkOption mkEnableOption types;
 in {
   options = {
     collinux.terminal = {
@@ -18,6 +18,7 @@ in {
           useTmux = mkOption {
             type = types.bool;
             description = "Make new tmux sessions for new foot windows to allow for splitting and tabs";
+            default = false;
           };
         };
 
@@ -80,6 +81,7 @@ in {
           enable = mkOption {
             type = types.bool;
             description = "Whether to enable the tmux terminal multiplexer";
+            default = config.collinux.terminal.terminalEmulators.foot.useTmux;
           };
         };
 

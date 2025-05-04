@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  cfg = config.collinux.terminal.packages.tmux;
+  cfg = config.collinux.terminal.programs.tmux;
 in
   lib.mkIf cfg.enable {
     programs.tmux = {

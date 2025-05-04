@@ -2,9 +2,9 @@
   inherit (lib) mkOption types;
 in {
   imports = [
-    ./firefox
-    ./terminal
-    ./gtk
+    ./firefox/options.nix
+    ./terminal/options.nix
+    ./gtk/options.nix
   ];
 
   options = {

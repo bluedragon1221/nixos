@@ -20,7 +20,6 @@
           ../home/common.nix
 
           ./${hostname}/home.nix
-
           ./${hostname}/config.nix
         ];
       };
