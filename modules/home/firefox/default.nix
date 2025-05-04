@@ -8,7 +8,7 @@ in {
   imports = [
     ./package.nix
     ./profile.nix
-    ./theme_gtk.nix
+    ./theme_adwaita.nix
     ./theme_catppuccin.nix
   ];
 
@@ -18,18 +18,13 @@ in {
         type = types.str;
       };
       theme = mkOption {
-        type = types.enum ["none" "catppuccin" "gtk"];
+        type = types.enum ["none" "catppuccin" "adwaita"];
         default = "none";
       };
     };
   };
 
-  config = let
-    cfg = config.collinux.firefox;
-  in {
+  config = {
     programs.firefox.enable = true;
-
-    # keeps getting backup errors for some reason
-    home.file.".mozilla/${cfg.profileName}/search.json.mozlz4".force = true;
   };
 }

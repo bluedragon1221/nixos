@@ -24,7 +24,7 @@ in {
   options = {
     collinux.terminal = {
       theme = mkOption {
-        type = types.enum ["catppuccin" "gtk"];
+        type = types.enum ["catppuccin" "adwaita"];
       };
     };
   };

@@ -16,7 +16,7 @@
 
   collinux = {
     terminal = {
-      theme = "gtk";
+      theme = "adwaita";
 
       terminalEmulators.blackbox.enable = true;
 
@@ -50,7 +50,7 @@
     gtk.theme = "adwaita";
 
     firefox = {
-      theme = "gtk";
+      theme = "adwaita";
       profileName = "default";
     };
   };

@@ -11,7 +11,7 @@
     rev = "59e3de00f01e5adb851d824cf7911bd90c31083a";
   };
 in
-  lib.mkIf (cfg.theme == "gtk") {
+  lib.mkIf (cfg.theme == "adwaita") {
     home.file.".mozilla/firefox/${cfg.profileName}/chrome" = {
       recursive = true;
       source = firefox-gnome-theme;
