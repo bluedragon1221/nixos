@@ -5,9 +5,12 @@
   ];
 
   config = {
-    gtk.iconTheme = {
-      package = pkgs.papirus-icon-theme;
-      name = "Papirus";
+    gtk = {
+      enable = true;
+      iconTheme = {
+        package = pkgs.papirus-icon-theme;
+        name = "Papirus";
+      };
     };
   };
 }

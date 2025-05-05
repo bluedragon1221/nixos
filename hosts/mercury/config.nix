@@ -1,11 +1,13 @@
 {
   collinux = {
+    username = "collin";
+
     terminal = {
       theme = "catppuccin";
 
       terminalEmulators.foot = {
-        enable = true;
         useTmux = true;
+        enable = true;
       };
 
       shells.fish.enable = true;

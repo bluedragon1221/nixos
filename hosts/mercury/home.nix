@@ -4,20 +4,15 @@
   ...
 }: {
   imports = [
-    ../../modules/home/terminal
-
     # Desktop
     ../../home/hyprland.nix
     ../../home/waybar
     ../../home/dunst.nix
-    ../../home/gtk.nix
 
     # GUI
     ../../home/fuzzel.nix
-    ../../home/foot.nix
 
     # Term
-    ../../home/git.nix
     ../../home/nh.nix
     ../../home/cmus
   ];

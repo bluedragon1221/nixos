@@ -15,7 +15,7 @@ in
         source-file ${./tmux.conf}
         ${
           if (config.collinux.terminal.theme == "catppuccin")
-          then "run-shell ${./bar.sh}"
+          then "\nrun-shell ${./bar.sh}"
           else ""
         }
       '';
