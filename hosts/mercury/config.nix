@@ -37,9 +37,21 @@
       };
     };
 
+    boot = {
+      bootloader = "systemd-boot";
+      theme = "catppuccin";
+      plymouth.enable = true;
+    };
+
     gtk.theme = "catppuccin";
 
+    networking = {
+      enable = true;
+      wifiDaemon = "iwd";
+    };
+
     firefox = {
+      enable = true;
       theme = "catppuccin";
       profileName = "default";
     };

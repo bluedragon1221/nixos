@@ -5,7 +5,7 @@
 }: let
   cfg = config.collinux.firefox;
 in
-  lib.mkIf (cfg.theme == "catppuccin") {
+  lib.mkIf (cfg.enable && cfg.theme == "catppuccin") {
     programs.firefox.profiles."${cfg.profileName}".settings = {
       "browser.compactmode.show" = true;
       "browser.uidensity" = 1;

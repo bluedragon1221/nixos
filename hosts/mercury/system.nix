@@ -1,8 +1,6 @@
 {pkgs, ...}: {
   imports = [
     ../../system/battery.nix
-    # ../../system/networking.nix
-    ../../system/networking_iwd.nix
 
     ../../system/fonts.nix
     ../../system/desktops/hyprland.nix
