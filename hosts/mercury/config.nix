@@ -33,6 +33,8 @@
         eza.enable = true;
         fzf.enable = true;
 
+        cmus.enable = true;
+
         helix = {
           enable = true;
           hardMode = true;

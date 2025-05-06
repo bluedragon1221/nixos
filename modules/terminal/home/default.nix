@@ -5,6 +5,7 @@
 
     ./programs/tmux
     ./programs/starship
+    ./programs/cmus
     ./programs/bat.nix
     ./programs/helix.nix
     ./programs/eza.nix

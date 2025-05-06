@@ -1,8 +1,6 @@
 {pkgs, ...}: {
   imports = [
     ../../home/nh.nix
-    ../../home/cmus
-
     ../../home/git.nix
   ];
 

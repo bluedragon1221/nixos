@@ -57,20 +57,11 @@ in {
       };
 
       programs = {
-        bat = {
-          enable = mkEnableOption "bat";
-          alias = mkOption {
-            type = types.bool;
-            description = "make alias to run bat on cat";
-          };
-        };
-        eza = {
-          enable = mkEnableOption "eza";
-          alias = mkOption {
-            type = types.bool;
-            description = "make alias to run eza on ls";
-          };
-        };
+        bat.enable = mkEnableOption "bat";
+        eza.enable = mkEnableOption "eza";
+        fzf.enable = mkEnableOption "fzf";
+
+        cmus.enable = mkEnableOption "cmus";
 
         starship = {
           enable = mkEnableOption "starship prompt";
@@ -96,8 +87,6 @@ in {
             default = config.collinux.terminal.terminalEmulators.foot.useTmux;
           };
         };
-
-        fzf.enable = mkEnableOption "fzf";
       };
     };
   };
