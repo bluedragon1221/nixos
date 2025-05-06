@@ -1,10 +1,25 @@
 {
   collinux = {
-    username = "collin";
+    user = {
+      name = "collin";
+      password = "$y$j9T$08yFysn8jr9K4Wk.hYXbG0$NzY9vIbNknJViA..Jw.vF8wmQtBgEZZU.cdLQOmDvU2";
+    };
+
+    theme = "catppuccin";
+
+    desktop = {
+      hyprland = {
+        enable = true;
+        useUwsm = true;
+        components = {
+          waybar.enable = true;
+          dunst.enable = true;
+          fuzzel.enable = true;
+        };
+      };
+    };
 
     terminal = {
-      theme = "catppuccin";
-
       terminalEmulators.foot = {
         useTmux = true;
         enable = true;
@@ -13,21 +28,9 @@
       shells.fish.enable = true;
 
       programs = {
-        starship = {
-          enable = true;
-          theme = "minimal";
-        };
-
-        bat = {
-          enable = true;
-          alias = true;
-        };
-
-        eza = {
-          enable = true;
-          alias = true;
-        };
-
+        starship.enable = true;
+        bat.enable = true;
+        eza.enable = true;
         fzf.enable = true;
 
         helix = {
@@ -39,21 +42,14 @@
 
     boot = {
       bootloader = "systemd-boot";
-      theme = "catppuccin";
       plymouth.enable = true;
     };
-
-    gtk.theme = "catppuccin";
 
     networking = {
       enable = true;
       wifiDaemon = "iwd";
     };
 
-    firefox = {
-      enable = true;
-      theme = "catppuccin";
-      profileName = "default";
-    };
+    firefox.enable = true;
   };
 }

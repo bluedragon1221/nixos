@@ -1,20 +1,9 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: {
+{pkgs, ...}: {
   imports = [
-    # Desktop
-    ../../home/hyprland.nix
-    ../../home/waybar
-    ../../home/dunst.nix
-
-    # GUI
-    ../../home/fuzzel.nix
-
-    # Term
     ../../home/nh.nix
     ../../home/cmus
+
+    ../../home/git.nix
   ];
 
   home.preferXdgDirectories = true;

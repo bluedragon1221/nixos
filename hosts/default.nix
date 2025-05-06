@@ -1,12 +1,5 @@
 {inputs, ...}: let
   mkUser = hostname: username: {
-    isAdmin,
-    password,
-  }: {
-    pkgs,
-    lib,
-    ...
-  }: {
     home-manager = {
       backupFileExtension = "bak";
       useGlobalPkgs = true;
@@ -17,27 +10,10 @@
           inputs.catppuccin.homeModules.catppuccin
           ../modules/home.nix
 
-          ../home/common.nix
-
           ./${hostname}/home.nix
           ./${hostname}/config.nix
         ];
       };
-    };
-
-    users.users."${username}" = {
-      isNormalUser = true;
-      # shell = pkgs.fish;
-      # ignoreShellProgramCheck = true;
-      description = username;
-      extraGroups =
-        ["networkmanager" "disks"]
-        ++ (
-          if isAdmin
-          then ["wheel"]
-          else []
-        );
-      hashedPassword = password;
     };
   };
 
@@ -48,8 +24,6 @@
         {networking.hostName = hostname;}
 
         ../modules/nixos.nix
-
-        ../system/common.nix
 
         ./${hostname}/system.nix
         ./${hostname}/config.nix
@@ -63,10 +37,7 @@
 
         # Home-manager
         inputs.home-manager.nixosModules.home-manager
-        (mkUser hostname "collin" {
-          isAdmin = true;
-          password = "$y$j9T$08yFysn8jr9K4Wk.hYXbG0$NzY9vIbNknJViA..Jw.vF8wmQtBgEZZU.cdLQOmDvU2";
-        })
+        (mkUser hostname "collin")
       ];
     };
 in {

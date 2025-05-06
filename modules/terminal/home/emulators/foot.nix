@@ -12,7 +12,7 @@ in
       enable = true;
       server.enable = true;
       settings.main = {
-        font = "IosevkaNerdFont:size=12";
+        font = "${config.collinux.terminal.font.name}:size=12";
         shell = lib.mkIf cfg.useTmux "${pkgs.tmux}/bin/tmux";
       };
     };

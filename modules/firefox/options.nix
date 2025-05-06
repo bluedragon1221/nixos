@@ -10,11 +10,11 @@ in {
       enable = mkEnableOption "firefox";
       profileName = mkOption {
         type = types.str;
-        default = config.collinux.username;
+        default = config.collinux.user.name;
       };
       theme = mkOption {
         type = types.enum ["none" "catppuccin" "adwaita"];
-        default = "none";
+        default = config.collinux.theme;
       };
     };
   };

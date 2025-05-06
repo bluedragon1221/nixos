@@ -10,6 +10,18 @@ in {
     collinux.terminal = {
       theme = mkOption {
         type = types.enum ["catppuccin" "adwaita"];
+        default = config.collinux.theme;
+      };
+
+      font = {
+        package = mkOption {
+          type = types.package;
+          default = pkgs.nerd-fonts.iosevka;
+        };
+        name = mkOption {
+          type = types.str;
+          default = "IosevkaNerdFont";
+        };
       };
 
       terminalEmulators = {
@@ -64,7 +76,7 @@ in {
           enable = mkEnableOption "starship prompt";
           theme = mkOption {
             type = types.enum ["default" "minimal" "powerline"];
-            default = "default";
+            default = "minimal";
           };
         };
 

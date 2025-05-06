@@ -6,5 +6,7 @@
     ./terminal/home.nix
     ./networking/home.nix
     ./bootloader/home.nix
+    ./desktop/home.nix
+    ./user/home.nix
   ];
 }
