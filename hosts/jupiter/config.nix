@@ -4,7 +4,7 @@
 
     user = {
       name = "collin";
-      email = "cwilliams1221@proton.me";
+      email = "96917990+bluedragon1221@users.noreply.github.com";
       password = "$y$j9T$08yFysn8jr9K4Wk.hYXbG0$NzY9vIbNknJViA..Jw.vF8wmQtBgEZZU.cdLQOmDvU2";
     };
 
