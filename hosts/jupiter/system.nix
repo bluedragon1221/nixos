@@ -4,8 +4,10 @@
   ...
 }: {
   imports = [
-    ../../system/bootloader.nix
-    ../../system/desktops/gnome.nix
+    ../../system/nix.nix
+
+    ../../system/bluetooth.nix
+    ../../system/audio.nix
   ];
 
   systemd.network.wait-online.enable = false; # fix for weird wifi issue

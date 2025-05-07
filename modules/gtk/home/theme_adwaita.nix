@@ -21,10 +21,6 @@ in
       package = pkgs.adw-gtk3;
     };
 
-    home.packages = with pkgs.gnomeExtensions; [
-      blur-my-shell
-    ];
-
     dconf = {
       enable = true;
       settings = {

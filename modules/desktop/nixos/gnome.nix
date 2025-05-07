@@ -18,10 +18,10 @@ in
     environment.gnome.excludePackages = with pkgs; [
       orca
       evince
-      # file-roller
+      file-roller
       geary
       gnome-disk-utility
-      # seahorse
+      seahorse
       # sushi
       # sysprof
       # gnome-shell-extensions

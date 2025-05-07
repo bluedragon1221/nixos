@@ -1,9 +1,4 @@
-{
-  pkgs,
-  config,
-  lib,
-  ...
-}: let
+{config, ...}: let
   cfg = config.collinux.user;
 in {
   programs.git = {
@@ -16,6 +11,11 @@ in {
     };
     extraConfig = {
       init.defaultBranch = "main";
+
+      gpg.format = "ssh";
+      user.signingkey = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
     };
   };
+
+  home.preferXdgDirectories = true;
 }

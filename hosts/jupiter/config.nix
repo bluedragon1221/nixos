@@ -1,34 +1,33 @@
 {
   collinux = {
-    username = "collin";
+    theme = "adwaita";
+
+    user = {
+      name = "collin";
+      email = "cwilliams1221@proton.me";
+      password = "$y$j9T$08yFysn8jr9K4Wk.hYXbG0$NzY9vIbNknJViA..Jw.vF8wmQtBgEZZU.cdLQOmDvU2";
+    };
+
+    desktop = {
+      gnome.enable = true;
+    };
 
     terminal = {
       theme = "adwaita";
 
-      terminalEmulators = {
-        useTmux = true;
-        blackbox.enable = true;
-      };
+      terminalEmulators.blackbox.enable = true;
 
       shells.fish.enable = true;
 
       programs = {
+        bat.enable = true;
+        eza.enable = true;
+        fzf.enable = true;
+
         starship = {
           enable = true;
           theme = "default";
         };
-
-        bat = {
-          enable = true;
-          alias = true;
-        };
-
-        eza = {
-          enable = true;
-          alias = true;
-        };
-
-        fzf.enable = true;
 
         helix = {
           enable = true;
@@ -37,23 +36,17 @@
       };
     };
 
-    bootloader = {
+    boot = {
       theme = "default";
       bootloader = "systemd-boot";
       plymouth.enable = true;
     };
-
-    gtk.theme = "adwaita";
 
     networking = {
       enable = true;
       wifiDaemon = "networkmanager"; # apparently gnome doesn't support iwd
     };
 
-    firefox = {
-      enable = true;
-      theme = "adwaita";
-      profileName = "default";
-    };
+    firefox.enable = true;
   };
 }

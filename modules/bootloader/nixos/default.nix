@@ -28,7 +28,7 @@ in {
       theme =
         if (cfg.theme == "catppuccin")
         then "catppuccin-macchiato" # for whatever reasom catppuccin-mocha has build errors
-        else "nixos-bgrt-plymouth";
+        else "nixos-bgrt";
       themePackages =
         if (cfg.theme == "catppuccin")
         then [pkgs.catppuccin-plymouth]
