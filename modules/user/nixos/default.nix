@@ -4,7 +4,6 @@ in {
   users.users."${cfg.name}" = {
     isNormalUser = true;
     description = cfg.name;
-    # group = cfg.name;
     extraGroups =
       ["networkmanager" "disks"]
       ++ (
@@ -14,5 +13,6 @@ in {
       );
     hashedPassword = cfg.password;
   };
-  # users.groups."${cfg.name}" = {};
+
+  security.sudo-rs.enable = true;
 }

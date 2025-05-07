@@ -1,7 +1,6 @@
 {pkgs, ...}: {
   imports = [
     ../../home/nh.nix
-    ../../home/git.nix
   ];
 
   home.preferXdgDirectories = true;

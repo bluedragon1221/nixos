@@ -1,6 +1,6 @@
 {
   pkgs,
-  options,
+  config,
   lib,
   ...
 }: let
@@ -9,6 +9,13 @@ in {
   options = {
     collinux.user = {
       name = mkOption {
+        type = types.str;
+      };
+      fullName = mkOption {
+        type = types.str;
+        default = config.collinux.user.name;
+      };
+      email = mkOption {
         type = types.str;
       };
       password = mkOption {
