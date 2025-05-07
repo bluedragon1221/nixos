@@ -25,18 +25,14 @@ in {
       };
 
       terminalEmulators = {
-        foot = {
-          enable = mkEnableOption "the foot terminal emulator";
-          useTmux = mkOption {
-            type = types.bool;
-            description = "Make new tmux sessions for new foot windows to allow for splitting and tabs";
-            default = false;
-          };
+        useTmux = mkOption {
+          type = types.bool;
+          description = "Make new tmux sessions for new foot windows to allow for splitting and tabs";
+          default = false;
         };
 
-        blackbox = {
-          enable = mkEnableOption "the Black Box terminal emulator (for adwaita)";
-        };
+        foot.enable = mkEnableOption "the foot terminal emulator";
+        blackbox.enable = mkEnableOption "the Black Box terminal emulator (for adwaita)";
       };
 
       shells = {
@@ -84,7 +80,7 @@ in {
           enable = mkOption {
             type = types.bool;
             description = "Whether to enable the tmux terminal multiplexer";
-            default = config.collinux.terminal.terminalEmulators.foot.useTmux;
+            default = config.collinux.terminal.terminalEmulators.useTmux;
           };
         };
       };

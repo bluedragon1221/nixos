@@ -5,7 +5,10 @@
     terminal = {
       theme = "adwaita";
 
-      terminalEmulators.blackbox.enable = true;
+      terminalEmulators = {
+        useTmux = true;
+        blackbox.enable = true;
+      };
 
       shells.fish.enable = true;
 

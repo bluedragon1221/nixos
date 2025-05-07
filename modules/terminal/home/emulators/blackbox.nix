@@ -22,8 +22,11 @@ in
           show-scrollbars = false;
           terminal-padding = "(10, 10, 10, 10)";
 
-          floating-controlls = false;
+          floating-controls = false;
           show-headerbar = true;
+
+          use-custom-command = config.collinux.terminal.terminalEmulators.useTmux;
+          custom-shell-command = lib.mkIf config.collinux.terminal.terminalEmulators.useTmux "${pkgs.tmux}/bin/tmux";
         };
       };
     };
