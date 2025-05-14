@@ -3,7 +3,7 @@
 in {
   users.users."${cfg.name}" = {
     isNormalUser = true;
-    description = cfg.name;
+    description = cfg.fullName;
     extraGroups =
       ["networkmanager" "disks"]
       ++ (

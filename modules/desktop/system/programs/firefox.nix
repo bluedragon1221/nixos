@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  cfg = config.collinux.firefox;
+  cfg = config.collinux.desktop.programs.firefox;
 in
   lib.mkIf cfg.enable {
     programs.firefox = {

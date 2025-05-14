@@ -3,9 +3,9 @@
   lib,
   ...
 }: let
-  cfg = config.collinux.firefox;
+  cfg = config.collinux.desktop.programs.firefox;
 in
-  (lib.mkIf cfg.enable) {
+  lib.mkIf cfg.enable {
     programs.firefox.profiles."${cfg.profileName}" = {
       isDefault = true;
       search.default = "ddg";

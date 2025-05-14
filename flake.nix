@@ -22,5 +22,6 @@
     };
   };
 
-  outputs = inputs: import ./hosts {inherit inputs;};
+  outputs = inputs:
+    (import ./lib/nix-furnace {inherit inputs;}).mkFlake;
 }

@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  cfg = config.collinux.firefox;
+  cfg = config.collinux.desktop.programs.firefox;
 
   firefox-gnome-theme = builtins.fetchGit {
     url = "https://github.com/rafaelmardojai/firefox-gnome-theme";

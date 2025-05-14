@@ -8,3 +8,30 @@ A host config has many parts
 - system config
 - hardware config (facter)
   - disks config (disko or manual)
+
+## Dream hosts/config.nix
+```nix
+collinux = {
+  user = {
+    fullName = "";
+    name = "";
+    email = "";
+    password = "";
+  };
+
+  theme = "";
+
+  desktop = {
+    programs = {};
+  };
+
+  terminal = {
+    programs = {};
+  };
+
+  boot = {};
+
+  extraNixosModules = [];
+  extraHomeModules = [];
+};
+```

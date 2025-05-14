@@ -11,9 +11,6 @@ in {
     };
     extraConfig = {
       init.defaultBranch = "main";
-
-      # gpg.format = "ssh";
-      # user.signingkey = "${config.home.homeDirectory}/.ssh/id_ed25519.pub";
     };
   };
 

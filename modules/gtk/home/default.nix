@@ -1,7 +1,7 @@
 {pkgs, ...}: {
   imports = [
-    ./theme_adwaita.nix
-    ./theme_catppuccin.nix
+    ./adwaita.nix
+    ./catppuccin.nix
   ];
 
   config = {

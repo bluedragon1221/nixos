@@ -29,16 +29,20 @@ in {
         };
       };
       gnome.enable = mkEnableOption "gnome";
-      # shortcuts = mkOption {
-      #   type = types.listOf types.submodule {
-      #     key = mkOption {
-      #       type = types.str;
-      #     };
-      #     command = mkOption {
-      #       type = types.str;
-      #     };
-      #   };
-      # };
+
+      programs = {
+        firefox = {
+          enable = mkEnableOption "firefox";
+          profileName = mkOption {
+            type = types.str;
+            default = config.collinux.user.name;
+          };
+          theme = mkOption {
+            type = types.enum ["none" "catppuccin" "adwaita"];
+            default = config.collinux.theme;
+          };
+        };
+      };
     };
   };
 }

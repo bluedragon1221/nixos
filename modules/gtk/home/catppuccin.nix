@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  cfg = config.collinux.firefox;
+  cfg = config.collinux.gtk;
 in
   lib.mkIf (cfg.theme == "catppuccin") {
     home.pointerCursor = {
