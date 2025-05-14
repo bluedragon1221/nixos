@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{
   nix = {
     gc.automatic = false; # use nh cleaner instead
 
@@ -7,7 +7,7 @@
     daemonIOSchedClass = "idle";
 
     settings = {
-      extra-experimental-features = ["nix-command" "flakes"];
+      extra-experimental-features = ["nix-command" "flakes" "pipe-operators"];
       auto-optimise-store = true;
       use-xdg-base-directories = true;
     };

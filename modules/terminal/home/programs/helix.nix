@@ -2,6 +2,7 @@
   pkgs,
   lib,
   config,
+  inputs,
   ...
 }: let
   cfg = config.collinux.terminal.programs.helix;
@@ -15,6 +16,7 @@ in
       # lsp servers
       extraPackages = with pkgs; [
         nil
+        inputs.nil_ls.packages."${pkgs.system}".default
         rust-analyzer
         lua-language-server
         vscode-langservers-extracted

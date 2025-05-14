@@ -1,8 +1,8 @@
-{
+{...} @ args: {
   collinux = {
     user = {
       fullName = "Collin Williams";
-      name = "collin";
+      name = args.username;
       email = "96917990+bluedragon1221@users.noreply.github.com";
       password = "$y$j9T$08yFysn8jr9K4Wk.hYXbG0$NzY9vIbNknJViA..Jw.vF8wmQtBgEZZU.cdLQOmDvU2";
     };
@@ -22,9 +22,9 @@
     };
 
     terminal = {
-      terminalEmulators.foot = {
+      terminalEmulators = {
         useTmux = true;
-        enable = true;
+        foot.enable = true;
       };
 
       shells.fish.enable = true;

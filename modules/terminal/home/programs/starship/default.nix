@@ -1,12 +1,11 @@
 {
-  pkgs,
   config,
   lib,
   ...
 }: {
   imports = [
-    ./settings_minimal.nix
-    ./settings_powerline.nix
+    ./minimal.nix
+    ./powerline.nix
   ];
 
   config = let

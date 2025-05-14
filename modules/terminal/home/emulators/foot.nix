@@ -13,7 +13,7 @@ in
       server.enable = true;
       settings.main = {
         font = "${config.collinux.terminal.font.name}:size=12";
-        shell = lib.mkIf cfg.useTmux "${pkgs.tmux}/bin/tmux";
+        shell = lib.mkIf config.collinux.terminal.terminalEmulators.useTmux "${pkgs.tmux}/bin/tmux";
       };
     };
   }

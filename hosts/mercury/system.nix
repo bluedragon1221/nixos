@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{
   imports = [
     ../../system/battery.nix
 

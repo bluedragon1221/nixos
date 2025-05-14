@@ -31,7 +31,6 @@ in
       enable = true;
       theme = lib.mkIf (config.collinux.theme == "catppuccin") "catppuccin";
       extraConfig = ''
-        add ~/Music
         set status_display_program=${status-display}/bin/status.sh
       '';
     };

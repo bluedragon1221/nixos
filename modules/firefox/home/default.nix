@@ -7,8 +7,8 @@
 in {
   imports = [
     ./profile.nix
-    ./theme_adwaita.nix
-    ./theme_catppuccin.nix
+    ./adwaita.nix
+    ./catppuccin.nix
   ];
 
   config = lib.mkIf (cfg.enable) {

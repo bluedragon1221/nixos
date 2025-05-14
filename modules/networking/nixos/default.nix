@@ -1,9 +1,4 @@
 {
-  pkgs,
-  config,
-  lib,
-  ...
-}: {
   imports = [
     ./iwd.nix
     ./nm.nix
