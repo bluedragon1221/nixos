@@ -57,6 +57,7 @@ in {
         eza.enable = mkEnableOption "eza";
         fzf.enable = mkEnableOption "fzf";
 
+        nh.enable = mkEnableOption "nh";
         cmus.enable = mkEnableOption "cmus";
 
         starship = {

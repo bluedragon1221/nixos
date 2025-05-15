@@ -18,6 +18,7 @@ in {
         type = types.enum ["grub" "systemd-boot"];
       };
       plymouth.enable = mkEnableOption "plymouth bootsplash";
+      secureBoot.enable = mkEnableOption "lanzaboote";
     };
   };
 }

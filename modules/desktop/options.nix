@@ -30,6 +30,11 @@ in {
       };
       gnome.enable = mkEnableOption "gnome";
 
+      gtk.theme = mkOption {
+        type = types.enum ["catppuccin" "adwaita"];
+        default = config.collinux.theme;
+      };
+
       programs = {
         firefox = {
           enable = mkEnableOption "firefox";
@@ -42,6 +47,8 @@ in {
             default = config.collinux.theme;
           };
         };
+
+        musescore.enable = mkEnableOption "musescore";
       };
     };
   };

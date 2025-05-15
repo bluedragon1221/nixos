@@ -1,8 +1,8 @@
 {
   imports = [
-    ./hyprland.nix
+    ./environments/hyprland.nix
+    ./environments/gnome.nix
     ./greeter.nix
-    ./gnome.nix
 
     ./programs/firefox.nix
   ];

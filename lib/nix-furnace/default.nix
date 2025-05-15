@@ -1,4 +1,4 @@
-{inputs, ...}: let
+let
   lazyImport = path:
     if (builtins.pathExists path)
     then import path
@@ -39,12 +39,34 @@
   mkHomeModules = mkModules mkHomeImports;
   mkSystemModules = mkModules mkSystemImports;
 
-  mkHost = hostname: let
+  mkHost = {
+    hostname,
+    namespace,
+    inputs,
+    ...
+  }: let
     preloadedConfig = import ../../hosts/${hostname}/config.nix {inherit inputs;};
-    username = preloadedConfig.collinux.user.name;
+    username = preloadedConfig."${namespace}".user.name;
 
-    isDisko = preloadedConfig.collinux.disko;
-    isFacter = preloadedConfig.collinux.facter;
+    isDisko = builtins.pathExists ../../hosts/${hostname}/disks.nix && builtins.hasAttr "disko" inputs;
+    isFacter = builtins.pathExists ../../hosts/${hostname}/facter.json && builtins.hasAttr "nixos-facter-modules" inputs;
+    isLanzaboote = builtins.hasAttr "lanzaboote" inputs;
+
+    furnaceOptions = {lib, ...}: let
+      inherit (lib) mkOption types;
+    in {
+      options.nix-furnace = {
+        extraHomeModules = mkOption {
+          type = with types; listOf path;
+          default = [];
+        };
+
+        extraSystemModules = mkOption {
+          type = with types; listOf path;
+          default = [];
+        };
+      };
+    };
   in
     inputs.nixpkgs.lib.nixosSystem {
       specialArgs = {inherit inputs;};
@@ -53,6 +75,8 @@
           {networking.hostName = hostname;}
 
           mkSystemModules
+
+          furnaceOptions
 
           ../../hosts/${hostname}/config.nix
 
@@ -68,14 +92,17 @@
                 imports =
                   [
                     mkHomeModules
+
+                    furnaceOptions
+
                     ../../hosts/${hostname}/config.nix
                   ]
-                  ++ preloadedConfig.collinux.extraHomeModules;
+                  ++ preloadedConfig.nix-furnace.extraHomeModules;
               };
             };
           }
         ]
-        ++ preloadedConfig.collinux.extraSystemModules
+        ++ preloadedConfig.nix-furnace.extraSystemModules
         ++ (mkIfList isDisko [
           inputs.disko.nixosModules.disko
           ../../hosts/${hostname}/disks.nix
@@ -83,15 +110,22 @@
         ++ (mkIfList isFacter [
           inputs.nixos-facter-modules.nixosModules.facter
           {config.facter.reportPath = ../../hosts/${hostname}/facter.json;}
+        ])
+        ++ (mkIfList isLanzaboote [
+          inputs.lanzaboote.nixosModules.lanzaboote
         ]);
     };
 
   mkFlake = {
+    namespace,
+    inputs,
+    ...
+  }: {
     nixosConfigurations =
       builtins.listToAttrs
-      (builtins.map (host: {
-          name = host;
-          value = mkHost host;
+      (builtins.map (hostname: {
+          name = hostname;
+          value = mkHost {inherit inputs hostname namespace;};
         })
         (getSubdirs ../../hosts));
   };

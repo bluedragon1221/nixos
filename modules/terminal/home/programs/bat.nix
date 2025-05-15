@@ -5,7 +5,7 @@
 }: let
   cfg = config.collinux.terminal.programs.bat;
 in
-  lib.mkIf (cfg.enable) {
+  lib.mkIf cfg.enable {
     catppuccin.bat.enable = false; # uses ifd
     programs.bat = {
       enable = true;

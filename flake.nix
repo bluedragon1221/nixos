@@ -1,9 +1,13 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    disko.url = "github:nix-community/disko";
 
     nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
+
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     catppuccin.url = "github:catppuccin/nix";
     home-manager = {
@@ -23,5 +27,8 @@
   };
 
   outputs = inputs:
-    (import ./lib/nix-furnace {inherit inputs;}).mkFlake;
+    (import ./lib/nix-furnace).mkFlake {
+      inherit inputs;
+      namespace = "collinux";
+    };
 }

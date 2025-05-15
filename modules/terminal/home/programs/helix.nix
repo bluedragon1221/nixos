@@ -8,7 +8,6 @@
   cfg = config.collinux.terminal.programs.helix;
 in
   lib.mkIf cfg.enable {
-    catppuccin.helix.enable = config.collinux.terminal.theme == "catppuccin";
     programs.helix = {
       enable = true;
       defaultEditor = true;
@@ -57,6 +56,13 @@ in
 
       settings = lib.mkMerge [
         {
+          theme =
+            if config.collinux.terminal.theme == "catppuccin"
+            then "catppuccin_mocha"
+            else if config.collinux.terminal.theme == "adwaita"
+            then "adwaita-dark"
+            else "";
+
           editor = {
             gutters = ["diff" "diagnostics" "line-numbers" "spacer" "spacer"];
             cursorline = true;

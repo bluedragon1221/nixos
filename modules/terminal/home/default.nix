@@ -5,11 +5,13 @@
 
     ./programs/tmux
     ./programs/starship
-    ./programs/cmus
     ./programs/bat.nix
     ./programs/helix.nix
     ./programs/eza.nix
     ./programs/fzf.nix
+
+    ./programs/cmus
+    ./programs/nh.nix
 
     ./shells/fish.nix
     ./shells/bash.nix

@@ -1,5 +1,5 @@
 {inputs, ...}: {
-  collinux = {
+  nix-furnace = {
     extraSystemModules = [
       ./system.nix
       ./disks.nix
@@ -8,9 +8,9 @@
       inputs.catppuccin.homeModules.catppuccin
       ./home.nix
     ];
+  };
 
-    disko = false;
-    facter = true;
+  collinux = {
     theme = "catppuccin";
 
     user = {
@@ -33,6 +33,7 @@
 
       programs = {
         firefox.enable = true;
+        musescore.enable = true;
       };
     };
 
@@ -50,6 +51,7 @@
         eza.enable = true;
         fzf.enable = true;
 
+        nh.enable = true;
         cmus.enable = true;
 
         helix = {
@@ -62,6 +64,7 @@
     boot = {
       bootloader = "systemd-boot";
       plymouth.enable = true;
+      secureBoot.enable = true;
     };
 
     networking = {
