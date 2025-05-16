@@ -1,4 +1,5 @@
-{
+{pkgs, ...}: {
+  # auto-cpufreq
   services.power-profiles-daemon.enable = false; # conflicts with auto-cpufreq
   services.tlp.enable = false; # conflicts with auto-cpufreq
   services.thermald.enable = true; # does not conflict, recomended to run with auto-cpufreq
@@ -17,4 +18,30 @@
       };
     };
   };
+
+  # Undervolt
+  services.undervolt = {
+    enable = true;
+    useTimer = false;
+    # power-limit-long
+    p1 = {
+      window = 1; # no clue what this means
+      limit = 40;
+    };
+
+    # power-limit-short
+    p2 = {
+      window = 1;
+      limit = 50;
+    };
+
+    coreOffset = -50; # also applied to cache
+    gpuOffset = -10;
+  };
+
+  # environment.systemPackages = with pkgs; [
+  #   undervolt
+  #   s-tui
+  #   stress
+  # ];
 }

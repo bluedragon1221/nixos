@@ -37,6 +37,15 @@
       };
     };
 
+    services = {
+      audio.enable = true;
+      networking = {
+        enable = true;
+        wifiDaemon = "iwd";
+      };
+      bluetooth.enable = true;
+    };
+
     terminal = {
       terminalEmulators = {
         useTmux = true;
@@ -65,11 +74,6 @@
       bootloader = "systemd-boot";
       plymouth.enable = true;
       secureBoot.enable = true;
-    };
-
-    networking = {
-      enable = true;
-      wifiDaemon = "iwd";
     };
   };
 }

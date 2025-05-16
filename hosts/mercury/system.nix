@@ -1,16 +1,16 @@
-{
+{pkgs, ...}: {
   imports = [
-    ../../system/battery.nix
-
-    ../../system/fonts.nix
-
+    ./battery.nix
     ../../system/nix.nix
-
-    ../../system/bluetooth.nix
-    ../../system/audio.nix
   ];
 
-  services.blueman.enable = true;
+  fonts = {
+    enableDefaultPackages = false;
+    packages = with pkgs; [
+      ibm-plex
+      nerd-fonts.iosevka
+    ];
+  };
 
   system.stateVersion = "25.05";
 }

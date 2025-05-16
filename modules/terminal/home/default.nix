@@ -1,21 +1,19 @@
-{pkgs, ...}: {
-  imports = [
-    ./emulators/foot.nix
-    ./emulators/blackbox.nix
+{pkgs, ...}: let
+  findPrograms =
+    builtins.attrValues
+    (builtins.mapAttrs
+      (file: type: ./programs/${file})
+      (builtins.readDir ./programs));
+in {
+  imports =
+    [
+      ./emulators/foot.nix
+      ./emulators/blackbox.nix
 
-    ./programs/tmux
-    ./programs/starship
-    ./programs/bat.nix
-    ./programs/helix.nix
-    ./programs/eza.nix
-    ./programs/fzf.nix
-
-    ./programs/cmus
-    ./programs/nh.nix
-
-    ./shells/fish.nix
-    ./shells/bash.nix
-  ];
+      ./shells/fish.nix
+      ./shells/bash.nix
+    ]
+    ++ findPrograms;
 
   config = {
     home.packages = with pkgs; [
