@@ -13,6 +13,8 @@ in
       terminal = "tmux-256color";
       escapeTime = 0;
       extraConfig = ''
+        bind-key -n C-g display-popup -E -w 80% -h 80% -x C -y C -d "#{pane_current_path}" "lazygit"
+
         source-file ${./tmux.conf}
         ${
           if (cfg.theme == "catppuccin")
@@ -22,5 +24,5 @@ in
       '';
     };
 
-    home.packages = [pkgs.tmux-xpanes];
+    home.packages = [pkgs.tmux-xpanes pkgs.lazygit];
   }
