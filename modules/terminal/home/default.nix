@@ -10,7 +10,7 @@ in {
       ./emulators/foot.nix
       ./emulators/blackbox.nix
 
-      ./shells/fish
+      ./shells/fish.nix
       ./shells/bash.nix
     ]
     ++ findPrograms;
