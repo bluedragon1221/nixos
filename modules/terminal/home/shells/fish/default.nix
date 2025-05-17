@@ -11,8 +11,19 @@ in
     programs.fish = {
       enable = true;
       generateCompletions = true;
+
+      functions = {
+        starship_transient_prompt_func = {
+          body = "starship module character";
+        };
+      };
+
       shellInit = ''
         set fish_greeting
+      '';
+
+      shellInitLast = ''
+        enable_transience
       '';
     };
   }

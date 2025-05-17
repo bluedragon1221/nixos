@@ -55,7 +55,10 @@
       shells.fish.enable = true;
 
       programs = {
-        starship.enable = true;
+        starship = {
+          enable = true;
+          style = "minimal";
+        };
         bat.enable = true;
         eza.enable = true;
         fzf.enable = true;

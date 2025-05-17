@@ -1,4 +1,5 @@
 {
+  pkgs,
   lib,
   config,
   ...
@@ -20,4 +21,6 @@ in
         }
       '';
     };
+
+    home.packages = [pkgs.tmux-xpanes];
   }
