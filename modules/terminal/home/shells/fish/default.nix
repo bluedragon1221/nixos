@@ -13,12 +13,6 @@ in
       generateCompletions = true;
       shellInit = ''
         set fish_greeting
-
-        ${
-          if cfg.theme == "catppuccin"
-          then builtins.readFile ./catppuccin.theme
-          else ""
-        }
       '';
     };
   }

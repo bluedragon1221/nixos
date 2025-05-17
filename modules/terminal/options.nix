@@ -16,7 +16,7 @@
     }
     // extraOpts;
 
-  mkProgramOption = name: mkProgramOption name {};
+  mkProgramOption = name: mkProgramOption' name {};
 in {
   options = {
     collinux.terminal = {

@@ -6,10 +6,10 @@
 }: let
   cfg = config.collinux.gtk;
 in {
-  imports =
-    []
-    ++ (lib.mkIf (cfg.theme == "catppuccin") [./catppuccin.nix])
-    ++ (lib.mkIf (cfg.theme == "adwaita") [./adwaita.nix]);
+  imports = [
+    ./catppuccin.nix
+    ./adwaita.nix
+  ];
 
   config = {
     gtk = {

@@ -4,6 +4,18 @@
   ...
 }: let
   inherit (lib) mkOption mkEnableOption types;
+
+  mkProgramOption' = name: extraOpts:
+    {
+      enable = mkEnableOption "whether to enable ${name}";
+      theme = mkOption {
+        type = types.enum ["catppuccin" "adwaita"];
+        default = config.collinux.terminal.theme;
+      };
+    }
+    // extraOpts;
+
+  mkProgramOption = name: mkProgramOption' name {};
 in {
   options = {
     collinux.desktop = {
@@ -23,9 +35,9 @@ in {
           type = types.bool;
         };
         components = {
-          waybar.enable = mkEnableOption "waybar";
-          dunst.enable = mkEnableOption "dunst";
-          fuzzel.enable = mkEnableOption "fuzzel";
+          waybar = mkProgramOption "waybar";
+          dunst = mkProgramOption "dunst";
+          fuzzel = mkProgramOption "fuzzel";
         };
       };
       gnome.enable = mkEnableOption "gnome";
