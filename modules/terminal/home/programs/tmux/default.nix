@@ -24,5 +24,12 @@ in
       '';
     };
 
-    home.packages = [pkgs.tmux-xpanes pkgs.lazygit];
+    programs.lazygit = {
+      enable = true;
+      settings = {
+        gui.showRandomTip = false;
+      };
+    };
+
+    home.packages = [pkgs.tmux-xpanes];
   }
