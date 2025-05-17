@@ -5,6 +5,18 @@
   ...
 }: let
   inherit (lib) mkOption mkEnableOption types;
+
+  mkProgramOption' = name: extraOpts:
+    {
+      enable = mkEnableOption "whether to enable ${name}";
+      theme = mkOption {
+        type = types.enum ["catppuccin" "adwaita"];
+        default = config.collinux.terminal.theme;
+      };
+    }
+    // extraOpts;
+
+  mkProgramOption = name: mkProgramOption name {};
 in {
   options = {
     collinux.terminal = {
@@ -31,13 +43,14 @@ in {
           default = false;
         };
 
-        foot.enable = mkEnableOption "the foot terminal emulator";
+        foot = mkProgramOption "the foot terminal emulator";
         blackbox.enable = mkEnableOption "the Black Box terminal emulator (for adwaita)";
       };
 
       shells = {
-        fish.enable = mkEnableOption "fish shell";
-        bash.enable = mkEnableOption "bash shell";
+        fish = mkProgramOption "fish shell";
+        bash = mkProgramOption "bash shell";
+
         defaultShell = mkOption {
           type = types.package;
           description = "which shell is default";
@@ -53,37 +66,36 @@ in {
       };
 
       programs = {
-        bat.enable = mkEnableOption "bat";
-        eza.enable = mkEnableOption "eza";
-        fzf.enable = mkEnableOption "fzf";
+        # Themed
+        bat = mkProgramOption "bat";
+        fzf = mkProgramOption "fzf";
+        cmus = mkProgramOption "cmus";
 
-        nh.enable = mkEnableOption "nh";
-        cmus.enable = mkEnableOption "cmus";
+        eza.enable = mkEnableOption "eza"; # unthemed
 
-        starship = {
-          enable = mkEnableOption "starship prompt";
-          theme = mkOption {
+        starship = mkProgramOption' "starship prompt" {
+          style = mkOption {
             type = types.enum ["default" "minimal" "powerline"];
             default = "minimal";
           };
         };
-
-        helix = {
-          enable = mkEnableOption "helix text editor";
+        helix = mkProgramOption' "helix text editor" {
           hardMode = mkOption {
             type = types.bool;
             description = "Disable arrow keys and mouse";
             default = false;
           };
         };
-
-        tmux = {
+        tmux = mkProgramOption' "tmux terminal multiplexer" {
+          # override
           enable = mkOption {
             type = types.bool;
-            description = "Whether to enable the tmux terminal multiplexer";
+            description = "whether to enable tmux terminal multiplexer";
             default = config.collinux.terminal.terminalEmulators.useTmux;
           };
         };
+
+        nh.enable = mkEnableOption "nh"; # unthemed
       };
     };
   };

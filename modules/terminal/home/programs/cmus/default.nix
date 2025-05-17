@@ -7,6 +7,7 @@
   cfg = config.collinux.terminal.programs.cmus;
 in
   lib.mkIf cfg.enable {
+    # always copy over file, but only apply it if necessary
     home.file."${config.xdg.configHome}/cmus/catppuccin.theme".source = ./catppuccin.theme;
 
     programs.cmus = let
@@ -29,7 +30,7 @@ in
       '';
     in {
       enable = true;
-      theme = lib.mkIf (config.collinux.theme == "catppuccin") "catppuccin";
+      theme = lib.mkIf (cfg.theme == "catppuccin") "catppuccin";
       extraConfig = ''
         set status_display_program=${status-display}/bin/status.sh
       '';

@@ -8,12 +8,17 @@ in
   lib.mkIf cfg.enable {
     home.shell.enableFishIntegration = true;
 
-    catppuccin.fish.enable = config.collinux.terminal.theme == "catppuccin";
     programs.fish = {
       enable = true;
       generateCompletions = true;
       shellInit = ''
         set fish_greeting
+
+        ${
+          if cfg.theme == "catppuccin"
+          then builtins.readFile ./catppuccin.theme
+          else ""
+        }
       '';
     };
   }
