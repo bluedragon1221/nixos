@@ -4,11 +4,6 @@ let
     then import path
     else {};
 
-  mkIfList = cond: onTrue:
-    if cond
-    then onTrue
-    else [];
-
   mkIfNull = cond: onTrue:
     if cond
     then onTrue
@@ -47,10 +42,6 @@ let
   }: let
     preloadedConfig = import ../../hosts/${hostname}/config.nix {inherit inputs;};
     username = preloadedConfig."${namespace}".user.name;
-
-    isDisko = builtins.pathExists ../../hosts/${hostname}/disks.nix && builtins.hasAttr "disko" inputs;
-    isFacter = builtins.pathExists ../../hosts/${hostname}/facter.json && builtins.hasAttr "nixos-facter-modules" inputs;
-    isLanzaboote = builtins.hasAttr "lanzaboote" inputs;
 
     furnaceOptions = {lib, ...}: let
       inherit (lib) mkOption types;
@@ -102,18 +93,7 @@ let
             };
           }
         ]
-        ++ preloadedConfig.nix-furnace.extraSystemModules
-        ++ (mkIfList isDisko [
-          inputs.disko.nixosModules.disko
-          ../../hosts/${hostname}/disks.nix
-        ])
-        ++ (mkIfList isFacter [
-          inputs.nixos-facter-modules.nixosModules.facter
-          {config.facter.reportPath = ../../hosts/${hostname}/facter.json;}
-        ])
-        ++ (mkIfList isLanzaboote [
-          inputs.lanzaboote.nixosModules.lanzaboote
-        ]);
+        ++ preloadedConfig.nix-furnace.extraSystemModules;
     };
 
   mkFlake = {

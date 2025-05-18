@@ -1,4 +1,14 @@
-{
+{inputs, ...}: {
+  nix-furnace = {
+    extraHomeModules = [
+      ./home.nix
+    ];
+
+    extraSystemModules = [
+      ./system.nix
+    ];
+  };
+
   collinux = {
     theme = "adwaita";
 
@@ -10,6 +20,10 @@
 
     desktop = {
       gnome.enable = true;
+
+      programs = {
+        firefox.enable = true;
+      };
     };
 
     terminal = {
@@ -23,6 +37,9 @@
         bat.enable = true;
         eza.enable = true;
         fzf.enable = true;
+
+        nh.enable = true;
+        lazygit.enable = true;
 
         starship = {
           enable = true;
@@ -46,7 +63,5 @@
       enable = true;
       wifiDaemon = "networkmanager"; # apparently gnome doesn't support iwd
     };
-
-    firefox.enable = true;
   };
 }
