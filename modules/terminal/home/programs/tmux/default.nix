@@ -13,22 +13,20 @@ in
       terminal = "tmux-256color";
       escapeTime = 0;
       extraConfig = ''
-        bind-key -n C-g display-popup -E -w 80% -h 80% -x C -y C -d "#{pane_current_path}" "lazygit"
-
         source-file ${./tmux.conf}
         ${
           if (cfg.theme == "catppuccin")
           then "\nrun-shell ${./bar.sh}"
           else ""
         }
-      '';
-    };
 
-    programs.lazygit = {
-      enable = true;
-      settings = {
-        gui.showRandomTip = false;
-      };
+        ${
+          if config.collinux.terminal.programs.lazygit.enable
+          then ''
+            bind-key -n C-g display-popup -E -w 80% -h 80% -x C -y C -d "#{pane_current_path}" "lazygit"''
+          else ""
+        }
+      '';
     };
 
     home.packages = [pkgs.tmux-xpanes];

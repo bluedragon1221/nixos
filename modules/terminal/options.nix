@@ -72,6 +72,7 @@ in {
         cmus = mkProgramOption "cmus";
 
         eza.enable = mkEnableOption "eza"; # unthemed
+        lazygit.enable = mkEnableOption "lazygit";
 
         starship = mkProgramOption' "starship prompt" {
           style = mkOption {
