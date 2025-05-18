@@ -5,7 +5,6 @@
       ./disks.nix
     ];
     extraHomeModules = [
-      inputs.catppuccin.homeModules.catppuccin
       ./home.nix
     ];
   };

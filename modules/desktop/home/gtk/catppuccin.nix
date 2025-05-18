@@ -20,5 +20,14 @@ in
       size = 24;
     };
 
-    catppuccin.gtk.enable = true; # TODO USING THIS MAKES ERRORS ON JUPITER
+    gtk = {
+      theme = {
+        package = pkgs.catppuccin-gtk.override {
+          accents = ["blue"];
+          variant = "mocha";
+          size = "standard";
+        };
+        name = "catppuccin-mocha-blue-standard";
+      };
+    };
   }
