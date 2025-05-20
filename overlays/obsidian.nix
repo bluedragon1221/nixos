@@ -1,4 +1,4 @@
-_: pkgs: prev: {
+pkgs: prev: {
   obsidian = let
     pname = "obsidian";
     version = "1.8.10";

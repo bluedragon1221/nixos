@@ -5,12 +5,11 @@
 }: {
   imports = [
     ./battery.nix
-    ../../system/nix.nix
 
-    inputs.nixos-facter-modules.nixosModules.default
+    inputs.nixos-facter-modules.nixosModules.facter
     {facter.reportPath = ./facter.json;}
 
-    inputs.lanzaboote.nixosModules.default
+    inputs.lanzaboote.nixosModules.lanzaboote
   ];
 
   fonts = {
