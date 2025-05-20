@@ -61,6 +61,7 @@
         bat.enable = true;
         eza.enable = true;
         fzf.enable = true;
+        lazygit.enable = true;
 
         nh.enable = true;
         cmus.enable = true;
