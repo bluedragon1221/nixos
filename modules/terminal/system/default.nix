@@ -14,6 +14,7 @@ in {
     ./programs/lazygit.nix
     ./programs/starship.nix
     ./programs/tmux.nix
+    ./programs/broot.nix
   ];
 
   programs.command-not-found.enable = false; # broken without nix-channels

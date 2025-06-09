@@ -6,11 +6,33 @@
 }: let
   cfg = config.collinux.terminal.shells.fish;
 
+  scripts.cool-cd = pkgs.writeShellScriptBin "cd.sh" ''
+    if git rev-parse --is-inside-work-tree; then
+      cd $(fd . "$(git rev-parse --show-toplevel)" --type dir | fzf)
+    else
+      cd $(fd . --type dir | fzf)
+    fi
+  '';
+
   init = pkgs.writeText "config.fish" ''
     set fish_greeting
 
     function starship_transient_prompt_func
       ${pkgs.starship}/bin/starship module character
+    end
+
+    function cool-cd
+      if git rev-parse --is-inside-work-tree &>/dev/null
+        set dirs (fd . (git rev-parse --show-toplevel) --type dir)
+      else
+        set dirs (fd . --type dir)
+      end
+
+      if test -z "$dirs"
+        exit
+      end
+
+      cd (echo "$dirs" | fzf)
     end
 
     if status is-interactive
@@ -22,6 +44,10 @@
 
       ${pkgs.fzf}/bin/fzf --fish | source
       ${pkgs.starship}/bin/starship init fish | source
+      ${pkgs.broot}/bin/broot --print-shell-function fish | source
+
+      # extra bindings
+      bind 'alt-c' cool-cd
 
       enable_transience
 
