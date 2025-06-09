@@ -27,7 +27,6 @@
       programs = {
         firefox.enable = true;
         foot.enable = true;
-        musescore.enable = true;
       };
     };
 

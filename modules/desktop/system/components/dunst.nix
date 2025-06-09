@@ -33,6 +33,6 @@ in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
       files.".config/dunst/dunstrc".source = settings;
-      packages = [pkgs.dunst];
+      packages = [pkgs.dunst pkgs.inotify-tools];
     };
   }

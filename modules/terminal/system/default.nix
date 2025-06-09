@@ -1,18 +1,19 @@
 {
   config,
   pkgs,
+  my-lib,
   ...
 }: let
   cfg = config.collinux.terminal.shells;
 in {
   imports = [
-    ./programs/helix.nix
-    ./programs/tmux.nix
-    ./programs/fish.nix
-    ./programs/starship.nix
-    ./programs/lazygit.nix
     ./programs/cmus.nix
+    ./programs/fish.nix
     ./programs/git.nix
+    ./programs/helix.nix
+    ./programs/lazygit.nix
+    ./programs/starship.nix
+    ./programs/tmux.nix
   ];
 
   programs.command-not-found.enable = false; # broken without nix-channels

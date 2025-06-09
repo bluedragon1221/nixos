@@ -2,21 +2,11 @@
   pkgs,
   config,
   lib,
+  my-lib,
   ...
 }: let
   inherit (lib) mkOption mkEnableOption types;
-
-  mkProgramOption' = name: extraOpts:
-    {
-      enable = mkEnableOption "whether to enable ${name}";
-      theme = mkOption {
-        type = types.enum ["catppuccin" "adwaita"];
-        default = config.collinux.terminal.theme;
-      };
-    }
-    // extraOpts;
-
-  mkProgramOption = name: mkProgramOption' name {};
+  inherit (my-lib.options {inherit lib config;}) mkProgramOption' mkProgramOption;
 in {
   options = {
     collinux.terminal = {

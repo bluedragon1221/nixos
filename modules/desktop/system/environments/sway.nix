@@ -38,6 +38,7 @@
   settings = pkgs.writeText "config" ''
     exec ${pkgs.foot}/bin/foot --server
     exec ${pkgs.swaybg}/bin/swaybg -i ${config.collinux.desktop.wallpaper}
+    exec ${pkgs.dunst}/bin/dunst
 
     include catppuccin-mocha
 
@@ -74,6 +75,9 @@
     bindsym Mod4+b exec ${pkgs.firefox}/bin/firefox
     bindsym Mod4+q kill
 
+    bindsym XF86AudioRaiseVolume exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h int:value:"$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/Volume:\ //'); echo "$dec * 100" | bc)"'
+    bindsym XF86AudioLowerVolume exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h int:value:"$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/Volume:\ //'); echo "$dec * 100" | bc)"'
+
     default_border pixel 2
     smart_borders on
     smart_gaps on
@@ -86,7 +90,7 @@ in
         ".config/sway/catppuccin-mocha".source = colors;
       };
 
-      packages = [pkgs.sway];
+      packages = [pkgs.sway pkgs.bc];
     };
 
     # Greetd

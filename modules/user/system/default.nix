@@ -1,16 +1,14 @@
-{config, ...}: let
+{
+  config,
+  lib,
+  ...
+}: let
   cfg = config.collinux.user;
 in {
   users.users."${cfg.name}" = {
     isNormalUser = true;
     description = cfg.name;
-    extraGroups =
-      ["networkmanager" "disks"]
-      ++ (
-        if cfg.isAdmin
-        then ["wheel"]
-        else []
-      );
+    extraGroups = ["networkmanager" "disks"] ++ (lib.optional cfg.isAdmin "wheel");
     hashedPassword = cfg.password;
   };
 

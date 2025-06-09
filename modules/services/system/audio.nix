@@ -7,6 +7,7 @@
   cfg = config.collinux.services.audio;
 in
   lib.mkIf cfg.enable {
+    security.rtkit.enable = true;
     services.pipewire = {
       enable = true;
       wireplumber.enable = true;

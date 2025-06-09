@@ -143,13 +143,10 @@
     run-shell "${scripts.bar}/bin/bar.sh"
 
     # Sessions
-    # set-hook -ag client-detached 'run-shell ${scripts.cleanSessions}/bin/clean-sessions.sh'
-    # set-hook -ag client-session-changed 'run-shell ${scripts.cleanSessions}/bin/clean-sessions.sh'
+    set-hook -ag client-detached 'run-shell ${scripts.cleanSessions}/bin/clean-sessions.sh'
+    set-hook -ag client-session-changed 'run-shell ${scripts.cleanSessions}/bin/clean-sessions.sh'
 
     bind-key -n C-f run-shell "${scripts.primeProjects}/bin/projects.sh"
-    bind-key -n M-1 run-shell "${scripts.primeProjects}/bin/projects.sh ~/Music"
-    bind-key -n M-2 run-shell "${scripts.primeProjects}/bin/projects.sh ~/Documents/brain2.0"
-    bind-key -n M-3 run-shell "${scripts.primeProjects}/bin/projects.sh ~/nixos"
 
     bind-key -n C-g display-popup -E -w 80% -h 80% -x C -y C -d "#{pane_current_path}" "${pkgs.lazygit}/bin/lazygit"
   '';

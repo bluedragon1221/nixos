@@ -4,7 +4,7 @@
   config,
   ...
 }: let
-  cfg = config.collinux.terminal.terminalEmulators.blackbox;
+  cfg = config.collinux.desktop.programs.blackbox;
 in
   lib.mkIf cfg.enable {
     home.packages = [pkgs.blackbox-terminal];

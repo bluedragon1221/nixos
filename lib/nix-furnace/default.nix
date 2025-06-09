@@ -1,27 +1,6 @@
 let
-  lazyImport = path:
-    if (builtins.pathExists path)
-    then import path
-    else {};
-
-  mkIfNull = cond: onTrue:
-    if cond
-    then onTrue
-    else null;
-
-  getSubdirs = dir:
-    builtins.filter (x: x != null)
-    (builtins.attrValues
-      (builtins.mapAttrs
-        (name: value: mkIfNull (value == "directory") name)
-        (builtins.readDir dir)));
-
-  getSubfiles = dir:
-    builtins.filter (x: x != null)
-    (builtins.attrValues
-      (builtins.mapAttrs
-        (name: value: mkIfNull (value == "file") name)
-        (builtins.readDir dir)));
+  my-lib = import ../lib.nix;
+  inherit (my-lib.globimport) lazyImport getSubdirs getSubfiles;
 
   mkHomeImports = modName: [
     (lazyImport ../../modules/${modName}/options.nix)
@@ -65,9 +44,11 @@ let
         };
       };
     };
+
+    specialArgs = {inherit inputs my-lib;};
   in
     inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs;};
+      inherit specialArgs;
       modules =
         [
           {networking.hostName = hostname;}
@@ -85,7 +66,7 @@ let
               backupFileExtension = "bak";
               useGlobalPkgs = true;
               useUserPackages = true;
-              extraSpecialArgs = {inherit inputs;};
+              extraSpecialArgs = specialArgs;
               users."${username}" = {
                 imports =
                   [

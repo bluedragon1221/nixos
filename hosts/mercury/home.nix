@@ -5,6 +5,7 @@
     obsidian
     kdePackages.kleopatra
     mpv
+    musescore
   ];
 
   home.stateVersion = "25.05";

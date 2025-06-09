@@ -1,21 +1,11 @@
 {
   config,
   lib,
+  my-lib,
   ...
 }: let
   inherit (lib) mkOption mkEnableOption types;
-
-  mkProgramOption' = name: extraOpts:
-    {
-      enable = mkEnableOption "whether to enable ${name}";
-      theme = mkOption {
-        type = types.enum ["catppuccin" "adwaita"];
-        default = config.collinux.terminal.theme;
-      };
-    }
-    // extraOpts;
-
-  mkProgramOption = name: mkProgramOption' name {};
+  inherit (my-lib.options {inherit lib config;}) mkProgramOption;
 in {
   options = {
     collinux.desktop = {
@@ -24,9 +14,13 @@ in {
         default = let
           cfg = config.collinux.desktop;
         in
-          if ((cfg.hyprland.enable || cfg.sway.enable) && !cfg.gnome.enable)
+          if (cfg.sway.enable && !cfg.gnome.enable)
           then "greetd"
           else "gdm";
+      };
+
+      wallpaper = mkOption {
+        type = types.path;
       };
 
       components = {
@@ -35,10 +29,7 @@ in {
         fuzzel = mkProgramOption "fuzzel";
       };
 
-      sway = {
-        enable = mkEnableOption "sway";
-      };
-
+      sway.enable = mkEnableOption "sway";
       gnome.enable = mkEnableOption "gnome";
 
       gtk.theme = mkOption {
@@ -58,9 +49,9 @@ in {
             default = config.collinux.theme;
           };
         };
-        foot.enable = mkEnableOption "foot";
 
-        musescore.enable = mkEnableOption "musescore";
+        foot.enable = mkEnableOption "foot";
+        blackbox.enable = mkEnableOption "blackbox";
       };
     };
   };
