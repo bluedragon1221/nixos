@@ -37,7 +37,6 @@ in {
         # Themed
         starship = mkProgramOption "starship prompt";
         lazygit.enable = mkEnableOption "lazygit";
-        nh.enable = mkEnableOption "nh";
 
         cmus = mkProgramOption "cmus";
 
