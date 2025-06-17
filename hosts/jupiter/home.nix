@@ -1,10 +1,12 @@
 {pkgs, ...}: {
   home.preferXdgDirectories = true;
   home.packages = with pkgs; [
-    bambu-studio
+    orca-slicer
     freecad-wayland
     gimp
-    wine64
+    qbittorrent
+    bottles
+    musescore
   ];
 
   home.stateVersion = "25.05";
