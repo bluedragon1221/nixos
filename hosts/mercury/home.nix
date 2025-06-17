@@ -1,4 +1,5 @@
 {pkgs, ...}: {
+  home.preferXdgDirectories = true;
   home.packages = with pkgs; [
     # GUI apps
     tor-browser # don't ask

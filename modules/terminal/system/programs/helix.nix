@@ -8,6 +8,16 @@
   toml' = pkgs.formats.toml {};
 
   languages = toml'.generate "languages.toml" {
+    language-server = {
+      rust-analyzer.command = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+      nil.command = "${pkgs.nil}/bin/nil";
+      superhtml = {
+        command = "${pkgs.superhtml}/bin/superhtml";
+        args = ["lsp"];
+      };
+      dhall-lsp-server.command = "${pkgs.dhall-lsp-server}/bin/dhall-lsp-server";
+    };
+
     language = [
       {
         name = "nix";

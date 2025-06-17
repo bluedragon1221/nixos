@@ -10,9 +10,11 @@
   conf = toml'.generate "conf.toml" {
     verbs = [
       {
-        invocation = "edit";
+        name = "open-code";
         key = "enter";
-        execution = "${pkgs.helix}/bin/hx {file}";
+        execution = "$EDITOR +{line} {file}";
+        working_dir = "{root}";
+        leave_broot = true;
       }
     ];
   };

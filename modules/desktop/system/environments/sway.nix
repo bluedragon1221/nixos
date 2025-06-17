@@ -69,6 +69,11 @@
     bindsym Mod4+2 workspace number 2
     bindsym Mod4+3 workspace number 3
     bindsym Mod4+4 workspace number 4
+    bindsym Mod4+Shift+1 move container to workspace number 1
+    bindsym Mod4+Shift+2 move container to workspace number 2
+    bindsym Mod4+Shift+3 move container to workspace number 3
+    bindsym Mod4+Shift+4 move container to workspace number 4
+
     bindsym Mod4+Return exec "${pkgs.foot}/bin/footclient"
     bindsym Mod4+Shift+Return exec ${pkgs.foot}/bin/foot
     bindsym Mod4+Space exec ${pkgs.fuzzel}/bin/fuzzel

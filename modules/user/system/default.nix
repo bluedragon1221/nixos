@@ -8,7 +8,7 @@ in {
   users.users."${cfg.name}" = {
     isNormalUser = true;
     description = cfg.name;
-    extraGroups = ["networkmanager" "disks"] ++ (lib.optional cfg.isAdmin "wheel");
+    extraGroups = ["networkmanager" "disks" "input" "video"] ++ (lib.optional cfg.isAdmin "wheel");
     hashedPassword = cfg.password;
   };
 

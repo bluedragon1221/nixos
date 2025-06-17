@@ -46,6 +46,8 @@
       ${pkgs.starship}/bin/starship init fish | source
       ${pkgs.broot}/bin/broot --print-shell-function fish | source
 
+      ${pkgs.pay-respects}/bin/pay-respects fish --alias | source
+
       # extra bindings
       bind 'alt-c' cool-cd
 
@@ -78,6 +80,7 @@ in
         unzip
         btop
         jq
+        pay-respects
       ];
     };
   }
