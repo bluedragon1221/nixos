@@ -20,5 +20,8 @@
     ];
   };
 
+  networking.firewall.allowedUDPPorts = [445];
+  users.users.collin.packages = [pkgs.cifs-utils];
+
   system.stateVersion = "25.05";
 }
