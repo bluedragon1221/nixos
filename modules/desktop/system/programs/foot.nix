@@ -10,11 +10,7 @@
   settings = ini'.generate "foot.ini" {
     main = {
       font = "Iosevka Nerd Font:size=12";
-      shell =
-        # if config.collinux.terminal.programs.tmux.enable
-        # then "${pkgs.tmux}/bin/tmux"
-        # else
-        "${pkgs.fish}/bin/fish";
+      shell = "${pkgs.fish}/bin/fish";
     };
 
     cursor.color = "11111b f5e0dc";

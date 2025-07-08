@@ -6,7 +6,7 @@
 }: let
   cfg = config.collinux.desktop.sway;
 
-  colors = pkgs.writeText "catppuccin-mocha" ''
+  colors = ''
     set $rosewater #f5e0dc
     set $flamingo #f2cdcd
     set $pink #f5c2e7
@@ -35,7 +35,7 @@
     set $crust #11111b
   '';
 
-  settings = pkgs.writeText "config" ''
+  settings = ''
     exec ${pkgs.foot}/bin/foot --server
     exec ${pkgs.swaybg}/bin/swaybg -i ${config.collinux.desktop.wallpaper}
     exec ${pkgs.dunst}/bin/dunst
@@ -92,8 +92,8 @@ in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
       files = {
-        ".config/sway/config".source = settings;
-        ".config/sway/catppuccin-mocha".source = colors;
+        ".config/sway/config".text = settings;
+        ".config/sway/catppuccin-mocha".text = colors;
       };
 
       packages = [pkgs.sway pkgs.bc];

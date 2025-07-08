@@ -95,17 +95,7 @@
     tset window-style bg=$bg_dark
   '';
 
-  plugins.tmux-resurrect = builtins.fetchGit {
-    url = "https://github.com/tmux-plugins/tmux-resurrect";
-    rev = "cff343cf9e81983d3da0c8562b01616f12e8d548";
-  };
-
-  tmux-conf = pkgs.writeText "tmux.conf" ''
-    # Resurrect
-    run-shell ${plugins.tmux-resurrect}/resurrect.tmux
-    set -g @resurrect-dir "$HOME/.local/share/tmux-resurrect"
-    set -g @resurrect-processes 'hx cmus cava nix-shell'
-
+  tmux-conf = ''
     set -g mouse on
 
     # bell
@@ -153,9 +143,8 @@
 in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
-      files = {
-        ".config/tmux/tmux.conf".source = tmux-conf;
-      };
+      files.".config/tmux/tmux.conf".text = tmux-conf;
+
       packages = [pkgs.tmux];
     };
   }

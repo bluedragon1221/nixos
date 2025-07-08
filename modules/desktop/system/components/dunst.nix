@@ -6,7 +6,7 @@
 }: let
   cfg = config.collinux.desktop.components.dunst;
 
-  settings = pkgs.writeText "dunstrc" ''
+  settings = ''
     [global]
       frame_color = "#89b4fa"
       separator_color = frame
@@ -32,7 +32,7 @@
 in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
-      files.".config/dunst/dunstrc".source = settings;
+      files.".config/dunst/dunstrc".text = settings;
       packages = [pkgs.dunst pkgs.inotify-tools];
     };
   }

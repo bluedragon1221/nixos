@@ -24,7 +24,7 @@
     fi
   '';
 
-  cmus_theme = pkgs.writeText "catppuccin.theme" ''
+  cmus_theme = ''
     set color_cmdline_bg=default
     set color_cmdline_fg=default
     set color_error=211
@@ -52,12 +52,12 @@
     set color_win_title_attr=bold
   '';
 
-  cmus_rc = pkgs.writeText "rc" ''
+  cmus_rc = ''
     colorscheme catppuccin
     set status_display_program=${scripts.statusDisplay}/bin/status.sh
   '';
 
-  cava_config = pkgs.writeText "config" ''
+  cava_config = ''
     [color]
     gradient=1
     gradient_color_1='#94e2d5'
@@ -73,9 +73,9 @@ in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
       files = {
-        ".config/cmus/rc".source = cmus_rc;
-        ".config/cmus/catppuccin.theme".source = cmus_theme;
-        ".config/cava/config".source = cava_config;
+        ".config/cmus/rc".text = cmus_rc;
+        ".config/cmus/catppuccin.theme".text = cmus_theme;
+        ".config/cava/config".text = cava_config;
       };
 
       packages = with pkgs; [cava cmus];

@@ -5,7 +5,7 @@
 }: let
   cfg = config.collinux.terminal.programs.git;
 
-  git_config = pkgs.writeText "config" ''
+  git_config = ''
     [alias]
       stage = "add"
       unstage = "restore --staged"
@@ -20,7 +20,7 @@
 in {
   hjem.users."${config.collinux.user.name}" = {
     files = {
-      ".config/git/config".source = git_config;
+      ".config/git/config".text = git_config;
     };
 
     packages = [pkgs.git];

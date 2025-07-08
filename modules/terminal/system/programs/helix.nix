@@ -140,6 +140,10 @@ in
         ".config/helix/config.toml".source = settings;
         ".config/helix/languages.toml".source = languages;
         ".config/helix/themes/catppuccin_mocha_transparent.toml".source = customCatppuccinTheme;
+
+        ".config/fish/conf.d/helix.fish".text = lib.mkIf config.collinux.terminal.shells.fish.enable ''
+          set -gx EDITOR hx
+        '';
       };
 
       packages = [

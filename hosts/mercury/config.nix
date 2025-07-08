@@ -45,6 +45,7 @@
       programs = {
         tmux.enable = true;
         lazygit.enable = true;
+        starship.enable = true;
 
         git = {
           enable = true;
