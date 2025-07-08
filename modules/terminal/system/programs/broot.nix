@@ -5,9 +5,8 @@
   ...
 }: let
   cfg = config.collinux.terminal.shells.fish;
-  toml' = pkgs.formats.toml {};
 
-  conf = toml'.generate "conf.toml" {
+  conf = {
     verbs = [
       {
         name = "open-code";
@@ -22,7 +21,10 @@ in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
       files = {
-        ".config/broot/conf.toml".source = conf;
+        ".config/broot/conf.toml" = {
+          generator = (pkgs.formats.toml {}).generate "conf.toml";
+          value = conf;
+        };
 
         ".config/fish/conf.d/broot.fish".text = lib.mkIf config.collinux.terminal.shells.fish.enable ''
           ${pkgs.broot}/bin/broot --print-shell-function fish | source

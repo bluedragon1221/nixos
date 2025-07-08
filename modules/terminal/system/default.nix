@@ -4,7 +4,6 @@ in {
   imports = [
     ./programs/fzf.nix
     ./programs/bat.nix
-    ./programs/nh.nix
     ./programs/lazygit.nix
     ./programs/eza.nix
     ./programs/starship.nix

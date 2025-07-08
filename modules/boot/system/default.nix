@@ -17,11 +17,10 @@ in {
         systemd.enable = true;
       };
       loader = {
-        systemd-boot = lib.optionalAttrs (cfg.bootloader == "systemd-boot" && !cfg.secureBoot.enable) {
+        systemd-boot = lib.optionalAttrs (cfg.systemd-boot.enable && !cfg.secureBoot.enable) {
           enable = true;
           configurationLimit = 3;
         };
-        grub = lib.optionalAttrs (cfg.bootloader == "grub") {enable = true;};
         efi.canTouchEfiVariables = true;
         timeout = 0;
       };

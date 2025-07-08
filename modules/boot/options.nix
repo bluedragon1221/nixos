@@ -7,9 +7,7 @@
 in {
   options = {
     collinux.boot = {
-      bootloader = mkOption {
-        type = types.enum ["grub" "systemd-boot"];
-      };
+      systemd-boot.enable = mkEnableOption "systemd-boot";
       plymouth = {
         enable = mkEnableOption "plymouth bootsplash";
         theme = mkOption {

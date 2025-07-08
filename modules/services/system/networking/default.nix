@@ -1,7 +1,7 @@
 {
   imports = [
     ./iwd.nix
-    ./nm.nix
+    ./networkmanager.nix
   ];
 
   config = {
@@ -16,4 +16,3 @@
     networking.resolvconf.enable = false;
   };
 }
-

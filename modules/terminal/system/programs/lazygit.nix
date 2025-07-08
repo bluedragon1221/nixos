@@ -5,9 +5,8 @@
   ...
 }: let
   cfg = config.collinux.terminal.programs.lazygit;
-  yaml' = pkgs.formats.yaml {};
 
-  settings = yaml'.generate "config.yml" {
+  settings = {
     git.paging.pager = "${pkgs.diff-so-fancy}/bin/diff-so-fancy";
     gui = {
       showRandomTip = false;
@@ -18,7 +17,10 @@ in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
       files = {
-        ".config/lazygit/config.yml".source = settings;
+        ".config/lazygit/config.yml" = {
+          generator = lib.generators.toYAML {};
+          value = settings;
+        };
       };
 
       packages = [pkgs.lazygit];

@@ -5,7 +5,7 @@
 }: let
   cfg = config.collinux.services.networking;
 in
-  lib.mkIf (cfg.enable && cfg.wifiDaemon == "iwd") {
+  lib.mkIf (cfg.enable && cfg.iwd.enable) {
     networking = {
       wireless.iwd = {
         enable = true;

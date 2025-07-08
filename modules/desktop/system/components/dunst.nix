@@ -11,7 +11,7 @@
       frame_color = "#89b4fa"
       separator_color = frame
       highlight = "#89b4fa"
-      offset = "8x30"
+      offset = "(8,8)"
       origin = "top-right"
       transparency = 10
       font = "Iosevka Nerd Font"

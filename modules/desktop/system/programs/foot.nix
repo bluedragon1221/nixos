@@ -5,9 +5,8 @@
   ...
 }: let
   cfg = config.collinux.desktop.programs.foot;
-  ini' = pkgs.formats.ini {listsAsDuplicateKeys = true;};
 
-  settings = ini'.generate "foot.ini" {
+  settings = {
     main = {
       font = "Iosevka Nerd Font:size=12";
       shell = "${pkgs.fish}/bin/fish";
@@ -53,7 +52,10 @@ in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
       files = {
-        ".config/foot/foot.ini".source = settings;
+        ".config/foot/foot.ini" = {
+          generator = lib.generators.toINI {};
+          value = settings;
+        };
       };
 
       packages = [pkgs.foot];

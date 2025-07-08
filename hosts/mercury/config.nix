@@ -34,9 +34,12 @@
       audio.enable = true;
       networking = {
         enable = true;
-        wifiDaemon = "iwd";
+        iwd.enable = true;
       };
-      bluetooth.enable = true;
+      bluetooth = {
+        enable = true;
+        bluetuith.enable = true;
+      };
     };
 
     terminal = {
@@ -68,7 +71,7 @@
     };
 
     boot = {
-      bootloader = "systemd-boot";
+      systemd-boot.enable = true;
       plymouth.enable = true;
       secureBoot.enable = true;
     };

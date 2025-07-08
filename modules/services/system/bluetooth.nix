@@ -12,5 +12,8 @@ in
       powerOnBoot = true;
     };
 
-    environment.systemPackages = [pkgs.blueman];
+    environment.systemPackages = [
+      (lib.mkIf cfg.blueman.enable pkgs.blueman)
+      (lib.mkIf cfg.bluetuith.enable pkgs.bluetuith)
+    ];
   }

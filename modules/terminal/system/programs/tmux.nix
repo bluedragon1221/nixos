@@ -132,7 +132,11 @@
     set-hook -g window-linked 'if -F "#{==:#{session_windows},1}" { set status off } { set status on }'
     set-hook -g window-unlinked 'if -F "#{==:#{session_windows},1}" { set status off } { set status on }'
 
-    run-shell "${scriptsDir}/bar.sh"
+    ${
+      if (cfg.theme == "catppuccin")
+      then "run-shell '${scriptsDir}/bar.sh'"
+      else ""
+    }
 
     # Sessions
     set-hook -ag client-detached 'run-shell ${scriptsDir}/clean-sessions.sh'

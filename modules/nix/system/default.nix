@@ -15,9 +15,14 @@
 
   # Disable channels
   nix.channel.enable = false;
-  programs.command-not-found.enable = false; # breaks unless you use channels
 
   nixpkgs = {
     config.allowUnfree = true;
+  };
+
+  programs.nh = {
+    enable = true;
+    flake = "/home/collin/nixos";
+    clean.enable = true;
   };
 }

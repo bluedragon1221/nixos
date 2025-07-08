@@ -6,7 +6,9 @@
 }: let
   cfg = config.collinux.terminal.programs.cmus;
 
-  scripts.statusDisplay = pkgs.writeShellScriptBin "status.sh" ''
+  scriptsDir = "~/.config/cmus/scripts";
+
+  scripts.statusDisplay = ''
     while [ $# -ge 2 ]; do
     	eval _$1='$2'
     	shift
@@ -53,28 +55,37 @@
   '';
 
   cmus_rc = ''
-    colorscheme catppuccin
-    set status_display_program=${scripts.statusDisplay}/bin/status.sh
+    ${
+      if (cfg.theme == "catppuccin")
+      then "colorscheme catppuccin"
+      else ""
+    }
+    set status_display_program=${scriptsDir}/status.sh
   '';
 
-  cava_config = ''
-    [color]
-    gradient=1
-    gradient_color_1='#94e2d5'
-    gradient_color_2='#89dceb'
-    gradient_color_3='#74c7ec'
-    gradient_color_4='#89b4fa'
-    gradient_color_5='#cba6f7'
-    gradient_color_6='#f5c2e7'
-    gradient_color_7='#eba0ac'
-    gradient_color_8='#f38ba8'
-  '';
+  cava_config =
+    if cfg.theme == "catppuccin"
+    then ''
+      [color]
+      gradient=1
+      gradient_color_1='#94e2d5'
+      gradient_color_2='#89dceb'
+      gradient_color_3='#74c7ec'
+      gradient_color_4='#89b4fa'
+      gradient_color_5='#cba6f7'
+      gradient_color_6='#f5c2e7'
+      gradient_color_7='#eba0ac'
+      gradient_color_8='#f38ba8'
+    ''
+    else "";
 in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
       files = {
+        ".config/cmus/scripts/status.sh".text = scripts.statusDisplay;
+
         ".config/cmus/rc".text = cmus_rc;
-        ".config/cmus/catppuccin.theme".text = cmus_theme;
+        ".config/cmus/catppuccin.theme".text = lib.mkIf (cfg.theme == "catppuccin") cmus_theme;
         ".config/cava/config".text = cava_config;
       };
 

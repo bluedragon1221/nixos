@@ -5,9 +5,8 @@
   ...
 }: let
   cfg = config.collinux.terminal.programs.starship;
-  toml' = pkgs.formats.toml {};
 
-  settings = toml'.generate "starship.toml" {
+  settings = {
     format = ''$directory$git_branch$git_status $character'';
 
     add_newline = false;
@@ -38,7 +37,11 @@ in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
       files = {
-        ".config/starship.toml".source = settings;
+        ".config/starship.toml" = {
+          generator = (pkgs.formats.toml {}).generate "starship.toml";
+          value = settings;
+        };
+
         ".config/fish/conf.d/starship.fish".text = lib.mkIf config.collinux.terminal.shells.fish.enable ''
           function starship_transient_prompt_func
             starship module character
