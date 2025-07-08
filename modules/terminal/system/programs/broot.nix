@@ -25,9 +25,7 @@ in
         ".config/broot/conf.toml".source = conf;
 
         ".config/fish/conf.d/broot.fish".text = lib.mkIf config.collinux.terminal.shells.fish.enable ''
-          if status is-interactive
-            ${pkgs.broot}/bin/broot --print-shell-function fish | source
-          end
+          ${pkgs.broot}/bin/broot --print-shell-function fish | source
         '';
       };
 

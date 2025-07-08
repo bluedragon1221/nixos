@@ -39,6 +39,7 @@ in {
         lazygit.enable = mkEnableOption "lazygit";
 
         cmus = mkProgramOption "cmus";
+        nh.enable = mkEnableOption "nh nix helper";
 
         git = {
           enable = mkEnableOption "git";
@@ -60,6 +61,9 @@ in {
         };
 
         tmux = mkProgramOption "tmux terminal multiplexer";
+        fzf = mkProgramOption "fzf fuzzy finder";
+        bat = mkProgramOption "bat cat replacement";
+        eza = mkProgramOption "eza ls replacement";
       };
     };
   };

@@ -1,19 +1,19 @@
-{
-  config,
-  pkgs,
-  ...
-}: let
+{config, ...}: let
   cfg = config.collinux.terminal.shells;
 in {
   imports = [
-    ./programs/cmus.nix
-    ./programs/fish.nix
-    ./programs/git.nix
-    ./programs/helix.nix
+    ./programs/fzf.nix
+    ./programs/bat.nix
+    ./programs/nh.nix
     ./programs/lazygit.nix
+    ./programs/eza.nix
     ./programs/starship.nix
+    ./programs/git.nix
     ./programs/tmux.nix
     ./programs/broot.nix
+    ./programs/cmus.nix
+    ./programs/helix.nix
+    ./programs/fish.nix
   ];
 
   programs.command-not-found.enable = false; # broken without nix-channels
@@ -21,6 +21,5 @@ in {
   users.users."${config.collinux.user.name}" = {
     shell = cfg.defaultShell;
     ignoreShellProgramCheck = true;
-    packages = [pkgs.nh]; # Couldn't figure out where else to put this
   };
 }

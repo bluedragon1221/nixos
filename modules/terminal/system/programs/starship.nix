@@ -41,13 +41,11 @@ in
         ".config/starship.toml".source = settings;
         ".config/fish/conf.d/starship.fish".text = lib.mkIf config.collinux.terminal.shells.fish.enable ''
           function starship_transient_prompt_func
-            ${pkgs.starship}/bin/starship module character
+            starship module character
           end
 
-          if status is-interactive
-            ${pkgs.starship}/bin/starship init fish | source
-            enable_transience
-          end
+          starship init fish | source
+          enable_transience
         '';
       };
 

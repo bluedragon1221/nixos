@@ -6,14 +6,16 @@
 }: let
   cfg = config.collinux.terminal.programs.tmux;
 
-  scripts.bat = pkgs.writeShellScriptBin "battery.sh" ''
+  scriptsDir = "~/.config/tmux/scripts";
+
+  scripts.battery = ''
     energy_now=$(cat /sys/class/power_supply/BAT0/energy_now)
     energy_full=$(cat /sys/class/power_supply/BAT0/energy_full)
     percentage=$((energy_now * 100 / energy_full))
     printf "%.0f%%" "$percentage"
   '';
 
-  scripts.primeProjects = pkgs.writeShellScriptBin "projects.sh" ''
+  scripts.sessionizer = ''
     FZF_DEFAULT_OPTS="--color bg:#1E1E2E,bg+:#313244,border:#313244,fg:#CDD6F4,fg+:#CDD6F4,header:#F38BA8,hl:#F38BA8,hl+:#F38BA8,info:#CBA6F7,label:#CDD6F4,marker:#B4BEFE,pointer:#F5E0DC,prompt:#CBA6F7,selected-bg:#45475A,spinner:#F5E0DC"
 
     projects="
@@ -42,7 +44,7 @@
     fi
   '';
 
-  scripts.cleanSessions = pkgs.writeShellScriptBin "clean-sessions.sh" ''
+  scripts.cleanSessions = ''
     current="$(tmux display-message -p '#S')"
 
     tmux list-sessions -F '#S' | while read -r line; do
@@ -52,7 +54,7 @@
     done
   '';
 
-  scripts.bar = pkgs.writeShellScriptBin "bar.sh" ''
+  scripts.bar = ''
     text="#c6d0f5"
     text_dark="#7F849C"
     blue="#b3befe"
@@ -81,7 +83,7 @@
     tset window-status-separator " "
 
     tset status-right-style fg=$red
-    tset status-right "#(${scripts.bat}/bin/battery.sh)"
+    tset status-right "#(${scriptsDir}/battery.sh)"
 
     ## pane borders
     tset pane-border-style fg=$bg_dark,bg=$bg_dark
@@ -130,20 +132,32 @@
     set-hook -g window-linked 'if -F "#{==:#{session_windows},1}" { set status off } { set status on }'
     set-hook -g window-unlinked 'if -F "#{==:#{session_windows},1}" { set status off } { set status on }'
 
-    run-shell "${scripts.bar}/bin/bar.sh"
+    run-shell "${scriptsDir}/bar.sh"
 
     # Sessions
-    set-hook -ag client-detached 'run-shell ${scripts.cleanSessions}/bin/clean-sessions.sh'
-    set-hook -ag client-session-changed 'run-shell ${scripts.cleanSessions}/bin/clean-sessions.sh'
+    set-hook -ag client-detached 'run-shell ${scriptsDir}/clean-sessions.sh'
+    set-hook -ag client-session-changed 'run-shell ${scriptsDir}/clean-sessions.sh'
 
-    bind-key -n C-f run-shell "${scripts.primeProjects}/bin/projects.sh"
+    bind-key -n C-f run-shell "${scriptsDir}/sessionizer.sh"
 
     bind-key -n C-g display-popup -E -w 80% -h 80% -x C -y C -d "#{pane_current_path}" "${pkgs.lazygit}/bin/lazygit"
   '';
 in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
-      files.".config/tmux/tmux.conf".text = tmux-conf;
+      files = let
+        e = text: {
+          inherit text;
+          executable = true;
+        };
+      in {
+        ".config/tmux/scripts/battery.sh" = e scripts.battery;
+        ".config/tmux/scripts/sessionizer.sh" = e scripts.sessionizer;
+        ".config/tmux/scripts/clean-sessions.sh" = e scripts.cleanSessions;
+        ".config/tmux/scripts/bar.sh" = e scripts.bar;
+
+        ".config/tmux/tmux.conf".text = tmux-conf;
+      };
 
       packages = [pkgs.tmux];
     };

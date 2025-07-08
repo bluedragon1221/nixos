@@ -47,6 +47,10 @@
         lazygit.enable = true;
         starship.enable = true;
 
+        fzf.enable = true;
+        bat.enable = true;
+        eza.enable = true;
+
         git = {
           enable = true;
           userName = "Collin Williams";
@@ -54,6 +58,7 @@
         };
 
         cmus.enable = true;
+        nh.enable = true;
 
         helix = {
           enable = true;
