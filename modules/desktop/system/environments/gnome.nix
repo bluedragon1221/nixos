@@ -7,13 +7,11 @@
   cfg = config.collinux.desktop.gnome;
 in
   lib.mkIf cfg.enable {
-    services.xserver = {
-      displayManager.gdm = {
-        enable = true;
-        wayland = true;
-      };
-      desktopManager.gnome.enable = true;
+    services.displayManager.gdm = {
+      enable = true;
+      wayland = true;
     };
+    services.desktopManager.gnome.enable = true;
 
     environment.gnome.excludePackages = with pkgs; [
       orca
@@ -64,4 +62,63 @@ in
       yelp
       gnome-software
     ];
+
+    hjem.users."${config.collinux.user.name}".packages = with pkgs.gnomeExtensions; [blur-my-shell dash-to-dock];
+
+    programs.dconf = {
+      enable = true;
+      profiles.user.databases = [
+        {
+          settings = {
+            "org/gnome/mutter" = {
+              workspaces-only-on-primary = false;
+            };
+            "org/gnome/shell/app-switcher" = {
+              current-workspace-only = true;
+            };
+
+            # Idle settings
+            "org/gnome/desktop/session" = {
+              idle-delay = lib.gvariant.mkInt16 0;
+            };
+            "org/gnome/settings-daemon/plugins/power" = {
+              sleep-inactive-ac-type = "nothing";
+            };
+
+            # Keybindings
+            "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
+              binding = "<Super>Return";
+              command = "blackbox";
+              name = "Terminal";
+            };
+            "org/gnome/settings-daemon/plugins/media-keys" = {
+              custom-keybindings = [
+                "/org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0/"
+              ];
+            };
+
+            # Background
+            "org/gnome/desktop/background" = rec {
+              picture-uri = "file://${pkgs.gnome-backgrounds}/share/backgrounds/gnome/blobs-d.svg";
+              picture-uri-dark = picture-uri;
+            };
+
+            # Extensions
+            "org/gnome/shell" = {
+              disable-user-extensions = false;
+              enabled-extensions = with pkgs.gnomeExtensions; [
+                blur-my-shell.extensionUuid
+                dash-to-dock.extensionUuid
+              ];
+            };
+
+            "org/gnome/shell/extensions/dash-to-dock" = {
+              dash-max-icon-size = lib.gvariant.mkInt16 48;
+              show-trash = false;
+              show-mounts = false;
+            };
+          };
+        }
+      ];
+    };
   }
