@@ -43,7 +43,6 @@
       shells.fish.enable = true;
 
       programs = {
-        starship.enable = true;
         tmux.enable = true;
         lazygit.enable = true;
 
@@ -53,7 +52,6 @@
           userEmail = "96917990+bluedragon1221@users.noreply.github.com";
         };
 
-        nh.enable = true;
         cmus.enable = true;
 
         helix = {

@@ -34,12 +34,7 @@ in {
       };
 
       programs = {
-        # Themed
-        starship = mkProgramOption "starship prompt";
         lazygit.enable = mkEnableOption "lazygit";
-
-        cmus = mkProgramOption "cmus";
-
         git = {
           enable = mkEnableOption "git";
           userName = mkOption {
@@ -51,6 +46,8 @@ in {
           };
         };
 
+        tmux = mkProgramOption "tmux terminal multiplexer";
+
         helix = mkProgramOption' "helix text editor" {
           hardMode = mkOption {
             type = types.bool;
@@ -59,7 +56,7 @@ in {
           };
         };
 
-        tmux = mkProgramOption "tmux terminal multiplexer";
+        cmus = mkProgramOption "cmus";
       };
     };
   };

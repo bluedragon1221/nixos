@@ -78,6 +78,7 @@
     bindsym Mod4+Shift+Return exec ${pkgs.foot}/bin/foot
     bindsym Mod4+Space exec ${pkgs.fuzzel}/bin/fuzzel
     bindsym Mod4+b exec ${pkgs.firefox}/bin/firefox
+    bindsym Mod4+Shift+b exec ${pkgs.qutebrowser}/bin/qutebrowser
     bindsym Mod4+q kill
 
     bindsym XF86AudioRaiseVolume exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h int:value:"$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/Volume:\ //'); echo "$dec * 100" | bc)"'

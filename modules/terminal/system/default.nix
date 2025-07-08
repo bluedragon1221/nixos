@@ -1,7 +1,6 @@
 {
   config,
   pkgs,
-  my-lib,
   ...
 }: let
   cfg = config.collinux.terminal.shells;

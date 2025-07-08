@@ -7,6 +7,7 @@
     kdePackages.kleopatra
     mpv
     musescore
+    qutebrowser
   ];
 
   home.stateVersion = "25.05";
