@@ -24,8 +24,8 @@
       format = "$modified$staged$ahead$behind";
       modified = "[!](red bold)";
       staged = "[+](green bold)";
-      ahead = "[](green)";
-      behind = "[](red)";
+      ahead = "[/](green)";
+      behind = "[\](red)";
     };
 
     directory = {
@@ -39,7 +39,7 @@ in
     hjem.users."${config.collinux.user.name}" = {
       files = {
         ".config/starship.toml".source = settings;
-        ".config/fish/conf.d/starship.fish".text = lib.mkIf config.collinux.shells.fish.enable ''
+        ".config/fish/conf.d/starship.fish".text = lib.mkIf config.collinux.terminal.shells.fish.enable ''
           function starship_transient_prompt_func
             ${pkgs.starship}/bin/starship module character
           end
@@ -51,8 +51,6 @@ in
         '';
       };
 
-      packages = [
-        pkgs.starship
-      ];
+      packages = [pkgs.starship];
     };
   }
