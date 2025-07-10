@@ -16,8 +16,6 @@
   '';
 
   scripts.sessionizer = ''
-    FZF_DEFAULT_OPTS="--color bg:#1E1E2E,bg+:#313244,border:#313244,fg:#CDD6F4,fg+:#CDD6F4,header:#F38BA8,hl:#F38BA8,hl+:#F38BA8,info:#CBA6F7,label:#CDD6F4,marker:#B4BEFE,pointer:#F5E0DC,prompt:#CBA6F7,selected-bg:#45475A,spinner:#F5E0DC"
-
     projects="
       $(find $HOME/projects -maxdepth 1 -mindepth 1 -type d)
       $HOME/Documents/brain2.0
@@ -27,7 +25,10 @@
     if [ $# -eq 1 ]; then
       selected="$1"
     else
-      selected="$(echo "$projects" | fzf --tmux --style=minimal --info=hidden $FZF_DEFAULT_OPTS)"
+      tmpfile="$(mktemp)"
+      ${scriptsDir}/minibuffer.sh "echo '$projects' | fzf --style=minimal --info=hidden --color bg:#181825 > '$tmpfile'"
+      selected="$(cat "$tmpfile")"
+      rm "$tmpfile"
     fi
 
     [ -z "$selected" ] && exit
@@ -97,6 +98,18 @@
     tset window-style bg=$bg_dark
   '';
 
+  scripts.paneSplit = ''
+    #!/usr/bin/env bash
+    width=$(tmux display -p "#{pane_width}")
+    height=$(tmux display -p "#{pane_height}")
+
+    if (( $(echo "$width / $height > 2.5" | bc -l) )); then
+      tmux split-window -h "$@"
+    else
+      tmux split-window -v "$@"
+    fi
+  '';
+
   tmux-conf = ''
     set -g mouse on
 
@@ -110,11 +123,7 @@
     # Panes
     bind-key -n C-w kill-pane
 
-    bind -n C-Enter if -F '#{e|>:#{e|/:#{pane_width},#{pane_height}},2.5}' {
-      split-window -h -c '#{pane_current_path}'
-    } {
-      split-window -v -c '#{pane_current_path}'
-    }
+    bind -n C-Enter run-shell "${scriptsDir}/split.sh -c '#{pane_current_path}'"
 
     unbind -n MouseDown3Pane ## disable right click menu
     bind-key -n M-z resize-pane -Z ## Pane zoom
@@ -142,10 +151,43 @@
     set-hook -ag client-detached 'run-shell ${scriptsDir}/clean-sessions.sh'
     set-hook -ag client-session-changed 'run-shell ${scriptsDir}/clean-sessions.sh'
 
+    bind-key -n C-g display-popup -E -w 80% -h 80% -x C -y C -d "#{pane_current_path}" "${pkgs.lazygit}/bin/lazygit"
+    bind-key -n C-o display-popup -E -w 70% -h 70% -x C -y C -d "#{pane_current_path}" "hx ~/Documents/todo.txt"
+
     bind-key -n C-f run-shell "${scriptsDir}/sessionizer.sh"
 
-    bind-key -n C-g display-popup -E -w 80% -h 80% -x C -y C -d "#{pane_current_path}" "${pkgs.lazygit}/bin/lazygit"
+    # 1. C-h to open broot in bottom (like emacs minibuffer)
+    # 2. search for file
+    # 'enter' to open it in current pane (kills current running process in that pane)
+    # or 'alt-enter' to open it in new pane
+    # quiting editor will send back to fish (not close the pane)
+    bind-key -n C-h run-shell "${scriptsDir}/minibuffer.sh 'broot --conf ~/.config/tmux/broot_popup.toml'"
   '';
+
+  scripts.minibuffer = ''
+    window_height="$(tmux display -p '#{window_height}')"
+    tmux display-popup -EB \
+      -w 100% -h 16 \
+      -x 0 -y "$(($window_height + 1))" \
+      -d '#{pane_current_path}' \
+      "$@"
+  '';
+
+  broot_popup_config = {
+    quit_on_last_cancel = true;
+    verbs = [
+      {
+        invocation = "replace_tmux";
+        key = "enter";
+        external = ''bash -c "tmux respawn-pane -k -c '#{pane_current_path}' 'hx {file}; exec fish'"'';
+      }
+      {
+        invocation = "open_tmux";
+        key = "alt-enter";
+        external = ''bash -c -- "${scriptsDir}/split.sh -c '#{pane_current_path}' 'hx {file}; exec fish'"'';
+      }
+    ];
+  };
 in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
@@ -159,6 +201,13 @@ in
         ".config/tmux/scripts/sessionizer.sh" = e scripts.sessionizer;
         ".config/tmux/scripts/clean-sessions.sh" = e scripts.cleanSessions;
         ".config/tmux/scripts/bar.sh" = e scripts.bar;
+        ".config/tmux/scripts/split.sh" = e scripts.paneSplit;
+        ".config/tmux/scripts/minibuffer.sh" = e scripts.minibuffer;
+
+        ".config/tmux/broot_popup.toml" = {
+          generator = (pkgs.formats.toml {}).generate "broot_popup.toml";
+          value = broot_popup_config;
+        };
 
         ".config/tmux/tmux.conf".text = tmux-conf;
       };
