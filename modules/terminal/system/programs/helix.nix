@@ -133,6 +133,17 @@
   };
 in
   lib.mkIf cfg.enable {
+    nixpkgs.overlays = [
+      (self: super: {
+        # rename window to filename when editing file
+        helix = self.writeShellScriptBin "hx" ''
+          file="$1"
+          printf '\033]2;%s\033\\' "hx $(basename "$file")"
+          exec ${super.helix}/bin/hx "$@"
+        '';
+      })
+    ];
+
     hjem.users."${config.collinux.user.name}" = {
       files = let
         t = value: {
