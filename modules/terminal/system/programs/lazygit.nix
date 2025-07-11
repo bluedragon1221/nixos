@@ -14,10 +14,13 @@
       showListFooter = false;
       showCommandLog = false;
       showPanelJumps = false;
-      # border = "single";
       statusPanelView = "allBranchesLog";
     };
+    update.method = "never";
     notARepository = "quit";
+
+    quitOnTopLevelReturn = true;
+    disableStartupPopups = true;
     promptToReturnFromSubprocess = false;
 
     theme.inactiveBorderColor = ["#313244"];
