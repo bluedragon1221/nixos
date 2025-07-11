@@ -9,6 +9,10 @@
   init = ''
     set fish_greeting
 
+    function fish_title
+        echo fish (prompt_pwd)
+    end
+
     pay-respects fish --alias | source
   '';
 in

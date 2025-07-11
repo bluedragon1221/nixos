@@ -138,7 +138,7 @@ in
         # rename window to filename when editing file
         helix = self.writeShellScriptBin "hx" ''
           file="$1"
-          printf '\033]2;%s\033\\' "hx $(basename "$file")"
+          printf '\033]2;%s\033\\' "hx $file"
           exec ${super.helix}/bin/hx "$@"
         '';
       })

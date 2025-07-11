@@ -172,18 +172,56 @@
       "$@"
   '';
 
+  # binding for broot-minibuffer's alt-enter
+  scripts.smartOpen = ''
+    if [[ "$1" = "-t" ]]; then
+      # `alt-enter` mode
+      ${scriptsDir}/split.sh -c "#{?@default-path,#{@default-path},#{pane_current_path}}" "hx \"$2\"; exec fish"
+    else
+      # `enter` mode
+      file="$1"
+
+      [ -z "$file" ] && exit 1
+
+      # 1. If there is already a pane that looks like "hx {file}", switch to that pane
+      while IFS='|' read -r window pane title; do
+        if [[ "$title" = "hx $file" ]]; then
+          tmux select-window -t "$window"
+          tmux select-pane -t "$pane"
+          exit 0
+        fi
+      done < <(tmux list-panes -sF "#{window_id}|#{pane_id}|#{pane_title}")
+
+    	# 2. If the current pane is a shell (fish or bash), send-keys "hx {file}"
+    	pane_title="$(tmux display -p '#{pane_title}')"
+    	if [[ "$pane_title" =~ ^(fish|bash).*$ ]]; then
+        tmux send-keys "hx \"$file\"" C-m
+        exit 0
+
+    	# 3. If the current pane is helix, send-keys ":o {file}"
+      elif [[ "$pane_title" =~ ^hx.*$ ]]; then
+        tmux send-keys ":o \"$file\"" C-m
+        exit 0
+      fi
+
+    	# 4. Otherwise, open the file in a new pane
+    	${scriptsDir}/smart-open.sh -t "$file"
+    fi
+  '';
+
   broot_popup_config = {
+    imports = ["~/.config/broot/conf.toml"]; # for the colortheme
     quit_on_last_cancel = true;
     verbs = [
       {
         invocation = "replace_tmux";
         key = "enter";
-        external = ''bash -c "tmux respawn-pane -k -c '#{pane_current_path}' 'hx {file}; exec fish'"'';
+        external = ''bash -c -- "${scriptsDir}/smart-open.sh '{file}'"'';
       }
       {
         invocation = "open_tmux";
         key = "alt-enter";
-        external = ''bash -c -- "${scriptsDir}/split.sh -c '#{pane_current_path}' 'hx {file}; exec fish'"'';
+        external = ''bash -c -- "${scriptsDir}/smart-open.sh -t '{file}'"'';
       }
     ];
   };
@@ -202,6 +240,7 @@ in
         ".config/tmux/scripts/bar.sh" = e scripts.bar;
         ".config/tmux/scripts/split.sh" = e scripts.paneSplit;
         ".config/tmux/scripts/minibuffer.sh" = e scripts.minibuffer;
+        ".config/tmux/scripts/smart-open.sh" = e scripts.smartOpen;
 
         ".config/tmux/broot_popup.toml" = {
           generator = (pkgs.formats.toml {}).generate "broot_popup.toml";
