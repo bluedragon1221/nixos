@@ -45,9 +45,9 @@
   '';
 
   scripts.cleanSessions = ''
-    current="$(tmux display-message -p '#S')"
+    current="$(tmux display -p '#{session_name}')"
 
-    tmux list-sessions -F '#S' | while read -r line; do
+    tmux list-sessions -F '#{session_name}' | while read -r line; do
       if [[ "$line" != "$current" && "$line" =~ ^[[:digit:]]+$ ]]; then
         tmux kill-session -t "$line"
       fi
@@ -133,7 +133,7 @@
     bind-key -n C-S-Tab previous-window # doesn't work in foot :(
 
     set -g renumber-windows on
-    set -g allow-rename off
+    set -g allow-rename on
 
     # Statusbar
     set-hook -g client-attached 'if -F "#{==:#{session_windows},1}" { set status off } { set status on }'
