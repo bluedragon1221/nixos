@@ -14,6 +14,7 @@
         key = "enter";
         execution = "$EDITOR +{line} {file}";
         working_dir = "{root}";
+        apply_to = "file";
         leave_broot = true;
       }
     ];

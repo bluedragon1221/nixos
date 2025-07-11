@@ -15,22 +15,22 @@
     printf "%.0f%%" "$percentage"
   '';
 
+  broot_sessionizer_config = {
+    imports = ["~/.config/broot/conf.toml"];
+    quit_on_last_cancel = true;
+    verbs = [
+      {
+        invocation = "sessionizer";
+        external = ''bash -c -- "${scriptsDir}/sessionizer.sh '{file}'"'';
+        key = "enter";
+        apply_to = "directory";
+        leave_broot = true;
+      }
+    ];
+  };
+
   scripts.sessionizer = ''
-    projects="$(find $HOME/projects -maxdepth 1 -mindepth 1 -type d)
-    $HOME/Pictures/experiments
-    $HOME/brain
-    $HOME/nixos"
-
-    if [ $# -eq 1 ]; then
-      selected="$1"
-    else
-      tmpfile="$(mktemp)"
-      ${scriptsDir}/minibuffer.sh "echo '$projects' | fzf --style=minimal --info=hidden --color bg:#181825 > '$tmpfile'"
-      selected="$(cat "$tmpfile")"
-      rm "$tmpfile"
-    fi
-
-    [ -z "$selected" ] && exit
+    selected="$1"
 
     session_name="$(basename "$selected" | tr '.' '_')"
 
@@ -126,41 +126,29 @@
 
     unbind -n MouseDown3Pane ## disable right click menu
     bind-key -n M-z resize-pane -Z ## Pane zoom
+    set -g allow-rename on
 
     # Windows
     bind-key -n C-t     new-window -c '#{?@default-path,#{@default-path},#{pane_current_path}}'
     bind-key -n C-Tab   next-window
     bind-key -n C-S-Tab previous-window # doesn't work in foot :(
-
+    bind-key -n C-h run-shell "${scriptsDir}/minibuffer.sh -d '#{pane_current_path}' 'broot --conf ~/.config/tmux/broot/popup.toml'"
     set -g renumber-windows on
-    set -g allow-rename on
+
+    # Sessions
+    bind-key -n C-f run-shell "${scriptsDir}/minibuffer.sh -d '$HOME' 'broot --only-folders --conf ~/.config/tmux/broot/sessionizer.toml'"
 
     # Statusbar
+    run-shell "${scriptsDir}/bar.sh"
     set-hook -g client-attached 'if -F "#{==:#{session_windows},1}" { set status off } { set status on }'
     set-hook -g window-linked 'if -F "#{==:#{session_windows},1}" { set status off } { set status on }'
     set-hook -g window-unlinked 'if -F "#{==:#{session_windows},1}" { set status off } { set status on }'
 
-    ${
-      if (cfg.theme == "catppuccin")
-      then "run-shell '${scriptsDir}/bar.sh'"
-      else ""
-    }
-
-    # Sessions
     set-hook -ag client-detached 'run-shell ${scriptsDir}/clean-sessions.sh'
     set-hook -ag client-session-changed 'run-shell ${scriptsDir}/clean-sessions.sh'
 
     bind-key -n C-g display-popup -E -w 80% -h 80% -x C -y C -d "#{?@default-path,#{@default-path},#{pane_current_path}}" "${pkgs.lazygit}/bin/lazygit"
     bind-key -n C-o display-popup -E -w 70% -h 70% -x C -y C "hx ~/Documents/todo.txt"
-
-    bind-key -n C-f run-shell "${scriptsDir}/sessionizer.sh"
-
-    # 1. C-h to open broot in bottom (like emacs minibuffer)
-    # 2. search for file
-    # 'enter' to open it in current pane (kills current running process in that pane)
-    # or 'alt-enter' to open it in new pane
-    # quiting editor will send back to fish (not close the pane)
-    bind-key -n C-h run-shell "${scriptsDir}/minibuffer.sh 'broot --conf ~/.config/tmux/broot_popup.toml'"
   '';
 
   scripts.minibuffer = ''
@@ -168,7 +156,6 @@
     tmux display-popup -EB \
       -w 100% -h 16 \
       -x 0 -y "$(($window_height + 1))" \
-      -d '#{pane_current_path}' \
       "$@"
   '';
 
@@ -242,9 +229,13 @@ in
         ".config/tmux/scripts/minibuffer.sh" = e scripts.minibuffer;
         ".config/tmux/scripts/smart-open.sh" = e scripts.smartOpen;
 
-        ".config/tmux/broot_popup.toml" = {
+        ".config/tmux/broot/popup.toml" = {
           generator = (pkgs.formats.toml {}).generate "broot_popup.toml";
           value = broot_popup_config;
+        };
+        ".config/tmux/broot/sessionizer.toml" = {
+          generator = (pkgs.formats.toml {}).generate "broot_sessionizer.toml";
+          value = broot_sessionizer_config;
         };
 
         ".config/tmux/tmux.conf".text = tmux-conf;
