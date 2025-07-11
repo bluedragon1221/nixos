@@ -16,12 +16,11 @@
   '';
 
   scripts.sessionizer = ''
-    projects="
-      $(find $HOME/projects -maxdepth 1 -mindepth 1 -type d)
-      $HOME/Documents/brain2.0
-      $HOME/Music
-      $HOME/nixos
-    "
+    projects="$(find $HOME/projects -maxdepth 1 -mindepth 1 -type d)
+    $HOME/Pictures/experiments
+    $HOME/brain
+    $HOME/nixos"
+
     if [ $# -eq 1 ]; then
       selected="$1"
     else
@@ -35,14 +34,14 @@
 
     session_name="$(basename "$selected" | tr '.' '_')"
 
-    if tmux list-sessions | grep -q "^$session_name:"; then
-      # session already exists, switch to it
-      tmux switch -t "$session_name"
-    else
-      # session doesn't exist, create it and switch to it
+    # if the session doesn't exist, create it
+    if tmux list-sessions -F '#{session_name}' | grep -vqx "$session_name"; then
       tmux new-session -ds "$session_name" -c "$selected"
-      tmux switch -t "$session_name"
+      tmux set-option -t "$session_name" @default-path "$selected"
     fi
+
+    # switch to it
+    tmux switch -t "$session_name"
   '';
 
   scripts.cleanSessions = ''
@@ -123,13 +122,13 @@
     # Panes
     bind-key -n C-w kill-pane
 
-    bind -n C-Enter run-shell "${scriptsDir}/split.sh -c '#{pane_current_path}'"
+    bind -n C-Enter run-shell "${scriptsDir}/split.sh -c '#{?@default-path,#{@default-path},#{pane_current_path}}'"
 
     unbind -n MouseDown3Pane ## disable right click menu
     bind-key -n M-z resize-pane -Z ## Pane zoom
 
     # Windows
-    bind-key -n C-t     new-window -c '#{pane_current_path}'
+    bind-key -n C-t     new-window -c '#{?@default-path,#{@default-path},#{pane_current_path}}'
     bind-key -n C-Tab   next-window
     bind-key -n C-S-Tab previous-window # doesn't work in foot :(
 
@@ -151,8 +150,8 @@
     set-hook -ag client-detached 'run-shell ${scriptsDir}/clean-sessions.sh'
     set-hook -ag client-session-changed 'run-shell ${scriptsDir}/clean-sessions.sh'
 
-    bind-key -n C-g display-popup -E -w 80% -h 80% -x C -y C -d "#{pane_current_path}" "${pkgs.lazygit}/bin/lazygit"
-    bind-key -n C-o display-popup -E -w 70% -h 70% -x C -y C -d "#{pane_current_path}" "hx ~/Documents/todo.txt"
+    bind-key -n C-g display-popup -E -w 80% -h 80% -x C -y C -d "#{?@default-path,#{@default-path},#{pane_current_path}}" "${pkgs.lazygit}/bin/lazygit"
+    bind-key -n C-o display-popup -E -w 70% -h 70% -x C -y C "hx ~/Documents/todo.txt"
 
     bind-key -n C-f run-shell "${scriptsDir}/sessionizer.sh"
 
