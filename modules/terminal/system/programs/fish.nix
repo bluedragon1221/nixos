@@ -13,6 +13,7 @@
         echo fish (prompt_pwd)
     end
 
+    direnv hook fish | source
     pay-respects fish --alias | source
   '';
 in
@@ -31,6 +32,7 @@ in
         unzip
         btop
         jq
+        direnv
         pay-respects
       ];
     };

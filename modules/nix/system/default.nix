@@ -1,4 +1,4 @@
-{
+{config, pkgs, ...}: {
   nix = {
     gc.automatic = false; # use nh cleaner instead
 
@@ -25,4 +25,6 @@
     flake = "/home/collin/nixos";
     clean.enable = true;
   };
+
+  hjem.users."${config.collinux.user.name}".packages = [pkgs.cached-nix-shell];
 }
