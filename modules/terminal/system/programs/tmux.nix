@@ -140,7 +140,7 @@
     set -g base-index 1
 
     # Sessions
-    bind-key -n C-f run-shell "${scriptsDir}/minibuffer.sh -d '$HOME' 'broot --conf ~/.config/tmux/broot_sessionizer.toml'"
+    bind-key -n C-f run-shell "${scriptsDir}/minibuffer.sh -d '$HOME' 'broot --conf ~/.config/tmux/broot/sessionizer.toml'"
 
     # Statusbar
     run-shell "${scriptsDir}/bar.sh"
@@ -180,7 +180,7 @@ in
         ".config/tmux/scripts/minibuffer.sh" = e scripts.minibuffer;
 
         ".config/tmux/broot/sessionizer.toml" = {
-          generator = (pkgs.formats.toml {}).generate "broot_sessionizer.toml";
+          generator = (pkgs.formats.toml {}).generate "sessionizer.toml";
           value = broot_sessionizer_config;
         };
 
