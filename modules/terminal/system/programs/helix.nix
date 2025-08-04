@@ -9,7 +9,13 @@
   languages = {
     language-server = {
       rust-analyzer.command = "${pkgs.rust-analyzer}/bin/rust-analyzer";
-      nil.command = "${pkgs.nil}/bin/nil";
+
+      nil = {
+        command = "${pkgs.nil}/bin/nil";
+        config = {
+          nil.nix.flake.autoArchive = true;
+        };
+      };
       superhtml = {
         command = "${pkgs.superhtml}/bin/superhtml";
         args = ["lsp"];
