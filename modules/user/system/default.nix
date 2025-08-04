@@ -13,6 +13,8 @@ in {
   };
   security.sudo-rs.enable = true;
 
+  time.timeZone = "America/Chicago";
+
   hjem = {
     clobberByDefault = true;
     users."${cfg.name}" = {

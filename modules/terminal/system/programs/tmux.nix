@@ -1,7 +1,7 @@
 {
-  pkgs,
   lib,
   config,
+  pkgs,
   ...
 }: let
   cfg = config.collinux.terminal.programs.tmux;
@@ -73,17 +73,16 @@
     tset status-justify absolute-centre
     tset status-bg $bg_light
 
-    tset status-left-style fg=$green
-    tset status-left "   #{client_session} "
+    tset status-left-style fg=$green,bold
+    tset status-left " #{client_session}"
 
     tset window-status-style fg=$text_dark
-    tset window-status-format "#I:#W"
+    tset window-status-format " #I "
     tset window-status-current-style fg=$blue,bold
-    tset window-status-current-format "#I:#W"
-    tset window-status-separator " "
+    tset window-status-current-format " #I "
+    tset window-status-separator ""
 
-    tset status-right-style fg=$red
-    tset status-right "#(${scriptsDir}/battery.sh)"
+    tset status-right "#[fg=$text_dark]%l:%M  #[fg=$red]#(${scriptsDir}/battery.sh) "
 
     ## pane borders
     tset pane-border-style fg=$bg_dark,bg=$bg_dark
@@ -109,6 +108,11 @@
     fi
   '';
 
+  plugins.fuzzback = builtins.fetchGit {
+    url = "https://github.com/roosta/tmux-fuzzback";
+    rev = "0aafeeec4555d7b44a5a2a8252f29c238d954d59";
+  };
+
   tmux-conf = ''
     set -g mouse on
 
@@ -132,23 +136,24 @@
     bind-key -n C-t     new-window -c '#{?@default-path,#{@default-path},#{pane_current_path}}'
     bind-key -n C-Tab   next-window
     bind-key -n C-S-Tab previous-window # doesn't work in foot :(
-    bind-key -n C-h run-shell "${scriptsDir}/minibuffer.sh -d '#{pane_current_path}' 'broot --conf ~/.config/tmux/broot/popup.toml'"
     set -g renumber-windows on
+    set -g base-index 1
 
     # Sessions
-    bind-key -n C-f run-shell "${scriptsDir}/minibuffer.sh -d '$HOME' 'broot --only-folders --conf ~/.config/tmux/broot/sessionizer.toml'"
+    bind-key -n C-f run-shell "${scriptsDir}/minibuffer.sh -d '$HOME' 'broot --conf ~/.config/tmux/broot_sessionizer.toml'"
 
     # Statusbar
     run-shell "${scriptsDir}/bar.sh"
-    set-hook -g client-attached 'if -F "#{==:#{session_windows},1}" { set status off } { set status on }'
-    set-hook -g window-linked 'if -F "#{==:#{session_windows},1}" { set status off } { set status on }'
-    set-hook -g window-unlinked 'if -F "#{==:#{session_windows},1}" { set status off } { set status on }'
 
     set-hook -ag client-detached 'run-shell ${scriptsDir}/clean-sessions.sh'
     set-hook -ag client-session-changed 'run-shell ${scriptsDir}/clean-sessions.sh'
 
     bind-key -n C-g display-popup -E -w 80% -h 80% -x C -y C -d "#{?@default-path,#{@default-path},#{pane_current_path}}" "${pkgs.lazygit}/bin/lazygit"
-    bind-key -n C-o display-popup -E -w 70% -h 70% -x C -y C "hx ~/Documents/todo.txt"
+    bind-key o display-popup -E -w 70% -h 70% -x C -y C "hx ~/Documents/todo.txt"
+
+    # Scrollback
+    set -g @fuzzback-popup 1
+    bind-key -T copy-mode -n / run-shell "${plugins.fuzzback}/scripts/fuzzback.sh"
   '';
 
   scripts.minibuffer = ''
@@ -158,60 +163,6 @@
       -x 0 -y "$(($window_height + 1))" \
       "$@"
   '';
-
-  # binding for broot-minibuffer's alt-enter
-  scripts.smartOpen = ''
-    if [[ "$1" = "-t" ]]; then
-      # `alt-enter` mode
-      ${scriptsDir}/split.sh -c "#{?@default-path,#{@default-path},#{pane_current_path}}" "hx \"$2\"; exec fish"
-    else
-      # `enter` mode
-      file="$1"
-
-      [ -z "$file" ] && exit 1
-
-      # 1. If there is already a pane that looks like "hx {file}", switch to that pane
-      while IFS='|' read -r window pane title; do
-        if [[ "$title" = "hx $file" ]]; then
-          tmux select-window -t "$window"
-          tmux select-pane -t "$pane"
-          exit 0
-        fi
-      done < <(tmux list-panes -sF "#{window_id}|#{pane_id}|#{pane_title}")
-
-    	# 2. If the current pane is a shell (fish or bash), send-keys "hx {file}"
-    	pane_title="$(tmux display -p '#{pane_title}')"
-    	if [[ "$pane_title" =~ ^(fish|bash).*$ ]]; then
-        tmux send-keys "hx \"$file\"" C-m
-        exit 0
-
-    	# 3. If the current pane is helix, send-keys ":o {file}"
-      elif [[ "$pane_title" =~ ^hx.*$ ]]; then
-        tmux send-keys ":o \"$file\"" C-m
-        exit 0
-      fi
-
-    	# 4. Otherwise, open the file in a new pane
-    	${scriptsDir}/smart-open.sh -t "$file"
-    fi
-  '';
-
-  broot_popup_config = {
-    imports = ["~/.config/broot/conf.toml"]; # for the colortheme
-    quit_on_last_cancel = true;
-    verbs = [
-      {
-        invocation = "replace_tmux";
-        key = "enter";
-        external = ''bash -c -- "${scriptsDir}/smart-open.sh '{file}'"'';
-      }
-      {
-        invocation = "open_tmux";
-        key = "alt-enter";
-        external = ''bash -c -- "${scriptsDir}/smart-open.sh -t '{file}'"'';
-      }
-    ];
-  };
 in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
@@ -227,12 +178,7 @@ in
         ".config/tmux/scripts/bar.sh" = e scripts.bar;
         ".config/tmux/scripts/split.sh" = e scripts.paneSplit;
         ".config/tmux/scripts/minibuffer.sh" = e scripts.minibuffer;
-        ".config/tmux/scripts/smart-open.sh" = e scripts.smartOpen;
 
-        ".config/tmux/broot/popup.toml" = {
-          generator = (pkgs.formats.toml {}).generate "broot_popup.toml";
-          value = broot_popup_config;
-        };
         ".config/tmux/broot/sessionizer.toml" = {
           generator = (pkgs.formats.toml {}).generate "broot_sessionizer.toml";
           value = broot_sessionizer_config;
