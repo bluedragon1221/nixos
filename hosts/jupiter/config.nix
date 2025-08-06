@@ -52,14 +52,14 @@
     };
 
     boot = {
-      bootloader = "systemd-boot";
+      systemd-boot.enable = true;
       plymouth.enable = true;
     };
 
     services = {
       networking = {
         enable = true;
-        wifiDaemon = "networkmanager"; # apparently gnome doesn't support iwd
+        networkmanager.enable = true;
       };
 
       audio = {
