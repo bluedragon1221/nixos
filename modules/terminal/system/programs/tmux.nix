@@ -8,13 +8,7 @@
 
   scriptsDir = "~/.config/tmux/scripts";
 
-  scripts.battery = ''
-    energy_now=$(cat /sys/class/power_supply/BAT0/energy_now)
-    energy_full=$(cat /sys/class/power_supply/BAT0/energy_full)
-    percentage=$((energy_now * 100 / energy_full))
-    printf "%.0f%%" "$percentage"
-  '';
-
+  # -- SESSIONIZER --
   broot_sessionizer_config = {
     imports = ["~/.config/broot/conf.toml"];
     quit_on_last_cancel = true;
@@ -44,6 +38,23 @@
     tmux switch -t "$session_name"
   '';
 
+  scripts.sessionsMenu = ''
+    get_nth_session() {
+      tmux list-sessions -F "#{session_name}" | sed -n "$1 p"
+    }
+
+    switch_nth_session() {
+      printf "switch -t $(get_nth_session "$1")"
+    }
+
+    tmux display-menu -T "#[align=centre]Projects" -x "#{window_width}" -y S \
+      "Switch Project" p "run-shell '${scriptsDir}/minibuffer.sh -d $HOME ${scriptsDir}/launch-sessionizer.sh'" \
+      "$(get_nth_session 1)" 1 "$(switch_nth_session 1)" \
+      "$(get_nth_session 2)" 2 "$(switch_nth_session 2)" \
+      "$(get_nth_session 3)" 3 "$(switch_nth_session 3)" \
+      "$(get_nth_session 4)" 4 "$(switch_nth_session 4)"
+  '';
+
   scripts.cleanSessions = ''
     current="$(tmux display -p '#{session_name}')"
 
@@ -52,6 +63,44 @@
         tmux kill-session -t "$line"
       fi
     done
+  '';
+
+  scripts.launchSessionizer = ''broot --only-folders --conf ~/.config/tmux/broot/sessionizer.toml'';
+
+  # -- FIND FILE --
+  broot_file_config = {
+    imports = ["~/.config/broot/conf.toml"];
+    quit_on_last_cancel = true;
+    verbs = [
+      {
+        invocation = "tmux-split";
+        external = ["bash" "-c" ''${scriptsDir}/split.sh -c "#{?@default-path,#{@default-path},#{pane_current_path}}" "hx '{file}'"''];
+        key = "ctrl-s";
+        apply_to = "file";
+        leave_broot = true;
+      }
+      {
+        invocation = "tmux-window";
+        external = ["tmux" "new-window" "-c" "#{?@default-path,#{@default-path},#{pane_current_path}}" "hx '{file}'"];
+        key = "ctrl-w";
+        apply_to = "file";
+        leave_broot = true;
+      }
+      {
+        key = "enter";
+        cmd = ":tmux-window";
+      }
+    ];
+  };
+
+  scripts.launchFindFile = ''broot --conf ~/.config/tmux/broot/file.toml'';
+
+  # -- BAR --
+  scripts.battery = ''
+    energy_now=$(cat /sys/class/power_supply/BAT0/energy_now)
+    energy_full=$(cat /sys/class/power_supply/BAT0/energy_full)
+    percentage=$((energy_now * 100 / energy_full))
+    printf "%.0f%%" "$percentage"
   '';
 
   scripts.bar = ''
@@ -108,6 +157,31 @@
     fi
   '';
 
+  # pull up the docs for a specific tmux command
+  scripts.tmuxDoc = ''
+    usage=$(tmux list-commands -F "#{command_list_name} #{command_list_usage}" "$1")
+
+    man tmux  | awk -v usage="$usage" '
+      index($0, usage) > 0 { found=1 }
+      found {
+        print
+        if ($0 == "") exit
+      }
+    '
+  '';
+
+  # replaces `C-b :` with a fancy fzf popup menu with completion and history
+  scripts.fzfExec = ''
+    all_cmds() {
+      tmux list-commands -F $'#{command_list_name}#{?command_list_alias,\n#{command_list_alias},}'
+    }
+
+    selected_cmd=$(all_cmds | fzf --bind 'enter:accept-or-print-query,tab:replace-query,alt-backspace:clear-query' --prompt : --preview "~/.config/tmux/scripts/tmux-doc.sh $(printf '{}' | cut -d' ' -f1)")
+    test -z "$selected_cmd" && exit
+
+    tmux $(echo "$selected_cmd" | sed "s@~@$HOME@g")
+  '';
+
   plugins.fuzzback = builtins.fetchGit {
     url = "https://github.com/roosta/tmux-fuzzback";
     rev = "0aafeeec4555d7b44a5a2a8252f29c238d954d59";
@@ -139,17 +213,22 @@
     set -g renumber-windows on
     set -g base-index 1
 
-    # Sessions
-    bind-key -n C-f run-shell "${scriptsDir}/minibuffer.sh -d '$HOME' 'broot --conf ~/.config/tmux/broot/sessionizer.toml'"
+    # Emacs-like keybindings
+    bind-key -n C-x display-menu -T "#[align=centre]Prefix" -x "#{window_width}" -y S \
+      "+Projects" C-p "run-shell ${scriptsDir}/sessions-menu.sh" \
+      "Find File" C-f "run-shell \"${scriptsDir}/minibuffer.sh -d '#{?@default-path,#{@default-path},#{pane_current_path}}' '${scriptsDir}/launch-find-file.sh'\"" \
+      "Lazygit" C-g "display-popup -E -w 80% -h 80% -x C -y C -d '#{?@default-path,#{@default-path},#{pane_current_path}}' lazygit" \
+      "Todo" C-o "display-popup -E -w 70% -h 70% -x C -y C 'hx ~/Documents/todo.txt'" \
+      "Reload" C-r "source-file ~/.config/tmux/tmux.conf"
+
+    # Fuzzy command prompt
+    bind-key -n M-x run-shell "${scriptsDir}/minibuffer.sh -h 10 '${scriptsDir}/fzf-exec.sh'"
 
     # Statusbar
     run-shell "${scriptsDir}/bar.sh"
 
     set-hook -ag client-detached 'run-shell ${scriptsDir}/clean-sessions.sh'
     set-hook -ag client-session-changed 'run-shell ${scriptsDir}/clean-sessions.sh'
-
-    bind-key -n C-g display-popup -E -w 80% -h 80% -x C -y C -d "#{?@default-path,#{@default-path},#{pane_current_path}}" "${pkgs.lazygit}/bin/lazygit"
-    bind-key o display-popup -E -w 70% -h 70% -x C -y C "hx ~/Documents/todo.txt"
 
     # Scrollback
     set -g @fuzzback-popup 1
@@ -172,17 +251,34 @@ in
           executable = true;
         };
       in {
-        ".config/tmux/scripts/battery.sh" = e scripts.battery;
-        ".config/tmux/scripts/sessionizer.sh" = e scripts.sessionizer;
-        ".config/tmux/scripts/clean-sessions.sh" = e scripts.cleanSessions;
-        ".config/tmux/scripts/bar.sh" = e scripts.bar;
-        ".config/tmux/scripts/split.sh" = e scripts.paneSplit;
         ".config/tmux/scripts/minibuffer.sh" = e scripts.minibuffer;
 
+        # sessionizer
+        ".config/tmux/scripts/sessionizer.sh" = e scripts.sessionizer;
         ".config/tmux/broot/sessionizer.toml" = {
           generator = (pkgs.formats.toml {}).generate "sessionizer.toml";
           value = broot_sessionizer_config;
         };
+        ".config/tmux/scripts/launch-sessionizer.sh" = e scripts.launchSessionizer;
+        ".config/tmux/scripts/clean-sessions.sh" = e scripts.cleanSessions;
+        ".config/tmux/scripts/sessions-menu.sh" = e scripts.sessionsMenu;
+
+        # find-file
+        ".config/tmux/scripts/launch-find-file.sh" = e scripts.launchFindFile;
+        ".config/tmux/broot/file.toml" = {
+          generator = (pkgs.formats.toml {}).generate "file.toml";
+          value = broot_file_config;
+        };
+
+        # fzf-exec
+        ".config/tmux/scripts/tmux-doc.sh" = e scripts.tmuxDoc;
+        ".config/tmux/scripts/fzf-exec.sh" = e scripts.fzfExec;
+
+        # Bar
+        ".config/tmux/scripts/battery.sh" = e scripts.battery;
+        ".config/tmux/scripts/bar.sh" = e scripts.bar;
+
+        ".config/tmux/scripts/split.sh" = e scripts.paneSplit;
 
         ".config/tmux/tmux.conf".text = tmux-conf;
       };
