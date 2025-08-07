@@ -8,6 +8,35 @@
 
   scriptsDir = "~/.config/tmux/scripts";
 
+  scripts.minibuffer = ''
+    window_height="$(tmux display -p '#{window_height}')"
+    tmux display-popup -EB \
+      -w 100% -h 16 \
+      -x 0 -y "$(($window_height + 1))" \
+      "$@"
+  '';
+
+  scripts.menu = ''
+    tmux display-menu \
+      -x "#{window_width}" -y S \
+      -b none \
+      -s "bg=#313244,fg=#9399b2" \
+      -S "bg=#313244" \
+      -H "bg=#45475a fg=#b4befe" \
+      "$@"
+  '';
+
+  scripts.paneSplit = ''
+    width=$(tmux display -p "#{pane_width}")
+    height=$(tmux display -p "#{pane_height}")
+
+    if (( $(echo "$width / $height > 2.5" | bc -l) )); then
+      tmux split-window -h "$@"
+    else
+      tmux split-window -v "$@"
+    fi
+  '';
+
   # -- SESSIONIZER --
   broot_sessionizer_config = {
     imports = ["~/.config/broot/conf.toml"];
@@ -39,20 +68,25 @@
   '';
 
   scripts.sessionsMenu = ''
-    get_nth_session() {
-      tmux list-sessions -F "#{session_name}" | sed -n "$1 p"
-    }
+    menu_items=(
+      "Switch Project" p "run-shell '${scriptsDir}/minibuffer.sh -d $HOME ${scriptsDir}/launch-sessionizer.sh'"
+    )
 
-    switch_nth_session() {
-      printf "switch -t $(get_nth_session "$1")"
-    }
+    # Get all tmux session names
+    mapfile -t sessions < <(tmux list-sessions -F "#{session_name}")
 
-    tmux display-menu -T "#[align=centre]Projects" -x "#{window_width}" -y S \
-      "Switch Project" p "run-shell '${scriptsDir}/minibuffer.sh -d $HOME ${scriptsDir}/launch-sessionizer.sh'" \
-      "$(get_nth_session 1)" 1 "$(switch_nth_session 1)" \
-      "$(get_nth_session 2)" 2 "$(switch_nth_session 2)" \
-      "$(get_nth_session 3)" 3 "$(switch_nth_session 3)" \
-      "$(get_nth_session 4)" 4 "$(switch_nth_session 4)"
+    # Only include up to 9 sessions
+    for i in "''\${!sessions[@]}"; do
+      (( i >= 9 )) && break  # Stop after 9 sessions
+
+      session="''\${sessions[$i]}"
+      key=$((i + 1))  # 1-based key
+
+      menu_items+=("$session" "$key" "switch-client -t $session")
+    done
+
+    # Display the menu
+    ${scriptsDir}/menu.sh -T "#[align=centre]Projects" "''\${menu_items[@]}"
   '';
 
   scripts.cleanSessions = ''
@@ -111,53 +145,38 @@
     red="#f38ba8"
     bg_dark="#181825"
     bg_light="#1E1E2E"
+    surface0="#313244"
 
-    tset() {
-      tmux set -gq "$@"
-    }
+    tmux set -gq status on
 
-    tset status on
+    tmux set -gq status-position bottom
+    tmux set -gq status-justify absolute-centre
+    tmux set -gq status-bg $bg_light
 
-    tset status-position bottom
-    tset status-justify absolute-centre
-    tset status-bg $bg_light
+    tmux set -gq status-left-style fg=$green,bold
+    tmux set -gq status-left " #{client_session}"
 
-    tset status-left-style fg=$green,bold
-    tset status-left " #{client_session}"
+    tmux set -gq window-status-style fg=$text_dark
+    tmux set -gq window-status-format " #I "
+    tmux set -gq window-status-current-style fg=$blue,bold
+    tmux set -gq window-status-current-format " #I "
+    tmux set -gq window-status-separator ""
 
-    tset window-status-style fg=$text_dark
-    tset window-status-format " #I "
-    tset window-status-current-style fg=$blue,bold
-    tset window-status-current-format " #I "
-    tset window-status-separator ""
-
-    tset status-right "#[fg=$text_dark]%l:%M  #[fg=$red]#(${scriptsDir}/battery.sh) "
+    tmux set -gq status-right "#[fg=$text_dark]%l:%M  #[fg=$red]#(${scriptsDir}/battery.sh) "
 
     ## pane borders
-    tset pane-border-style fg=$bg_dark,bg=$bg_dark
-    tset pane-active-border-style fg=$bg_dark,bg=$bg_dark
+    tmux set -gq pane-border-style fg=$bg_dark,bg=$bg_dark
+    tmux set -gq pane-active-border-style fg=$bg_dark,bg=$bg_dark
 
     ## pane backgrounds
     # Set the foreground/background color for the active window
-    tset window-active-style bg=$bg_light
+    tmux set -gq window-active-style bg=$bg_light
 
     # Set the foreground/background color for all other windows
-    tset window-style bg=$bg_dark
+    tmux set -gq window-style bg=$bg_dark
   '';
 
-  scripts.paneSplit = ''
-    #!/usr/bin/env bash
-    width=$(tmux display -p "#{pane_width}")
-    height=$(tmux display -p "#{pane_height}")
-
-    if (( $(echo "$width / $height > 2.5" | bc -l) )); then
-      tmux split-window -h "$@"
-    else
-      tmux split-window -v "$@"
-    fi
-  '';
-
-  # pull up the docs for a specific tmux command
+  # -- FZF EXEC --
   scripts.tmuxDoc = ''
     usage=$(tmux list-commands -F "#{command_list_name} #{command_list_usage}" "$1")
 
@@ -170,7 +189,6 @@
     '
   '';
 
-  # replaces `C-b :` with a fancy fzf popup menu with completion and history
   scripts.fzfExec = ''
     all_cmds() {
       tmux list-commands -F $'#{command_list_name}#{?command_list_alias,\n#{command_list_alias},}'
@@ -182,6 +200,16 @@
     tmux $(echo "$selected_cmd" | sed "s@~@$HOME@g")
   '';
 
+  # -- LEADER MENU --
+  scripts.leaderMenu = ''
+    ${scriptsDir}/menu.sh -T "#[align=centre]Prefix" \
+      "+Projects" C-p "run-shell ${scriptsDir}/sessions-menu.sh" \
+      "Find File" C-f "run-shell \"${scriptsDir}/minibuffer.sh -d '#{?@default-path,#{@default-path},#{pane_current_path}}' '${scriptsDir}/launch-find-file.sh'\"" \
+      "Lazygit" C-g "display-popup -E -w 80% -h 80% -x C -y C -d '#{?@default-path,#{@default-path},#{pane_current_path}}' lazygit" \
+      "Todo" C-o "display-popup -E -w 70% -h 70% -x C -y C 'hx ~/Documents/todo.txt'" \
+      "Reload" C-r "source-file ~/.config/tmux/tmux.conf"
+  '';
+
   plugins.fuzzback = builtins.fetchGit {
     url = "https://github.com/roosta/tmux-fuzzback";
     rev = "0aafeeec4555d7b44a5a2a8252f29c238d954d59";
@@ -190,12 +218,6 @@
   tmux-conf = ''
     set -g mouse on
 
-    # bell
-    set -g visual-activity off
-    set -g visual-bell off
-    set -g visual-silence off
-    setw -g monitor-activity off
-    set -g bell-action none
 
     # Panes
     bind-key -n C-w kill-pane
@@ -213,34 +235,18 @@
     set -g renumber-windows on
     set -g base-index 1
 
-    # Emacs-like keybindings
-    bind-key -n C-x display-menu -T "#[align=centre]Prefix" -x "#{window_width}" -y S \
-      "+Projects" C-p "run-shell ${scriptsDir}/sessions-menu.sh" \
-      "Find File" C-f "run-shell \"${scriptsDir}/minibuffer.sh -d '#{?@default-path,#{@default-path},#{pane_current_path}}' '${scriptsDir}/launch-find-file.sh'\"" \
-      "Lazygit" C-g "display-popup -E -w 80% -h 80% -x C -y C -d '#{?@default-path,#{@default-path},#{pane_current_path}}' lazygit" \
-      "Todo" C-o "display-popup -E -w 70% -h 70% -x C -y C 'hx ~/Documents/todo.txt'" \
-      "Reload" C-r "source-file ~/.config/tmux/tmux.conf"
-
-    # Fuzzy command prompt
+    bind-key -n C-x run-shell "${scriptsDir}/leader-menu.sh"
     bind-key -n M-x run-shell "${scriptsDir}/minibuffer.sh -h 10 '${scriptsDir}/fzf-exec.sh'"
-
-    # Statusbar
-    run-shell "${scriptsDir}/bar.sh"
 
     set-hook -ag client-detached 'run-shell ${scriptsDir}/clean-sessions.sh'
     set-hook -ag client-session-changed 'run-shell ${scriptsDir}/clean-sessions.sh'
 
+    # Statusbar
+    run-shell "${scriptsDir}/bar.sh"
+
     # Scrollback
     set -g @fuzzback-popup 1
     bind-key -T copy-mode -n / run-shell "${plugins.fuzzback}/scripts/fuzzback.sh"
-  '';
-
-  scripts.minibuffer = ''
-    window_height="$(tmux display -p '#{window_height}')"
-    tmux display-popup -EB \
-      -w 100% -h 16 \
-      -x 0 -y "$(($window_height + 1))" \
-      "$@"
   '';
 in
   lib.mkIf cfg.enable {
@@ -251,7 +257,10 @@ in
           executable = true;
         };
       in {
+        # helpers
         ".config/tmux/scripts/minibuffer.sh" = e scripts.minibuffer;
+        ".config/tmux/scripts/menu.sh" = e scripts.menu;
+        ".config/tmux/scripts/split.sh" = e scripts.paneSplit;
 
         # sessionizer
         ".config/tmux/scripts/sessionizer.sh" = e scripts.sessionizer;
@@ -274,11 +283,12 @@ in
         ".config/tmux/scripts/tmux-doc.sh" = e scripts.tmuxDoc;
         ".config/tmux/scripts/fzf-exec.sh" = e scripts.fzfExec;
 
+        # leader menu
+        ".config/tmux/scripts/leader-menu.sh" = e scripts.leaderMenu;
+
         # Bar
         ".config/tmux/scripts/battery.sh" = e scripts.battery;
         ".config/tmux/scripts/bar.sh" = e scripts.bar;
-
-        ".config/tmux/scripts/split.sh" = e scripts.paneSplit;
 
         ".config/tmux/tmux.conf".text = tmux-conf;
       };
