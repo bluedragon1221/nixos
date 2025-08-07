@@ -12,10 +12,10 @@
       shell = "${pkgs.fish}/bin/fish";
     };
 
-    cursor.color = "11111b f5e0dc";
     colors = {
       foreground = "cdd6f4";
       background = "1e1e2e";
+      cursor = "11111b f5e0dc";
 
       regular0 = "45475a";
       regular1 = "f38ba8";
