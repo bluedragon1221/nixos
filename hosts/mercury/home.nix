@@ -8,6 +8,9 @@
     mpv
     musescore
     qutebrowser
+
+    zotero
+    zathura
   ];
 
   home.stateVersion = "25.05";
