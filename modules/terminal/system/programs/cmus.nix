@@ -21,9 +21,7 @@
     	${pkgs.ffmpeg}/bin/ffmpeg -i "$_file" -y -an -c:v copy ~/.local/share/cmus/curr_cover.jpg || rm ~/.local/share/cmus/curr_cover.jpg
     fi
 
-    if [[ "$_status" = "playing" ]]; then
-      notify-send -t 3000 -u low -i ~/.local/share/cmus/curr_cover.jpg "Now Playing: $_title" "$_artist"
-    fi
+    ${pkgs.dunst}/bin/dunstify -t 2000 -u low -h string:x-canonical-private-synchronous:music -i ~/.local/share/cmus/curr_cover.jpg "$_status: $_title" "$_artist"
   '';
 
   cmus_theme = ''
@@ -81,8 +79,13 @@
 in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
-      files = {
-        ".config/cmus/scripts/status.sh".text = scripts.statusDisplay;
+      files = let
+        e = text: {
+          inherit text;
+          executable = true;
+        };
+      in {
+        ".config/cmus/scripts/status.sh" = e scripts.statusDisplay;
 
         ".config/cmus/rc".text = cmus_rc;
         ".config/cmus/catppuccin.theme".text = lib.mkIf (cfg.theme == "catppuccin") cmus_theme;
