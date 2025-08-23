@@ -73,6 +73,9 @@
     bindsym XF86AudioRaiseVolume exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h int:value:"$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/Volume:\ //'); echo "$dec * 100" | bc)"'
     bindsym XF86AudioLowerVolume exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h int:value:"$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/Volume:\ //'); echo "$dec * 100" | bc)"'
 
+    bindsym XF86MonBrightnessUp   exec 'brightnessctl set +5%; dunstify -t 300 -h string:x-canonical-private-synchronous:brightness "Brightness: " -h int:value:"$(echo "brightnessctl get * 100 / $(brightnessctl max)" | bc)"'
+    bindsym XF86MonBrightnessDown exec 'brightnessctl set 5%-; dunstify -t 300 -h string:x-canonical-private-synchronous:brightness "Brightness: " -h int:value:"$(echo "brightnessctl get * 100 / $(brightnessctl max)" | bc)"'
+
     default_border pixel 2
     smart_borders on
     smart_gaps on
@@ -85,7 +88,7 @@ in
         ".config/sway/catppuccin-mocha".text = colors;
       };
 
-      packages = [pkgs.sway pkgs.bc];
+      packages = [pkgs.sway pkgs.bc pkgs.brightnessctl];
     };
 
     # Greetd
