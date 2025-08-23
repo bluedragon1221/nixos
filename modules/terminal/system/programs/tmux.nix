@@ -138,42 +138,35 @@
   '';
 
   scripts.bar = ''
-    text="#c6d0f5"
-    text_dark="#7F849C"
-    blue="#b3befe"
-    green="#a6d189"
-    red="#f38ba8"
+    tmux set -g status on
+
+    tmux set -g status-position bottom
+    tmux set -g status-justify absolute-centre
+    tmux set -g status-bg bg
+
+    tmux set -g status-left-style fg=green,bold
+    tmux set -g status-left " #{client_session}"
+
+    tmux set -g window-status-style fg=color243
+    tmux set -g window-status-format " #I "
+    tmux set -g window-status-current-style fg=color12,bold
+    tmux set -g window-status-current-format " #I "
+    tmux set -g window-status-separator ""
+
+    tmux set -g status-right "#[fg=color243]%l:%M  #[fg=red]#(${scriptsDir}/battery.sh) "
+
     bg_dark="#181825"
-    bg_light="#1E1E2E"
-    surface0="#313244"
-
-    tmux set -gq status on
-
-    tmux set -gq status-position bottom
-    tmux set -gq status-justify absolute-centre
-    tmux set -gq status-bg $bg_light
-
-    tmux set -gq status-left-style fg=$green,bold
-    tmux set -gq status-left " #{client_session}"
-
-    tmux set -gq window-status-style fg=$text_dark
-    tmux set -gq window-status-format " #I "
-    tmux set -gq window-status-current-style fg=$blue,bold
-    tmux set -gq window-status-current-format " #I "
-    tmux set -gq window-status-separator ""
-
-    tmux set -gq status-right "#[fg=$text_dark]%l:%M  #[fg=$red]#(${scriptsDir}/battery.sh) "
 
     ## pane borders
-    tmux set -gq pane-border-style fg=$bg_dark,bg=$bg_dark
-    tmux set -gq pane-active-border-style fg=$bg_dark,bg=$bg_dark
+    tmux set -g pane-border-style fg=$bg_dark,bg=$bg_dark
+    tmux set -g pane-active-border-style fg=$bg_dark,bg=$bg_dark
 
     ## pane backgrounds
     # Set the foreground/background color for the active window
-    tmux set -gq window-active-style bg=$bg_light
+    tmux set -g window-active-style bg=bg
 
     # Set the foreground/background color for all other windows
-    tmux set -gq window-style bg=$bg_dark
+    tmux set -g window-style bg=$bg_dark
   '';
 
   # -- FZF EXEC --
@@ -200,24 +193,48 @@
     tmux $(echo "$selected_cmd" | sed "s@~@$HOME@g")
   '';
 
+  # -- BUFFER SEARCH --
+  scripts.searchBuffer = ''
+    trap 'rm -f -- "''\${scrollback:-}"' EXIT
+    scrollback="$(mktemp)"
+
+    tmux capture-pane -e -p -S - > "$scrollback"
+    cat "$scrollback" | fzf --ansi
+
+    exit 0
+  '';
+
+  # -- PANE SEARCH --
+  scripts.paneSearch = ''
+    LIST_DATA="#{window_name} #{pane_title} #{pane_current_path} #{pane_current_command}"
+    FZF_COMMAND="fzf-tmux -p --delimiter=: --with-nth 4 --color=hl:2"
+
+    # do not change
+    TARGET_SPEC="#{session_name}:#{window_id}:#{pane_id}:"
+
+    # select pane
+    LINE=$(tmux list-panes -a -F "$TARGET_SPEC $LIST_DATA" | $FZF_COMMAND) || exit 0
+    # split the result
+    args=(''\${LINE//:/ })
+    # activate session/window/pane
+    tmux select-pane -t ''\${args[2]} && tmux select-window -t ''\${args[1]} && tmux switch-client -t ''\${args[0]}
+  '';
+
   # -- LEADER MENU --
   scripts.leaderMenu = ''
     ${scriptsDir}/menu.sh -T "#[align=centre]Prefix" \
       "+Projects" C-p "run-shell ${scriptsDir}/sessions-menu.sh" \
       "Find File" C-f "run-shell \"${scriptsDir}/minibuffer.sh -d '#{?@default-path,#{@default-path},#{pane_current_path}}' '${scriptsDir}/launch-find-file.sh'\"" \
+      "Find Window" C-w "run-shell \"${scriptsDir}/minibuffer.sh '${scriptsDir}/pane-search.sh'\"" \
       "Lazygit" C-g "display-popup -E -w 80% -h 80% -x C -y C -d '#{?@default-path,#{@default-path},#{pane_current_path}}' lazygit" \
+      "Search Buffer" / "run-shell \"${scriptsDir}/minibuffer.sh '${scriptsDir}/search-buffer.sh'\"" \
       "Todo" C-o "display-popup -E -w 70% -h 70% -x C -y C 'hx ~/Documents/todo.txt'" \
       "Reload" C-r "source-file ~/.config/tmux/tmux.conf"
   '';
 
-  plugins.fuzzback = builtins.fetchGit {
-    url = "https://github.com/roosta/tmux-fuzzback";
-    rev = "0aafeeec4555d7b44a5a2a8252f29c238d954d59";
-  };
-
   tmux-conf = ''
     set -g mouse on
-
+    set -g default-terminal "tmux"
 
     # Panes
     bind-key -n C-w kill-pane
@@ -227,11 +244,15 @@
     unbind -n MouseDown3Pane ## disable right click menu
     bind-key -n M-z resize-pane -Z ## Pane zoom
     set -g allow-rename on
+    set -g automatic-rename off
 
     # Windows
     bind-key -n C-t     new-window -c '#{?@default-path,#{@default-path},#{pane_current_path}}'
     bind-key -n C-Tab   next-window
     bind-key -n C-S-Tab previous-window # doesn't work in foot :(
+    unbind n
+    unbind p
+
     set -g renumber-windows on
     set -g base-index 1
 
@@ -245,8 +266,7 @@
     run-shell "${scriptsDir}/bar.sh"
 
     # Scrollback
-    set -g @fuzzback-popup 1
-    bind-key -T copy-mode -n / run-shell "${plugins.fuzzback}/scripts/fuzzback.sh"
+    set-window-option -g mode-keys vi
   '';
 in
   lib.mkIf cfg.enable {
@@ -278,6 +298,12 @@ in
           generator = (pkgs.formats.toml {}).generate "file.toml";
           value = broot_file_config;
         };
+
+        # search buffer
+        ".config/tmux/scripts/search-buffer.sh" = e scripts.searchBuffer;
+
+        # pane search
+        ".config/tmux/scripts/pane-search.sh" = e scripts.paneSearch;
 
         # fzf-exec
         ".config/tmux/scripts/tmux-doc.sh" = e scripts.tmuxDoc;
