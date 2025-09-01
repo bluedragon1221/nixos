@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  inherit (lib) mkEnableOption;
+  inherit (lib) mkOption mkEnableOption;
 in {
   options = {
     collinux.services = {
@@ -11,6 +11,12 @@ in {
         enable = mkEnableOption "wifi";
         iwd.enable = mkEnableOption "lightweight wifi daemon";
         networkmanager.enable = mkEnableOption "heavier wifi daemon";
+        tailscale = {
+          enable = mkEnableOption "tailscale";
+          authKeyFile = mkOption {
+            type = "path";
+          };
+        };
       };
       audio = {
         enable = mkEnableOption "pipewire + wireplumber";

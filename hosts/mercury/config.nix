@@ -35,6 +35,7 @@
       networking = {
         enable = true;
         iwd.enable = true;
+        tailscale.enable = true;
       };
       bluetooth = {
         enable = true;
