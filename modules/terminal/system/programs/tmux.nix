@@ -67,9 +67,14 @@
     tmux switch -t "$session_name"
   '';
 
+  scripts.newSession = ''
+    tmux switch-client -t "$(tmux new-session -dP)"
+  '';
+
   scripts.sessionsMenu = ''
     menu_items=(
       "Switch Project" p "run-shell '${scriptsDir}/minibuffer.sh -d $HOME ${scriptsDir}/launch-sessionizer.sh'"
+      "New Unnamed Project" n "run-shell '${scriptsDir}/new-session.sh'"
     )
 
     # Get all tmux session names
@@ -138,11 +143,13 @@
   '';
 
   scripts.bar = ''
+    bg="#1e1e2e"
+
     tmux set -g status on
 
     tmux set -g status-position bottom
     tmux set -g status-justify absolute-centre
-    tmux set -g status-bg bg
+    tmux set -g status-bg "$bg"
 
     tmux set -g status-left-style fg=green,bold
     tmux set -g status-left " #{client_session}"
@@ -163,7 +170,7 @@
 
     ## pane backgrounds
     # Set the foreground/background color for the active window
-    tmux set -g window-active-style bg=bg
+    tmux set -g window-active-style bg=$bg
 
     # Set the foreground/background color for all other windows
     tmux set -g window-style bg=$bg_dark
@@ -207,7 +214,7 @@
   # -- PANE SEARCH --
   scripts.paneSearch = ''
     LIST_DATA="#{window_name} #{pane_title} #{pane_current_path} #{pane_current_command}"
-    FZF_COMMAND="fzf-tmux -p --delimiter=: --with-nth 4 --color=hl:2"
+    FZF_COMMAND="fzf --delimiter=: --with-nth 4 --color=hl:2"
 
     # do not change
     TARGET_SPEC="#{session_name}:#{window_id}:#{pane_id}:"
@@ -226,6 +233,7 @@
       "+Projects" C-p "run-shell ${scriptsDir}/sessions-menu.sh" \
       "Find File" C-f "run-shell \"${scriptsDir}/minibuffer.sh -d '#{?@default-path,#{@default-path},#{pane_current_path}}' '${scriptsDir}/launch-find-file.sh'\"" \
       "Find Window" C-w "run-shell \"${scriptsDir}/minibuffer.sh '${scriptsDir}/pane-search.sh'\"" \
+      "Detach" C-d "detach" \
       "Lazygit" C-g "display-popup -E -w 80% -h 80% -x C -y C -d '#{?@default-path,#{@default-path},#{pane_current_path}}' lazygit" \
       "Search Buffer" / "run-shell \"${scriptsDir}/minibuffer.sh '${scriptsDir}/search-buffer.sh'\"" \
       "Todo" C-o "display-popup -E -w 70% -h 70% -x C -y C 'hx ~/Documents/todo.txt'" \
@@ -290,6 +298,7 @@ in
         };
         ".config/tmux/scripts/launch-sessionizer.sh" = e scripts.launchSessionizer;
         ".config/tmux/scripts/clean-sessions.sh" = e scripts.cleanSessions;
+        ".config/tmux/scripts/new-session.sh" = e scripts.newSession;
         ".config/tmux/scripts/sessions-menu.sh" = e scripts.sessionsMenu;
 
         # find-file
