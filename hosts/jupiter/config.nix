@@ -64,6 +64,7 @@
       networking = {
         enable = true;
         networkmanager.enable = true;
+        tailscale.enable = true;
       };
 
       audio = {
