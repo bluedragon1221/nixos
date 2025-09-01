@@ -20,6 +20,8 @@ in
             show-scrollbars = false;
             terminal-padding = lib.gvariant.mkTuple (builtins.map lib.gvariant.mkInt16 [10 10 10 10]);
 
+            font = "Iosevka Nerd Font 12";
+
             floating-controls = false;
             show-headerbar = true;
           };

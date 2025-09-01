@@ -4,21 +4,22 @@
   lib,
   ...
 }: let
-  cfg = config.collinux.terminal.shells.fish;
+  cfg = config.collinux.terminal.programs.broot;
 
-  conf = {
-    skin = catppuccin_skin;
-    verbs = [
-      {
-        name = "open-code";
-        key = "enter";
-        execution = "$EDITOR +{line} {file}";
-        working_dir = "{root}";
-        apply_to = "file";
-        leave_broot = true;
-      }
-    ];
-  };
+  conf =
+    {
+      verbs = [
+        {
+          name = "open-code";
+          key = "enter";
+          execution = "$EDITOR +{line} {file}";
+          working_dir = "{root}";
+          apply_to = "file";
+          leave_broot = true;
+        }
+      ];
+    }
+    // (lib.optionalAttrs (cfg.theme == "catppuccin") {skin = catppuccin_skin;});
 
   catppuccin_skin = {
     input = "rgb(205, 214, 244) none";

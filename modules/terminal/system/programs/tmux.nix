@@ -30,7 +30,7 @@
     width=$(tmux display -p "#{pane_width}")
     height=$(tmux display -p "#{pane_height}")
 
-    if (( $(echo "$width / $height > 2.5" | bc -l) )); then
+    if (( $(echo "$width / $height > 2.5" | ${pkgs.bc}/bin/bc -l) )); then
       tmux split-window -h "$@"
     else
       tmux split-window -v "$@"
@@ -104,7 +104,7 @@
     done
   '';
 
-  scripts.launchSessionizer = ''broot --only-folders --conf ~/.config/tmux/broot/sessionizer.toml'';
+  scripts.launchSessionizer = ''${pkgs.broot}/bin/broot --only-folders --conf ~/.config/tmux/broot/sessionizer.toml'';
 
   # -- FIND FILE --
   broot_file_config = {
@@ -132,7 +132,7 @@
     ];
   };
 
-  scripts.launchFindFile = ''broot --conf ~/.config/tmux/broot/file.toml'';
+  scripts.launchFindFile = ''${pkgs.broot}/bin/broot --conf ~/.config/tmux/broot/file.toml'';
 
   # -- BAR --
   scripts.battery = ''
@@ -161,20 +161,27 @@
     tmux set -g window-status-separator ""
 
     tmux set -g status-right "#[fg=color243]%l:%M  #[fg=red]#(${scriptsDir}/battery.sh) "
-
-    bg_dark="#181825"
-
-    ## pane borders
-    tmux set -g pane-border-style fg=$bg_dark,bg=$bg_dark
-    tmux set -g pane-active-border-style fg=$bg_dark,bg=$bg_dark
-
-    ## pane backgrounds
-    # Set the foreground/background color for the active window
-    tmux set -g window-active-style bg=$bg
-
-    # Set the foreground/background color for all other windows
-    tmux set -g window-style bg=$bg_dark
   '';
+
+  scripts.catpuccinNoBorders =
+    if (cfg.theme == "catppuccin")
+    then ''
+      bg_dark="#181825"
+
+      ## pane borders
+      tmux set -g pane-border-style fg=$bg_dark,bg=$bg_dark
+      tmux set -g pane-active-border-style fg=$bg_dark,bg=$bg_dark
+
+      ## pane backgrounds
+      # Set the foreground/background color for the active window
+      tmux set -g window-active-style bg=bg
+
+      # Set the foreground/background color for all other windows
+      tmux set -g window-style bg=$bg_dark
+    ''
+    else ''
+      tmux set -g status-bg "#262626"
+    '';
 
   # -- FZF EXEC --
   scripts.tmuxDoc = ''
@@ -194,7 +201,7 @@
       tmux list-commands -F $'#{command_list_name}#{?command_list_alias,\n#{command_list_alias},}'
     }
 
-    selected_cmd=$(all_cmds | fzf --bind 'enter:accept-or-print-query,tab:replace-query,alt-backspace:clear-query' --prompt : --preview "~/.config/tmux/scripts/tmux-doc.sh $(printf '{}' | cut -d' ' -f1)")
+    selected_cmd=$(all_cmds | ${pkgs.fzf}/bin/fzf --bind 'enter:accept-or-print-query,tab:replace-query,alt-backspace:clear-query' --prompt : --preview "~/.config/tmux/scripts/tmux-doc.sh $(printf '{}' | cut -d' ' -f1)")
     test -z "$selected_cmd" && exit
 
     tmux $(echo "$selected_cmd" | sed "s@~@$HOME@g")
@@ -242,7 +249,6 @@
 
   tmux-conf = ''
     set -g mouse on
-    set -g default-terminal "tmux"
 
     # Panes
     bind-key -n C-w kill-pane
@@ -272,6 +278,7 @@
 
     # Statusbar
     run-shell "${scriptsDir}/bar.sh"
+    run-shell "${scriptsDir}/catppuccin-borders.sh"
 
     # Scrollback
     set-window-option -g mode-keys vi
@@ -324,6 +331,7 @@ in
         # Bar
         ".config/tmux/scripts/battery.sh" = e scripts.battery;
         ".config/tmux/scripts/bar.sh" = e scripts.bar;
+        ".config/tmux/scripts/catppuccin-borders.sh" = e scripts.catpuccinNoBorders;
 
         ".config/tmux/tmux.conf".text = tmux-conf;
       };

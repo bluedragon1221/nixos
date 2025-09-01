@@ -52,6 +52,7 @@ in {
 
         foot.enable = mkEnableOption "foot";
         blackbox.enable = mkEnableOption "blackbox";
+        alacritty.enable = mkEnableOption "alacritty";
       };
     };
   };

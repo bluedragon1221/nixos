@@ -64,6 +64,7 @@ in {
         fzf = mkProgramOption "fzf fuzzy finder";
         bat = mkProgramOption "bat cat replacement";
         eza = mkProgramOption "eza ls replacement";
+        broot = mkProgramOption "broot";
       };
     };
   };

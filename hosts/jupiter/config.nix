@@ -39,9 +39,13 @@
         };
 
         helix = {
+          theme = "adwaita";
           enable = true;
           hardMode = false;
         };
+
+        tmux.enable = true;
+        broot.enable = true;
 
         git = {
           enable = true;

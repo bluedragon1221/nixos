@@ -134,7 +134,7 @@
       if cfg.theme == "catppuccin"
       then "catppuccin_mocha_transparent"
       else if cfg.theme == "adwaita"
-      then "adwaita_dark"
+      then "adwaita-dark"
       else "";
   };
 in
