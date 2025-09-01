@@ -70,11 +70,11 @@
     bindsym Mod4+Shift+b exec ${pkgs.qutebrowser}/bin/qutebrowser
     bindsym Mod4+q kill
 
-    bindsym XF86AudioRaiseVolume exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h int:value:"$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/Volume:\ //'); echo "$dec * 100" | bc)"'
-    bindsym XF86AudioLowerVolume exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h int:value:"$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/Volume:\ //'); echo "$dec * 100" | bc)"'
+    bindsym XF86AudioRaiseVolume  exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h "int:value:$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d\" \" -f2);echo "$dec * 100" | bc)"'
+    bindsym XF86AudioLowerVolume  exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h "int:value:$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d\" \" -f2);echo "$dec * 100" | bc)"'
 
-    bindsym XF86MonBrightnessUp   exec 'brightnessctl set +5%; dunstify -t 300 -h string:x-canonical-private-synchronous:brightness "Brightness: " -h int:value:"$(echo "brightnessctl get * 100 / $(brightnessctl max)" | bc)"'
-    bindsym XF86MonBrightnessDown exec 'brightnessctl set 5%-; dunstify -t 300 -h string:x-canonical-private-synchronous:brightness "Brightness: " -h int:value:"$(echo "brightnessctl get * 100 / $(brightnessctl max)" | bc)"'
+    bindsym XF86MonBrightnessUp   exec 'brightnessctl set 5%+; dunstify -t 300 -h string:x-canonical-private-synchronous:brightness "Brightness: " -h "int:value:$(g=$(brightnessctl get);m=$(brightnessctl max);echo $((g * 100 / m)))"'
+    bindsym XF86MonBrightnessDown exec 'brightnessctl set 5%-; dunstify -t 300 -h string:x-canonical-private-synchronous:brightness "Brightness: " -h "int:value:$(g=$(brightnessctl get);m=$(brightnessctl max);echo $((g * 100 / m)))"'
 
     default_border pixel 2
     smart_borders on
