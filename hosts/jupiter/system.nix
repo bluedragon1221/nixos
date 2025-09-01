@@ -18,8 +18,11 @@
 
   systemd.network.wait-online.enable = false; # fix for weird wifi issue
 
+  # music stuff
   services.pipewire.jack.enable = true;
-  environment.systemPackages = with pkgs; [puredata vital helvum];
+  environment.systemPackages = with pkgs; [vital helvum];
+
+  fonts.packages = [pkgs.nerd-fonts.iosevka];
 
   system.stateVersion = "25.05";
 }
