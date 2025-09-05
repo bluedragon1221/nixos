@@ -58,16 +58,27 @@
     bindsym Mod4+2 workspace number 2
     bindsym Mod4+3 workspace number 3
     bindsym Mod4+4 workspace number 4
+    bindsym Mod4+5 workspace number 5
+    bindsym Mod4+6 workspace number 6
+    bindsym Mod4+7 workspace number 7
+    bindsym Mod4+8 workspace number 8
+    bindsym Mod4+9 workspace number 9
+
     bindsym Mod4+Shift+1 move container to workspace number 1
     bindsym Mod4+Shift+2 move container to workspace number 2
     bindsym Mod4+Shift+3 move container to workspace number 3
     bindsym Mod4+Shift+4 move container to workspace number 4
+    bindsym Mod4+Shift+5 move container to workspace number 5
+    bindsym Mod4+Shift+6 move container to workspace number 6
+    bindsym Mod4+Shift+7 move container to workspace number 7
+    bindsym Mod4+Shift+8 move container to workspace number 8
+    bindsym Mod4+Shift+9 move container to workspace number 9
 
-    bindsym Mod4+Return exec "${pkgs.foot}/bin/footclient"
+    bindsym Mod4+Return       exec ${pkgs.foot}/bin/footclient
     bindsym Mod4+Shift+Return exec ${pkgs.foot}/bin/foot
-    bindsym Mod4+Space exec ${pkgs.fuzzel}/bin/fuzzel
-    bindsym Mod4+b exec ${pkgs.firefox}/bin/firefox
-    bindsym Mod4+Shift+b exec ${pkgs.qutebrowser}/bin/qutebrowser
+    bindsym Mod4+Space        exec ${pkgs.fuzzel}/bin/fuzzel
+    bindsym Mod4+b            exec ${pkgs.firefox}/bin/firefox
+    bindsym Mod4+Shift+b      exec ${pkgs.qutebrowser}/bin/qutebrowser
     bindsym Mod4+q kill
 
     bindsym XF86AudioRaiseVolume  exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h "int:value:$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d\" \" -f2);echo "$dec * 100" | bc)"'
@@ -75,6 +86,10 @@
 
     bindsym XF86MonBrightnessUp   exec 'brightnessctl set 5%+; dunstify -t 300 -h string:x-canonical-private-synchronous:brightness "Brightness: " -h "int:value:$(g=$(brightnessctl get);m=$(brightnessctl max);echo $((g * 100 / m)))"'
     bindsym XF86MonBrightnessDown exec 'brightnessctl set 5%-; dunstify -t 300 -h string:x-canonical-private-synchronous:brightness "Brightness: " -h "int:value:$(g=$(brightnessctl get);m=$(brightnessctl max);echo $((g * 100 / m)))"'
+
+    bindsym Home   exec 'playerctl previous'
+    bindsym End    exec 'playerctl play-pause'
+    bindsym Insert exec 'playerctl next'
 
     default_border pixel 2
     smart_borders on
@@ -88,7 +103,7 @@ in
         ".config/sway/catppuccin-mocha".text = colors;
       };
 
-      packages = [pkgs.sway pkgs.bc pkgs.brightnessctl];
+      packages = [pkgs.sway pkgs.bc pkgs.brightnessctl pkgs.playerctl];
     };
 
     # Greetd
