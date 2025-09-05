@@ -26,8 +26,9 @@ in
             {
               "{446900e4-71c2-419f-a6a7-df9c091e268b}" = ext "bitwarden-password-manager";
               "uBlock0@raymondhill.net" = ext "uBlock0@raymondhill.net";
+              "addon@darkreader.org" = ext "addon@darkreader.org";
             }
-            (lib.mkIf (cfg.theme == "catppuccin") {
+            (lib.optionalAttrs (cfg.theme == "catppuccin") {
               "{88b098c8-19be-421e-8ffa-85ddd1f3f004}" = ext "catppuccin-mocha-blue";
             })
           ];
