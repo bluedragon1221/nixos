@@ -25,11 +25,9 @@ in {
           default = let
             cfg = config.collinux.terminal.shells;
           in
-            if (cfg.fish.enable && !cfg.bash.enable)
+            if cfg.fish.enable
             then pkgs.fish
-            else if (!cfg.fish.enable && cfg.bash.enable)
-            then pkgs.bash
-            else null;
+            else pkgs.bash;
         };
       };
 

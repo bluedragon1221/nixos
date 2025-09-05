@@ -156,15 +156,22 @@ in
           generator = (pkgs.formats.toml {}).generate "toml_file";
           inherit value;
         };
-      in {
-        ".config/helix/config.toml" = t settings;
-        ".config/helix/languages.toml" = t languages;
-        ".config/helix/themes/catppuccin_mocha_transparent.toml" = t theme;
-
-        ".config/fish/conf.d/helix.fish".text = lib.mkIf config.collinux.terminal.shells.fish.enable ''
-          set -gx EDITOR hx
-        '';
-      };
+      in
+        {
+          ".config/helix/config.toml" = t settings;
+          ".config/helix/languages.toml" = t languages;
+          ".config/helix/themes/catppuccin_mocha_transparent.toml" = t theme;
+        }
+        // (lib.optionalAttrs config.collinux.terminal.shells.fish.enable {
+          ".config/fish/conf.d/helix.fish".text = ''
+            set -gx EDITOR hx
+          '';
+        })
+        // (lib.optionalAttrs config.collinux.terminal.shells.bash.enable {
+          ".config/bash/conf.d/helix.bash".text = ''
+            EDITOR=hx
+          '';
+        });
 
       packages = [pkgs.helix];
     };

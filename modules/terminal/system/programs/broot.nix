@@ -115,16 +115,23 @@
 in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
-      files = {
-        ".config/broot/conf.toml" = {
-          generator = (pkgs.formats.toml {}).generate "conf.toml";
-          value = conf;
-        };
-
-        ".config/fish/conf.d/broot.fish".text = lib.mkIf config.collinux.terminal.shells.fish.enable ''
-          ${pkgs.broot}/bin/broot --print-shell-function fish | source
-        '';
-      };
+      files =
+        {
+          ".config/broot/conf.toml" = {
+            generator = (pkgs.formats.toml {}).generate "conf.toml";
+            value = conf;
+          };
+        }
+        // (lib.optionalAttrs config.collinux.terminal.shells.fish.enable {
+          ".config/fish/conf.d/broot.fish".text = ''
+            broot --print-shell-function fish | source
+          '';
+        })
+        // (lib.optionalAttrs config.collinux.terminal.shells.bash.enable {
+          ".config/bash/conf.d/broot.bash".text = ''
+            eval "$(broot --print-shell-function bash)"
+          '';
+        });
 
       packages = [pkgs.broot];
     };

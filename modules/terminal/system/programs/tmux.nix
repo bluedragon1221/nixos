@@ -242,7 +242,6 @@
 
   tmux-conf = ''
     set -g mouse on
-    set -g default-terminal "tmux"
 
     # Panes
     bind-key -n C-w kill-pane

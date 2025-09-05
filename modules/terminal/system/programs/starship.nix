@@ -36,21 +36,28 @@
 in
   lib.mkIf cfg.enable {
     hjem.users."${config.collinux.user.name}" = {
-      files = {
-        ".config/starship.toml" = {
-          generator = (pkgs.formats.toml {}).generate "starship.toml";
-          value = settings;
-        };
+      files =
+        {
+          ".config/starship.toml" = {
+            generator = (pkgs.formats.toml {}).generate "starship.toml";
+            value = settings;
+          };
+        }
+        // (lib.optionalAttrs config.collinux.terminal.shells.fish.enable {
+          ".config/fish/conf.d/starship.fish".text = ''
+            function starship_transient_prompt_func
+              starship module character
+            end
 
-        ".config/fish/conf.d/starship.fish".text = lib.mkIf config.collinux.terminal.shells.fish.enable ''
-          function starship_transient_prompt_func
-            starship module character
-          end
-
-          starship init fish | source
-          enable_transience
-        '';
-      };
+            starship init fish | source
+            enable_transience
+          '';
+        })
+        // (lib.optionalAttrs config.collinux.terminal.shells.bash.enable {
+          ".config/bash/conf.d/starship.bash".text = ''
+            eval "$(starship init bash)"
+          '';
+        });
 
       packages = [pkgs.starship];
     };
