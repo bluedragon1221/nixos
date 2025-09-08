@@ -4,6 +4,7 @@
   ...
 }: {
   imports = [
+    ./disks.nix
     ./battery.nix
     ./ai.nix
 

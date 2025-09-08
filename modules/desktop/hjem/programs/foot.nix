@@ -50,14 +50,12 @@
   };
 in
   lib.mkIf cfg.enable {
-    hjem.users."${config.collinux.user.name}" = {
-      files = {
-        ".config/foot/foot.ini" = {
-          generator = lib.generators.toINI {};
-          value = settings;
-        };
+    files = {
+      ".config/foot/foot.ini" = {
+        generator = lib.generators.toINI {};
+        value = settings;
       };
-
-      packages = [pkgs.foot];
     };
+
+    packages = [pkgs.foot];
   }

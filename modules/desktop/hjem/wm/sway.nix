@@ -81,8 +81,8 @@
     bindsym Mod4+Shift+b      exec ${pkgs.qutebrowser}/bin/qutebrowser
     bindsym Mod4+q kill
 
-    bindsym XF86AudioRaiseVolume  exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h "int:value:$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d\" \" -f2);echo "$dec * 100" | bc)"'
-    bindsym XF86AudioLowerVolume  exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h "int:value:$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d\" \" -f2);echo "$dec * 100" | bc)"'
+    bindsym XF86AudioRaiseVolume  exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h "int:value:$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d\" \" -f2);echo "$dec * 100" | ${pkgs.bc}/bin/bc)"'
+    bindsym XF86AudioLowerVolume  exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h "int:value:$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d\" \" -f2);echo "$dec * 100" | ${pkgs.bc}/bin/bc)"'
 
     bindsym XF86MonBrightnessUp   exec 'brightnessctl set 5%+; dunstify -t 300 -h string:x-canonical-private-synchronous:brightness "Brightness: " -h "int:value:$(g=$(brightnessctl get);m=$(brightnessctl max);echo $((g * 100 / m)))"'
     bindsym XF86MonBrightnessDown exec 'brightnessctl set 5%-; dunstify -t 300 -h string:x-canonical-private-synchronous:brightness "Brightness: " -h "int:value:$(g=$(brightnessctl get);m=$(brightnessctl max);echo $((g * 100 / m)))"'
@@ -97,24 +97,14 @@
   '';
 in
   lib.mkIf cfg.enable {
-    hjem.users."${config.collinux.user.name}" = {
-      files = {
-        ".config/sway/config".text = settings;
-        ".config/sway/catppuccin-mocha".text = colors;
-      };
-
-      packages = [pkgs.sway pkgs.bc pkgs.brightnessctl pkgs.playerctl];
+    files = {
+      ".config/sway/config".text = settings;
+      ".config/sway/catppuccin-mocha".text = colors;
     };
 
-    # Greetd
-    services.greetd = {
-      enable = true;
-      settings = rec {
-        initial_session = {
-          command = "${pkgs.sway}/bin/sway";
-          user = config.collinux.user.name;
-        };
-        default_session = initial_session;
-      };
-    };
+    packages = with pkgs; [
+      sway
+      brightnessctl
+      playerctl
+    ];
   }

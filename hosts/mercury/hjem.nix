@@ -1,6 +1,5 @@
 {pkgs, ...}: {
-  home.preferXdgDirectories = true;
-  home.packages = with pkgs; [
+  packages = with pkgs; [
     # GUI apps
     tor-browser # don't ask
     obsidian
@@ -12,6 +11,4 @@
     zotero
     zathura
   ];
-
-  home.stateVersion = "25.05";
 }

@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  cfg = config.collinux.desktop.components.dunst;
+  cfg = config.collinux.desktop.sway.components.dunst;
 
   settings = ''
     [global]
@@ -31,8 +31,6 @@
   '';
 in
   lib.mkIf cfg.enable {
-    hjem.users."${config.collinux.user.name}" = {
-      files.".config/dunst/dunstrc".text = settings;
-      packages = [pkgs.dunst pkgs.inotify-tools];
-    };
+    files.".config/dunst/dunstrc".text = settings;
+    packages = with pkgs; [dunst inotify-tools];
   }

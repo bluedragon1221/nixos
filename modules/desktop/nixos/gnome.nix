@@ -7,18 +7,14 @@
   cfg = config.collinux.desktop.gnome;
 in
   lib.mkIf cfg.enable {
-    services.displayManager.gdm = {
-      enable = true;
-      wayland = true;
-    };
     services.desktopManager.gnome.enable = true;
 
     environment.gnome.excludePackages = with pkgs; [
       orca
       evince
-      file-roller
+      # file-roller
       geary
-      gnome-disk-utility
+      # gnome-disk-utility
       seahorse
       # sushi
       # sysprof

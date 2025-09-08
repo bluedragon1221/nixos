@@ -1,15 +1,4 @@
-{inputs, ...}: {
-  nix-furnace = {
-    extraSystemModules = [
-      inputs.hjem.nixosModules.default
-      ./system.nix
-      ./disks.nix
-    ];
-    extraHomeModules = [
-      ./home.nix
-    ];
-  };
-
+{
   collinux = {
     theme = "catppuccin";
 
@@ -19,10 +8,15 @@
     };
 
     desktop = {
-      sway.enable = true;
       wallpaper = ./wallpaper.jpg;
-      components.fuzzel.enable = true;
-      components.dunst.enable = true;
+
+      greetd.enable = true;
+
+      sway = {
+        enable = true;
+        components.fuzzel.enable = true;
+        components.dunst.enable = true;
+      };
 
       programs = {
         firefox.enable = true;

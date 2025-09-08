@@ -4,12 +4,11 @@
   pkgs,
   ...
 }: let
-  cfg = config.collinux.desktop.components.fuzzel;
-  ini' = pkgs.formats.ini {};
+  cfg = config.collinux.desktop.sway.components.fuzzel;
 
-  settings = ini'.generate "fuzzel.ini" {
+  settings = {
     main = {
-      prompt = "    ";
+      prompt = "";
       dpi-aware = false;
 
       font = "Iosevka Nerd Font";
@@ -41,10 +40,10 @@
   };
 in
   lib.mkIf cfg.enable {
-    hjem.users."${config.collinux.user.name}" = {
-      files = {
-        ".config/fuzzel/fuzzel.ini".source = settings;
-      };
-      packages = [pkgs.fuzzel];
+    files.".config/fuzzel/fuzzel.ini" = {
+      generator = lib.generators.toINI {};
+      value = settings;
     };
+
+    packages = [pkgs.fuzzel];
   }

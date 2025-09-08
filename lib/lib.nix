@@ -49,4 +49,6 @@ let
 in {
   inherit globimport;
   inherit options;
+
+  flatten = builtins.foldl' (a: b: a ++ b) [];
 }

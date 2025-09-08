@@ -34,18 +34,4 @@ in
           ];
       };
     };
-
-    hjem.users."${config.collinux.user.name}".files = {
-      ".mozilla/firefox/profiles.ini".text = ''
-        [Profile0]
-        Name=collin
-        IsRelative=1
-        Path=collin
-        Default=1
-
-        [General]
-        StartWithLastProfile=1
-        Version=2
-      '';
-    };
   }

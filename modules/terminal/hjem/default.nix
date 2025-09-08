@@ -1,6 +1,4 @@
-{config, ...}: let
-  cfg = config.collinux.terminal.shells;
-in {
+{
   imports = [
     ./programs/fzf.nix
     ./programs/bat.nix
@@ -14,11 +12,4 @@ in {
     ./programs/helix.nix
     ./programs/fish.nix
   ];
-
-  programs.command-not-found.enable = false; # broken without nix-channels
-
-  users.users."${config.collinux.user.name}" = {
-    shell = cfg.defaultShell;
-    ignoreShellProgramCheck = true;
-  };
 }

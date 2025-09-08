@@ -25,9 +25,20 @@
     };
   };
 
-  outputs = inputs:
-    (import ./lib/nix-furnace).mkFlake {
+  outputs = inputs: let
+    mkSystem = import ./lib/nix-furnace/mkSystem.nix;
+  in {
+    nixosConfigurations."mercury" = mkSystem {
       inherit inputs;
-      namespace = "collinux";
+      hostname = "mercury";
+      username = "collin";
+      module_types = ["hjem" "nixos"];
     };
+    nixosConfigurations."jupiter" = mkSystem {
+      inherit inputs;
+      hostname = "jupiter";
+      username = "collin";
+      module_types = ["hjem" "home" "nixos"];
+    };
+  };
 }
