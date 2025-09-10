@@ -67,7 +67,7 @@
 
     boot = {
       systemd-boot.enable = true;
-      plymouth.enable = true;
+      # plymouth.enable = true;
       secureBoot.enable = true;
     };
   };

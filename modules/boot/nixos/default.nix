@@ -12,9 +12,11 @@ in {
 
   boot =
     {
+      bcache.enable = false; # why is this default on? I DON'T CARE ABOUT bcache
       initrd = {
         verbose = false;
         systemd.enable = true;
+        checkJournalingFS = false;
       };
       loader = {
         systemd-boot = lib.optionalAttrs (cfg.systemd-boot.enable && !cfg.secureBoot.enable) {
