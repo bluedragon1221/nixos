@@ -97,9 +97,23 @@ let
           }
           else {}
         )
-
-        # This is where we would add nix-on-droid modules
       ];
     };
-in
-  mkNixosSystem
+
+  mkSystemManagerSystem = {
+    inputs,
+    hostname,
+  }:
+    inputs.system-manager.lib.makeSystemConfig {
+      modules =
+        [../../modules/options.nix ../../hosts/${hostname}/system.nix]
+        ++ (listModules
+          |> (builtins.map (modName: [
+            (lazyImport ../../modules/${modName}/options.nix)
+            (lazyImport ../../modules/${modName}/system/default.nix)
+          ]))
+          |> my-lib.flatten);
+    };
+in {
+  inherit mkNixosSystem mkSystemManagerSystem;
+}

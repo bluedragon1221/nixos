@@ -19,6 +19,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # for server that doesn't have nixos
+    system-manager = {
+      url = "github:numtide/system-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     hjem = {
       url = "github:feel-co/hjem";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -26,19 +32,24 @@
   };
 
   outputs = inputs: let
-    mkSystem = import ./lib/nix-furnace/mkSystem.nix;
+    inherit (import ./lib/nix-furnace/mkSystem.nix) mkNixosSystem mkSystemManagerSystem;
   in {
-    nixosConfigurations."mercury" = mkSystem {
+    nixosConfigurations."mercury" = mkNixosSystem {
       inherit inputs;
       hostname = "mercury";
       username = "collin";
       module_types = ["hjem" "nixos"];
     };
-    nixosConfigurations."jupiter" = mkSystem {
+    nixosConfigurations."jupiter" = mkNixosSystem {
       inherit inputs;
       hostname = "jupiter";
       username = "collin";
       module_types = ["hjem" "home" "nixos"];
+    };
+
+    systemConfigs."ganymede" = mkSystemManagerSystem {
+      inherit inputs;
+      hostanme = "ganymede";
     };
   };
 }
