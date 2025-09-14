@@ -4,5 +4,6 @@
     ./audio.nix
     ./bluetooth.nix
     ./tailscale.nix
+    ./selfhost
   ];
 }
