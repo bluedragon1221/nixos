@@ -14,11 +14,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    home-manager = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # for server that doesn't have nixos
     system-manager = {
       url = "github:numtide/system-manager";
@@ -44,12 +39,13 @@
       inherit inputs;
       hostname = "jupiter";
       username = "collin";
-      module_types = ["hjem" "home" "nixos"];
+      module_types = ["hjem" "nixos"];
     };
-
-    systemConfigs."ganymede" = mkSystemManagerSystem {
+    nixosConfigurations."ganymede" = mkNixosSystem {
       inherit inputs;
-      hostanme = "ganymede";
+      hostname = "ganymede";
+      username = "collin";
+      module_types = ["nixos" "hjem"];
     };
   };
 }

@@ -10,6 +10,8 @@
     desktop = {
       wallpaper = ./wallpaper.jpg;
 
+      gtk.enable = true;
+
       greetd.enable = true;
 
       sway = {

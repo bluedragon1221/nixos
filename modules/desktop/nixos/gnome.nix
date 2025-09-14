@@ -81,6 +81,12 @@ in
               sleep-inactive-ac-type = "nothing";
             };
 
+            # Theming, etc
+            "org/gnome/desktop/interface" = {
+              color-scheme = "prefer-dark";
+              enable-hot-corners = false;
+            };
+
             # Keybindings
             "org/gnome/settings-daemon/plugins/media-keys/custom-keybindings/custom0" = {
               binding = "<Super>Return";

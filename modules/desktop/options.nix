@@ -40,6 +40,7 @@ in {
       gnome.enable = mkEnableOption "gnome";
 
       gtk = {
+        enable = mkEnableOption "gtk theming";
         theme = mkOption {
           type = types.enum ["catppuccin" "adwaita"];
           default = config.collinux.theme;

@@ -1,6 +1,7 @@
 {...}: {
   imports = [
     ./gnome.nix
+    ./fonts.nix
 
     ./greeters/greetd.nix
     ./greeters/gdm.nix

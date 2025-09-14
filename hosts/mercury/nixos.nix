@@ -15,14 +15,6 @@
     inputs.lanzaboote.nixosModules.lanzaboote
   ];
 
-  fonts = {
-    enableDefaultPackages = false;
-    fontDir.enable = true;
-    packages = with pkgs; [
-      ibm-plex
-      nerd-fonts.iosevka
-    ];
-  };
   environment.defaultPackages = lib.mkForce []; # im not a noob
 
   networking.firewall.allowedUDPPorts = [445];
