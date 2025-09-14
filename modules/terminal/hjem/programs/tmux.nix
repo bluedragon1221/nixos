@@ -30,7 +30,7 @@
     width=$(tmux display -p "#{pane_width}")
     height=$(tmux display -p "#{pane_height}")
 
-    if (( $(echo "$width / $height > 2.5" | bc -l) )); then
+    if (( $(echo "$width / $height > 2.5" | ${pkgs.bc}/bin/bc -l) )); then
       tmux split-window -h "$@"
     else
       tmux split-window -v "$@"
