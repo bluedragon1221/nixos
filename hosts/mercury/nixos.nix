@@ -23,8 +23,6 @@
       nerd-fonts.iosevka
     ];
   };
-
-  services.speechd.enable = lib.mkForce false; # idk, im not disabled
   environment.defaultPackages = lib.mkForce []; # im not a noob
 
   networking.firewall.allowedUDPPorts = [445];
