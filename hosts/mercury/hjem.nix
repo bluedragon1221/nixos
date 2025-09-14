@@ -6,9 +6,5 @@
     kdePackages.kleopatra
     mpv
     musescore
-    qutebrowser
-
-    zotero
-    zathura
   ];
 }

@@ -21,6 +21,8 @@
       programs = {
         firefox.enable = true;
         foot.enable = true;
+
+        research.enable = true;
       };
     };
 

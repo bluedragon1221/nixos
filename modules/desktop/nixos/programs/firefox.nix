@@ -55,6 +55,12 @@ in
           // (lib.optionalAttrs (cfg.theme == "catppuccin") {
             "{88b098c8-19be-421e-8ffa-85ddd1f3f004}" = ext "catppuccin-mocha-blue";
           })
+          // (lib.optionalAttrs (cfg.extensions.zotero.enable) {
+            "zotero@chnm.gmu.edu" = {
+              installation_mode = "force_installed";
+              install_url = "https://download.zotero.org/connector/firefox/release/Zotero_Connector-5.0.181.xpi";
+            };
+          });
       };
     };
 

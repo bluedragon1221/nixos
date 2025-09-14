@@ -8,5 +8,6 @@
 
     ./programs/foot.nix
     ./programs/firefox.nix
+    ./programs/research.nix
   ];
 }

@@ -102,10 +102,16 @@ in {
             type = types.enum ["none" "catppuccin" "adwaita"];
             default = config.collinux.theme;
           };
+          extensions.zotero.enable = mkOption {
+            description = "install Zotero Connector for Firefox";
+            default = config.collinux.desktop.programs.research.enable;
+          };
         };
 
         foot.enable = mkEnableOption "foot";
         blackbox.enable = mkEnableOption "blackbox";
+
+        research.enable = mkEnableOption "zathura, Xournal++, Zotero, Zotero Connector";
       };
     };
   };
