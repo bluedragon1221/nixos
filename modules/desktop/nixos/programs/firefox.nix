@@ -1,5 +1,4 @@
 {
-  pkgs,
   lib,
   config,
   ...
@@ -13,10 +12,11 @@ in
         PasswordManagerEnabled = false; # use bitwarden instead
         DisableAccounts = true;
         DisablePocket = true;
-        DisplayBookmarksToolbar = "always";
+        NoDefaultBookmarks = true;
 
         OverrideFirstRunPage = "";
         OverridePostUpdatePage = "";
+        Homepage = "";
 
         NewTabPage = false;
 
@@ -31,14 +31,69 @@ in
           "browser.tabs.hoverPreview.enabled" = opt 0;
 
           "browser.tabs.loadBookmarksInTabs" = opt true;
+          "browser.toolbars.bookmarks.visibility" = opt "never";
+          "browser.uiCustomization.state" = opt (lib.replaceStrings ["\n" " "] ["" ""] ''
+            {
+              "placements": {
+                "widget-overflow-fixed-list": [],
+                "unified-extensions-area": [
+                  "zotero_chnm_gmu_edu-browser-action",
+                  "addon_darkreader_org-browser-action",
+                  "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action"
+                ],
+                "nav-bar": [
+                  "personal-bookmarks",
+                  "customizableui-special-spring1",
+                  "back-button",
+                  "forward-button",
+                  "stop-reload-button",
+                  "urlbar-container",
+                  "downloads-button",
+                  "unified-extensions-button",
+                  "ublock0_raymondhill_net-browser-action",
+                  "customizableui-special-spring2"
+                ],
+                "toolbar-menubar": [
+                  "menubar-items"
+                ],
+                "TabsToolbar": [
+                  "tabbrowser-tabs",
+                  "new-tab-button"
+                ],
+                "vertical-tabs": [],
+                "PersonalToolbar": []
+              },
+              "seen": [
+                "developer-button",
+                "zotero_chnm_gmu_edu-browser-action",
+                "addon_darkreader_org-browser-action",
+                "ublock0_raymondhill_net-browser-action",
+                "_446900e4-71c2-419f-a6a7-df9c091e268b_-browser-action",
+                "screenshot-button"
+              ],
+              "dirtyAreaCache": [],
+              "currentVersion": 23,
+              "newElementCount": 2
+            }
+          '');
 
           "accessibility.force_disabled" = opt 1;
+          "browser.aboutConfig.showWarning" = opt false;
+
+          "startup.homepage_welcome_url" = opt "";
+          "trailhead.firstrun.didSeeAboutWelcome" = opt true;
+          "datareporting.policy.dataSubmissionPolicyBypassNotification" = opt true;
+          "browser.startup.homepage" = opt "about:blank";
 
           "browser.compactmode.show" = opt true;
           "browser.uidensity" = opt 1;
 
           "media.webspeech.synth.enabled" = opt false; # im not disabled
           "media.webspeech.synth.dont_notify_on_error" = opt true;
+
+          # get that AI out of my browser
+          "browser.ml.chat.enabled" = opt false;
+          "browser.ml.enable" = opt false;
         };
 
         ExtensionSettings = let
