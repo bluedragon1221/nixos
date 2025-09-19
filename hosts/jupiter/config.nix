@@ -1,15 +1,4 @@
-{inputs, ...}: {
-  nix-furnace = {
-    extraHomeModules = [
-      ./home.nix
-    ];
-
-    extraSystemModules = [
-      ./system.nix
-      inputs.hjem.nixosModules.default
-    ];
-  };
-
+{
   collinux = {
     theme = "adwaita";
 
@@ -20,6 +9,8 @@
 
     desktop = {
       gnome.enable = true;
+
+      gdm.enable = true;
 
       programs = {
         firefox.enable = true;

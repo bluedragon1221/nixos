@@ -1,15 +1,4 @@
-{inputs, ...}: {
-  nix-furnace = {
-    extraSystemModules = [
-      inputs.hjem.nixosModules.default
-      ./system.nix
-      ./disks.nix
-    ];
-    extraHomeModules = [
-      ./home.nix
-    ];
-  };
-
+{
   collinux = {
     theme = "catppuccin";
 
@@ -19,14 +8,23 @@
     };
 
     desktop = {
-      sway.enable = true;
       wallpaper = ./wallpaper.jpg;
-      components.fuzzel.enable = true;
-      components.dunst.enable = true;
+
+      gtk.enable = true;
+
+      greetd.enable = true;
+
+      sway = {
+        enable = true;
+        components.fuzzel.enable = true;
+        components.dunst.enable = true;
+      };
 
       programs = {
         firefox.enable = true;
         foot.enable = true;
+
+        research.enable = true;
       };
     };
 
@@ -73,7 +71,7 @@
 
     boot = {
       systemd-boot.enable = true;
-      plymouth.enable = true;
+      # plymouth.enable = true;
       secureBoot.enable = true;
     };
   };

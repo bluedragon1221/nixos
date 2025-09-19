@@ -11,12 +11,7 @@ in {
         enable = mkEnableOption "wifi";
         iwd.enable = mkEnableOption "lightweight wifi daemon";
         networkmanager.enable = mkEnableOption "heavier wifi daemon";
-        tailscale = {
-          enable = mkEnableOption "tailscale";
-          authKeyFile = mkOption {
-            type = "path";
-          };
-        };
+        tailscale.enable = mkEnableOption "tailscale";
       };
       audio = {
         enable = mkEnableOption "pipewire + wireplumber";
@@ -27,6 +22,16 @@ in {
         enable = mkEnableOption "bluetooth";
         blueman.enable = mkEnableOption "graphical bluetooth manager";
         bluetuith.enable = mkEnableOption "terminal bluetooth manager";
+      };
+
+      selfhost = {
+        navidrome = {
+          enable = mkEnableOption "navidrome music server";
+          user = mkOption {
+            description = "user to run the service as";
+            default = config.collinux.user.name;
+          };
+        };
       };
     };
   };

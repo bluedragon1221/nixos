@@ -14,8 +14,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    home-manager = {
-      url = "github:nix-community/home-manager";
+    # for server that doesn't have nixos
+    system-manager = {
+      url = "github:numtide/system-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -25,9 +26,26 @@
     };
   };
 
-  outputs = inputs:
-    (import ./lib/nix-furnace).mkFlake {
+  outputs = inputs: let
+    inherit (import ./lib/nix-furnace/mkSystem.nix) mkNixosSystem mkSystemManagerSystem;
+  in {
+    nixosConfigurations."mercury" = mkNixosSystem {
       inherit inputs;
-      namespace = "collinux";
+      hostname = "mercury";
+      username = "collin";
+      module_types = ["hjem" "nixos"];
     };
+    nixosConfigurations."jupiter" = mkNixosSystem {
+      inherit inputs;
+      hostname = "jupiter";
+      username = "collin";
+      module_types = ["hjem" "nixos"];
+    };
+    nixosConfigurations."ganymede" = mkNixosSystem {
+      inherit inputs;
+      hostname = "ganymede";
+      username = "collin";
+      module_types = ["nixos" "hjem"];
+    };
+  };
 }

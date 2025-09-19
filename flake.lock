@@ -115,26 +115,6 @@
         "type": "github"
       }
     },
-    "home-manager": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1754527677,
-        "narHash": "sha256-qAzCtmKkMz40xFgP9KN+TCKjVieK4u04EWwl2KvVk0E=",
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "rev": "475d35797d9537354d825260cf583114537affc2",
-        "type": "github"
-      },
-      "original": {
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "type": "github"
-      }
-    },
     "lanzaboote": {
       "inputs": {
         "crane": "crane",
@@ -221,10 +201,10 @@
       "inputs": {
         "disko": "disko",
         "hjem": "hjem",
-        "home-manager": "home-manager",
         "lanzaboote": "lanzaboote",
         "nixos-facter-modules": "nixos-facter-modules",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "system-manager": "system-manager"
       }
     },
     "rust-overlay": {
@@ -290,6 +270,26 @@
       "original": {
         "owner": "feel-co",
         "repo": "smfh",
+        "type": "github"
+      }
+    },
+    "system-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1756281415,
+        "narHash": "sha256-CjpoVwpJJ+DOZilPrDpZ5S3V+B1Y0calaHxTp2xMvGs=",
+        "owner": "numtide",
+        "repo": "system-manager",
+        "rev": "e271eedac9a24678ca6cfc61677837422bf474e0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "system-manager",
         "type": "github"
       }
     },
