@@ -51,11 +51,6 @@ in
           starship init fish | source
           enable_transience
         '';
-      })
-      // (lib.optionalAttrs config.collinux.terminal.shells.bash.enable {
-        ".config/bash/conf.d/starship.bash".text = ''
-          eval "$(starship init bash)"
-        '';
       });
 
     packages = [pkgs.starship];

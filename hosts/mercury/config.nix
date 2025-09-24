@@ -43,6 +43,7 @@
 
     terminal = {
       shells.fish.enable = true;
+      shells.bash.enable = true; # for nix-shells
 
       programs = {
         tmux.enable = true;

@@ -7,7 +7,6 @@
   imports = [
     ./disks.nix
     ./battery.nix
-    ./ai.nix
 
     inputs.nixos-facter-modules.nixosModules.facter
     {facter.reportPath = ./facter.json;}
