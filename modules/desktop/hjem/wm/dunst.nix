@@ -4,30 +4,31 @@
   pkgs,
   ...
 }: let
-  cfg = config.collinux.desktop.sway.components.dunst;
+  cfg = config.collinux.desktop.wm.components.dunst;
 
-  settings = ''
+  settings = with config.collinux.palette; ''
     [global]
-      frame_color = "#89b4fa"
+      frame_color = "#ffffff00"
       separator_color = frame
-      highlight = "#89b4fa"
+
+      highlight = "#${base13}"
+
+      font = "Iosevka Nerd Font"
       offset = "(8,8)"
       origin = "top-right"
-      transparency = 10
-      font = "Iosevka Nerd Font"
 
     [urgency_low]
-      background = "#1e1e2e"
-      foreground = "#cdd6f4"
+      background = "#${base00}99"
+      foreground = "#${base05}ff"
 
     [urgency_normal]
-      background = "#1e1e2e"
-      foreground = "#cdd6f4"
+      background = "#${base00}99"
+      foreground = "#${base05}ff"
 
     [urgency_critical]
-      background = "#1e1e2e"
-      foreground = "#cdd6f4"
-      frame_color = "#fab387"
+      background = "#${base00}99"
+      foreground = "#${base05}ff"
+      frame_color = "#${base08}"
   '';
 in
   lib.mkIf cfg.enable {

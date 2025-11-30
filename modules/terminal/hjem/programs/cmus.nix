@@ -25,57 +25,34 @@
   '';
 
   cmus_theme = ''
-    set color_cmdline_bg=default
-    set color_cmdline_fg=default
-    set color_error=211
-    set color_info=223
-    set color_separator=8
-    set color_statusline_bg=default
-    set color_statusline_fg=default
-    set color_titleline_bg=183
-    set color_titleline_fg=8
-    set color_titleline_attr=bold
-    set color_win_bg=default
-    set color_win_cur=117
-    set color_win_cur_sel_bg=117
-    set color_win_cur_sel_fg=235
-    set color_win_dir=default
-    set color_win_fg=default
-    set color_win_inactive_cur_sel_bg=0
-    set color_win_inactive_cur_sel_fg=default
-    set color_win_inactive_sel_bg=0
-    set color_win_inactive_sel_fg=default
-    set color_win_sel_bg=15
-    set color_win_sel_fg=235
-    set color_win_title_bg=default
-    set color_win_title_fg=183
-    set color_win_title_attr=bold
+    set color_cmdline_error=lightred
+    set color_cmdline_info=lightyellow
+    set color_cmdline_fg=lightred
+    set color_cmdline_bg=237
+    set color_separator=238
+    set color_statusline_bg=blue
+    set color_statusline_fg=233
+    set color_titleline_bg=237
+    set color_titleline_fg=white
+    set color_win_bg=black
+    set color_win_fg=241
+    set color_win_cur=lightgreen
+    set color_win_cur_sel_bg=green
+    set color_win_cur_sel_fg=233
+    set color_win_dir=lightblue
+    set color_win_fg=white
+    set color_win_inactive_cur_sel_bg=016
+    set color_win_inactive_cur_sel_fg=233
+    set color_win_sel_bg=237
+    set color_win_sel_fg=white
+    set color_win_title_bg=237
+    set color_win_title_fg=lightred
   '';
 
   cmus_rc = ''
-    ${
-      if (cfg.theme == "catppuccin")
-      then "colorscheme catppuccin"
-      else ""
-    }
+    colorscheme all
     set status_display_program=${scriptsDir}/status.sh
   '';
-
-  cava_config =
-    if cfg.theme == "catppuccin"
-    then ''
-      [color]
-      gradient=1
-      gradient_color_1='#94e2d5'
-      gradient_color_2='#89dceb'
-      gradient_color_3='#74c7ec'
-      gradient_color_4='#89b4fa'
-      gradient_color_5='#cba6f7'
-      gradient_color_6='#f5c2e7'
-      gradient_color_7='#eba0ac'
-      gradient_color_8='#f38ba8'
-    ''
-    else "";
 in
   lib.mkIf cfg.enable {
     files = let
@@ -87,9 +64,8 @@ in
       ".config/cmus/scripts/status.sh" = e scripts.statusDisplay;
 
       ".config/cmus/rc".text = cmus_rc;
-      ".config/cmus/catppuccin.theme".text = lib.mkIf (cfg.theme == "catppuccin") cmus_theme;
-      ".config/cava/config".text = cava_config;
+      ".config/cmus/all.theme".text = cmus_theme;
     };
 
-    packages = with pkgs; [cava cmus];
+    packages = [pkgs.cmus];
   }

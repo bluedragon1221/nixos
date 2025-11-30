@@ -44,8 +44,8 @@
     ];
   };
 
-  theme = {
-    inherits = "catppuccin_mocha";
+  mkTransparentBackground = inherits: {
+    inherit inherits;
     "ui.background" = {};
   };
 
@@ -134,7 +134,9 @@
       if cfg.theme == "catppuccin"
       then "catppuccin_mocha_transparent"
       else if cfg.theme == "adwaita"
-      then "adwaita_dark"
+      then "adwaita_dark_transparent"
+      else if cfg.theme == "kanagawa"
+      then "kanagawa_transparent"
       else "";
   };
 in
@@ -148,7 +150,9 @@ in
       {
         ".config/helix/config.toml" = t settings;
         ".config/helix/languages.toml" = t languages;
-        ".config/helix/themes/catppuccin_mocha_transparent.toml" = t theme;
+        ".config/helix/themes/catppuccin_mocha_transparent.toml" = t (mkTransparentBackground "catppuccin_mocha");
+        ".config/helix/themes/adwaita_dark_transparent.toml" = t (mkTransparentBackground "adwaita-dark");
+        ".config/helix/themes/kanagawa_transparent.toml" = t (mkTransparentBackground "kanagawa");
       }
       // (lib.optionalAttrs config.collinux.terminal.shells.fish.enable {
         ".config/fish/conf.d/helix.fish".text = ''

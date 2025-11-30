@@ -4,7 +4,7 @@
   pkgs,
   ...
 }: let
-  cfg = config.collinux.desktop.sway.components.fuzzel;
+  cfg = config.collinux.desktop.wm.components.fuzzel;
 
   settings = {
     main = {
@@ -21,21 +21,21 @@
     };
     border = {
       radius = 0;
-      width = 2;
+      width = 3;
     };
 
-    colors = {
-      background = "1e1e2edd";
-      text = "cdd6f4ff";
-      prompt = "bac2deff";
-      placeholder = "7f849cff";
-      input = "cdd6f4ff";
-      match = "89b4faff";
-      selection = "585b70ff";
-      selection-text = "cdd6f4ff";
-      selection-match = "89b4faff";
-      counter = "7f849cff";
-      border = "89b4faff";
+    colors = with config.collinux.palette; {
+      background = "${base00}99";
+      border = "ffffff00";
+      input = base05;
+      match = base13;
+      placeholder = base03;
+      text = base04;
+      prompt = base04;
+
+      selection = "${base01}5a";
+      selection-match = base13;
+      selection-text = base05;
     };
   };
 in

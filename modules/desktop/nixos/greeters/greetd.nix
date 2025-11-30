@@ -10,7 +10,7 @@ in
       enable = true;
       settings = rec {
         initial_session = {
-          command = lib.getExe cfg.command;
+          command = cfg.command;
           user = config.collinux.user.name;
         };
         default_session = initial_session;

@@ -6,15 +6,10 @@
   ...
 }: let
   inherit (lib) mkOption mkEnableOption types;
-  inherit (my-lib.options {inherit lib config;}) mkProgramOption' mkProgramOption;
+  inherit (my-lib.options {inherit lib config;}) mkProgramOption;
 in {
   options = {
     collinux.terminal = {
-      theme = mkOption {
-        type = types.enum ["catppuccin" "adwaita"];
-        default = config.collinux.theme;
-      };
-
       shells = {
         fish = mkProgramOption "fish shell";
         bash = mkProgramOption "bash shell";
@@ -36,7 +31,7 @@ in {
         starship = mkProgramOption "starship prompt";
         lazygit.enable = mkEnableOption "lazygit";
 
-        cmus = mkProgramOption "cmus";
+        cmus.enable = mkEnableOption "cmus";
         nh.enable = mkEnableOption "nh nix helper";
 
         git = {
@@ -50,7 +45,12 @@ in {
           };
         };
 
-        helix = mkProgramOption' "helix text editor" {
+        helix = {
+          enable = mkEnableOption "helix text editor";
+          theme = mkOption {
+            type = lib.types.enum ["catppuccin" "adwaita" "kanagawa"];
+            default = config.collinux.theme;
+          };
           hardMode = mkOption {
             type = types.bool;
             description = "Disable arrow keys and mouse";
