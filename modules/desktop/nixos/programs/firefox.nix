@@ -27,7 +27,11 @@ in
           };
         in {
           "toolkit.legacyUserProfileCustomizations.stylesheets" = opt true;
-          "browser.tabs.inTitlebar" = opt 0;
+          "browser.tabs.inTitlebar" = opt (
+            if cfg.theme == "catppuccin"
+            then 0
+            else 1
+          );
           "browser.tabs.hoverPreview.enabled" = opt 0;
 
           "browser.tabs.loadBookmarksInTabs" = opt true;

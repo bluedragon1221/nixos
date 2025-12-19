@@ -20,7 +20,7 @@
 
   # music stuff
   services.pipewire.jack.enable = true;
-  environment.systemPackages = with pkgs; [vital helvum];
+  environment.systemPackages = with pkgs; [vital helvum bambu-studio];
 
   fonts.packages = [pkgs.nerd-fonts.iosevka];
 
