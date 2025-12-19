@@ -24,7 +24,7 @@ in {
           configurationLimit = 3;
         };
         efi.canTouchEfiVariables = true;
-        timeout = 0;
+        timeout = 0; # hold space to show boot menu
       };
     }
     // (lib.optionalAttrs cfg.secureBoot.enable {
@@ -34,5 +34,11 @@ in {
       };
     });
 
-  environment.systemPackages = lib.mkIf cfg.secureBoot.enable [pkgs.sbctl];
+  environment.systemPackages =
+    (
+      if cfg.secureBoot.enable
+      then [pkgs.sbctl]
+      else []
+    )
+    ++ [pkgs.efibootmgr];
 }

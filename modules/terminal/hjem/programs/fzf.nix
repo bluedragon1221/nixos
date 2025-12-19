@@ -8,18 +8,24 @@
 in
   lib.mkIf cfg.enable {
     files =
-      (lib.optionalAttrs config.collinux.terminal.shells.fish.enable {
+      lib.optionalAttrs config.collinux.terminal.shells.fish.enable (with config.collinux.palette; {
         ".config/fish/conf.d/fzf.fish".text = ''
           fzf --fish | source
-          set -gx FZF_DEFAULT_OPTS "--color bg:#1E1E2E,bg+:#313244,border:#313244,fg:#CDD6F4,fg+:#CDD6F4,header:#F38BA8,hl:#F38BA8,hl+:#F38BA8,info:#CBA6F7,label:#CDD6F4,marker:#B4BEFE,pointer:#F5E0DC,prompt:#CBA6F7,selected-bg:#45475A,spinner:#F5E0DC"
+          set -Ux FZF_DEFAULT_OPTS "$FZF_NON_COLOR_OPTS"\
+          " --color=bg+:#${base01},bg:#${base00},spinner:#${base12},hl:#${base13}"\
+          " --color=fg:#${base04},header:#${base13},info:#${base10},pointer:#${base12}"\
+          " --color=marker:#${base12},fg+:#${base06},prompt:#${base10},hl+:#${base13}"
         '';
       })
-      // (lib.optionalAttrs config.collinux.terminal.shells.bash.enable {
+      // (lib.optionalAttrs config.collinux.terminal.shells.bash.enable (with config.collinux.palette; {
         ".config/bash/conf.d/fzf.bash".text = ''
           eval "$(fzf --bash)"
-          export FZF_DEFAULT_OPTS="--color bg:#1E1E2E,bg+:#313244,border:#313244,fg:#CDD6F4,fg+:#CDD6F4,header:#F38BA8,hl:#F38BA8,hl+:#F38BA8,info:#CBA6F7,label:#CDD6F4,marker:#B4BEFE,pointer:#F5E0DC,prompt:#CBA6F7,selected-bg:#45475A,spinner:#F5E0DC"
+          export FZF_DEFAULT_OPTS="$FZF_DEFAULT_OPTS"\
+          " --color=bg+:#${base01},bg:#${base00},spinner:#${base12},hl:#${base13}"\
+          " --color=fg:#${base04},header:#${base13},info:#${base10},pointer:#${base12}"\
+          " --color=marker:#${base12},fg+:#${base06},prompt:#${base10},hl+:#${base13}"
         '';
-      });
+      }));
 
     packages = [pkgs.fzf];
   }

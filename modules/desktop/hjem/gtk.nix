@@ -22,17 +22,20 @@ in
         gtk-icon-theme-name = "Papirus";
         gtk-theme-name = cfg.theme_data.name;
       };
-    in {
-      "gtk-3.0/settings.ini" = {
-        generator = lib.generators.toINI {};
-        inherit value;
+    in
+      {
+        "gtk-3.0/settings.ini" = {
+          generator = lib.generators.toINI {};
+          inherit value;
+        };
+        "gtk-4.0/settings.ini" = {
+          generator = lib.generators.toINI {};
+          inherit value;
+        };
+      }
+      // lib.optionalAttrs (cfg.theme == "catppuccin") {
+        "gtk-4.0/gtk.css".text = ''
+          @import url("file://${cfg.theme_data.package}/share/themes/catppuccin-mocha-blue-standard/gtk-4.0/gtk.css");
+        '';
       };
-      "gtk-4.0/settings.ini" = {
-        generator = lib.generators.toINI {};
-        inherit value;
-      };
-      "gtk-4.0/gtk.css".text = ''
-        @import url("file://${cfg.theme_data.package}/gtk-4.0/gtk.css");
-      '';
-    };
   }

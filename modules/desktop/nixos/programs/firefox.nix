@@ -16,7 +16,7 @@ in
 
         OverrideFirstRunPage = "";
         OverridePostUpdatePage = "";
-        Homepage = "";
+        Homepage = "about:blank";
 
         NewTabPage = false;
 
@@ -33,6 +33,13 @@ in
             else 1
           );
           "browser.tabs.hoverPreview.enabled" = opt 0;
+
+          "browser.theme.content-theme" = opt 0;
+          "browser.theme.toolbar-theme" = opt 0;
+          "browser.display.background_color.dark" =
+            if cfg.theme == "adwaita"
+            then opt "#1d1d1d"
+            else opt "";
 
           "browser.tabs.loadBookmarksInTabs" = opt true;
           "browser.toolbars.bookmarks.visibility" = opt "never";
@@ -84,7 +91,7 @@ in
           "accessibility.force_disabled" = opt 1;
           "browser.aboutConfig.showWarning" = opt false;
 
-          "startup.homepage_welcome_url" = opt "";
+          "startup.homepage_welcome_url" = opt "about:blank";
           "trailhead.firstrun.didSeeAboutWelcome" = opt true;
           "datareporting.policy.dataSubmissionPolicyBypassNotification" = opt true;
           "browser.startup.homepage" = opt "about:blank";
@@ -110,9 +117,13 @@ in
             "{446900e4-71c2-419f-a6a7-df9c091e268b}" = ext "bitwarden-password-manager";
             "uBlock0@raymondhill.net" = ext "uBlock0@raymondhill.net";
             "addon@darkreader.org" = ext "addon@darkreader.org";
+            "*" = {installation_mode = "blocked";}; # force uninstall inactive extensions
           }
           // (lib.optionalAttrs (cfg.theme == "catppuccin") {
             "{88b098c8-19be-421e-8ffa-85ddd1f3f004}" = ext "catppuccin-mocha-blue";
+          })
+          // (lib.optionalAttrs (cfg.theme == "adwaita") {
+            "{f1128560-8b23-46c1-aa6f-fb3e79f23cf3}" = ext "gnome-adwaita-gtk4-dark";
           })
           // (lib.optionalAttrs (cfg.extensions.zotero.enable) {
             "zotero@chnm.gmu.edu" = {

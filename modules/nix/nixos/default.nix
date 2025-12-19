@@ -1,4 +1,8 @@
-{config, pkgs, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   nix = {
     gc.automatic = false; # use nh cleaner instead
 

@@ -14,23 +14,31 @@ in {
         type = with types; oneOf [str path];
         description = "File to use as the wallpaper on this machine";
       };
+      wallpaper_cmd = mkOption {
+        type = types.str;
+        default = "${lib.getExe pkgs.wbg} -s ${config.collinux.desktop.wallpaper}";
+      };
 
       greetd = {
         enable = mkEnableOption "greetd greeter";
         command = mkOption {
-          type = lib.types.package;
+          type = lib.types.str;
           default = let
             cfg = config.collinux.desktop;
           in
-            if (cfg.sway.enable && !cfg.gnome.enable)
-            then pkgs.sway
+            if (cfg.wm.sway.enable && !cfg.gnome.enable && !cfg.wm.niri.enable)
+            then lib.getExe pkgs.sway
+            else if (cfg.wm.niri.enable && !cfg.gnome.enable && !cfg.wm.sway.enable)
+            then "${pkgs.niri}/bin/niri-session"
             else null;
         };
       };
       gdm.enable = mkEnableOption "gdm display manager";
 
-      sway = {
-        enable = mkEnableOption "sway";
+      wm = {
+        sway.enable = mkEnableOption "sway";
+        niri.enable = mkEnableOption "niri";
+
         components = {
           # waybar = mkProgramOption "waybar";
           dunst = mkProgramOption "dunst";
@@ -42,7 +50,7 @@ in {
       gtk = {
         enable = mkEnableOption "gtk theming";
         theme = mkOption {
-          type = types.enum ["catppuccin" "adwaita"];
+          type = types.enum ["catppuccin" "adwaita" "kanagawa"];
           default = config.collinux.theme;
         };
         cursor_data = {
@@ -100,7 +108,7 @@ in {
             default = config.collinux.user.name;
           };
           theme = mkOption {
-            type = types.enum ["none" "catppuccin" "adwaita"];
+            type = types.enum ["none" "catppuccin" "adwaita" "kanagawa"];
             default = config.collinux.theme;
           };
           extensions.zotero.enable = mkOption {
@@ -109,12 +117,21 @@ in {
           };
         };
 
-        foot.enable = mkEnableOption "foot";
+        foot = mkProgramOption "foot";
         blackbox.enable = mkEnableOption "blackbox";
         alacritty.enable = mkEnableOption "alacritty";
 
         research.enable = mkEnableOption "zathura, Xournal++, Zotero, Zotero Connector";
       };
     };
+  };
+
+  config = {
+    assertions = [
+      {
+        assertion = with config.collinux.desktop; !(gdm.enable && greetd.enable);
+        message = "Can't enable gdm and greetd at the same time";
+      }
+    ];
   };
 }

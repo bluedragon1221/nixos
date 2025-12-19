@@ -3,6 +3,8 @@
     ./gtk.nix
 
     ./wm/sway.nix
+    ./wm/niri.nix
+    ./wm/default.nix
     ./wm/dunst.nix
     ./wm/fuzzel.nix
 

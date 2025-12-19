@@ -14,5 +14,7 @@
     };
 
     networking.resolvconf.enable = false;
+
+    systemd.network.wait-online.enable = false;
   };
 }

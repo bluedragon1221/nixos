@@ -10,6 +10,8 @@
     ./programs/broot.nix
     ./programs/cmus.nix
     ./programs/helix.nix
+
     ./programs/fish.nix
+    ./programs/bash.nix
   ];
 }

@@ -8,7 +8,7 @@ in {
   users.users."${cfg.name}" = {
     isNormalUser = true;
     description = cfg.name;
-    extraGroups = ["networkmanager" "disks" "input" "video"] ++ (lib.optional cfg.isAdmin "wheel");
+    extraGroups = ["networkmanager" "pipewire" "disks" "input" "video" "dialout" "kvm"] ++ (lib.optional cfg.isAdmin "wheel");
     hashedPassword = cfg.password;
   };
   security.sudo-rs.enable = true;

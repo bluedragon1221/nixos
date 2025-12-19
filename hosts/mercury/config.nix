@@ -1,6 +1,6 @@
-{
+{pkgs, ...}: {
   collinux = {
-    theme = "catppuccin";
+    theme = "kanagawa";
 
     user = {
       name = "collin";
@@ -8,21 +8,28 @@
     };
 
     desktop = {
-      wallpaper = ./wallpaper.jpg;
+      # wallpaper = ./wallpaper.jpg;
+      # wallpaper = ./hintergrund2.png;
+      # wallpaper = ./kanagawa.jpg;
+      wallpaper = ./riverboats.png;
 
-      gtk.enable = true;
+      # gtk.enable = true;
 
       greetd.enable = true;
 
-      sway = {
-        enable = true;
+      wm = {
+        # sway.enable = true;
+        niri.enable = true;
         components.fuzzel.enable = true;
         components.dunst.enable = true;
       };
 
       programs = {
         firefox.enable = true;
-        foot.enable = true;
+        foot = {
+          theme = "kanagawa";
+          enable = true;
+        };
 
         research.enable = true;
       };
@@ -43,9 +50,10 @@
 
     terminal = {
       shells.fish.enable = true;
+      shells.bash.enable = true; # for nix-shells
 
       programs = {
-        tmux.enable = true;
+        # tmux.enable = true;
         lazygit.enable = true;
         starship.enable = true;
 
@@ -63,6 +71,7 @@
         nh.enable = true;
 
         helix = {
+          theme = "kanagawa";
           enable = true;
           hardMode = true;
         };
