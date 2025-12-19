@@ -11,5 +11,10 @@ in
       enable = true;
       useRoutingFeatures = "both";
     };
+    networking.firewall = {
+      checkReversePath = "loose";
+      trustedInterfaces = ["tailscale0"];
+      allowedUDPPorts = [config.services.tailscale.port];
+    };
     environment.systemPackages = [pkgs.tailscale];
   }

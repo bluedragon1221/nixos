@@ -30,7 +30,6 @@
         };
 
         helix = {
-          theme = "adwaita";
           enable = true;
           hardMode = false;
         };
