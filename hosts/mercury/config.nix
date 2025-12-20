@@ -1,17 +1,10 @@
 {pkgs, ...}: {
   collinux = {
-    theme = "kanagawa";
-
-    user = {
-      name = "collin";
-      password = "$y$j9T$08yFysn8jr9K4Wk.hYXbG0$NzY9vIbNknJViA..Jw.vF8wmQtBgEZZU.cdLQOmDvU2";
-    };
+    theme = "catppuccin";
+    user.name = "collin";
 
     desktop = {
-      # wallpaper = ./wallpaper.jpg;
-      # wallpaper = ./hintergrund2.png;
-      # wallpaper = ./kanagawa.jpg;
-      wallpaper = ./riverboats.png;
+      wallpaper = ./wallpaper.jpg;
 
       # gtk.enable = true;
 
@@ -26,10 +19,7 @@
 
       programs = {
         firefox.enable = true;
-        foot = {
-          theme = "kanagawa";
-          enable = true;
-        };
+        foot.enable = true;
 
         research.enable = true;
       };
@@ -53,7 +43,6 @@
       shells.bash.enable = true; # for nix-shells
 
       programs = {
-        # tmux.enable = true;
         lazygit.enable = true;
         starship.enable = true;
 
@@ -67,11 +56,9 @@
           userEmail = "96917990+bluedragon1221@users.noreply.github.com";
         };
 
-        cmus.enable = true;
         nh.enable = true;
 
         helix = {
-          theme = "kanagawa";
           enable = true;
           hardMode = true;
         };
@@ -80,7 +67,6 @@
 
     boot = {
       systemd-boot.enable = true;
-      # plymouth.enable = true;
       secureBoot.enable = true;
     };
   };

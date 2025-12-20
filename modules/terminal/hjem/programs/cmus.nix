@@ -6,27 +6,7 @@
 }: let
   cfg = config.collinux.terminal.programs.cmus;
 
-  scriptsDir = "~/.config/cmus/scripts";
-
-  scripts.statusDisplay = ''
-    while [ $# -ge 2 ]; do
-    	eval _$1='$2'
-    	shift
-    	shift
-    done
-
-    [ -d ~/.local/share/cmus ] || mkdir ~/.local/share/cmus
-
-    if [ -n "$_file" ]; then
-    	${pkgs.ffmpeg}/bin/ffmpeg -i "$_file" -y -an -c:v copy ~/.local/share/cmus/curr_cover.jpg || rm ~/.local/share/cmus/curr_cover.jpg
-    fi
-
-    ${pkgs.dunst}/bin/dunstify -t 2000 -u low -h string:x-canonical-private-synchronous:music -i ~/.local/share/cmus/curr_cover.jpg "$_status: $_title" "$_artist"
-  '';
-
-  cmus_theme = ''
-    set color_cmdline_error=lightred
-    set color_cmdline_info=lightyellow
+  cmus_theme_kanagawa = ''
     set color_cmdline_fg=lightred
     set color_cmdline_bg=237
     set color_separator=238
@@ -49,23 +29,49 @@
     set color_win_title_fg=lightred
   '';
 
+  cmus_theme_catppuccin = ''
+    set color_cmdline_bg=default
+    set color_cmdline_fg=default
+    set color_error=211
+    set color_info=223
+    set color_separator=8
+    set color_statusline_bg=default
+    set color_statusline_fg=default
+    set color_titleline_bg=183
+    set color_titleline_fg=8
+    set color_titleline_attr=bold
+    set color_win_bg=default
+    set color_win_cur=117
+    set color_win_cur_sel_bg=117
+    set color_win_cur_sel_fg=235
+    set color_win_dir=default
+    set color_win_fg=default
+    set color_win_inactive_cur_sel_bg=0
+    set color_win_inactive_cur_sel_fg=default
+    set color_win_inactive_sel_bg=0
+    set color_win_inactive_sel_fg=default
+    set color_win_sel_bg=15
+    set color_win_sel_fg=235
+    set color_win_title_bg=default
+    set color_win_title_fg=183
+    set color_win_title_attr=bold
+  '';
+
   cmus_rc = ''
-    colorscheme all
-    set status_display_program=${scriptsDir}/status.sh
+    colorscheme ${cfg.theme}
   '';
 in
   lib.mkIf cfg.enable {
-    files = let
-      e = text: {
-        inherit text;
-        executable = true;
-      };
-    in {
-      ".config/cmus/scripts/status.sh" = e scripts.statusDisplay;
-
-      ".config/cmus/rc".text = cmus_rc;
-      ".config/cmus/all.theme".text = cmus_theme;
-    };
+    files =
+      {
+        ".config/cmus/rc".text = cmus_rc;
+      }
+      // (lib.mkIf (cfg.theme == "catppuccin") {
+        ".config/cmus/catppuccin.theme".text = cmus_theme_catppuccin;
+      })
+      // (lib.mkIf (cfg.theme == "kanagawa") {
+        ".config/cmus/kanagawa.theme".text = cmus_theme_kanagawa;
+      });
 
     packages = [pkgs.cmus];
   }

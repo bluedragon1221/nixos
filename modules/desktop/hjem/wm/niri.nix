@@ -23,6 +23,12 @@ in
 
       input {
         focus-follows-mouse
+
+        keyboard {
+          xkb {
+            options "caps:none"
+          }
+        }
       }
 
       hotkey-overlay {
@@ -31,13 +37,13 @@ in
       }
 
       binds {
-        Mod+Q { close-window; }
+        Mod+Space repeat=false { spawn "fuzzel"; }
+        Mod+Return repeat=false { spawn "foot"; }
+        Mod+B repeat=false { spawn "firefox"; }
 
-        Mod+Space { spawn "fuzzel"; }
-        Mod+Return { spawn "foot"; }
-        Mod+B { spawn "firefox"; }
-
-        Mod+m { maximize-column; }
+        Mod+Q repeat=false { close-window; }
+        Mod+S repeat=false { screenshot; }
+        Mod+M repeat=false { maximize-column; }
 
         XF86MonBrightnessUp { spawn "~/.config/util.lua" "brightness" "5%+"; }
         XF86MonBrightnessDown { spawn "~/.config/util.lua" "brightness" "5%-"; }
@@ -73,10 +79,10 @@ in
         }
 
         struts {
-          left 16
-          right 16
-          top 16
-          bottom 16
+          left 0
+          right 0
+          top 0
+          bottom 0
         }
 
         background-color "transparent"

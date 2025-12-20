@@ -6,5 +6,10 @@
     kdePackages.kleopatra
     mpv
     musescore
+
+    kew # music player
+    prismlauncher
+
+    vital
   ];
 }

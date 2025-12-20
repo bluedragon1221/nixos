@@ -1,14 +1,16 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    # determinate = {
-    #   # I HATE FLAKEHUB
-    #   url = "github:DeterminateSystems/determinate";
-    #   inputs = {
-    #     nix.url = "github:DeterminateSystems/nix-src";
-    #     nixpkgs.follows = "nixpkgs";
-    #   };
-    # };
+    determinate = {
+      url = "github:DeterminateSystems/nix-src/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "";
+    };
 
     disko = {
       url = "github:nix-community/disko";
@@ -16,11 +18,6 @@
     };
 
     nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
-
-    nocargo = {
-      url = "github:oxalica/nocargo";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     lanzaboote = {
       url = "github:nix-community/lanzaboote";

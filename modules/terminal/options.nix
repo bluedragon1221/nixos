@@ -31,7 +31,7 @@ in {
         starship = mkProgramOption "starship prompt";
         lazygit.enable = mkEnableOption "lazygit";
 
-        cmus.enable = mkEnableOption "cmus";
+        cmus = mkProgramOption "cmus";
         nh.enable = mkEnableOption "nh nix helper";
 
         git = {

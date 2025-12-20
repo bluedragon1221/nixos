@@ -2,10 +2,7 @@
   collinux = {
     theme = "adwaita";
 
-    user = {
-      name = "collin";
-      password = "$y$j9T$08yFysn8jr9K4Wk.hYXbG0$NzY9vIbNknJViA..Jw.vF8wmQtBgEZZU.cdLQOmDvU2";
-    };
+    user.name = "collin";
 
     desktop = {
       gnome.enable = true;

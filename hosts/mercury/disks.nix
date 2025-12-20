@@ -9,4 +9,11 @@
     fsType = "vfat";
     options = ["fmask=0022" "dmask=0022"];
   };
+
+  zramSwap = {
+    enable = true;
+    priority = 100;
+    algorithm = "lz4";
+    memoryPercent = 50;
+  };
 }

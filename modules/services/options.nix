@@ -12,6 +12,7 @@ in {
         iwd.enable = mkEnableOption "lightweight wifi daemon";
         networkmanager.enable = mkEnableOption "heavier wifi daemon";
         tailscale.enable = mkEnableOption "tailscale";
+        sshd.enable = mkEnableOption "OpenSSH server";
       };
       audio = {
         enable = mkEnableOption "pipewire + wireplumber";

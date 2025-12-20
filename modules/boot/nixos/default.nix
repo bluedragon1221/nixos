@@ -34,6 +34,9 @@ in {
       };
     });
 
+  system.etc.overlay.enable = true;
+  system.nixos-init.enable = true;
+
   environment.systemPackages =
     (
       if cfg.secureBoot.enable

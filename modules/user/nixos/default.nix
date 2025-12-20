@@ -1,5 +1,6 @@
 {
   config,
+  hostname,
   lib,
   ...
 }: let
@@ -9,9 +10,10 @@ in {
     isNormalUser = true;
     description = cfg.name;
     extraGroups = ["networkmanager" "pipewire" "disks" "input" "video" "dialout" "kvm"] ++ (lib.optional cfg.isAdmin "wheel");
-    hashedPassword = cfg.password;
+    hashedPasswordFile = config.age.secrets."${cfg.name}@${hostname}-passwd".path;
   };
   security.sudo-rs.enable = true;
+  services.userborn.enable = true;
 
   time.timeZone = "America/Chicago";
 

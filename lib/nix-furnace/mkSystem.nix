@@ -11,7 +11,7 @@ let
     module_types,
   }:
     inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs my-lib;};
+      specialArgs = {inherit inputs my-lib hostname;};
       modules = [
         {networking.hostName = hostname;}
 
@@ -24,6 +24,8 @@ let
               ../../modules/options.nix
               ../../hosts/${hostname}/config.nix
               (lazyImport ../../hosts/${hostname}/nixos.nix)
+              inputs.agenix.nixosModules.default
+              ../../secrets/default.nix
             ]
             ++ (listModules
               |> (builtins.map (modName: [

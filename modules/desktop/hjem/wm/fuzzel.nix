@@ -30,8 +30,8 @@
       input = base05;
       match = base13;
       placeholder = base03;
-      text = base04;
-      prompt = base04;
+      text = base01;
+      prompt = base01;
 
       selection = "${base01}5a";
       selection-match = base13;

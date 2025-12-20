@@ -1,9 +1,12 @@
 {
+  inputs,
   config,
   pkgs,
   ...
 }: {
   nix = {
+    # package = inputs.determinate.packages.${pkgs.system}.default;
+
     gc.automatic = false; # use nh cleaner instead
 
     # Make builds run with low priority so my system stays responsive
@@ -15,14 +18,12 @@
       auto-optimise-store = true;
       use-xdg-base-directories = true;
     };
+
+    # Disable channels
+    channel.enable = false;
   };
 
-  # Disable channels
-  nix.channel.enable = false;
-
-  nixpkgs = {
-    config.allowUnfree = true;
-  };
+  nixpkgs.config.allowUnfree = true;
 
   programs.nh = {
     enable = true;

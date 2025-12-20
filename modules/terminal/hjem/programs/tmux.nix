@@ -15,18 +15,10 @@ in {
     tsunami = {
       enable = true;
 
-      theme =
-        if (cfg.theme == "catppuccin")
-        then {
-          bg = "#1e1e2e";
-          bg_dark = "#181825";
-        }
-        else if (cfg.theme == "adwaita")
-        then {
-          bg = "#1d1d1d";
-          bg_dark = "#171717";
-        }
-        else {};
+      theme = {
+        bg = config.collinux.palette.base01;
+        bg_dark = config.collinux.palette.base00;
+      };
 
       keys.leader = [
         {

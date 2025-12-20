@@ -15,6 +15,8 @@
   systemd.services.systemd-udev-settle.enable = false;
   networking.interfaces.wlp2s0.useDHCP = false;
 
+  services.sshd.enable = true;
+
   facter.reportPath = ./facter.json;
 
   environment.defaultPackages = lib.mkForce []; # im not a noob
