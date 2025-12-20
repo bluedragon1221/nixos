@@ -52,6 +52,7 @@
         enable = true;
         networkmanager.enable = true;
         tailscale.enable = true;
+        sshd.enable = true;
       };
 
       audio = {

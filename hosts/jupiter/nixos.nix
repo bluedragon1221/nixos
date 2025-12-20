@@ -7,7 +7,6 @@
     inputs.disko.nixosModules.disko
     ./disks.nix
 
-    ./minecraft.nix
     ./samba.nix
 
     inputs.nixos-facter-modules.nixosModules.facter
@@ -19,7 +18,6 @@
   systemd.network.wait-online.enable = false; # fix for weird wifi issue
 
   # music stuff
-  services.pipewire.jack.enable = true;
   environment.systemPackages = with pkgs; [vital helvum bambu-studio];
 
   fonts.packages = [pkgs.nerd-fonts.iosevka];

@@ -59,7 +59,7 @@ in
       gnome-software
     ];
 
-    hjem.users."${config.collinux.user.name}".packages = with pkgs.gnomeExtensions; [blur-my-shell dash-to-dock];
+    hjem.users."${config.collinux.user.name}".packages = with pkgs.gnomeExtensions; [blur-my-shell dash-to-dock] ++ [pkgs.wl-clipboard];
 
     programs.dconf = {
       enable = true;
