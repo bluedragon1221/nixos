@@ -1,15 +1,14 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    determinate = {
-      url = "github:DeterminateSystems/nix-src/main";
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "";
     };
 
     disko = {
@@ -41,8 +40,8 @@
   };
 
   outputs = inputs: let
-    inherit (import ./lib/nix-furnace/mkSystem.nix) mkNixosSystem mkSystemManagerSystem;
-  in {
+    inherit (import ./lib/nix-furnace/mkSystem.nix) mkNixosSystem;
+  in rec {
     nixosConfigurations."mercury" = mkNixosSystem {
       inherit inputs;
       hostname = "mercury";
@@ -60,6 +59,16 @@
       hostname = "ganymede";
       username = "collin";
       module_types = ["nixos" "hjem"];
+    };
+
+    deploy.nodes."ganymede" = {
+      hostname = "ganymede";
+      sshUser = "root";
+
+      profiles.system = {
+        user = "root";
+        path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos nixosConfigurations."ganymede";
+      };
     };
   };
 }

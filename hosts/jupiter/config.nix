@@ -6,7 +6,6 @@
 
     desktop = {
       gnome.enable = true;
-
       gdm.enable = true;
 
       programs = {
