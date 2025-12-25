@@ -8,11 +8,10 @@
     services.resolved = {
       enable = true;
       domains = [
-        "10.0.0.1"
-        "10.0.0.10"
+        "1.1.1.1"
+        "1.0.0.1"
       ];
     };
-
     networking.resolvconf.enable = false;
 
     systemd.network.wait-online.enable = false;

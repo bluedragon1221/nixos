@@ -10,12 +10,13 @@ in
     services.tailscale = {
       enable = true;
       useRoutingFeatures = "both";
-      extraSetFlags = ["--ssh=true"];
     };
+
     networking.firewall = {
       checkReversePath = "loose";
       trustedInterfaces = ["tailscale0"];
       allowedUDPPorts = [config.services.tailscale.port];
     };
+
     environment.systemPackages = [pkgs.tailscale];
   }

@@ -17,16 +17,14 @@
     services = {
       networking = {
         enable = true;
-        networkmanager.enable = true;
-      };
-
-      audio = {
-        enable = true;
-        pulse.enable = true;
+        iwd.enable = true;
+        tailscale.enable = true;
+        sshd.enable = true;
       };
 
       selfhost = {
-        navidrome.enable = true;
+        adguard.enable = true;
+        caddy.enable = true;
       };
     };
   };

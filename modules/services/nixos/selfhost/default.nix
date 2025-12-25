@@ -1,11 +1,7 @@
 {
-  lib,
-  config,
-  ...
-}: {
   imports = [
     ./navidrome.nix
+    ./adguard.nix
+    ./caddy.nix
   ];
-
-  qt.style = lib.optionalAttrs (config.collinux.theme == "adwaita") {name = "adwaita-dark";};
 }

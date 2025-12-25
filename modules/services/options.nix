@@ -33,6 +33,8 @@ in {
             default = config.collinux.user.name;
           };
         };
+        adguard.enable = mkEnableOption "AdGuardHome network-wide adblocking";
+        caddy.enable = mkEnableOption "caddy https server";
       };
     };
   };

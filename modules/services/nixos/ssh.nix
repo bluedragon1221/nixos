@@ -8,6 +8,7 @@ in
   lib.mkIf cfg.enable {
     services.openssh = {
       enable = true;
+      openFirewall = true;
       hostKeys = [
         {
           path = "/etc/ssh/ssh_host_ed25519_key";
@@ -19,4 +20,6 @@ in
         PasswordAuthentication = false;
       };
     };
+
+    services.tailscale.extraSetFlags = lib.optional config.services.tailscale.enable "--ssh=true";
   }
