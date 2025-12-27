@@ -10,27 +10,27 @@ in
     packages = with pkgs; [
       dconf
 
-      papirus-icon-theme
       cfg.cursor_data.package
       cfg.theme_data.package
     ];
 
-    xdg.config.files = let
-      value.Settings = {
-        gtk-cursor-theme-name = cfg.cursor_data.name;
-        gtk-cursor-theme-size = 24;
-        gtk-icon-theme-name = "Papirus";
-        gtk-theme-name = cfg.theme_data.name;
-      };
-    in
+    xdg.config.files =
       {
         "gtk-3.0/settings.ini" = {
           generator = lib.generators.toINI {};
-          inherit value;
+          value.Settings = {
+            gtk-cursor-theme-name = cfg.cursor_data.name;
+            gtk-cursor-theme-size = 24;
+            gtk-theme-name = cfg.theme_data.name;
+          };
         };
         "gtk-4.0/settings.ini" = {
           generator = lib.generators.toINI {};
-          inherit value;
+          value.Settings = {
+            gtk-cursor-theme-name = cfg.cursor_data.name;
+            gtk-cursor-theme-size = 24;
+            gtk-theme-name = lib.mkIf (cfg.theme_data.name != "adw-gtk3") cfg.theme_data.name;
+          };
         };
       }
       // lib.optionalAttrs (cfg.theme == "catppuccin") {
