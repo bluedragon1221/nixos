@@ -8,7 +8,9 @@
 in
   lib.mkIf cfg.enable (lib.mkMerge [
     {
-      services.caddy.enable = true;
+      services.caddy = {
+        enable = true;
+      };
       networking.firewall.allowedTCPPorts = [80 443];
       environment.systemPackages = with pkgs; [nss]; # required for caddy https stuff
     }
