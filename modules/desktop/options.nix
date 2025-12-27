@@ -119,6 +119,7 @@ in {
 
         foot = mkProgramOption "foot";
         blackbox.enable = mkEnableOption "blackbox";
+        ghostty.enable = mkEnableOption "ghostty";
         alacritty.enable = mkEnableOption "alacritty";
 
         research.enable = mkEnableOption "zathura, Xournal++, Zotero, Zotero Connector";

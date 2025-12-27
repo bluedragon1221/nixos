@@ -7,10 +7,11 @@
     desktop = {
       gnome.enable = true;
       gdm.enable = true;
+      gtk.enable = true;
 
       programs = {
         firefox.enable = true;
-        blackbox.enable = true;
+        ghostty.enable = true;
       };
     };
 
