@@ -2,6 +2,7 @@
   imports = [
     ./iwd.nix
     ./networkmanager.nix
+    ./static.nix
   ];
 
   config = {

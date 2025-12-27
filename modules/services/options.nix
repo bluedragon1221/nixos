@@ -11,6 +11,18 @@ in {
         enable = mkEnableOption "wifi";
         iwd.enable = mkEnableOption "lightweight wifi daemon";
         networkmanager.enable = mkEnableOption "heavier wifi daemon";
+
+        static = let
+          ip_addr =
+            lib.types.strMatching
+            "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$";
+        in {
+          enable = mkEnableOption "set static IP (systemd-networkd)";
+          ssid = mkOption {type = lib.types.str;};
+          ip = mkOption {type = ip_addr;};
+          gateway = mkOption {type = ip_addr;};
+          pskFile = mkOption {type = lib.types.str;};
+        };
         tailscale.enable = mkEnableOption "tailscale";
         sshd.enable = mkEnableOption "OpenSSH server";
       };
@@ -42,8 +54,8 @@ in {
   config = {
     assertions = [
       {
-        assertion = with config.collinux.services.networking; !(iwd.enable && networkmanager.enable);
-        message = "can not use iwd and networkmanager at the same time";
+        assertion = with config.collinux.services.networking; (iwd.enable && !networkmanager.enable && !static.enable) || (!iwd.enable && networkmanager.enable && !static.enable) || (!iwd.enable && !networkmanager.enable && static.enable);
+        message = "only one networking method (iwd, networkmanager, static) can be active";
       }
     ];
   };

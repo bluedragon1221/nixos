@@ -17,7 +17,13 @@
     services = {
       networking = {
         enable = true;
-        iwd.enable = true;
+        static = {
+          enable = true;
+          ssid = "williams";
+          pskFile = "williams-psk";
+          ip = "192.168.50.2";
+          gateway = "192.168.50.1";
+        };
         tailscale.enable = true;
         sshd.enable = true;
       };
