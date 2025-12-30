@@ -9,6 +9,8 @@ in
   lib.mkIf cfg.enable {
     services.desktopManager.gnome.enable = true;
 
+    services.gnome.gcr-ssh-agent.enable = false; # conflicts with normal ssh-agent
+
     environment.gnome.excludePackages = with pkgs; [
       orca
       evince
