@@ -3,6 +3,7 @@
 in {
   imports = [
     ./bash.nix
+    ./github_ssh.nix
   ];
 
   programs.command-not-found.enable = false; # broken without nix-channels

@@ -43,6 +43,7 @@ in {
           userEmail = mkOption {
             type = types.str;
           };
+          installKey = mkEnableOption "automatically install github authentication key";
         };
 
         helix = {
