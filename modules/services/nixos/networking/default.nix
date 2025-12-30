@@ -8,15 +8,15 @@
   # DNS
   services.resolved = {
     enable = true;
-    llmnr = "false";
     dnsovertls = "opportunistic";
     fallbackDns = [
       "9.9.9.9#dns.quad9.net"
       "149.112.112.112#dns.quad9.net"
     ];
-    extraConfig = ''
-      MulticastDNS=no
-    '';
+
+    # disable extra stuff
+    llmnr = "false";
+    extraConfig = "MulticastDNS=no";
   };
   networking.resolvconf.enable = false;
 
