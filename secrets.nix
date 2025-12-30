@@ -6,4 +6,5 @@ let
 in {
   "caddy-tailscale-authkey.age".publicKeys = [ganymede];
   "williams-psk.age".publicKeys = [ganymede];
+  "github-ssh-key.age".publicKeys = [mercury ganymede jupiter];
 }

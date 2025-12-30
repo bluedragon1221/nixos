@@ -8,9 +8,7 @@
 in
   lib.mkIf cfg.enable (lib.mkMerge [
     {
-      services.caddy = {
-        enable = true;
-      };
+      services.caddy.enable = true;
       networking.firewall.allowedTCPPorts = [80 443];
       environment.systemPackages = with pkgs; [nss]; # required for caddy https stuff
     }
@@ -22,7 +20,7 @@ in
           ];
           hash = "sha256-cK7C5ISsTwX0FMf891s/Vr22JvRqYEC8GkLfP1L1Mus=";
         };
-        environmentFile = config.age.secrets."caddy-tailscale-authkey".path;
+        environmentFile = cfg.envFile;
       };
     })
   ])

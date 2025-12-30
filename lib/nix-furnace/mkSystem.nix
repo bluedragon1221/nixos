@@ -24,8 +24,6 @@ let
               ../../modules/options.nix
               ../../hosts/${hostname}/config.nix
               (lazyImport ../../hosts/${hostname}/nixos.nix)
-              inputs.agenix.nixosModules.default
-              ../../secrets/default.nix
             ]
             ++ (listModules
               |> (builtins.map (modName: [

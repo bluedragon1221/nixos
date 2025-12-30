@@ -1,6 +1,11 @@
-{
+{config, ...}: {
   collinux = {
     user.name = "collin";
+
+    secrets = {
+      "williams-psk".file = ./williams-psk.age;
+      "caddy-tailscale-authkey".file = ./caddy-tailscale-authkey.age;
+    };
 
     terminal = {
       programs = {
@@ -30,7 +35,10 @@
 
       selfhost = {
         adguard.enable = true;
-        caddy.enable = true;
+        caddy = {
+          enable = true;
+          envFile = config.collinux.secrets."caddy-tailscale-authkey".path;
+        };
       };
     };
   };
