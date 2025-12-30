@@ -22,12 +22,14 @@
     services = {
       networking = {
         enable = true;
-        static = {
+        networkd = {
           enable = true;
           ssid = "williams";
-          pskFile = "williams-psk";
-          ip = "192.168.50.2";
-          gateway = "192.168.50.1";
+          pskFile = config.collinux.secrets."williams-psk".path;
+          static = {
+            ip = "192.168.50.2/24";
+            gateway = "192.168.50.1";
+          };
         };
         tailscale.enable = true;
         sshd.enable = true;
