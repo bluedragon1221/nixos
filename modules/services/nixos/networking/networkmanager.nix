@@ -3,13 +3,21 @@
   config,
   ...
 }: let
-  cfg = config.collinux.services.networking;
+  cfg = config.collinux.services.networking.networkmanager;
 in
-  lib.mkIf (cfg.enable && cfg.networkmanager.enable) {
+  lib.mkIf cfg.enable {
     networking = {
-      nameservers = ["1.1.1.1" "1.0.0.1"];
-      enableIPv6 = false;
+      networkmanager = {
+        dns = "systemd-resolved";
+        dhcp = "internal";
+        enable = true;
+      };
 
-      networkmanager.enable = true;
+      dhcpcd.enable = false;
+      useNetworkd = false;
     };
+
+    systemd.network.enable = false;
+
+    services.tailscale.extraSetFlags = lib.optional config.collinux.services.networking.tailscale.enable "--accept-dns=true";
   }

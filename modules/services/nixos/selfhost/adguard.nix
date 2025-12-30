@@ -21,14 +21,15 @@ in
           };
           users = []; # disable auth (only accessable over tailscale anyway)
           dns = {
-            bind_hosts = [
-              (
-                if config.collinux.services.networking.tailscale.enable
-                then tailscaleIP
-                else "0.0.0.0"
-              )
+            bind_hosts =
+              [
+                "127.0.0.1"
+              ]
+              ++ lib.optional config.collinux.services.networking.tailscale.enable tailscaleIP;
+            upstream_dns = [
+              "https://dns.quad9.net/dns-query"
             ];
-            upstream_dns = ["1.1.1.1"];
+            enable_dnssec = true;
           };
           tls.enabled = false;
           dhcp.enabled = false;
