@@ -11,6 +11,7 @@ in
       dconf
 
       cfg.cursor_data.package
+      pkgs.papirus-icon-theme
       cfg.theme_data.package
     ];
 
@@ -21,6 +22,7 @@ in
           value.Settings = {
             gtk-cursor-theme-name = cfg.cursor_data.name;
             gtk-cursor-theme-size = 24;
+            gtk-icon-theme-name = "Papirus";
             gtk-theme-name = cfg.theme_data.name;
           };
         };
@@ -29,6 +31,7 @@ in
           value.Settings = {
             gtk-cursor-theme-name = cfg.cursor_data.name;
             gtk-cursor-theme-size = 24;
+            gtk-icon-theme-name = "Papirus";
             gtk-theme-name = lib.mkIf (cfg.theme_data.name != "adw-gtk3") cfg.theme_data.name;
           };
         };
