@@ -54,6 +54,7 @@ in {
           };
         };
         adguard.enable = mkEnableOption "AdGuardHome network-wide adblocking";
+        forgejo.enable = mkEnableOption "Forgejo self-hosted git server";
         caddy = {
           enable = mkEnableOption "caddy https server";
           envFile = mkOption {

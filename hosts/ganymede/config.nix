@@ -37,6 +37,7 @@
 
       selfhost = {
         adguard.enable = true;
+        forgejo.enable = true;
         caddy = {
           enable = true;
           envFile = config.collinux.secrets."caddy-tailscale-authkey".path;
