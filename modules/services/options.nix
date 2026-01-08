@@ -4,13 +4,13 @@
   ...
 }: let
   inherit (lib) mkOption mkEnableOption;
+
+  ip_addr = lib.types.strMatching "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$";
+  ip_addr_cidr = lib.types.strMatching "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])/(3[0-2]|[12]?[0-9])$";
 in {
   options = {
     collinux.services = {
-      networking = let
-        ip_addr = lib.types.strMatching "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$";
-        ip_addr_cidr = lib.types.strMatching "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])/(3[0-2]|[12]?[0-9])$";
-      in {
+      networking = {
         enable = mkEnableOption "wifi";
 
         iwd.enable = mkEnableOption "lightweight wifi daemon";
@@ -45,16 +45,42 @@ in {
         bluetuith.enable = mkEnableOption "terminal bluetooth manager";
       };
 
-      selfhost = {
-        navidrome = {
-          enable = mkEnableOption "navidrome music server";
-          user = mkOption {
-            description = "user to run the service as";
-            default = config.collinux.user.name;
+      selfhost = let
+        selfhostOptions = {
+          service_name,
+          default_port ? null,
+          ...
+        }: {
+          enable = mkEnableOption "";
+          bind_host = mkOption {
+            type = ip_addr;
+            default =
+              if config.collinux.services.networking.tailscale.enable
+              then "100.69.160.89"
+              else "0.0.0.0";
+          };
+          port = mkOption {
+            type = lib.types.port;
+            default = default_port;
+          };
+
+          root_url = mkOption {
+            type = lib.types.str;
+            default =
+              if config.collinux.services.networking.tailscale.enable
+              then "https://${service_name}.tail7cca06.ts.net"
+              else null;
           };
         };
-        adguard.enable = mkEnableOption "AdGuardHome network-wide adblocking";
-        forgejo.enable = mkEnableOption "Forgejo self-hosted git server";
+      in {
+        adguard = selfhostOptions {
+          service_name = "adguard";
+          default_port = 8001;
+        };
+        forgejo = selfhostOptions {
+          service_name = "forgejo";
+          default_port = 8010;
+        };
         caddy = {
           enable = mkEnableOption "caddy https server";
           envFile = mkOption {

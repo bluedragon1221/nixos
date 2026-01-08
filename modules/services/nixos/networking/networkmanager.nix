@@ -8,9 +8,9 @@ in
   lib.mkIf cfg.enable {
     networking = {
       networkmanager = {
+        enable = true;
         dns = "systemd-resolved";
         dhcp = "internal";
-        enable = true;
       };
 
       dhcpcd.enable = false;

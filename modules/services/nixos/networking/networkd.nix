@@ -15,6 +15,8 @@ in
         secretsFile = cfg.pskFile;
       };
 
+      useNetworkd = true;
+
       # Disable default networking stuff
       dhcpcd.enable = false;
       useDHCP = false;
@@ -23,7 +25,7 @@ in
 
     systemd.network = {
       enable = true;
-      networks."10-static-lan" = {
+      networks."11-static-lan" = {
         name = "wl*";
 
         networkConfig =
@@ -35,7 +37,7 @@ in
             else {
               Address = cfg.static.ip;
               Gateway = cfg.static.gateway;
-              # DNS is managed by systemd-resolvd
+              # DNS is managed by systemd-resolvd (not specified here)
               DHCP = "no";
             }
           )

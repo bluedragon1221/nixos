@@ -12,9 +12,38 @@ in
       settings = {
         server = {
           DOMAIN = "localhost";
-          HTTP_PORT = 8010;
+          ROOT_URL = cfg.root_url;
+          HTTP_PORT = cfg.port;
+
+          # ssh
+          START_SSH_SERVER = true; # use builtin ssh server
+          BUILTIN_SSH_SERVER_USER = "git";
+          SSH_DOMAIN = "ganymede";
+          SSH_PORT = 2222; # don't conflict with system ssh
+          SSH_LISTEN_HOST = cfg.bind_host;
+          SSH_LISTEN_PORT = 2222;
         };
-        service.DISABLE_REGISTRATION = false;
+        service = {
+          DISABLE_REGISTRATION = false;
+          ENABLE_REVERSE_PROXY_AUTHENTICATION = true;
+        };
+        repository = {
+          # disable stuff
+          DISABLE_MIGRATIONS = true;
+          DISABLE_STARS = true;
+          DISABLE_DOWNLOAD_SOURCE_ARCHIVES = true;
+        };
       };
+    };
+
+    services.caddy = lib.mkIf config.collinux.services.selfhost.caddy.enable {
+      virtualHosts.${cfg.root_url}.extraConfig = ''
+        ${
+          if config.collinux.services.networking.tailscale.enable
+          then "bind tailscale/forgejo"
+          else ""
+        }
+        reverse_proxy localhost:${toString cfg.port}
+      '';
     };
   }
