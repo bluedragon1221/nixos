@@ -32,12 +32,49 @@ in {
           };
         };
         tailscale.enable = mkEnableOption "tailscale";
+        wireguard = let
+          spokeOpts = {
+            ip = mkOption {
+              type = ip_addr;
+            };
+            key = mkOption {
+              type = lib.types.str;
+            };
+          };
+
+          hubOpts =
+            spokeOpts
+            // {
+              domain = mkOption {
+                type = lib.types.str;
+              };
+              port = mkOption {
+                type = lib.types.port;
+              };
+            };
+        in {
+          # based on https://www.procustodibus.com/blog/2020/11/wireguard-hub-and-spoke-config
+          enable = mkEnableOption "wireguard";
+
+          peersConfig = {
+            hub = mkOption {
+              type = lib.types.attrsOf (lib.types.submodule {options = hubOpts;});
+            };
+
+            spokes = mkOption {
+              type = lib.types.attrsOf (lib.types.submodule {options = spokeOpts;});
+            };
+          };
+
+          localPeer = mkOption {
+            type = lib.types.oneOf [hubOpts spokeOpts];
+          };
+        };
         sshd.enable = mkEnableOption "OpenSSH server";
       };
       audio = {
         enable = mkEnableOption "pipewire + wireplumber";
         pulse.enable = mkEnableOption "pipewire-pulse";
-        # some config to make audio work with wine (TODO for jupiter)
       };
       bluetooth = {
         enable = mkEnableOption "bluetooth";
@@ -96,6 +133,18 @@ in {
       {
         assertion = with config.collinux.services.networking; (iwd.enable && !networkmanager.enable && !networkd.enable) || (!iwd.enable && networkmanager.enable && !networkd.enable) || (!iwd.enable && !networkmanager.enable && networkd.enable);
         message = "only one networking method (iwd, networkmanager, static) can be active";
+      }
+      {
+        assertion = with config.collinux.services.networking; !(wireguard.enable && tailscale.enable);
+        message = "only one vpn method (tailscale, wireguard) can be active";
+      }
+      {
+        assertion = with config.collinux.services.networking; wireguard.enable && !networkd.enable;
+        message = "wireguard configuration only supports networkd at the moment";
+      }
+      {
+        assertion = with config.collinux.services.networking.wireguard; enable && (peersConfig |> (builtins.filter (m: m.role == "hub")) |> lib.count) == 1;
+        message = "there must be exactly one hub in the wireguard configuration";
       }
     ];
   };
