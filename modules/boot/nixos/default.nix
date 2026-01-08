@@ -24,7 +24,7 @@ in {
           configurationLimit = 3;
         };
         efi.canTouchEfiVariables = true;
-        timeout = 0; # hold space to show boot menu
+        timeout = cfg.timeout; # hold space to show boot menu
       };
     }
     // (lib.optionalAttrs cfg.secureBoot.enable {

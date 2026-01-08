@@ -8,6 +8,8 @@
     inputs.nixos-facter-modules.nixosModules.facter
   ];
 
+  boot.blacklistedKernelModules = ["snd_seq_dummy"];
+
   systemd.network.wait-online.enable = false; # fix for weird wifi issue
 
   fonts.packages = [pkgs.nerd-fonts.iosevka];

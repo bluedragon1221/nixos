@@ -44,6 +44,7 @@
     };
 
     boot = {
+      timeout = 5;
       systemd-boot.enable = true;
       plymouth.enable = true;
     };
