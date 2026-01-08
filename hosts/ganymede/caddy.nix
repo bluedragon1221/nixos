@@ -12,6 +12,15 @@
       hash = "sha256-BQdm8p9eDGhRu6mKyX2FAUaKoU6Lv2A746Sey39T13I=";
     });
 
+    extraConfig = ''
+      {
+        acme_dns porkbun {
+          api_key {env.PORKBUN_API_KEY}
+          api_secret_key {env.PORKBUN_API_SECRET_KEY}
+        }
+      }
+    '';
+
     virtualHosts."https://web.tail7cca06.ts.net".extraConfig = ''
       bind tailscale/web
       root * /var/www/williams_web

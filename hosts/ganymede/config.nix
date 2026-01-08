@@ -4,7 +4,7 @@
 
     secrets = {
       "williams-psk".file = ./williams-psk.age;
-      "caddy-tailscale-authkey".file = ./caddy-tailscale-authkey.age;
+      "caddy-env".file = ./caddy-env.age;
     };
 
     terminal = {
@@ -40,7 +40,7 @@
         forgejo.enable = true;
         caddy = {
           enable = true;
-          envFile = config.collinux.secrets."caddy-tailscale-authkey".path;
+          envFile = config.collinux.secrets."caddy-env".path;
         };
       };
     };
