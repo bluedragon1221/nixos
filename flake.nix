@@ -46,19 +46,16 @@
       inherit inputs;
       hostname = "mercury";
       username = "collin";
-      module_types = ["hjem" "nixos"];
     };
     nixosConfigurations."jupiter" = mkNixosSystem {
       inherit inputs;
       hostname = "jupiter";
       username = "collin";
-      module_types = ["hjem" "nixos"];
     };
     nixosConfigurations."ganymede" = mkNixosSystem {
       inherit inputs;
       hostname = "ganymede";
       username = "collin";
-      module_types = ["nixos" "hjem"];
     };
 
     deploy.nodes."ganymede" = {
