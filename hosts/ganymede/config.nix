@@ -1,4 +1,6 @@
-{config, ...}: {
+{config, ...}: let
+  tailscaleIP = "100.69.180.89";
+in {
   collinux = {
     user.name = "collin";
 
@@ -32,12 +34,25 @@
           };
         };
         tailscale.enable = true;
-        sshd.enable = true;
+        sshd = {
+          enable = true;
+          bind_host = tailscaleIP;
+        };
       };
 
       selfhost = {
-        adguard.enable = true;
-        forgejo.enable = true;
+        adguard = {
+          enable = true;
+          bind_host = tailscaleIP;
+        };
+        forgejo = {
+          enable = true;
+          bind_host = tailscaleIP;
+        };
+        headscale = {
+          enable = true;
+          root_url = "https://headscale.williamsfam.us.com";
+        };
         caddy = {
           enable = true;
           envFile = config.collinux.secrets."caddy-env".path;

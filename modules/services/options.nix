@@ -31,8 +31,20 @@ in {
             default = null;
           };
         };
-        tailscale.enable = mkEnableOption "tailscale";
-        sshd.enable = mkEnableOption "OpenSSH server";
+        tailscale = {
+          enable = mkEnableOption "tailscale";
+          tailnet = mkOption {
+            type = lib.types.str;
+            default = "tail7cca06.ts.net";
+          };
+        };
+        sshd = {
+          enable = mkEnableOption "OpenSSH server";
+          bind_host = mkOption {
+            type = ip_addr;
+            default = "0.0.0.0";
+          };
+        };
       };
       audio = {
         enable = mkEnableOption "pipewire + wireplumber";
@@ -54,21 +66,17 @@ in {
           enable = mkEnableOption "";
           bind_host = mkOption {
             type = ip_addr;
-            default =
-              if config.collinux.services.networking.tailscale.enable
-              then "100.69.160.89"
-              else "0.0.0.0";
+            default = "0.0.0.0";
           };
           port = mkOption {
             type = lib.types.port;
             default = default_port;
           };
-
           root_url = mkOption {
             type = lib.types.str;
-            default =
-              if config.collinux.services.networking.tailscale.enable
-              then "https://${service_name}.tail7cca06.ts.net"
+            default = with config.collinux.services.networking.tailscale;
+              if enable
+              then "https://${service_name}.${tailnet}"
               else null;
           };
         };
@@ -80,6 +88,10 @@ in {
         forgejo = selfhostOptions {
           service_name = "forgejo";
           default_port = 8010;
+        };
+        headscale = selfhostOptions {
+          service_name = "headscale";
+          default_port = 8080;
         };
         caddy = {
           enable = mkEnableOption "caddy https server";

@@ -1,0 +1,55 @@
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  cfg = config.collinux.services.selfhost.headscale;
+
+  acl_file = (pkgs.formats.json {}).generate "acl.json" {
+    ssh = {
+      src = ["*"];
+      dst = ["*"];
+      users = ["autogroup:nonroot" "root"];
+      action = "accept";
+    };
+  };
+in
+  lib.mkIf cfg.enable {
+    services.headscale = {
+      enable = true;
+      address = cfg.bind_host;
+      port = cfg.port;
+      settings = {
+        server_url = cfg.root_url;
+
+        database.type = "sqlite";
+
+        dns = {
+          magic_dns = true;
+          base_domain = "collinux.tailnet";
+          override_local_dns = true;
+          nameservers.global = ["9.9.9.9" "149.112.112.112" "2620:fe::fe" "2620:fe::9"];
+        };
+
+        policy.path = "${acl_file}";
+
+        prefixes = {
+          "v4" = "100.100.0.0/16";
+          allocation = "random";
+        };
+
+        # leave tls for caddy to worry about
+        tls_cert_path = null;
+        tls_key_path = null;
+
+        logtail.enabled = false;
+      };
+    };
+
+    services.caddy.virtualHosts.${cfg.root_url}.extraConfig = lib.mkIf config.collinux.services.selfhost.caddy.enable ''
+      reverse_proxy localhost:8080
+    '';
+
+    environment.systemPackages = [pkgs.headscale];
+  }
