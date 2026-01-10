@@ -36,7 +36,12 @@ in
       };
     };
 
-    services.caddy = lib.mkIf config.collinux.services.selfhost.caddy.enable {
+    systemd.services."forgejo" = lib.mkIf config.collinux.services.networking.networkd.enable {
+      after = lib.mkAfter ["network-online.target"];
+      wants = lib.mkAfter ["network-online.target"];
+    };
+
+    services.caddy = lib.mkIf (config.collinux.services.selfhost.caddy.enable && config.collinux.services.selfhost.magic_caddy.enable) {
       virtualHosts.${cfg.root_url}.extraConfig = ''
         ${
           if config.collinux.services.networking.tailscale.enable

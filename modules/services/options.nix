@@ -76,11 +76,13 @@ in {
             type = lib.types.str;
             default = with config.collinux.services.networking.tailscale;
               if enable
-              then "https://${service_name}.${tailnet}"
+              then "http://${service_name}.${tailnet}"
               else null;
           };
         };
       in {
+        magic_caddy.enable = mkEnableOption "Automatically create caddy configurations for services";
+
         adguard = selfhostOptions {
           service_name = "adguard";
           default_port = 8001;

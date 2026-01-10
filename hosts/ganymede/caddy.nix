@@ -19,12 +19,6 @@
       }
     '';
 
-    virtualHosts."https://web.tail7cca06.ts.net".extraConfig = ''
-      bind tailscale/web
-      root * /var/www
-      file_server
-    '';
-
     virtualHosts."https://williamsfam.us.com".extraConfig = ''
       root * /var/www
       file_server

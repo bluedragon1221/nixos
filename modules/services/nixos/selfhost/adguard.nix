@@ -32,7 +32,8 @@ in
       DNSStubListener=no
     '';
 
-    services.caddy = lib.mkIf config.collinux.services.selfhost.caddy.enable {
+    services.caddy = lib.mkIf (config.collinux.services.selfhost.caddy.enable
+      && config.collinux.services.selfhost.magic_caddy.enable) {
       virtualHosts.${cfg.root_url}.extraConfig = ''
         ${
           if config.collinux.services.networking.tailscale.enable

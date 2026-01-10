@@ -1,5 +1,5 @@
 {config, ...}: let
-  tailscaleIP = "100.69.180.89";
+  tailscaleIP = "100.100.218.182";
 in {
   collinux = {
     user.name = "collin";
@@ -7,6 +7,7 @@ in {
     secrets = {
       "williams-psk".file = ./williams-psk.age;
       "caddy-env".file = ./caddy-env.age;
+      "tsnsrv-authkey".file = ./tsnsrv-authkey.age;
     };
 
     terminal = {
@@ -33,7 +34,10 @@ in {
             gateway = "192.168.50.1";
           };
         };
-        tailscale.enable = true;
+        tailscale = {
+          enable = true;
+          tailnet = "collinux.tailnet";
+        };
         sshd = {
           enable = true;
           bind_host = tailscaleIP;
@@ -41,10 +45,12 @@ in {
       };
 
       selfhost = {
-        adguard = {
-          enable = true;
-          bind_host = tailscaleIP;
-        };
+        magic_caddy.enable = false;
+
+        # adguard = {
+        #   enable = true;
+        #   bind_host = tailscaleIP;
+        # };
         forgejo = {
           enable = true;
           bind_host = tailscaleIP;

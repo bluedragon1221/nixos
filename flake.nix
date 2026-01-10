@@ -37,6 +37,11 @@
       url = "github:MrOtherGuy/firefox-csshacks";
       flake = false;
     };
+
+    tsnsrv = {
+      url = "github:boinkor-net/tsnsrv";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs: let

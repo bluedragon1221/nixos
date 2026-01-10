@@ -7,12 +7,14 @@
   cfg = config.collinux.services.selfhost.headscale;
 
   acl_file = (pkgs.formats.json {}).generate "acl.json" {
-    ssh = {
-      src = ["*"];
-      dst = ["*"];
-      users = ["autogroup:nonroot" "root"];
-      action = "accept";
-    };
+    ssh = [
+      {
+        src = ["collin@"];
+        dst = ["collin@"];
+        users = ["autogroup:nonroot" "root"];
+        action = "accept";
+      }
+    ];
   };
 in
   lib.mkIf cfg.enable {
@@ -45,6 +47,17 @@ in
 
         logtail.enabled = false;
       };
+    };
+
+    # make sure headscale can start before tailscale
+    systemd.services."headscale" = lib.mkIf config.collinux.services.networking.tailscale.enable {
+      after = lib.mkForce ["network.target"];
+      before = lib.mkForce ["headscale.target"];
+      wants = lib.mkForce ["network.target" "headscale.target"];
+    };
+
+    systemd.targets."headscale" = {
+      description = "Target represents headscale is running. started by headscale.service";
     };
 
     services.caddy.virtualHosts.${cfg.root_url}.extraConfig = lib.mkIf config.collinux.services.selfhost.caddy.enable ''
