@@ -46,11 +46,9 @@ in {
           };
         };
       };
-      audio = {
-        enable = mkEnableOption "pipewire + wireplumber";
-        pulse.enable = mkEnableOption "pipewire-pulse";
-        # some config to make audio work with wine (TODO for jupiter)
-      };
+
+      audio.enable = mkEnableOption "pipewire + wireplumber";
+
       bluetooth = {
         enable = mkEnableOption "bluetooth";
         blueman.enable = mkEnableOption "graphical bluetooth manager";

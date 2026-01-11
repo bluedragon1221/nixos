@@ -1,12 +1,9 @@
 {
-  inputs,
   config,
   pkgs,
   ...
 }: {
   nix = {
-    # package = inputs.determinate.packages.${pkgs.system}.default;
-
     gc.automatic = false; # use nh cleaner instead
 
     # Make builds run with low priority so my system stays responsive
@@ -27,9 +24,12 @@
 
   programs.nh = {
     enable = true;
-    flake = "/home/collin/nixos";
+    flake = "/home/${config.collinux.user.name}/nixos";
     clean.enable = true;
   };
 
-  hjem.users."${config.collinux.user.name}".packages = [pkgs.cached-nix-shell];
+  environment.systemPackages = [pkgs.cached-nix-shell];
+
+  nixpkgs.hostPlatform = "x86_64-linux";
+  system.stateVersion = "25.05";
 }

@@ -6,7 +6,6 @@
     kdePackages.kleopatra
     mpv
     musescore
-    zed-editor # experimenting
 
     kew # music player
     prismlauncher

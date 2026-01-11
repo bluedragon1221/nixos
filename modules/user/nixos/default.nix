@@ -1,13 +1,12 @@
 {
   config,
-  hostname,
   lib,
   ...
 }: let
   cfg = config.collinux.user;
 in {
   users = {
-    mutableUsers = true;
+    mutableUsers = true; # system passwords stored mutably
 
     users."${cfg.name}" = {
       isNormalUser = true;
