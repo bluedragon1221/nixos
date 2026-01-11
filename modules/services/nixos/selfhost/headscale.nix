@@ -23,7 +23,7 @@ in
       address = cfg.bind_host;
       port = cfg.port;
       settings = {
-        server_url = cfg.root_url;
+        server_url = "https://${cfg.root_url}";
 
         database.type = "sqlite";
 
@@ -60,9 +60,16 @@ in
       description = "Target represents headscale is running. started by headscale.service";
     };
 
-    services.caddy.virtualHosts.${cfg.root_url}.extraConfig = lib.mkIf config.collinux.services.selfhost.caddy.enable ''
-      reverse_proxy localhost:8080
-    '';
-
     environment.systemPackages = [pkgs.headscale];
+
+    services.caddy = lib.mkIf cfg.caddy.enable {
+      virtualHosts.${cfg.root_url}.extraConfig = ''
+        ${
+          if cfg.caddy.bind_tailscale
+          then "bind tailscale/${cfg.service_name}"
+          else ""
+        }
+        reverse_proxy ${cfg.bind_host}:${toString cfg.port}
+      '';
+    };
   }

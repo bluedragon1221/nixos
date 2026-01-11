@@ -5,7 +5,10 @@ in {
     user.name = "collin";
 
     secrets = {
-      "williams-psk".file = ./williams-psk.age;
+      "williams-psk" = {
+        file = ./williams-psk.age;
+        owner = "wpa_supplicant";
+      };
       "caddy-env".file = ./caddy-env.age;
       "tsnsrv-authkey".file = ./tsnsrv-authkey.age;
     };
@@ -40,28 +43,26 @@ in {
         };
         sshd = {
           enable = true;
-          bind_host = tailscaleIP;
+          bind_host = "0.0.0.0";
         };
       };
 
       selfhost = {
-        magic_caddy.enable = false;
-
-        # adguard = {
-        #   enable = true;
-        #   bind_host = tailscaleIP;
-        # };
-        forgejo = {
-          enable = true;
-          bind_host = tailscaleIP;
-        };
-        headscale = {
-          enable = true;
-          root_url = "https://headscale.williamsfam.us.com";
-        };
         caddy = {
           enable = true;
           envFile = config.collinux.secrets."caddy-env".path;
+        };
+
+        forgejo = {
+          enable = true;
+          bind_host = tailscaleIP;
+          root_url = "ganymede.collinux.tailnet:8010";
+        };
+
+        headscale = {
+          enable = true;
+          root_url = "headscale.williamsfam.us.com";
+          caddy.enable = true;
         };
       };
     };

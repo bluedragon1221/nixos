@@ -32,17 +32,16 @@ in
       DNSStubListener=no
     '';
 
-    services.caddy = lib.mkIf (config.collinux.services.selfhost.caddy.enable
-      && config.collinux.services.selfhost.magic_caddy.enable) {
+    services.tailscale.extraSetFlags = lib.optional config.collinux.services.networking.tailscale.enable "--accept-dns=false"; # would create an infinite loop of dns lookups
+
+    services.caddy = lib.mkIf cfg.caddy.enable {
       virtualHosts.${cfg.root_url}.extraConfig = ''
         ${
-          if config.collinux.services.networking.tailscale.enable
-          then "bind tailscale/adguard"
+          if cfg.caddy.bind_tailscale
+          then "bind tailscale/${cfg.service_name}"
           else ""
         }
-        reverse_proxy localhost:${toString cfg.port}
+        reverse_proxy ${cfg.bind_host}:${toString cfg.port}
       '';
     };
-
-    services.tailscale.extraSetFlags = lib.optional config.collinux.services.networking.tailscale.enable "--accept-dns=false"; # would create an infinite loop of dns lookups
   }

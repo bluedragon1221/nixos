@@ -8,7 +8,7 @@ in
   lib.mkIf cfg.enable {
     services.forgejo = {
       enable = true;
-      database.type = "postgres";
+      database.type = "sqlite3";
       settings = {
         server = {
           DOMAIN = "localhost";
@@ -41,14 +41,14 @@ in
       wants = lib.mkAfter ["network-online.target"];
     };
 
-    services.caddy = lib.mkIf (config.collinux.services.selfhost.caddy.enable && config.collinux.services.selfhost.magic_caddy.enable) {
+    services.caddy = lib.mkIf cfg.caddy.enable {
       virtualHosts.${cfg.root_url}.extraConfig = ''
         ${
-          if config.collinux.services.networking.tailscale.enable
-          then "bind tailscale/forgejo"
+          if cfg.caddy.bind_tailscale
+          then "bind tailscale/${cfg.service_name}"
           else ""
         }
-        reverse_proxy localhost:${toString cfg.port}
+        reverse_proxy ${cfg.bind_host}:${toString cfg.port}
       '';
     };
   }
