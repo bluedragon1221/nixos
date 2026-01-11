@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkOption mkEnableOption types;
-  inherit (my-lib.options {inherit lib config;}) mkProgramOption;
+  inherit (my-lib.options {inherit lib config;}) mkProgramOption mkThemeOption;
 in {
   options = {
     collinux.terminal = {
@@ -37,10 +37,11 @@ in {
         git = {
           enable = mkEnableOption "git";
           userName = mkOption {
+            description = "Public name uses for git";
             type = types.str;
-            default = config.collinux.user.name;
           };
           userEmail = mkOption {
+            description = "Public email used for git";
             type = types.str;
           };
           installKey = mkEnableOption "automatically install github authentication key";
@@ -48,10 +49,7 @@ in {
 
         helix = {
           enable = mkEnableOption "helix text editor";
-          theme = mkOption {
-            type = lib.types.enum ["catppuccin" "adwaita" "kanagawa"];
-            default = config.collinux.theme;
-          };
+          theme = mkThemeOption "helix";
           hardMode = mkOption {
             type = types.bool;
             description = "Disable arrow keys and mouse";

@@ -7,15 +7,18 @@
 in {
   options = {
     collinux.theme = mkOption {
+      description = "System-wide theme";
       type = types.enum ["catppuccin" "adwaita" "kanagawa"];
     };
 
     collinux.palette = let
       colorOption = lib.mkOption {
         type = lib.types.strMatching "^([0-9a-fA-F]{6}|[0-9a-fA-F]{3})$";
+        internal = true;
       };
     in
       lib.mkOption {
+        internal = true;
         type = lib.types.submodule {
           options = {
             base00 = colorOption;

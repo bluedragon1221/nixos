@@ -150,24 +150,6 @@
         "type": "github"
       }
     },
-    "flake-parts": {
-      "inputs": {
-        "nixpkgs-lib": "nixpkgs-lib"
-      },
-      "locked": {
-        "lastModified": 1765835352,
-        "narHash": "sha256-XswHlK/Qtjasvhd1nOa1e8MgZ8GS//jBoTqWtrS1Giw=",
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "rev": "a34fae9c08a15ad73f295041fec82323541400a9",
-        "type": "github"
-      },
-      "original": {
-        "owner": "hercules-ci",
-        "repo": "flake-parts",
-        "type": "github"
-      }
-    },
     "gitignore": {
       "inputs": {
         "nixpkgs": [
@@ -323,18 +305,18 @@
         "type": "github"
       }
     },
-    "nixpkgs-lib": {
+    "nmd": {
       "locked": {
-        "lastModified": 1765674936,
-        "narHash": "sha256-k00uTP4JNfmejrCLJOwdObYC9jHRrr/5M/a/8L2EIdo=",
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
-        "rev": "2075416fcb47225d9b68ac469a5c4801a9c4dd85",
+        "lastModified": 1759339018,
+        "narHash": "sha256-13x2gvgnnr3cJ5qp7zz7ZnUSrg0DF/sU9KiwZkML6J0=",
+        "owner": "gvolpe",
+        "repo": "nmd",
+        "rev": "5ecbe493e22de649e79c8e51dc5e92659940e081",
         "type": "github"
       },
       "original": {
-        "owner": "nix-community",
-        "repo": "nixpkgs.lib",
+        "owner": "gvolpe",
+        "repo": "nmd",
         "type": "github"
       }
     },
@@ -371,8 +353,8 @@
         "lanzaboote": "lanzaboote",
         "nixos-facter-modules": "nixos-facter-modules",
         "nixpkgs": "nixpkgs",
-        "tmux-tsunami": "tmux-tsunami",
-        "tsnsrv": "tsnsrv"
+        "nmd": "nmd",
+        "tmux-tsunami": "tmux-tsunami"
       }
     },
     "rust-overlay": {
@@ -504,27 +486,6 @@
       "original": {
         "owner": "bluedragon1221",
         "repo": "tmux-tsunami",
-        "type": "github"
-      }
-    },
-    "tsnsrv": {
-      "inputs": {
-        "flake-parts": "flake-parts",
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1767001347,
-        "narHash": "sha256-uRm4oWMFUBSmXgofOngMWIyA/yUmLlon6f3XoFTWvBA=",
-        "owner": "boinkor-net",
-        "repo": "tsnsrv",
-        "rev": "8f3fbf69e1517612c0fde9be27522e12c2ddc238",
-        "type": "github"
-      },
-      "original": {
-        "owner": "boinkor-net",
-        "repo": "tsnsrv",
         "type": "github"
       }
     },

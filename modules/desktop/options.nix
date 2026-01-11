@@ -6,7 +6,7 @@
   ...
 }: let
   inherit (lib) mkOption mkEnableOption types;
-  inherit (my-lib.options {inherit lib config;}) mkProgramOption;
+  inherit (my-lib.options {inherit lib config;}) mkProgramOption mkThemeOption;
 in {
   options = {
     collinux.desktop = {
@@ -17,12 +17,14 @@ in {
       wallpaper_cmd = mkOption {
         type = types.str;
         default = "${lib.getExe pkgs.wbg} -s ${config.collinux.desktop.wallpaper}";
+        internal = true;
       };
 
       greetd = {
         enable = mkEnableOption "greetd greeter";
         command = mkOption {
           type = lib.types.str;
+          internal = true;
           default = let
             cfg = config.collinux.desktop;
           in
@@ -40,7 +42,6 @@ in {
         niri.enable = mkEnableOption "niri";
 
         components = {
-          # waybar = mkProgramOption "waybar";
           dunst = mkProgramOption "dunst";
           fuzzel = mkProgramOption "fuzzel";
         };
@@ -49,54 +50,63 @@ in {
 
       gtk = {
         enable = mkEnableOption "gtk theming";
-        theme = mkOption {
-          type = types.enum ["catppuccin" "adwaita" "kanagawa"];
-          default = config.collinux.theme;
+        theme = mkThemeOption "gtk";
+
+        cursor_data = mkOption {
+          internal = true;
+          type = lib.types.submodule {
+            package = mkOption {
+              internal = true;
+              type = lib.types.package;
+            };
+            name = mkOption {
+              internal = true;
+              type = lib.types.str;
+            };
+          };
+          default =
+            if config.collinux.desktop.gtk.theme == "catppuccin"
+            then {
+              name = "catppuccin-mocha-dark-cursors";
+              package = pkgs.catppuccin-cursors.mochaDark;
+            }
+            else if config.collinux.gtk.theme == "adwaita"
+            then {
+              name = "Vanilla-DMZ";
+              package = pkgs.vanilla-dmz;
+            }
+            else null;
         };
-        cursor_data = {
-          package = mkOption {
-            type = lib.types.package;
-            default =
-              if (config.collinux.desktop.gtk.theme == "catppuccin")
-              then pkgs.catppuccin-cursors.mochaDark
-              else if (config.collinux.desktop.gtk.theme == "adwaita")
-              then pkgs.vanilla-dmz
-              else null;
+
+        theme_data = mkOption {
+          internal = true;
+          type = lib.types.submodule {
+            package = mkOption {
+              internal = true;
+              type = lib.types.package;
+            };
+            name = mkOption {
+              internal = true;
+              type = lib.types.str;
+            };
           };
-          name = mkOption {
-            type = lib.types.str;
-            default =
-              if (config.collinux.desktop.gtk.theme == "catppuccin")
-              then "catppuccin-mocha-dark-cursors"
-              else if (config.collinux.desktop.gtk.theme == "adwaita")
-              then "Vanilla-DMZ"
-              else null;
-          };
-        };
-        theme_data = {
-          package = mkOption {
-            type = lib.types.package;
-            default =
-              if (config.collinux.desktop.gtk.theme == "catppuccin")
-              then
-                (pkgs.catppuccin-gtk.override {
-                  variant = "mocha";
-                  accents = ["blue"];
-                  size = "standard";
-                })
-              else if (config.collinux.desktop.gtk.theme == "adwaita")
-              then pkgs.adw-gtk3
-              else "";
-          };
-          name = mkOption {
-            type = lib.types.str;
-            default =
-              if (config.collinux.desktop.gtk.theme == "catppuccin")
-              then "catppuccin-mocha-blue-standard"
-              else if (config.collinux.desktop.gtk.theme == "adwaita")
-              then "adw-gtk3"
-              else "";
-          };
+
+          default =
+            if config.collinux.desktop.gtk.theme == "catppuccin"
+            then {
+              package = pkgs.catppuccin-gtk.override {
+                variant = "mocha";
+                accents = ["blue"];
+                size = "standard";
+              };
+              name = "catppuccin-mocha-blue-standard";
+            }
+            else if config.collinux.desktop.gtk.theme == "adwaita"
+            then {
+              package = pkgs.adw-gtk3;
+              name = "adw-gtk3";
+            }
+            else null;
         };
       };
 
@@ -106,11 +116,9 @@ in {
           profileName = mkOption {
             type = types.str;
             default = config.collinux.user.name;
+            internal = true;
           };
-          theme = mkOption {
-            type = types.enum ["none" "catppuccin" "adwaita" "kanagawa"];
-            default = config.collinux.theme;
-          };
+          theme = mkThemeOption "firefox";
           extensions.zotero.enable = mkOption {
             description = "install Zotero Connector for Firefox";
             default = config.collinux.desktop.programs.research.enable;
@@ -122,7 +130,7 @@ in {
         ghostty.enable = mkEnableOption "ghostty";
         alacritty.enable = mkEnableOption "alacritty";
 
-        research.enable = mkEnableOption "zathura, Xournal++, Zotero, Zotero Connector";
+        research.enable = mkEnableOption "zathura, Xournal++, Zotero";
       };
     };
   };

@@ -4,6 +4,32 @@ let
 
   listModules = getSubdirs ../../modules;
 
+  nixosModules = hostname:
+    [
+      ../../modules/options.nix
+      ../../hosts/${hostname}/config.nix
+      (lazyImport ../../hosts/${hostname}/nixos.nix)
+    ]
+    ++ (listModules
+      |> (builtins.map (modName: [
+        (lazyImport ../../modules/${modName}/options.nix)
+        (lazyImport ../../modules/${modName}/nixos/default.nix)
+      ]))
+      |> my-lib.flatten);
+
+  hjemModules = hostname:
+    [
+      ../../modules/options.nix
+      ../../hosts/${hostname}/config.nix
+      (lazyImport ../../hosts/${hostname}/hjem.nix)
+    ]
+    ++ (listModules
+      |> (builtins.map (modName: [
+        (lazyImport ../../modules/${modName}/options.nix)
+        (lazyImport ../../modules/${modName}/hjem/default.nix)
+      ]))
+      |> my-lib.flatten);
+
   mkNixosSystem = {
     inputs,
     hostname,
@@ -17,20 +43,7 @@ let
         ../../hosts/${hostname}/config.nix
 
         # Nixos-sided modules
-        {
-          imports =
-            [
-              ../../modules/options.nix
-              ../../hosts/${hostname}/config.nix
-              (lazyImport ../../hosts/${hostname}/nixos.nix)
-            ]
-            ++ (listModules
-              |> (builtins.map (modName: [
-                (lazyImport ../../modules/${modName}/options.nix)
-                (lazyImport ../../modules/${modName}/nixos/default.nix)
-              ]))
-              |> my-lib.flatten);
-        }
+        {imports = nixosModules hostname;}
 
         # Hjem-sided modules
         {
@@ -38,18 +51,7 @@ let
             inputs.hjem.nixosModules.hjem
           ];
           hjem = {
-            extraModules =
-              [
-                ../../modules/options.nix
-                ../../hosts/${hostname}/config.nix
-                (lazyImport ../../hosts/${hostname}/hjem.nix)
-              ]
-              ++ (listModules
-                |> (builtins.map (modName: [
-                  (lazyImport ../../modules/${modName}/options.nix)
-                  (lazyImport ../../modules/${modName}/hjem/default.nix)
-                ]))
-                |> my-lib.flatten);
+            extraModules = hjemModules hostname;
             specialArgs = {inherit inputs my-lib;};
             users.${username} = {
               enable = true;
@@ -60,6 +62,32 @@ let
         }
       ];
     };
+
+  genDocs = {
+    lib,
+    pkgs,
+    inputs,
+    hostname,
+    ...
+  }: let
+    eval = lib.evalModules {
+      modules = listModules |> (builtins.map (m: (lazyImport ../../modules/${m}/options.nix)));
+      specialArgs = {
+        inherit my-lib pkgs;
+      };
+      check = false;
+    };
+
+    optionsDoc = pkgs.nixosOptionsDoc {
+      inherit (eval) options;
+    };
+  in
+    pkgs.runCommand "options-doc.md" {
+      buildInputs = [pkgs.pandoc];
+    } ''
+      mkdir -p $out
+      cat ${optionsDoc.optionsCommonMark} | pandoc -t html -o - | tee $out/index.html
+    '';
 in {
-  inherit mkNixosSystem;
+  inherit mkNixosSystem genDocs;
 }
