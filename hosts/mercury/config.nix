@@ -51,6 +51,8 @@
           hardMode = true;
         };
 
+        tmux.enable = true;
+
         lazygit.enable = true;
         nh.enable = true;
         git = {

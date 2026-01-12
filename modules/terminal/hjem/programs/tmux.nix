@@ -16,8 +16,8 @@ in {
       enable = true;
 
       theme = {
-        bg = config.collinux.palette.base01;
-        bg_dark = config.collinux.palette.base00;
+        bg = "#${config.collinux.palette.base01}";
+        bg_dark = "#${config.collinux.palette.base00}";
       };
 
       keys.leader = [
