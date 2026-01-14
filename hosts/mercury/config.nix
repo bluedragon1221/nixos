@@ -6,10 +6,15 @@
     desktop = {
       wallpaper = ./wallpaper.jpg;
       gtk.enable = true;
-      greetd.enable = true;
+      greetd = {
+        enable = true;
+        autologin.enable = true;
+      };
 
       wm = {
-        niri.enable = true;
+        # niri.enable = true;
+        sway.enable = true;
+
         components = {
           fuzzel.enable = true;
           dunst.enable = true;

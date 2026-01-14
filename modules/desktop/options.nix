@@ -22,18 +22,8 @@ in {
 
       greetd = {
         enable = mkEnableOption "greetd greeter";
-        command = mkOption {
-          type = lib.types.str;
-          internal = true;
-          default = let
-            cfg = config.collinux.desktop;
-          in
-            if (cfg.wm.sway.enable && !cfg.gnome.enable && !cfg.wm.niri.enable)
-            then lib.getExe pkgs.sway
-            else if (cfg.wm.niri.enable && !cfg.gnome.enable && !cfg.wm.sway.enable)
-            then "${pkgs.niri}/bin/niri-session"
-            else null;
-        };
+        autologin.enable = mkEnableOption "autologin";
+        cosmic-greeter.enable = mkEnableOption "cosmic-greeter";
       };
       gdm.enable = mkEnableOption "gdm display manager";
 
@@ -55,13 +45,15 @@ in {
         cursor_data = mkOption {
           internal = true;
           type = lib.types.submodule {
-            package = mkOption {
-              internal = true;
-              type = lib.types.package;
-            };
-            name = mkOption {
-              internal = true;
-              type = lib.types.str;
+            options = {
+              package = mkOption {
+                internal = true;
+                type = lib.types.package;
+              };
+              name = mkOption {
+                internal = true;
+                type = lib.types.str;
+              };
             };
           };
           default =
@@ -81,13 +73,15 @@ in {
         theme_data = mkOption {
           internal = true;
           type = lib.types.submodule {
-            package = mkOption {
-              internal = true;
-              type = lib.types.package;
-            };
-            name = mkOption {
-              internal = true;
-              type = lib.types.str;
+            options = {
+              package = mkOption {
+                internal = true;
+                type = lib.types.package;
+              };
+              name = mkOption {
+                internal = true;
+                type = lib.types.str;
+              };
             };
           };
 
@@ -140,6 +134,10 @@ in {
       {
         assertion = with config.collinux.desktop; !(gdm.enable && greetd.enable);
         message = "Can't enable gdm and greetd at the same time";
+      }
+      {
+        assertion = with config.collinux.desktop.greetd; enable && !(autologin.enable && cosmic-greeter.enable);
+        message = "Can't use autologin and cosmic-greeter at the same time";
       }
     ];
   };
