@@ -476,11 +476,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1764704796,
-        "narHash": "sha256-ul2+03ZvvSap1pPjWkHtan0juHzre6Qm6efCuGqENro=",
+        "lastModified": 1768326969,
+        "narHash": "sha256-Mwo6C1u4UcVEAZOJa/CUSDx3he4CAfAx1Ns8l+blj3I=",
         "owner": "bluedragon1221",
         "repo": "tmux-tsunami",
-        "rev": "89703f8732291e2373d485932952448b0e5ee475",
+        "rev": "f379f00fec4912b539d3659f7c74da7669785adb",
         "type": "github"
       },
       "original": {
