@@ -4,7 +4,7 @@
     user.name = "collin";
 
     desktop = {
-      wallpaper = ./wallpaper.jpg;
+      wallpaper = ./wallpapers/abstract-swirls.jpg;
       gtk.enable = true;
       greetd = {
         enable = true;
@@ -12,7 +12,6 @@
       };
 
       wm = {
-        # niri.enable = true;
         sway.enable = true;
 
         components = {
