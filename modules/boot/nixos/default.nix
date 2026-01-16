@@ -41,7 +41,7 @@ in {
         "befs"
         "cramfs"
         "efs"
-        "erofs"
+        # "erofs" # necessary for system.etc.overlay
         "exofs"
         "freevxfs"
         "f2fs"
