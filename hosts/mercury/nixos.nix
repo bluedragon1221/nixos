@@ -18,6 +18,8 @@
     dataDir = "/home/collin/.local/syncthing";
   };
 
+  services.printing.enable = true;
+
   facter.reportPath = ./facter.json;
 
   environment.defaultPackages = lib.mkForce []; # im not a noob
