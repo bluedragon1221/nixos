@@ -7,4 +7,9 @@ in {
   "caddy-env.age".publicKeys = [ganymede];
   "williams-psk.age".publicKeys = [ganymede];
   "github-ssh-key.age".publicKeys = [mercury jupiter];
+
+  # wireguard keys
+  "mercury-wg-key.age".publicKeys = [mercury];
+  "jupiter-wg-key.age".publicKeys = [jupiter];
+  "ganymede-wg-key.age".publicKeys = [ganymede];
 }

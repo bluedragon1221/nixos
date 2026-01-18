@@ -32,44 +32,6 @@ in {
           };
         };
         tailscale.enable = mkEnableOption "tailscale";
-        wireguard = let
-          spokeOpts = {
-            ip = mkOption {
-              type = ip_addr;
-            };
-            key = mkOption {
-              type = lib.types.str;
-            };
-          };
-
-          hubOpts =
-            spokeOpts
-            // {
-              domain = mkOption {
-                type = lib.types.str;
-              };
-              port = mkOption {
-                type = lib.types.port;
-              };
-            };
-        in {
-          # based on https://www.procustodibus.com/blog/2020/11/wireguard-hub-and-spoke-config
-          enable = mkEnableOption "wireguard";
-
-          peersConfig = {
-            hub = mkOption {
-              type = lib.types.attrsOf (lib.types.submodule {options = hubOpts;});
-            };
-
-            spokes = mkOption {
-              type = lib.types.attrsOf (lib.types.submodule {options = spokeOpts;});
-            };
-          };
-
-          localPeer = mkOption {
-            type = lib.types.oneOf [hubOpts spokeOpts];
-          };
-        };
         sshd.enable = mkEnableOption "OpenSSH server";
       };
       audio = {

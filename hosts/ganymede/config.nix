@@ -5,6 +5,27 @@
     secrets = {
       "williams-psk".file = ./williams-psk.age;
       "caddy-env".file = ./caddy-env.age;
+
+      "wg-key".file = ./ganymede-wg-key.age;
+    };
+
+    wireguard = {
+      enable = true;
+      ip = "100.100.0.1";
+      gateway = "100.100.0.1";
+      privateKeyFile = config.collinux.secrets."wg-key".path;
+      peers = [
+        {
+          # mercury
+          publicKey = "EDDppGqbLfEwEcHLP3J+bxKVGW16fAcU83K/ZKR2h3A=";
+          ip = "100.100.0.5/32";
+        }
+        {
+          # jupiter
+          publicKey = "Pi1PydaaEz9IcAZ+elH5HkzEa2D35P/tUy+9KKH6PHI=";
+          ip = "100.100.0.10/32";
+        }
+      ];
     };
 
     terminal = {

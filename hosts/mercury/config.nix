@@ -1,18 +1,34 @@
-{pkgs, ...}: {
+{config, ...}: {
   collinux = {
     theme = "catppuccin";
     user.name = "collin";
 
+    secrets = {
+      "wg-key".file = ./mercury-wg-key.age;
+    };
+
+    wireguard = {
+      enable = true;
+      ip = "100.100.0.5";
+      gateway = "100.100.0.1";
+      privateKeyFile = config.collinux.secrets."wg-key".path;
+      peers = [
+        {
+          # ganymede
+          publicKey = "WNLf8M6JGSHeRVvbAF6E/6oxAHeNxv6bXqqlmwMdvlk=";
+          ip = "100.100.0.0/24";
+          endpoint = "williamsfam.us.com:51820";
+        }
+      ];
+    };
+
     desktop = {
       wallpaper = ./wallpaper.jpg;
-
-      # gtk.enable = true;
 
       greetd.enable = true;
 
       wm = {
-        # sway.enable = true;
-        niri.enable = true;
+        sway.enable = true;
         components.fuzzel.enable = true;
         components.dunst.enable = true;
       };
