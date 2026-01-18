@@ -37,6 +37,10 @@
       url = "github:MrOtherGuy/firefox-csshacks";
       flake = false;
     };
+    betterfox = {
+      url = "github:yokoffing/Betterfox";
+      flake = false;
+    };
 
     nmd.url = "github:gvolpe/nmd";
   };

@@ -27,6 +27,8 @@ in
         };
       };
 
+      ".mozilla/firefox/collin/user.js".source = "${inputs.betterfox}/user.js";
+
       ".mozilla/firefox/collin/chrome/userChrome.css".text = mkCssHacks (
         # (lib.optional (cfg.theme == "adwaita") "window_control_placeholder_support") ++
         [

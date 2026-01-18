@@ -23,6 +23,22 @@
         "type": "github"
       }
     },
+    "betterfox": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1765663165,
+        "narHash": "sha256-zGpfQk2gY6ifxIk1fvCk5g5SIFo+o8RItmw3Yt3AeCg=",
+        "owner": "yokoffing",
+        "repo": "Betterfox",
+        "rev": "eee6e58b2b0ee10a59efb6586a5db07ae181d8c7",
+        "type": "github"
+      },
+      "original": {
+        "owner": "yokoffing",
+        "repo": "Betterfox",
+        "type": "github"
+      }
+    },
     "crane": {
       "locked": {
         "lastModified": 1767461147,
@@ -346,6 +362,7 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
+        "betterfox": "betterfox",
         "deploy-rs": "deploy-rs",
         "disko": "disko",
         "firefox-csshacks": "firefox-csshacks",
