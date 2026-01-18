@@ -32,15 +32,21 @@ let
     config,
   }: let
     inherit (lib) mkOption mkEnableOption;
-    mkProgramOption = name: {
-      enable = mkEnableOption "whether to enable ${name}";
-      theme = mkOption {
+
+    mkThemeOption = name:
+      mkOption {
+        description = "Pre-made theme for ${name}";
         type = lib.types.enum ["catppuccin" "adwaita" "kanagawa"];
         default = config.collinux.theme;
+        defaultText = "config.collinux.theme";
       };
+
+    mkProgramOption = name: {
+      enable = mkEnableOption "whether to enable ${name}";
+      theme = mkThemeOption name;
     };
   in {
-    inherit mkProgramOption;
+    inherit mkProgramOption mkThemeOption;
   };
 in {
   inherit globimport;

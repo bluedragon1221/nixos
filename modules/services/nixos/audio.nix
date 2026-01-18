@@ -12,9 +12,10 @@ in
       enable = true;
       wireplumber.enable = true;
       alsa.enable = true;
-
-      pulse.enable = cfg.pulse.enable;
+      pulse.enable = false;
     };
+
+    boot.blacklistedKernelModules = ["snd_seq_dummy"]; # remove extraneous alsa midi devices
 
     environment.systemPackages = [pkgs.pwvucontrol];
   }

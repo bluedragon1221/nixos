@@ -1,9 +1,11 @@
 {
+  my-lib,
   config,
   lib,
   ...
 }: let
-  inherit (lib) mkOption mkEnableOption types;
+  inherit (lib) mkOption mkEnableOption;
+  inherit (my-lib.options {inherit lib config;}) mkThemeOption;
 in {
   options = {
     collinux.boot = {
@@ -15,10 +17,7 @@ in {
       };
       plymouth = {
         enable = mkEnableOption "plymouth bootsplash";
-        theme = mkOption {
-          type = types.enum ["catppuccin" "adwaita"];
-          default = config.collinux.theme;
-        };
+        theme = mkThemeOption "plymouth";
       };
       secureBoot.enable = mkEnableOption "lanzaboote";
     };

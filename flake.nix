@@ -37,10 +37,18 @@
       url = "github:MrOtherGuy/firefox-csshacks";
       flake = false;
     };
+    betterfox = {
+      url = "github:yokoffing/Betterfox";
+      flake = false;
+    };
+
+    nmd.url = "github:gvolpe/nmd";
   };
 
   outputs = inputs: let
-    inherit (import ./lib/nix-furnace/mkSystem.nix) mkNixosSystem;
+    inherit (import ./lib/nix-furnace/mkSystem.nix) mkNixosSystem genDocs;
+
+    buildPkgs = import inputs.nixpkgs {system = "x86_64-linux";};
   in rec {
     nixosConfigurations."mercury" = mkNixosSystem {
       inherit inputs;
@@ -56,6 +64,12 @@
       inherit inputs;
       hostname = "ganymede";
       username = "collin";
+    };
+
+    packages."x86_64-linux".docs = buildPkgs.callPackage genDocs {
+      inherit inputs;
+      pkgs = buildPkgs;
+      hostname = "mercury";
     };
 
     deploy.nodes."ganymede" = {

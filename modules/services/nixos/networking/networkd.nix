@@ -25,6 +25,13 @@ in
 
     systemd.network = {
       enable = true;
+
+      wait-online = {
+        enable = true;
+        ignoredInterfaces = ["docker0"];
+        anyInterface = true;
+      };
+
       networks."11-static-lan" = {
         name = "wl*";
 

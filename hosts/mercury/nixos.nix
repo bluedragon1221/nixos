@@ -12,10 +12,13 @@
     inputs.lanzaboote.nixosModules.lanzaboote
   ];
 
-  systemd.services.systemd-udev-settle.enable = false;
-  networking.interfaces.wlp2s0.useDHCP = false;
+  services.syncthing = {
+    enable = true;
+    user = "collin";
+    dataDir = "/home/collin/.local/syncthing";
+  };
 
-  services.sshd.enable = true;
+  services.printing.enable = true;
 
   facter.reportPath = ./facter.json;
 
@@ -25,6 +28,4 @@
     allowedUDPPorts = [445];
     allowedTCPPorts = [8000];
   };
-
-  system.stateVersion = "25.05";
 }

@@ -23,14 +23,20 @@
     };
 
     desktop = {
-      wallpaper = ./wallpaper.jpg;
-
-      greetd.enable = true;
+      wallpaper = ./wallpapers/abstract-swirls.jpg;
+      gtk.enable = true;
+      greetd = {
+        enable = true;
+        autologin.enable = true;
+      };
 
       wm = {
         sway.enable = true;
-        components.fuzzel.enable = true;
-        components.dunst.enable = true;
+
+        components = {
+          fuzzel.enable = true;
+          dunst.enable = true;
+        };
       };
 
       programs = {
@@ -59,25 +65,24 @@
       shells.bash.enable = true; # for nix-shells
 
       programs = {
-        lazygit.enable = true;
         starship.enable = true;
-
         fzf.enable = true;
         bat.enable = true;
         eza.enable = true;
+        helix = {
+          enable = true;
+          hardMode = true;
+        };
 
+        tmux.enable = true;
+
+        lazygit.enable = true;
+        nh.enable = true;
         git = {
           enable = true;
           userName = "Collin Williams";
           userEmail = "96917990+bluedragon1221@users.noreply.github.com";
           installKey = true;
-        };
-
-        nh.enable = true;
-
-        helix = {
-          enable = true;
-          hardMode = true;
         };
       };
     };

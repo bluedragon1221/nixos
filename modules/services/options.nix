@@ -17,27 +17,48 @@ in {
         networkmanager.enable = mkEnableOption "heavier wifi daemon";
 
         networkd = {
-          enable = mkEnableOption "set static IP (systemd-networkd)";
-          ssid = mkOption {type = lib.types.str;};
-          pskFile = mkOption {type = lib.types.str;};
+          enable = mkEnableOption "use systemd-networkd";
+          ssid = mkOption {
+            description = "SSID for this network";
+            type = lib.types.str;
+          };
+          pskFile = mkOption {
+            description = "Absolute path to a file containing the pre-shared key for this network";
+            type = lib.types.str;
+            example = "/run/secrets.d/wifi-psk";
+          };
 
           static = lib.mkOption {
+            description = "Set a static IP address for this device on this network. Set to null to use DHCP";
             type = lib.types.nullOr (lib.types.submodule {
               options = {
-                ip = mkOption {type = ip_addr_cidr;};
-                gateway = mkOption {type = ip_addr;};
+                ip = mkOption {
+                  description = "IP address";
+                  type = ip_addr_cidr;
+                };
+                gateway = mkOption {
+                  description = "default gateway";
+                  type = ip_addr;
+                };
               };
             });
             default = null;
           };
         };
+
         tailscale.enable = mkEnableOption "tailscale";
-        sshd.enable = mkEnableOption "OpenSSH server";
+        sshd = {
+          enable = mkEnableOption "OpenSSH server";
+          bind_host = mkOption {
+            description = "The IP address on which OpenSSH will listen for incomming connections. The default, `0.0.0.0`, means 'all interfaces'";
+            type = ip_addr;
+            default = "0.0.0.0";
+          };
+        };
       };
-      audio = {
-        enable = mkEnableOption "pipewire + wireplumber";
-        pulse.enable = mkEnableOption "pipewire-pulse";
-      };
+
+      audio.enable = mkEnableOption "pipewire and wireplumber";
+
       bluetooth = {
         enable = mkEnableOption "bluetooth";
         blueman.enable = mkEnableOption "graphical bluetooth manager";
@@ -48,27 +69,33 @@ in {
         selfhostOptions = {
           service_name,
           default_port ? null,
-          ...
         }: {
-          enable = mkEnableOption "";
+          enable = mkEnableOption "${service_name} selfhosted service";
+
+          service_name = mkOption {
+            type = lib.types.str;
+            internal = true;
+          };
+
           bind_host = mkOption {
+            description = "The IP address on which ${service_name} will listen for incoming connections. The default, `0.0.0.0`, means 'all interfaces'";
             type = ip_addr;
-            default =
-              if config.collinux.services.networking.tailscale.enable
-              then "100.69.160.89"
-              else "0.0.0.0";
+            default = "0.0.0.0";
           };
           port = mkOption {
+            description = "The port on which ${service_name} will listen for incomming connections";
             type = lib.types.port;
             default = default_port;
           };
 
           root_url = mkOption {
-            type = lib.types.str;
-            default =
-              if config.collinux.services.networking.tailscale.enable
-              then "https://${service_name}.tail7cca06.ts.net"
-              else null;
+            description = "The final url that this service will be hosted on. Required for caddy, otherwise optional";
+            type = lib.types.nullOr lib.types.str;
+          };
+
+          caddy = {
+            enable = mkEnableOption "Automatically create caddy configurations for this service";
+            bind_tailscale = mkEnableOption "Bind the service to ${service_name}.{tailnet}";
           };
         };
       in {
@@ -76,14 +103,23 @@ in {
           service_name = "adguard";
           default_port = 8001;
         };
+
         forgejo = selfhostOptions {
           service_name = "forgejo";
           default_port = 8010;
         };
+
+        headscale = selfhostOptions {
+          service_name = "headscale";
+          default_port = 8080;
+        };
+
         caddy = {
           enable = mkEnableOption "caddy https server";
           envFile = mkOption {
+            description = "Absolute path to file that contains environment variables for caddy operations";
             type = lib.types.str;
+            example = "/run/secrets.d/caddy-env";
           };
         };
       };
@@ -94,7 +130,7 @@ in {
     assertions = [
       {
         assertion = with config.collinux.services.networking; (iwd.enable && !networkmanager.enable && !networkd.enable) || (!iwd.enable && networkmanager.enable && !networkd.enable) || (!iwd.enable && !networkmanager.enable && networkd.enable);
-        message = "only one networking method (iwd, networkmanager, static) can be active";
+        message = "only one networking method (iwd, networkmanager, networkd) can be active";
       }
       {
         assertion = with config.collinux.services.networking; !(wireguard.enable && tailscale.enable);

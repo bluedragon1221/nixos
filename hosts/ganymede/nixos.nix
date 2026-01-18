@@ -1,7 +1,14 @@
-{inputs, ...}: {
+{
+  config,
+  inputs,
+  ...
+}: {
   imports = [
     inputs.disko.nixosModules.disko
+    inputs.tsnsrv.nixosModules.default
     ./disks.nix
+
+    ./minecraft.nix
 
     ./iwlwifi.nix
     ./caddy.nix
@@ -15,6 +22,6 @@
     networkConfig.DHCP = "yes";
   };
 
-  nixpkgs.hostPlatform = "x86_64-linux";
-  system.stateVersion = "25.05";
+  # i broke something and this fixes it
+  environment.etc."systemd/resolved.conf.d/10-dns.conf".text = config.environment.etc."systemd/resolved.conf".text;
 }

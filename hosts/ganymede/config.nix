@@ -1,10 +1,17 @@
-{config, ...}: {
+{config, ...}: let
+  tailscaleIP = "100.100.218.182";
+in {
   collinux = {
     user.name = "collin";
 
     secrets = {
-      "williams-psk".file = ./williams-psk.age;
+      "williams-psk" = {
+        file = ./williams-psk.age;
+        owner = "wpa_supplicant";
+      };
+
       "caddy-env".file = ./caddy-env.age;
+      "tsnsrv-authkey".file = ./tsnsrv-authkey.age;
 
       "wg-key".file = ./ganymede-wg-key.age;
     };
@@ -52,16 +59,32 @@
             gateway = "192.168.50.1";
           };
         };
-        tailscale.enable = true;
-        sshd.enable = true;
+        tailscale = {
+          enable = true;
+          tailnet = "collinux.tailnet";
+        };
+        sshd = {
+          enable = true;
+          bind_host = "0.0.0.0";
+        };
       };
 
       selfhost = {
-        adguard.enable = true;
-        forgejo.enable = true;
         caddy = {
           enable = true;
           envFile = config.collinux.secrets."caddy-env".path;
+        };
+
+        forgejo = {
+          enable = true;
+          bind_host = tailscaleIP;
+          root_url = "ganymede.collinux.tailnet:8010";
+        };
+
+        headscale = {
+          enable = true;
+          root_url = "headscale.williamsfam.us.com";
+          caddy.enable = true;
         };
       };
     };

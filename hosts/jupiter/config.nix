@@ -76,10 +76,7 @@
         sshd.enable = true;
       };
 
-      audio = {
-        enable = true;
-        pulse.enable = true;
-      };
+      audio.enable = true;
 
       bluetooth.enable = true;
     };

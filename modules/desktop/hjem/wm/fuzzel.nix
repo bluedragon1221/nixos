@@ -8,34 +8,38 @@
 
   settings = {
     main = {
-      prompt = "";
-      dpi-aware = false;
+      prompt = builtins.fromJSON ''"\u200B"''; # https://discourse.nixos.org/t/how-can-i-put-an-nonprintable-character-in-a-nix-expression/47750/7
 
-      font = "Iosevka Nerd Font";
-      line-height = 25;
+      font = "Iosevka Nerd Font:size=9";
+      use-bold = true;
+      line-height = 16;
       lines = 10;
-      width = 30;
+      width = 20;
 
-      horizontal-pad = 8;
-      vertical-pad = 8;
+      anchor = "bottom-right";
+
+      horizontal-pad = 0;
+      vertical-pad = 0;
     };
     border = {
       radius = 0;
       width = 3;
     };
 
-    colors = with config.collinux.palette; {
-      background = "${base00}99";
-      border = "ffffff00";
-      input = base05;
-      match = base13;
-      placeholder = base03;
-      text = base01;
-      prompt = base01;
+    colors = with config.collinux.palette; let
+      transparent = "#ffffff00";
+    in {
+      background = transparent;
+      border = transparent;
+      input = transparent;
+      match = "#${base13}ff";
+      placeholder = "#${base03}ff";
+      text = "#${base04}ff";
+      prompt = "#${base05}ff";
 
-      selection = "${base01}5a";
-      selection-match = base13;
-      selection-text = base05;
+      selection = transparent;
+      selection-match = "#${base13}ff";
+      selection-text = "#${base05}ff";
     };
   };
 in
