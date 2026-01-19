@@ -62,7 +62,7 @@ in {
               name = "catppuccin-mocha-dark-cursors";
               package = pkgs.catppuccin-cursors.mochaDark;
             }
-            else if config.collinux.gtk.theme == "adwaita"
+            else if config.collinux.desktop.gtk.theme == "adwaita"
             then {
               name = "Vanilla-DMZ";
               package = pkgs.vanilla-dmz;
@@ -136,7 +136,7 @@ in {
         message = "Can't enable gdm and greetd at the same time";
       }
       {
-        assertion = with config.collinux.desktop.greetd; enable && !(autologin.enable && cosmic-greeter.enable);
+        assertion = with config.collinux.desktop.greetd; enable -> !(autologin.enable && cosmic-greeter.enable);
         message = "Can't use autologin and cosmic-greeter at the same time";
       }
     ];

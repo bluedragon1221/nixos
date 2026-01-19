@@ -5,7 +5,6 @@
 }: {
   imports = [
     inputs.disko.nixosModules.disko
-    inputs.tsnsrv.nixosModules.default
     ./disks.nix
 
     ./minecraft.nix

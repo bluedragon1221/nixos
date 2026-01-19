@@ -29,7 +29,7 @@ in {
               description = "peer's IP address";
             };
             endpoint = mkOption {
-              type = lib.types.str;
+              type = lib.types.nullOr lib.types.str;
               description = "peer's endpoint";
             };
           };

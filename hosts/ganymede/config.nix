@@ -1,6 +1,4 @@
-{config, ...}: let
-  tailscaleIP = "100.100.218.182";
-in {
+{config, ...}: {
   collinux = {
     user.name = "collin";
 
@@ -21,18 +19,16 @@ in {
       ip = "100.100.0.1";
       gateway = "100.100.0.1";
       privateKeyFile = config.collinux.secrets."wg-key".path;
-      peers = [
-        {
-          # mercury
+      peers = {
+        "mercury" = {
           publicKey = "EDDppGqbLfEwEcHLP3J+bxKVGW16fAcU83K/ZKR2h3A=";
           ip = "100.100.0.5/32";
-        }
-        {
-          # jupiter
+        };
+        "jupiter" = {
           publicKey = "Pi1PydaaEz9IcAZ+elH5HkzEa2D35P/tUy+9KKH6PHI=";
           ip = "100.100.0.10/32";
-        }
-      ];
+        };
+      };
     };
 
     terminal = {
@@ -59,10 +55,10 @@ in {
             gateway = "192.168.50.1";
           };
         };
-        tailscale = {
-          enable = true;
-          tailnet = "collinux.tailnet";
-        };
+        # tailscale = {
+        #   enable = true;
+        #   tailnet = "collinux.tailnet";
+        # };
         sshd = {
           enable = true;
           bind_host = "0.0.0.0";
@@ -77,15 +73,15 @@ in {
 
         forgejo = {
           enable = true;
-          bind_host = tailscaleIP;
+          bind_host = "127.0.0.1";
           root_url = "ganymede.collinux.tailnet:8010";
         };
 
-        headscale = {
-          enable = true;
-          root_url = "headscale.williamsfam.us.com";
-          caddy.enable = true;
-        };
+        # headscale = {
+        #   enable = true;
+        #   root_url = "headscale.williamsfam.us.com";
+        #   caddy.enable = true;
+        # };
       };
     };
   };

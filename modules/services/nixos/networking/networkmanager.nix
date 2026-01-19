@@ -14,10 +14,7 @@ in
       };
 
       dhcpcd.enable = false;
-      useNetworkd = false;
     };
-
-    systemd.network.enable = false;
 
     services.tailscale.extraSetFlags = lib.optional config.collinux.services.networking.tailscale.enable "--accept-dns=true";
   }

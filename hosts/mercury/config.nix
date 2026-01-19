@@ -12,14 +12,13 @@
       ip = "100.100.0.5";
       gateway = "100.100.0.1";
       privateKeyFile = config.collinux.secrets."wg-key".path;
-      peers = [
-        {
-          # ganymede
+      peers = {
+        "ganymede" = {
           publicKey = "WNLf8M6JGSHeRVvbAF6E/6oxAHeNxv6bXqqlmwMdvlk=";
           ip = "100.100.0.0/24";
           endpoint = "williamsfam.us.com:51820";
-        }
-      ];
+        };
+      };
     };
 
     desktop = {
@@ -52,7 +51,7 @@
       networking = {
         enable = true;
         iwd.enable = true;
-        tailscale.enable = true;
+        # tailscale.enable = true;
       };
       bluetooth = {
         enable = true;

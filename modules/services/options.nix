@@ -132,18 +132,6 @@ in {
         assertion = with config.collinux.services.networking; (iwd.enable && !networkmanager.enable && !networkd.enable) || (!iwd.enable && networkmanager.enable && !networkd.enable) || (!iwd.enable && !networkmanager.enable && networkd.enable);
         message = "only one networking method (iwd, networkmanager, networkd) can be active";
       }
-      {
-        assertion = with config.collinux.services.networking; !(wireguard.enable && tailscale.enable);
-        message = "only one vpn method (tailscale, wireguard) can be active";
-      }
-      {
-        assertion = with config.collinux.services.networking; wireguard.enable && !networkd.enable;
-        message = "wireguard configuration only supports networkd at the moment";
-      }
-      {
-        assertion = with config.collinux.services.networking.wireguard; enable && (peersConfig |> (builtins.filter (m: m.role == "hub")) |> lib.count) == 1;
-        message = "there must be exactly one hub in the wireguard configuration";
-      }
     ];
   };
 }

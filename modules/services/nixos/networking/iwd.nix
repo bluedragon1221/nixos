@@ -23,5 +23,4 @@ in
       useDHCP = false;
       networkmanager.enable = false;
     };
-    systemd.network.enable = lib.mkForce false;
   }
