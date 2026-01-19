@@ -4,7 +4,10 @@
     user.name = "collin";
 
     secrets = {
-      "wg-key".file = ./mercury-wg-key.age;
+      "wg-key" = {
+        file = ./mercury-wg-key.age;
+        owner = "systemd-network";
+      };
     };
 
     wireguard = {
