@@ -9,9 +9,11 @@
       };
 
       "caddy-env".file = ./caddy-env.age;
-      "tsnsrv-authkey".file = ./tsnsrv-authkey.age;
 
-      "wg-key".file = ./ganymede-wg-key.age;
+      "wg-key" = {
+        file = ./ganymede-wg-key.age;
+        owner = "systemd-network";
+      };
     };
 
     wireguard = {
@@ -21,7 +23,7 @@
       privateKeyFile = config.collinux.secrets."wg-key".path;
       peers = {
         "mercury" = {
-          publicKey = "EDDppGqbLfEwEcHLP3J+bxKVGW16fAcU83K/ZKR2h3A=";
+          publicKey = "dU9CI6OQr0nJXb2JCy3SgqcraK60zuQzFJu3iHG6AAU=";
           ip = "100.100.0.5/32";
         };
         "jupiter" = {

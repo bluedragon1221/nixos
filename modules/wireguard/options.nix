@@ -31,6 +31,7 @@ in {
             endpoint = mkOption {
               type = lib.types.nullOr lib.types.str;
               description = "peer's endpoint";
+              default = null;
             };
           };
         });

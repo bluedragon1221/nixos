@@ -23,11 +23,17 @@ in
 
         wireguardPeers =
           cfg.peers
-          |> builtins.mapAttrs (_: m: {
-            PublicKey = m.publicKey;
-            AllowedIPs = [m.ip];
-            Endpoint = m.endpoint;
-          })
+          |> builtins.mapAttrs (_: m:
+            if (m == null)
+            then {
+              PublicKey = m.publicKey;
+              AllowedIPs = [m.ip];
+            }
+            else {
+              PublicKey = m.publicKey;
+              AllowedIPs = [m.ip];
+              Endpoint = m.endpoint;
+            })
           |> builtins.attrValues;
       };
 
