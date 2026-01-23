@@ -28,6 +28,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    glide-browser = {
+      url = "github:glide-browser/glide.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     tmux-tsunami = {
       url = "github:bluedragon1221/tmux-tsunami";
       inputs.nixpkgs.follows = "nixpkgs";

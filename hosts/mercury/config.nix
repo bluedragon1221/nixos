@@ -1,28 +1,7 @@
-{config, ...}: {
+{
   collinux = {
     theme = "catppuccin";
     user.name = "collin";
-
-    secrets = {
-      "wg-key" = {
-        file = ./mercury-wg-key.age;
-        owner = "systemd-network";
-      };
-    };
-
-    wireguard = {
-      enable = true;
-      ip = "100.100.0.5";
-      gateway = "100.100.0.1";
-      privateKeyFile = config.collinux.secrets."wg-key".path;
-      peers = {
-        "ganymede" = {
-          publicKey = "WNLf8M6JGSHeRVvbAF6E/6oxAHeNxv6bXqqlmwMdvlk=";
-          ip = "100.100.0.0/24";
-          endpoint = "williamsfam.us.com:51820";
-        };
-      };
-    };
 
     desktop = {
       wallpaper = ./wallpapers/abstract-swirls.jpg;
@@ -53,13 +32,13 @@
       audio.enable = true;
       networking = {
         enable = true;
+
         iwd.enable = true;
-        # tailscale.enable = true;
+        networkd = {
+          enable = true;
+        };
       };
-      bluetooth = {
-        enable = true;
-        bluetuith.enable = true;
-      };
+      bluetooth.enable = true;
     };
 
     terminal = {

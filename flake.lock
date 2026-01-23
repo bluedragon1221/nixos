@@ -188,6 +188,26 @@
         "type": "github"
       }
     },
+    "glide-browser": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1768858368,
+        "narHash": "sha256-EqqShMa+LXRymE8Vc3or5lHU2ftYTSEgixYtqwRpr0M=",
+        "owner": "glide-browser",
+        "repo": "glide.nix",
+        "rev": "93646ce641920fa1ed4917cc9dbfa56f15e90a06",
+        "type": "github"
+      },
+      "original": {
+        "owner": "glide-browser",
+        "repo": "glide.nix",
+        "type": "github"
+      }
+    },
     "hjem": {
       "inputs": {
         "nix-darwin": "nix-darwin",
@@ -366,6 +386,7 @@
         "deploy-rs": "deploy-rs",
         "disko": "disko",
         "firefox-csshacks": "firefox-csshacks",
+        "glide-browser": "glide-browser",
         "hjem": "hjem",
         "lanzaboote": "lanzaboote",
         "nixos-facter-modules": "nixos-facter-modules",

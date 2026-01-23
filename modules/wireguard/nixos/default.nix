@@ -6,6 +6,8 @@
   cfg = config.collinux.wireguard;
 in
   lib.mkIf cfg.enable {
+    networking.firewall.checkReversePath = "loose";
+
     networking.useNetworkd = true;
     systemd.network = {
       enable = true;
@@ -24,16 +26,14 @@ in
         wireguardPeers =
           cfg.peers
           |> builtins.mapAttrs (_: m:
-            if (m == null)
-            then {
+            {
               PublicKey = m.publicKey;
               AllowedIPs = [m.ip];
+              PersistentKeepalive = 25;
             }
-            else {
-              PublicKey = m.publicKey;
-              AllowedIPs = [m.ip];
+            // (lib.optionalAttrs (m.endpoint != null) {
               Endpoint = m.endpoint;
-            })
+            }))
           |> builtins.attrValues;
       };
 
@@ -44,8 +44,6 @@ in
           Address = cfg.ip;
           DHCP = "no";
           Gateway = cfg.gateway;
-
-          IPv6AcceptRA = false;
         };
       };
     };
