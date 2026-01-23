@@ -1,5 +1,4 @@
 {
-  pkgs,
   lib,
   config,
   ...
@@ -10,22 +9,32 @@ in
     hardware.bluetooth = {
       enable = true;
       powerOnBoot = true;
+
+      settings.General = {
+        FastConnectable = true;
+        ControllerMode = "bredr";
+        JustWorksRepairing = "always";
+      };
+    };
+
+    systemd.user.services."mpris-proxy" = {
+      unitConfig = {
+        BindsTo = ["bluetooth.target"];
+        After = ["bluetooth.target"];
+      };
+
+      wantedBy = ["bluetooth.target"];
+
+      # serviceConfig already exists (?)
     };
 
     # hardening (down to 2.1 OK)
     systemd.services."bluetooth".serviceConfig = {
       IPAddressDeny = "any";
-      ProtectHostname = true;
-      ProtectKernelTunables = lib.mkForce true;
       ProtectKernelLogs = true;
       ProtectKernelModules = lib.mkForce true;
       RestrictAddressFamilies = ["AF_UNIX" "AF_BLUETOOTH"];
       ProtectClock = true;
       ProcSubset = "pid";
     };
-
-    environment.systemPackages = [
-      (lib.mkIf cfg.blueman.enable pkgs.blueman)
-      (lib.mkIf cfg.bluetuith.enable pkgs.bluetuith)
-    ];
   }

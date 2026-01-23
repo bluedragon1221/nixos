@@ -59,11 +59,7 @@ in {
 
       audio.enable = mkEnableOption "pipewire and wireplumber";
 
-      bluetooth = {
-        enable = mkEnableOption "bluetooth";
-        blueman.enable = mkEnableOption "graphical bluetooth manager";
-        bluetuith.enable = mkEnableOption "terminal bluetooth manager";
-      };
+      bluetooth.enable = mkEnableOption "bluetooth";
 
       selfhost = let
         selfhostOptions = {
@@ -124,14 +120,5 @@ in {
         };
       };
     };
-  };
-
-  config = {
-    assertions = [
-      {
-        assertion = with config.collinux.services.networking; (iwd.enable && !networkmanager.enable && !networkd.enable) || (!iwd.enable && networkmanager.enable && !networkd.enable) || (!iwd.enable && !networkmanager.enable && networkd.enable);
-        message = "only one networking method (iwd, networkmanager, networkd) can be active";
-      }
-    ];
   };
 }

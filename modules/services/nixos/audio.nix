@@ -17,5 +17,5 @@ in
 
     boot.blacklistedKernelModules = ["snd_seq_dummy"]; # remove extraneous alsa midi devices
 
-    environment.systemPackages = [pkgs.pwvucontrol];
+    environment.systemPackages = with pkgs; [pwvucontrol qpwgraph];
   }
