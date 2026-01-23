@@ -6,6 +6,5 @@
 
     vital
     musescore
-    qpwgraph
   ];
 }

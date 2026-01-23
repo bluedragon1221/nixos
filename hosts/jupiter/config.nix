@@ -1,27 +1,8 @@
-{config, ...}: {
+{
   collinux = {
     theme = "adwaita";
 
     user.name = "collin";
-
-    secrets = {
-      "wg-key".file = ./jupiter-wg-key.age;
-    };
-
-    wireguard = {
-      enable = true;
-      ip = "100.100.0.10";
-      gateway = "100.100.0.1";
-      privateKeyFile = config.collinux.secrets."wg-key".path;
-      peers = [
-        {
-          # ganymede
-          publicKey = "WNLf8M6JGSHeRVvbAF6E/6oxAHeNxv6bXqqlmwMdvlk=";
-          ip = "100.100.0.0/24";
-          endpoint = "williamsfam.us.com:51820";
-        }
-      ];
-    };
 
     desktop = {
       gnome.enable = true;

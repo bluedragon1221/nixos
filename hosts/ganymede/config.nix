@@ -16,23 +16,6 @@
       };
     };
 
-    wireguard = {
-      enable = true;
-      ip = "100.100.0.1";
-      gateway = "100.100.0.1";
-      privateKeyFile = config.collinux.secrets."wg-key".path;
-      peers = {
-        "mercury" = {
-          publicKey = "dU9CI6OQr0nJXb2JCy3SgqcraK60zuQzFJu3iHG6AAU=";
-          ip = "100.100.0.5/32";
-        };
-        "jupiter" = {
-          publicKey = "Pi1PydaaEz9IcAZ+elH5HkzEa2D35P/tUy+9KKH6PHI=";
-          ip = "100.100.0.10/32";
-        };
-      };
-    };
-
     terminal = {
       programs = {
         git = {
