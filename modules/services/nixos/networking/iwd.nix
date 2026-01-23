@@ -11,8 +11,9 @@ in
         enable = true;
         settings = {
           General = {
-            EnableNetworkConfiguration = true; # use builtin dhcp client
+            EnableNetworkConfiguration = !config.collinux.services.networking.networkd.enable;
             AddressRandomization = "once";
+            AddressRandomizationRange = "full";
           };
           Network.NameResolvingService = "systemd"; # either systemd or resolvconf
         };

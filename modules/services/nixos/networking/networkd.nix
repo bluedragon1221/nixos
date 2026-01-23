@@ -9,11 +9,14 @@
 in
   lib.mkIf cfg.enable {
     networking = {
-      wireless = {
-        enable = true;
-        networks.${cfg.ssid}.pskRaw = "ext:psk";
-        secretsFile = cfg.pskFile;
-      };
+      wireless =
+        if !config.collinux.services.networking.iwd.enable
+        then {
+          enable = true;
+          networks.${cfg.ssid}.pskRaw = "ext:psk";
+          secretsFile = cfg.pskFile;
+        }
+        else {};
 
       useNetworkd = true;
 
@@ -32,28 +35,26 @@ in
         anyInterface = true;
       };
 
-      networks."11-static-lan" = {
+      networks."11-lan" = {
         name = "wl*";
 
         networkConfig =
           (
             if dhcp_enabled
-            then {
-              DHCP = "yes";
-            }
+            then {DHCP = "yes";}
             else {
               Address = cfg.static.ip;
               Gateway = cfg.static.gateway;
-              # DNS is managed by systemd-resolvd (not specified here)
               DHCP = "no";
+              # DNS is managed by systemd-resolved (not specified here)
             }
           )
           // {
-            # diable ipv6 addresses
-            IPv6AcceptRA = "no";
-            IPv6PrivacyExtensions = "no";
             LinkLocalAddressing = "no";
           };
+
+        dhcpV4Config.UseDNS = "no";
+        dhcpV6Config.UseDNS = "no";
       };
     };
   }
