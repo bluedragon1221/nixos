@@ -36,7 +36,7 @@
   '';
 
   settings = ''
-    exec ${pkgs.swaybg}/bin/swaybg -i ${config.collinux.desktop.wallpaper}
+    exec ${config.collinux.desktop.wallpaper_cmd}
     exec ${pkgs.dunst}/bin/dunst
 
     include catppuccin-mocha
