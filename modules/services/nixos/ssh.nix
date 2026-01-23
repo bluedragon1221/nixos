@@ -8,7 +8,6 @@ in {
   config = lib.mkIf cfg.enable {
     services.openssh = {
       enable = true;
-      openFirewall = false;
       hostKeys = [
         {
           path = "/etc/ssh/ssh_host_ed25519_key";
@@ -24,8 +23,14 @@ in {
       ];
 
       settings = {
-        PermitRootLogin = "prohibit-password";
+        PermitRootLogin = "prohibit-password"; # deploy-rs uses root account
         PasswordAuthentication = false;
+      };
+
+      knownHosts = {
+        "mercury".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIQtMAgPdWwrOzlZT/lEIRQZ+ajhafG9AEJCrF2/bsmN";
+        "jupiter".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPB7feUHl5qoD5zF9AMOV2meViA+wZYdVvbVjPkggZf8";
+        "ganymede".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINlr+53UmlGVP1blkdNl6NFqn1w2umFJyjH1EVUPKIy9";
       };
     };
 

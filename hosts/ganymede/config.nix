@@ -9,11 +9,6 @@
       };
 
       "caddy-env".file = ./caddy-env.age;
-
-      "wg-key" = {
-        file = ./ganymede-wg-key.age;
-        owner = "systemd-network";
-      };
     };
 
     terminal = {
@@ -40,10 +35,6 @@
             gateway = "192.168.50.1";
           };
         };
-        # tailscale = {
-        #   enable = true;
-        #   tailnet = "collinux.tailnet";
-        # };
         sshd = {
           enable = true;
           bind_host = "0.0.0.0";
@@ -61,12 +52,6 @@
           bind_host = "127.0.0.1";
           root_url = "ganymede.collinux.tailnet:8010";
         };
-
-        # headscale = {
-        #   enable = true;
-        #   root_url = "headscale.williamsfam.us.com";
-        #   caddy.enable = true;
-        # };
       };
     };
   };
