@@ -1,5 +1,5 @@
 {lib, ...}: let
-  inherit (lib) mkOption types;
+  inherit (lib) mkEnableOption mkOption types;
 in {
   options = {
     collinux.user = {
@@ -12,6 +12,8 @@ in {
         type = types.bool;
         default = true;
       };
+
+      useRun0 = mkEnableOption "whether to use systemd's run0 instead of sudo-rs";
     };
   };
 }

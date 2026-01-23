@@ -1,7 +1,11 @@
 {
   collinux = {
     theme = "catppuccin";
-    user.name = "collin";
+
+    user = {
+      name = "collin";
+      useRun0 = true;
+    };
 
     desktop = {
       wallpaper = ./wallpapers/abstract-swirls.jpg;

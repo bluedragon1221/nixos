@@ -19,9 +19,8 @@ in {
   # sudo
   security = {
     sudo.enable = false;
-    sudo-rs.enable = false;
-
-    run0.enableSudoAlias = true;
+    sudo-rs.enable = !cfg.useRun0;
+    run0.enableSudoAlias = cfg.useRun0;
   };
 
   time.timeZone = "America/Chicago";
