@@ -14,8 +14,15 @@ in {
       extraGroups = ["networkmanager" "pipewire" "disks" "input" "video" "dialout" "kvm"] ++ (lib.optional cfg.isAdmin "wheel");
     };
   };
-  security.sudo-rs.enable = true;
   services.userborn.enable = true;
+
+  # sudo
+  security = {
+    sudo.enable = false;
+    sudo-rs.enable = false;
+
+    run0.enableSudoAlias = true;
+  };
 
   time.timeZone = "America/Chicago";
 
