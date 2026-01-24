@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  hosts,
   ...
 }: let
   cfg = config.collinux.user;
@@ -8,7 +9,7 @@ in {
   users = {
     mutableUsers = true; # system passwords stored mutably
 
-    users."${cfg.name}" = {
+    users.${cfg.name} = {
       isNormalUser = true;
       description = cfg.name;
       extraGroups = ["networkmanager" "pipewire" "disks" "input" "video" "dialout" "kvm"] ++ (lib.optional cfg.isAdmin "wheel");
@@ -24,6 +25,14 @@ in {
   };
 
   time.timeZone = "America/Chicago";
+
+  programs.ssh = {
+    knownHosts = builtins.mapAttrs (_: data: {publicKey = data.host_pubkey;}) hosts;
+
+    extraConfig = ''
+      StrictHostKeyChecking accept-new
+    '';
+  };
 
   hjem = {
     clobberByDefault = true;

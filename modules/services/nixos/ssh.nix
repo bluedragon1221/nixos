@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  hosts,
   ...
 }: let
   cfg = config.collinux.services.networking.sshd;
@@ -27,18 +28,23 @@ in {
         PasswordAuthentication = false;
       };
 
-      knownHosts = {
-        "mercury".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIQtMAgPdWwrOzlZT/lEIRQZ+ajhafG9AEJCrF2/bsmN";
-        "jupiter".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPB7feUHl5qoD5zF9AMOV2meViA+wZYdVvbVjPkggZf8";
-        "ganymede".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINlr+53UmlGVP1blkdNl6NFqn1w2umFJyjH1EVUPKIy9";
-      };
+      knownHosts = builtins.mapAttrs (_: data: {publicKey = data.host_pubkey;}) hosts;
     };
 
-    users.users.${config.collinux.user.name}.openssh = {
-      authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAvxtKW0rmRBi8J67gLrLv8Zv338AcmZ3P20DePiUfnX mercury"
-      ];
-    };
+    users.users.${config.collinux.user.name}.openssh.authorizedKeys.keys =
+      hosts
+      |> (builtins.mapAttrs (_: data: data.user_pubkey or null))
+      |> builtins.attrValues
+      |> (builtins.filter (x: x != null));
+
+    users.users."root".openssh.authorizedKeys.keys =
+      if config.services.openssh.settings.PermitRootLogin == "prohibit-password"
+      then
+        hosts
+        |> (builtins.mapAttrs (_: data: data.user_pubkey or null))
+        |> builtins.attrValues
+        |> (builtins.filter (x: x != null))
+      else {};
 
     systemd.services."openssh" = lib.mkIf config.collinux.services.networking.networkd.enable {
       after = lib.mkAfter ["network-online.target"];

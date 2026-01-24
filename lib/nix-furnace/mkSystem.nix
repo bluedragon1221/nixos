@@ -2,6 +2,8 @@ let
   my-lib = import ../lib.nix;
   inherit (my-lib.globimport) getSubdirs lazyImport;
 
+  hosts = (builtins.fromTOML (builtins.readFile ../../hosts.toml)).hosts;
+
   listModules = getSubdirs ../../modules;
 
   nixosModules = hostname:
@@ -36,7 +38,7 @@ let
     username,
   }:
     inputs.nixpkgs.lib.nixosSystem {
-      specialArgs = {inherit inputs my-lib;};
+      specialArgs = {inherit inputs my-lib hosts;};
       modules = [
         {networking.hostName = hostname;}
 
@@ -52,7 +54,7 @@ let
           ];
           hjem = {
             extraModules = hjemModules hostname;
-            specialArgs = {inherit inputs my-lib;};
+            specialArgs = {inherit inputs my-lib hosts;};
             users.${username} = {
               enable = true;
               user = username;

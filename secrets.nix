@@ -1,11 +1,8 @@
 let
-  # host keys
-  mercury = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIQtMAgPdWwrOzlZT/lEIRQZ+ajhafG9AEJCrF2/bsmN";
-  jupiter = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPB7feUHl5qoD5zF9AMOV2meViA+wZYdVvbVjPkggZf8";
-  ganymede = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINlr+53UmlGVP1blkdNl6NFqn1w2umFJyjH1EVUPKIy9";
+  inherit (builtins.fromTOML ./hosts.toml) mercury ganymede jupiter;
 in {
-  "caddy-env.age".publicKeys = [ganymede];
-  "tsnsrv-authkey.age".publicKeys = [ganymede mercury];
-  "williams-psk.age".publicKeys = [ganymede];
-  "github-ssh-key.age".publicKeys = [mercury jupiter];
+  "caddy-env.age".publicKeys = [ganymede.host_pubkey];
+  "tsnsrv-authkey.age".publicKeys = [ganymede.host_pubkey mercury.host_pubkey];
+  "williams-psk.age".publicKeys = [ganymede.host_pubkey];
+  "github-ssh-key.age".publicKeys = [mercury.host_pubkey jupiter.host_pubkey];
 }

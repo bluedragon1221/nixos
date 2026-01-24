@@ -24,15 +24,19 @@
 
   environment.defaultPackages = lib.mkForce []; # im not a noob
 
-  # programs.firefox.policies.Preferences.ExtensionSettings = {
-
-  # };
+  programs.firefox.policies.ExtensionSettings = {
+    "foxyproxy@eric.h.jung" = {
+      installation_mode = "force_installed";
+      install_url = "https://addons.mozilla.org/firefox/downloads/latest/foxyproxy-standard/latest.xpi";
+    };
+  };
 
   programs.ssh.extraConfig = ''
     Host ganymede
-      HostName 70.130.121.193
+      HostName williamsfam.us.com
       User collin
       IdentityFile /home/collin/.ssh/id_ed25519
-      LocalForward 8015 127.0.0.1:8015
+      LocalForward 8010 127.0.0.1:8010
+      DynamicForward 9090
   '';
 }
