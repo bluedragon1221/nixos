@@ -12,6 +12,8 @@
     inputs.lanzaboote.nixosModules.lanzaboote
   ];
 
+  facter.reportPath = ./facter.json;
+
   services.syncthing = {
     enable = true;
     user = "collin";
@@ -20,12 +22,17 @@
 
   services.printing.enable = true;
 
-  facter.reportPath = ./facter.json;
-
   environment.defaultPackages = lib.mkForce []; # im not a noob
 
-  networking.firewall = {
-    allowedUDPPorts = [445];
-    allowedTCPPorts = [8000];
-  };
+  # programs.firefox.policies.Preferences.ExtensionSettings = {
+
+  # };
+
+  programs.ssh.extraConfig = ''
+    Host ganymede
+      HostName 70.130.121.193
+      User collin
+      IdentityFile /home/collin/.ssh/id_ed25519
+      LocalForward 8015 127.0.0.1:8015
+  '';
 }

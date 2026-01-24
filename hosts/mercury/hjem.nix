@@ -4,26 +4,23 @@
   ...
 }: {
   packages = with pkgs; [
-    # GUI apps
     tor-browser # don't ask
+
     obsidian
     kdePackages.kleopatra
-    mpv
-    musescore
     anki
+    musescore
 
+    mpv
     bluetuith
 
     kew # music player
 
-    (prismlauncher.override {
-      jdks = [pkgs.jdk17_headless];
-    })
+    prismlauncher
 
     vital
 
     captive-browser # https://words.filippo.io/captive-browser
-
     inputs.glide-browser.packages."x86_64-linux".default
   ];
 
