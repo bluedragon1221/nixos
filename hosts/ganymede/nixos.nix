@@ -23,6 +23,8 @@
     networkConfig.DHCP = "yes";
   };
 
+  services.fail2ban.enable = true;
+
   # i broke something and this fixes it
   environment.etc."systemd/resolved.conf.d/10-dns.conf".text = config.environment.etc."systemd/resolved.conf".text;
 }

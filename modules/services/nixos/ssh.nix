@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   hosts,
   ...
 }: let
@@ -9,6 +10,9 @@ in {
   config = lib.mkIf cfg.enable {
     services.openssh = {
       enable = true;
+
+      allowSFTP = false;
+
       hostKeys = [
         {
           path = "/etc/ssh/ssh_host_ed25519_key";
@@ -26,9 +30,28 @@ in {
       settings = {
         PermitRootLogin = "prohibit-password"; # deploy-rs uses root account
         PasswordAuthentication = false;
+        PubkeyAuthentication = true;
+        KbdInteractiveAuthentication = true; # for google authenticator totp codes
+        AuthenticationMethods = "publickey,keyboard-interactive:pam";
       };
 
       knownHosts = builtins.mapAttrs (_: data: {publicKey = data.host_pubkey;}) hosts;
+    };
+
+    security.pam.services = {
+      login.googleAuthenticator.enable = true;
+
+      sshd.text = ''
+        account required pam_unix.so # unix (order 10900)
+
+        auth required ${pkgs.google-authenticator}/lib/security/pam_google_authenticator.so nullok no_increment_hotp # google_authenticator (order 12500)
+        auth sufficient pam_permit.so
+
+        session required pam_env.so conffile=/etc/pam/environment readenv=0 # env (order 10100)
+        session required pam_unix.so # unix (order 10200)
+        session required pam_loginuid.so # loginuid (order 10300)
+        session optional ${pkgs.systemd}/lib/security/pam_systemd.so # systemd (order 12000)
+      '';
     };
 
     users.users.${config.collinux.user.name}.openssh.authorizedKeys.keys =

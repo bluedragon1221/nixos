@@ -38,5 +38,11 @@
       IdentityFile /home/collin/.ssh/id_ed25519
       LocalForward 8010 127.0.0.1:8010
       DynamicForward 9090
+
+    Host io
+      Hostname 192.168.50.3
+      User admin
+      IdentityFile /home/collin/.ssh/id_ed25519
+      ProxyJump ganymede
   '';
 }

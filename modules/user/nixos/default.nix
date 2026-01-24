@@ -27,6 +27,8 @@ in {
   time.timeZone = "America/Chicago";
 
   programs.ssh = {
+    systemd-ssh-proxy.enable = false;
+
     knownHosts = builtins.mapAttrs (_: data: {publicKey = data.host_pubkey;}) hosts;
 
     extraConfig = ''
