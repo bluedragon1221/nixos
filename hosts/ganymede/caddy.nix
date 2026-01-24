@@ -9,7 +9,7 @@
         "github.com/tailscale/caddy-tailscale@v0.0.0-20251204171825-f070d146dd61"
         "github.com/caddy-dns/porkbun@v0.3.1"
       ];
-      hash = "sha256-BQdm8p9eDGhRu6mKyX2FAUaKoU6Lv2A746Sey39T13I=";
+      hash = "sha256-RM7yd4LV2r6Z4CjwZdzPND28bYbPwfzNMIxZwiYHOsM=";
     });
 
     globalConfig = ''
