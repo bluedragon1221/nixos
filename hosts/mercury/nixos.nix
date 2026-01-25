@@ -39,6 +39,11 @@
       LocalForward 8010 127.0.0.1:8010
       DynamicForward 9090
 
+    Host ganymede-deploy
+      HostName 192.168.0.2
+      User root
+      IdentityFile /home/collin/.ssh/id_ed25519
+
     Host io
       Hostname 192.168.50.3
       User admin

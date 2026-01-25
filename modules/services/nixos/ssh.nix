@@ -8,6 +8,8 @@
   cfg = config.collinux.services.networking.sshd;
 in {
   config = lib.mkIf cfg.enable {
+    networking.firewall.allowedTCPPorts = [2222]; # only on local network
+
     services.openssh = {
       enable = true;
 
@@ -25,10 +27,14 @@ in {
           addr = cfg.bind_host;
           port = 22;
         }
+        {
+          addr = cfg.bind_host;
+          port = 2222;
+        }
       ];
 
       settings = {
-        PermitRootLogin = "prohibit-password"; # deploy-rs uses root account
+        PermitRootLogin = "no";
         PasswordAuthentication = false;
         PubkeyAuthentication = true;
         KbdInteractiveAuthentication = true; # for google authenticator totp codes
@@ -36,6 +42,12 @@ in {
       };
 
       knownHosts = builtins.mapAttrs (_: data: {publicKey = data.host_pubkey;}) hosts;
+
+      extraConfig = ''
+        Match LocalPort 2222
+          AuthenticationMethods publickey
+          PermitRootLogin prohibit-password
+      '';
     };
 
     security.pam.services = {

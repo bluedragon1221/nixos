@@ -80,6 +80,7 @@
     deploy.nodes."ganymede" = {
       hostname = "ganymede";
       sshUser = "root";
+      sshOpts = ["-o" "RequestTTY=force"];
 
       profiles.system = {
         user = "root";
