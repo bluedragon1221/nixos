@@ -19,9 +19,9 @@ in
           START_SSH_SERVER = true; # use builtin ssh server
           BUILTIN_SSH_SERVER_USER = "git";
           SSH_DOMAIN = "ganymede";
-          SSH_PORT = 2222; # don't conflict with system ssh
+          SSH_PORT = 2225; # don't conflict with system ssh
           SSH_LISTEN_HOST = cfg.bind_host;
-          SSH_LISTEN_PORT = 2222;
+          SSH_LISTEN_PORT = 2225;
         };
         service = {
           DISABLE_REGISTRATION = false;

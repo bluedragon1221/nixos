@@ -77,10 +77,9 @@
       hostname = "mercury";
     };
 
-    deploy.nodes."ganymede" = {
-      hostname = "ganymede";
+    deploy.nodes."ganymede-deploy" = {
+      hostname = "ganymede-deploy";
       sshUser = "root";
-      sshOpts = ["-o" "RequestTTY=force"];
 
       profiles.system = {
         user = "root";

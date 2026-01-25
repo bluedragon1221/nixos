@@ -73,13 +73,10 @@ in {
       |> (builtins.filter (x: x != null));
 
     users.users."root".openssh.authorizedKeys.keys =
-      if config.services.openssh.settings.PermitRootLogin == "prohibit-password"
-      then
-        hosts
-        |> (builtins.mapAttrs (_: data: data.user_pubkey or null))
-        |> builtins.attrValues
-        |> (builtins.filter (x: x != null))
-      else {};
+      hosts
+      |> (builtins.mapAttrs (_: data: data.user_pubkey or null))
+      |> builtins.attrValues
+      |> (builtins.filter (x: x != null)); # only possible over home network (:2222)
 
     systemd.services."openssh" = lib.mkIf config.collinux.services.networking.networkd.enable {
       after = lib.mkAfter ["network-online.target"];
