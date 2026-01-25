@@ -6,5 +6,8 @@
     ./resolved.nix
   ];
 
-  networking.firewall.enable = true;
+  networking.firewall = {
+    enable = true;
+    checkReversePath = "loose";
+  };
 }

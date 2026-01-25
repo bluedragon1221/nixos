@@ -15,8 +15,6 @@
 
   services.tailscale.extraSetFlags = ["--advertise-exit-node"];
 
-  networking.firewall.allowedUDPPorts = [51820];
-
   # backup usb teather configuration
   systemd.network.networks."80-usb-teather" = {
     name = "enp0s20f0u2";
