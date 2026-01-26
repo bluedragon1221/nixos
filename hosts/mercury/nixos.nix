@@ -33,21 +33,21 @@
 
   programs.ssh.extraConfig = ''
     Host ganymede
-      HostName williamsfam.us.com
-      User collin
-      IdentityFile /home/collin/.ssh/id_ed25519
       LocalForward 8010 127.0.0.1:8010
+
+    Match host ganymede !exec "nc -z -w1 192.168.50.2 2222"
+      HostName williamsfam.us.com
+      Port 22
       DynamicForward 9090
 
-    Host ganymede-deploy
-      HostName 192.168.0.2
-      User root
-      IdentityFile /home/collin/.ssh/id_ed25519
+    Match host ganymede exec "nc -z -w1 192.168.50.2 2222"
+      HostName 192.168.50.2
+      Port 2222
 
     Host io
       Hostname 192.168.50.3
-      User admin
-      IdentityFile /home/collin/.ssh/id_ed25519
+
+    Match host io !exec "nc -z -w1 192.168.50.3 22"
       ProxyJump ganymede
   '';
 }

@@ -62,7 +62,7 @@
         tmux.enable = true;
 
         lazygit.enable = true;
-        nh.enable = true;
+        # nh.enable = true;
         git = {
           enable = true;
           userName = "Collin Williams";

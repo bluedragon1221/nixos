@@ -3,6 +3,7 @@ user_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAvxtKW0rmRBi8J67gLrLv8Zv338A
 host_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIQtMAgPdWwrOzlZT/lEIRQZ+ajhafG9AEJCrF2/bsmN"
 
 [hosts.ganymede]
+hostnames = ["ganymede", "192.168.50.2", "williamsfam.us.com"]
 user_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFeAsRh11Jyv+7Fm4WhzV4XN0LMYQS1/yMbvT+pvFDcd collin@ganymede"
 host_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINlr+53UmlGVP1blkdNl6NFqn1w2umFJyjH1EVUPKIy9"
 
@@ -10,4 +11,5 @@ host_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINlr+53UmlGVP1blkdNl6NFqn1w2u
 host_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPB7feUHl5qoD5zF9AMOV2meViA+wZYdVvbVjPkggZf8"
 
 [hosts.io]
+hostnames = ["io", "192.168.50.3"]
 host_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJXSvoVpMh/Y84THjKAYqkbuPmmv/yIU8DunMov7tKKT"

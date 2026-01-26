@@ -1,5 +1,6 @@
 {
   config,
+  lib,
   pkgs,
   ...
 }: {
@@ -22,7 +23,7 @@
 
   nixpkgs.config.allowUnfree = true;
 
-  programs.nh = {
+  programs.nh = lib.mkIf config.collinux.terminal.programs.nh.enable {
     enable = true;
     flake = "/home/${config.collinux.user.name}/nixos";
     clean.enable = true;

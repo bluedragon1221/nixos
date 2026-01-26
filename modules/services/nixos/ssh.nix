@@ -41,8 +41,6 @@ in {
         AuthenticationMethods = "publickey,keyboard-interactive:pam";
       };
 
-      knownHosts = builtins.mapAttrs (_: data: {publicKey = data.host_pubkey;}) hosts;
-
       extraConfig = ''
         Match LocalPort 2222
           AuthenticationMethods publickey

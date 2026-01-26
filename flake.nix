@@ -38,6 +38,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    yoshi-lua = {
+      url = "github:bluedragon1221/yoshi";
+      flake = false;
+    };
+
     firefox-csshacks = {
       url = "github:MrOtherGuy/firefox-csshacks";
       flake = false;

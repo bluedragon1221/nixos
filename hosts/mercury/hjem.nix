@@ -22,6 +22,8 @@
 
     captive-browser # https://words.filippo.io/captive-browser
     inputs.glide-browser.packages."x86_64-linux".default
+
+    (pkgs.callPackage ../../pkgs/yoshi.nix {inherit inputs;})
   ];
 
   files.".config/captive-browser.toml".text = ''

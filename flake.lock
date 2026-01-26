@@ -392,7 +392,8 @@
         "nixos-facter-modules": "nixos-facter-modules",
         "nixpkgs": "nixpkgs",
         "nmd": "nmd",
-        "tmux-tsunami": "tmux-tsunami"
+        "tmux-tsunami": "tmux-tsunami",
+        "yoshi-lua": "yoshi-lua"
       }
     },
     "rust-overlay": {
@@ -542,6 +543,22 @@
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "yoshi-lua": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1769401156,
+        "narHash": "sha256-FkxS0bSSRY4dRouDgfRRuAHl6CosYPZVjf0rtD5XxSs=",
+        "owner": "bluedragon1221",
+        "repo": "yoshi",
+        "rev": "fb109139eb6ddc77c9703b3f0e0047bbdde3c03b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bluedragon1221",
+        "repo": "yoshi",
         "type": "github"
       }
     }
