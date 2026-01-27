@@ -549,11 +549,11 @@
     "yoshi-lua": {
       "flake": false,
       "locked": {
-        "lastModified": 1769401156,
-        "narHash": "sha256-FkxS0bSSRY4dRouDgfRRuAHl6CosYPZVjf0rtD5XxSs=",
+        "lastModified": 1769448007,
+        "narHash": "sha256-Wz/ZQ7BDXG8CcDmzptoK1T0E1Ok4jCmvEoL6e51nvrw=",
         "owner": "bluedragon1221",
         "repo": "yoshi",
-        "rev": "fb109139eb6ddc77c9703b3f0e0047bbdde3c03b",
+        "rev": "d5c4869cdb82b1f7b0f4abee0e177944ed4e2203",
         "type": "github"
       },
       "original": {

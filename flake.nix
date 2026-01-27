@@ -58,7 +58,22 @@
   outputs = inputs: let
     inherit (import ./lib/nix-furnace/mkSystem.nix) mkNixosSystem genDocs;
 
-    buildPkgs = import inputs.nixpkgs {system = "x86_64-linux";};
+    system = "x86_64-linux";
+
+    buildPkgs = import inputs.nixpkgs {inherit system;};
+
+    deployPkgs = import inputs.nixpkgs {
+      inherit system;
+      overlays = [
+        inputs.deploy-rs.overlays.default
+        (self: super: {
+          deploy-rs = {
+            inherit (buildPkgs) deploy-rs;
+            lib = super.deploy-rs.lib;
+          };
+        })
+      ];
+    };
   in rec {
     nixosConfigurations."mercury" = mkNixosSystem {
       inherit inputs;
@@ -82,14 +97,16 @@
       hostname = "mercury";
     };
 
-    deploy.nodes."ganymede-deploy" = {
-      hostname = "ganymede-deploy";
+    deploy.nodes."ganymede" = {
+      hostname = "ganymede";
       sshUser = "root";
 
       profiles.system = {
         user = "root";
-        path = inputs.deploy-rs.lib.x86_64-linux.activate.nixos nixosConfigurations."ganymede";
+        path = deployPkgs.deploy-rs.lib.activate.nixos nixosConfigurations."ganymede";
       };
     };
+
+    checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks deploy) inputs.deploy-rs.lib;
   };
 }
