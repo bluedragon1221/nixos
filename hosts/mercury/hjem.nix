@@ -24,6 +24,7 @@
     inputs.glide-browser.packages."x86_64-linux".default
 
     (pkgs.callPackage ../../pkgs/yoshi.nix {inherit inputs;})
+    (pkgs.callPackage ../../pkgs/yo.nix {inherit inputs;})
   ];
 
   files.".config/captive-browser.toml".text = ''

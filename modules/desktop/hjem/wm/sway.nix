@@ -82,15 +82,15 @@
     bindsym Mod4+Shift+s exec '${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" ~/Pictures/$(date +"%s_grim.png")'
     bindsym Mod4+Alt+s exec '${pkgs.hyprpicker}/bin/hyprpicker'
 
-    bindsym XF86AudioRaiseVolume  exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h "int:value:$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d\" \" -f2);echo "$dec * 100" | ${pkgs.bc}/bin/bc)"'
-    bindsym XF86AudioLowerVolume  exec 'wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-; dunstify -t 300 -h string:x-canonical-private-synchronous:audio "Volume: " -h "int:value:$(dec=$(wpctl get-volume @DEFAULT_AUDIO_SINK@ | cut -d\" \" -f2);echo "$dec * 100" | ${pkgs.bc}/bin/bc)"'
+    bindsym XF86AudioRaiseVolume exec 'util.lua volume up'
+    bindsym XF86AudioLowerVolume exec 'util.lua volume down'
 
-    bindsym XF86MonBrightnessUp   exec 'brightnessctl set 5%+; dunstify -t 300 -h string:x-canonical-private-synchronous:brightness "Brightness: " -h "int:value:$(g=$(brightnessctl get);m=$(brightnessctl max);echo $((g * 100 / m)))"'
-    bindsym XF86MonBrightnessDown exec 'brightnessctl set 5%-; dunstify -t 300 -h string:x-canonical-private-synchronous:brightness "Brightness: " -h "int:value:$(g=$(brightnessctl get);m=$(brightnessctl max);echo $((g * 100 / m)))"'
+    bindsym XF86MonBrightnessUp exec 'util.lua brightness up'
+    bindsym XF86MonBrightnessDown exec 'util.lua brightness down'
 
-    bindsym Home   exec 'playerctl previous'
-    bindsym End    exec 'playerctl play-pause'
-    bindsym Insert exec 'playerctl next'
+    bindsym Home   exec 'util.lua music prev'
+    bindsym End    exec 'util.lua music toggle'
+    bindsym Insert exec 'util.lua music next'
 
     default_border pixel 2
     smart_borders on
