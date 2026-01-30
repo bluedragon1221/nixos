@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  cfg = config.collinux.services.networking.iwd;
+  cfg = config.collinux.system.network.iwd;
 in
   lib.mkIf cfg.enable {
     networking = {
@@ -11,7 +11,7 @@ in
         enable = true;
         settings = {
           General = {
-            EnableNetworkConfiguration = !config.collinux.services.networking.networkd.enable;
+            EnableNetworkConfiguration = !config.collinux.system.network.networkd.enable;
             AddressRandomization = "once";
             AddressRandomizationRange = "full";
           };

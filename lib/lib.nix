@@ -27,6 +27,11 @@ let
           (builtins.readDir dir)));
   };
 
+  netTypes = {lib, ...}: {
+    ipAddr = lib.types.strMatching "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])$";
+    ipAddrCidr = lib.types.strMatching "^((25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])\\.){3}(25[0-5]|2[0-4][0-9]|1[0-9][0-9]|[1-9]?[0-9])/(3[0-2]|[12]?[0-9])$";
+  };
+
   options = {
     lib,
     config,
@@ -36,7 +41,7 @@ let
     mkThemeOption = name:
       mkOption {
         description = "Pre-made theme for ${name}";
-        type = lib.types.enum ["catppuccin" "adwaita" "kanagawa"];
+        type = lib.types.enum ["catppuccin" "adwaita" "kanagawa" "terminal"];
         default = config.collinux.theme;
         defaultText = "config.collinux.theme";
       };
@@ -51,6 +56,7 @@ let
 in {
   inherit globimport;
   inherit options;
+  inherit netTypes;
 
   flatten = builtins.foldl' (a: b: a ++ b) [];
 }

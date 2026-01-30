@@ -1,6 +1,6 @@
 {config, ...}: {
   collinux = {
-    user.name = "collin";
+    theme = "terminal";
 
     secrets = {
       "williams-psk" = {
@@ -18,40 +18,41 @@
           userName = "Collin Williams";
           userEmail = "96917990+bluedragon1221@users.noreply.github.com";
         };
+        helix.enable = true;
       };
     };
 
-    boot.systemd-boot.enable = true;
+    system.network = {
+      networkd = {
+        enable = true;
+        static = {
+          ip = "192.168.50.2/24";
+          gateway = "192.168.50.1";
+        };
+
+        ssid = "williams";
+        pskFile = config.collinux.secrets."williams-psk".path;
+      };
+    };
 
     services = {
-      networking = {
+      sshd = {
         enable = true;
-        networkd = {
-          enable = true;
-          ssid = "williams";
-          pskFile = config.collinux.secrets."williams-psk".path;
-          static = {
-            ip = "192.168.50.2/24";
-            gateway = "192.168.50.1";
-          };
-        };
-        sshd = {
-          enable = true;
-          bind_host = "0.0.0.0";
-        };
+        portConfig = [
+          {
+            port = 2222;
+            rootLogin = true;
+          }
+          {
+            port = 22;
+            otp = true;
+          }
+        ];
       };
 
-      selfhost = {
-        caddy = {
-          enable = true;
-          envFile = config.collinux.secrets."caddy-env".path;
-        };
-
-        forgejo = {
-          enable = true;
-          bind_host = "127.0.0.1";
-          root_url = "ganymede.collinux.tailnet:8010";
-        };
+      caddy = {
+        enable = true;
+        envFile = config.collinux.secrets."caddy-env".path;
       };
     };
   };

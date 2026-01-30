@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  cfg = config.collinux.services.selfhost.headscale;
+  cfg = config.collinux.services.headscale;
 
   acl_file = (pkgs.formats.json {}).generate "acl.json" {
     ssh = [
@@ -16,8 +16,12 @@
       }
     ];
   };
-in
-  lib.mkIf cfg.enable {
+in {
+  imports = [
+    (import ./mkCaddyCfg.nix cfg)
+  ];
+
+  config = lib.mkIf cfg.enable {
     services.headscale = {
       enable = true;
       address = cfg.bind_host;
@@ -34,7 +38,7 @@ in
           nameservers.global = ["9.9.9.9" "149.112.112.112" "2620:fe::fe" "2620:fe::9"];
         };
 
-        policy.path = "${acl_file}";
+        policy.path = acl_file;
 
         prefixes = {
           "v4" = "100.100.0.0/16";
@@ -50,7 +54,7 @@ in
     };
 
     # make sure headscale can start before tailscale
-    systemd.services."headscale" = lib.mkIf config.collinux.services.networking.tailscale.enable {
+    systemd.services."headscale" = lib.mkIf config.collinux.system.networking.tailscale.enable {
       after = lib.mkForce ["network.target"];
       before = lib.mkForce ["headscale.target"];
       wants = lib.mkForce ["network.target" "headscale.target"];
@@ -61,15 +65,5 @@ in
     };
 
     environment.systemPackages = [pkgs.headscale];
-
-    services.caddy = lib.mkIf cfg.caddy.enable {
-      virtualHosts.${cfg.root_url}.extraConfig = ''
-        ${
-          if cfg.caddy.bind_tailscale
-          then "bind tailscale/${cfg.service_name}"
-          else ""
-        }
-        reverse_proxy ${cfg.bind_host}:${toString cfg.port}
-      '';
-    };
-  }
+  };
+}

@@ -1,15 +1,14 @@
 {
   lib,
   config,
+  my-lib,
   ...
 }: let
-  inherit (lib) mkOption types;
+  inherit (lib) mkOption;
+  inherit (my-lib.options {inherit lib config;}) mkThemeOption;
 in {
   options = {
-    collinux.theme = mkOption {
-      description = "System-wide theme";
-      type = types.enum ["catppuccin" "adwaita" "kanagawa"];
-    };
+    collinux.theme = mkThemeOption "The entire system";
 
     collinux.palette = let
       colorOption = lib.mkOption {
@@ -17,7 +16,7 @@ in {
         internal = true;
       };
     in
-      lib.mkOption {
+      mkOption {
         internal = true;
         type = lib.types.submodule {
           options = {

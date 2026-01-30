@@ -4,15 +4,11 @@
   lib,
   ...
 }: let
-  cfg = config.collinux.boot;
+  cfg = config.collinux.system.boot;
 in {
-  imports = [
-    ./plymouth.nix
-  ];
-
   boot =
     {
-      bcache.enable = false; # why is this default on? I DON'T CARE ABOUT bcache
+      bcache.enable = false; # why is this default on? I DON'T CARE ABOUT bcachefs
       initrd = {
         verbose = false;
         systemd.enable = true;
@@ -24,7 +20,19 @@ in {
           configurationLimit = 3;
         };
         efi.canTouchEfiVariables = true;
-        timeout = cfg.timeout; # hold space to show boot menu
+        timeout = cfg.timeout; # hold space to show boot menu if timeout == 0
+      };
+
+      plymouth = lib.mkIf cfg.plymouth.enable {
+        enable = true;
+        theme =
+          if (cfg.plymouth.theme == "catppuccin")
+          then "catppuccin-macchiato" # for whatever reason catppuccin-mocha has errors
+          else "nixos-bgrt";
+        themePackages =
+          if (cfg.plymouth.theme == "catppuccin")
+          then [pkgs.catppuccin-plymouth]
+          else [pkgs.nixos-bgrt-plymouth];
       };
 
       # from hardened.nix

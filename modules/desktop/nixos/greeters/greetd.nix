@@ -14,13 +14,8 @@
     }
     else if cfg.autologin.enable
     then {
+      command = cfg.autologin.command;
       user = config.collinux.user.name;
-      command = with config.collinux.desktop;
-        if (wm.sway.enable && !gnome.enable && !wm.niri.enable)
-        then lib.getExe pkgs.sway
-        else if (wm.niri.enable && !gnome.enable && !wm.sway.enable)
-        then "${pkgs.niri}/bin/niri-session"
-        else null;
     }
     else {};
 in

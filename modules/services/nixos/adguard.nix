@@ -3,9 +3,13 @@
   lib,
   ...
 }: let
-  cfg = config.collinux.services.selfhost.adguard;
-in
-  lib.mkIf cfg.enable {
+  cfg = config.collinux.services.adguard;
+in {
+  imports = [
+    (import ./mkCaddyCfg.nix cfg)
+  ];
+
+  config = lib.mkIf cfg.enable {
     services.adguardhome = {
       enable = true;
       port = cfg.port;
@@ -31,17 +35,6 @@ in
       DNS=127.0.0.1
       DNSStubListener=no
     '';
-
     services.tailscale.extraSetFlags = lib.optional config.collinux.services.networking.tailscale.enable "--accept-dns=false"; # would create an infinite loop of dns lookups
-
-    services.caddy = lib.mkIf cfg.caddy.enable {
-      virtualHosts.${cfg.root_url}.extraConfig = ''
-        ${
-          if cfg.caddy.bind_tailscale
-          then "bind tailscale/${cfg.service_name}"
-          else ""
-        }
-        reverse_proxy ${cfg.bind_host}:${toString cfg.port}
-      '';
-    };
-  }
+  };
+}

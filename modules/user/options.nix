@@ -6,6 +6,7 @@ in {
       name = mkOption {
         description = "Name for the sole user of this system";
         type = types.str;
+        default = "collin";
       };
       isAdmin = mkOption {
         description = "Whether this user is an admin";

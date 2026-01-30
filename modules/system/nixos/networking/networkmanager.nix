@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  cfg = config.collinux.services.networking.networkmanager;
+  cfg = config.collinux.system.network.networkmanager;
 in
   lib.mkIf cfg.enable {
     networking = {
@@ -15,6 +15,4 @@ in
 
       dhcpcd.enable = false;
     };
-
-    services.tailscale.extraSetFlags = lib.optional config.collinux.services.networking.tailscale.enable "--accept-dns=true";
   }

@@ -3,7 +3,7 @@
   config,
   ...
 }: let
-  cfg = config.collinux.services.bluetooth;
+  cfg = config.collinux.system.bluetooth;
 in
   lib.mkIf cfg.enable {
     hardware.bluetooth = {
@@ -11,8 +11,8 @@ in
       powerOnBoot = true;
 
       settings.General = {
-        FastConnectable = true;
         ControllerMode = "bredr";
+        FastConnectable = true;
         JustWorksRepairing = "always";
       };
     };

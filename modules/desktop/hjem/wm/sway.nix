@@ -38,11 +38,12 @@
   settings = ''
     exec ${config.collinux.desktop.wallpaper_cmd}
     exec ${pkgs.dunst}/bin/dunst
+    exec ${pkgs.soteria}/bin/soteria
 
     include catppuccin-mocha
 
     # target                 title     bg    text   indicator  border
-    client.focused           $lavender $base $text  $rosewater $lavender
+    client.focused           $lavender $base $text  $rosewater $blue
     client.focused_inactive  $overlay0 $base $text  $rosewater $overlay0
     client.unfocused         $overlay0 $base $text  $rosewater $overlay0
     client.urgent            $peach    $base $peach $overlay0  $peach
@@ -93,8 +94,11 @@
     bindsym Insert exec 'util.lua music next'
 
     default_border pixel 2
+    default_floating_border pixel 2
     smart_borders on
     smart_gaps on
+
+    floating_modifier Mod4 normal
   '';
 in
   lib.mkIf cfg.enable {

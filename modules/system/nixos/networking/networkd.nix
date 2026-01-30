@@ -3,14 +3,14 @@
   config,
   ...
 }: let
-  cfg = config.collinux.services.networking.networkd;
+  cfg = config.collinux.system.network.networkd;
 
   dhcp_enabled = cfg.static == null;
 in
   lib.mkIf cfg.enable {
     networking = {
       wireless =
-        if !config.collinux.services.networking.iwd.enable
+        if !config.collinux.system.network.iwd.enable
         then {
           enable = true;
           networks.${cfg.ssid}.pskRaw = "ext:psk";

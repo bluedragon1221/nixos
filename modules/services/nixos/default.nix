@@ -1,10 +1,11 @@
 {
   imports = [
-    ./networking
-    ./audio.nix
-    ./bluetooth.nix
-    ./tailscale.nix
-    ./selfhost
-    ./ssh.nix
+    # ./navidrome.nix
+    ./headscale.nix
+    ./forgejo.nix
+    ./openssh.nix
+    # ./jellyfin.nix
+    ./caddy.nix
+    ./adguard.nix
   ];
 }

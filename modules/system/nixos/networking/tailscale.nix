@@ -4,7 +4,7 @@
   lib,
   ...
 }: let
-  cfg = config.collinux.services.networking.tailscale;
+  cfg = config.collinux.system.network.tailscale;
 in
   lib.mkIf cfg.enable {
     services.tailscale = {
@@ -13,15 +13,14 @@ in
     };
 
     networking.firewall = {
-      checkReversePath = "loose";
       trustedInterfaces = ["tailscale0"];
       allowedUDPPorts = [config.services.tailscale.port];
     };
 
-    # don't start tailscale until after headscale starts
     systemd.services."tailscaled" =
       if config.collinux.services.selfhost.headscale.enable
       then {
+        # don't start tailscale until after headscale starts
         wants = lib.mkForce ["network.target" "headscale.target"];
         after = lib.mkForce ["network.target" "headscale.target"];
       }

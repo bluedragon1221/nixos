@@ -2,10 +2,7 @@
   collinux = {
     theme = "catppuccin";
 
-    user = {
-      name = "collin";
-      useRun0 = true;
-    };
+    user.useRun0 = true;
 
     desktop = {
       wallpaper = ./wallpapers/abstract-swirls.jpg;
@@ -32,16 +29,17 @@
       };
     };
 
-    services = {
-      audio.enable = true;
-      networking = {
-        enable = true;
-
-        iwd.enable = true;
-        networkd = {
-          enable = true;
-        };
+    system = {
+      boot = {
+        systemd-boot.enable = true;
+        secureBoot.enable = true;
       };
+
+      network = {
+        iwd.enable = true;
+        networkd.enable = true;
+      };
+      audio.enable = true;
       bluetooth.enable = true;
     };
 
@@ -62,7 +60,6 @@
         tmux.enable = true;
 
         lazygit.enable = true;
-        # nh.enable = true;
         git = {
           enable = true;
           userName = "Collin Williams";
@@ -70,11 +67,6 @@
           installKey = true;
         };
       };
-    };
-
-    boot = {
-      systemd-boot.enable = true;
-      secureBoot.enable = true;
     };
   };
 }

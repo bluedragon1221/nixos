@@ -22,7 +22,18 @@ in {
 
       greetd = {
         enable = mkEnableOption "greetd greeter";
-        autologin.enable = mkEnableOption "autologin";
+        autologin = {
+          enable = mkEnableOption "autologin";
+          command = mkOption {
+            type = lib.types.str;
+            default = with config.collinux.desktop;
+              if (wm.sway.enable && !gnome.enable && !wm.niri.enable)
+              then "${pkgs.sway}/bin/sway"
+              else if (wm.niri.enable && !gnome.enable && !wm.sway.enable)
+              then "${pkgs.niri}/bin/niri-session"
+              else null;
+          };
+        };
         cosmic-greeter.enable = mkEnableOption "cosmic-greeter";
       };
       gdm.enable = mkEnableOption "gdm display manager";

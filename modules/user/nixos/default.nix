@@ -12,7 +12,7 @@ in {
     users.${cfg.name} = {
       isNormalUser = true;
       description = cfg.name;
-      extraGroups = ["networkmanager" "pipewire" "disks" "input" "video" "dialout" "kvm"] ++ (lib.optional cfg.isAdmin "wheel");
+      extraGroups = ["networkmanager" "disks" "input" "video" "dialout" "kvm"] ++ (lib.optional cfg.isAdmin "wheel");
     };
   };
   services.userborn.enable = true;
@@ -20,7 +20,12 @@ in {
   # sudo
   security = {
     sudo.enable = false;
-    sudo-rs.enable = !cfg.useRun0;
+    sudo-rs = lib.mkIf (!cfg.useRun0) {
+      enable = true;
+      extraConfig = ''
+        Defaults pwfeedback
+      '';
+    };
     run0.enableSudoAlias = cfg.useRun0;
   };
 

@@ -18,17 +18,16 @@
       origin = "top-right"
 
     [urgency_low]
-      background = "#${base00}99"
       foreground = "#${base05}ff"
+      background = "#ffffff00"
 
     [urgency_normal]
-      background = "#${base00}99"
       foreground = "#${base05}ff"
+      background = "#ffffff00"
 
     [urgency_critical]
-      background = "#${base00}99"
-      foreground = "#${base05}ff"
-      frame_color = "#${base08}"
+      foreground = "#${base08}ff"
+      background = "#ffffff00"
   '';
 in
   lib.mkIf cfg.enable {

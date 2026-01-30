@@ -2,7 +2,16 @@
   pkgs,
   inputs,
   ...
-}: {
+}: let
+  captiveBrowserDesktop = pkgs.makeDesktopItem {
+    name = "captive-browser";
+    desktopName = "Captive Browser";
+    exec = "${pkgs.captive-browser}/bin/captive-browser";
+    icon = "web-browser";
+    terminal = false;
+    categories = ["Application"];
+  };
+in {
   packages = with pkgs; [
     tor-browser # don't ask
 
@@ -21,6 +30,7 @@
     vital
 
     captive-browser # https://words.filippo.io/captive-browser
+    captiveBrowserDesktop
     inputs.glide-browser.packages."x86_64-linux".default
 
     (pkgs.callPackage ../../pkgs/yoshi.nix {inherit inputs;})
