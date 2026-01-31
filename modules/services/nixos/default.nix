@@ -7,5 +7,7 @@
     # ./jellyfin.nix
     ./caddy.nix
     ./adguard.nix
+
+    ./copyparty.nix
   ];
 }

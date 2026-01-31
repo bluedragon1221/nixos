@@ -50,6 +50,12 @@
         ];
       };
 
+      copyparty = {
+        enable = true;
+        root_url = "up.williamsfam.us.com";
+        caddy.enable = true;
+      };
+
       caddy = {
         enable = true;
         envFile = config.collinux.secrets."caddy-env".path;

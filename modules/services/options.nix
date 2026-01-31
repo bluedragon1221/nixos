@@ -4,7 +4,7 @@
   ...
 }: let
   inherit (lib) mkOption mkEnableOption;
-  inherit ((my-lib {inherit lib;}).netTypes) ipAddr;
+  inherit (my-lib.netTypes {inherit lib;}) ipAddr;
 
   selfhostOptions = {
     service_name,
@@ -76,6 +76,11 @@ in {
             default = 2225;
           };
         };
+
+      copyparty = selfhostOptions {
+        service_name = "copyparty";
+        default_port = 8099;
+      };
 
       headscale = selfhostOptions {
         service_name = "headscale";
