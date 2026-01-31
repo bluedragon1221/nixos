@@ -25,7 +25,7 @@ in {
 
       accounts = {
         collin = {
-          passwordFile = config.collinux.sercrets."collin-copyparty-password".path;
+          passwordFile = config.collinux.secrets."collin-copyparty-password".path;
         };
       };
       volumes = {
