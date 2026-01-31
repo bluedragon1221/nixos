@@ -1,5 +1,5 @@
 let
-  inherit (builtins.fromTOML ./hosts.toml) mercury ganymede jupiter;
+  inherit ((builtins.fromTOML (builtins.readFile ./hosts.toml)).hosts) mercury ganymede jupiter;
 in {
   "caddy-env.age".publicKeys = [ganymede.host_pubkey];
   "tsnsrv-authkey.age".publicKeys = [ganymede.host_pubkey mercury.host_pubkey];

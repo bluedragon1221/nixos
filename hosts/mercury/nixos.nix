@@ -20,14 +20,16 @@
     dataDir = "/home/collin/.local/syncthing";
   };
 
+  security.soteria.enable = true;
+
   services.printing.enable = true;
 
   environment.defaultPackages = lib.mkForce []; # im not a noob
 
   programs.ssh.extraConfig = ''
     Host ganymede
-      HostName 192.168.50.2
-      Port 2222
+      HostName williamsfam.us.com
+      Port 22
   '';
 
   programs.firefox.policies.ExtensionSettings = {

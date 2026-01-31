@@ -33,6 +33,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    copyparty = {
+      url = "github:9001/copyparty";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     tmux-tsunami = {
       url = "github:bluedragon1221/tmux-tsunami";
       inputs.nixpkgs.follows = "nixpkgs";

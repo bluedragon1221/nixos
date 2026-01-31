@@ -54,6 +54,10 @@
       xkb_options caps:none
     }
 
+    input type:touchpad {
+      dwt disabled
+    }
+
     bindsym Mod4+1 workspace number 1
     bindsym Mod4+2 workspace number 2
     bindsym Mod4+3 workspace number 3

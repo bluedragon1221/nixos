@@ -16,7 +16,6 @@ in
 
         OverrideFirstRunPage = "";
         OverridePostUpdatePage = "";
-        Homepage = "about:blank";
 
         NewTabPage = false;
 
@@ -36,13 +35,11 @@ in
 
           "browser.theme.content-theme" = opt 0;
           "browser.theme.toolbar-theme" = opt 0;
-          "browser.display.background_color.dark" =
-            if cfg.theme == "adwaita"
-            then opt "#1d1d1d"
-            else opt "";
+          "browser.display.background_color.dark" = opt "${config.collinux.palette.base00}";
 
           "browser.tabs.loadBookmarksInTabs" = opt true;
           "browser.toolbars.bookmarks.visibility" = opt "never";
+
           "browser.uiCustomization.state" = opt (lib.replaceStrings ["\n" " "] ["" ""] ''
             {
               "placements": {
@@ -91,8 +88,6 @@ in
           "accessibility.force_disabled" = opt 1;
           "browser.aboutConfig.showWarning" = opt false;
 
-          "startup.homepage_welcome_url" = opt "about:blank";
-          "trailhead.firstrun.didSeeAboutWelcome" = opt true;
           "datareporting.policy.dataSubmissionPolicyBypassNotification" = opt true;
           "browser.startup.homepage" = opt "about:blank";
 
