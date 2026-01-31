@@ -20,6 +20,7 @@ in {
         p = [cfg.port];
         chpw = true;
         rproxy = "1";
+        tls = false;
         usernames = true;
       };
 
@@ -39,6 +40,8 @@ in {
           flags = {
             scan = 60;
             chmod_f = 777;
+            ed2sa = true;
+            dedup = true;
           };
         };
       };
