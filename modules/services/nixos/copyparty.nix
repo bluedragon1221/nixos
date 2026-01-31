@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   inputs,
   ...
 }: let
@@ -26,7 +25,7 @@ in {
 
       accounts = {
         collin = {
-          passwordFile = toString <| pkgs.writeText "default-pw" "admin"; # not the actual password anymore
+          passwordFile = config.collinux.sercrets."collin-copyparty-password".path;
         };
       };
       volumes = {

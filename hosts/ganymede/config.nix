@@ -9,6 +9,11 @@
       };
 
       "caddy-env".file = ./caddy-env.age;
+
+      "collin-copyparty-password" = {
+        file = ./collin-copyparty-password.age;
+        owner = "copyparty";
+      };
     };
 
     terminal = {
