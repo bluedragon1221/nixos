@@ -33,7 +33,7 @@ in {
           path = "/media";
           access = {
             r = "*";
-            rw = ["collin"];
+            A = ["collin"];
           };
 
           flags = {
