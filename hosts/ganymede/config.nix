@@ -61,6 +61,8 @@
         caddy.enable = true;
       };
 
+      ngircd.enable = true;
+
       caddy = {
         enable = true;
         envFile = config.collinux.secrets."caddy-env".path;

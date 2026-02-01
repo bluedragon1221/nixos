@@ -82,6 +82,14 @@ in {
         default_port = 8099;
       };
 
+      ngircd = {
+        enable = mkEnableOption "IRC Server";
+        port = mkOption {
+          type = lib.types.port;
+          default = 6667;
+        };
+      };
+
       headscale = selfhostOptions {
         service_name = "headscale";
         default_port = 8080;

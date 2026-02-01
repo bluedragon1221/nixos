@@ -9,5 +9,6 @@
     ./adguard.nix
 
     ./copyparty.nix
+    ./ngircd.nix
   ];
 }
