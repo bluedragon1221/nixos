@@ -8,11 +8,12 @@
 
   services.resolved = {
     enable = true;
-    dnsovertls = "opportunistic";
-    dnssec = "allow-downgrade";
+    settings.Resolve = {
+      DNSOverTLS = true;
+      DNSSEC = true;
 
-    # disable extra stuff
-    llmnr = "false";
-    extraConfig = "MulticastDNS=no";
+      LLMNR = false;
+      MulticastDNS = false;
+    };
   };
 }

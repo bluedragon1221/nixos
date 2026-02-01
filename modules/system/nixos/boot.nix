@@ -75,7 +75,7 @@ in {
 
   system.etc.overlay = {
     enable = true;
-    mutable = true; # would love this to be false, but we're not there yet
+    mutable = true; # necessary for installing secrets into etc
   };
   system.nixos-init.enable = true;
 
