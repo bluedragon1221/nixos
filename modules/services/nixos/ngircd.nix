@@ -13,7 +13,7 @@ in
           Name = Ganymede IRC Chat
 
           Listen = 0.0.0.0
-          Port = ${cfg.port}
+          Port = ${toString cfg.port}
 
           PAM = yes
           PAMIsOptional = no
