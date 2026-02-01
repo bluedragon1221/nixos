@@ -10,15 +10,18 @@ in
       enable = true;
       config = ''
         [Global]
-          Name = Ganymede IRC Chat
+          Name = irc.williamsfam.us.com
+          Info = Ganymede IRC Chat
+          AdminInfo1 = Collin
 
           Listen = 0.0.0.0
-          Port = ${toString cfg.port}
+          Ports = ${toString cfg.port}
 
+        [Options]
           PAM = yes
           PAMIsOptional = no
 
-        [Operators]
+        [Operator]
           Name = collin
           Password =  # users authenticate with PAM
           Mask = *@*
