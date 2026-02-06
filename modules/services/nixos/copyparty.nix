@@ -48,7 +48,7 @@ in {
 
           flags = commonFlags;
         };
-        "/home/collin" = {
+        "/collin" = {
           path = "/media/collin";
           access = {
             r = "";
