@@ -29,20 +29,32 @@ in {
           passwordFile = config.collinux.secrets."collin-copyparty-password".path;
         };
       };
-      volumes = {
+      volumes = let
+        commonFlags = {
+          scan = 60;
+          chmod_f = "777";
+          chmod_d = "777";
+          ed2sa = true;
+          dedup = true;
+        };
+      in {
         "/" = {
-          path = "/media";
+          path = "/media/public";
           access = {
             r = "*";
             A = ["collin"];
           };
 
-          flags = {
-            scan = 60;
-            chmod_f = 777;
-            ed2sa = true;
-            dedup = true;
+          flags = commonFlags;
+        };
+        "/home/collin" = {
+          path = "/media/collin";
+          access = {
+            r = "";
+            A = ["collin"];
           };
+
+          flags = commonFlags;
         };
       };
     };
