@@ -32,6 +32,9 @@ in {
           passwordFile = config.collinux.secrets."collin-copyparty-password".path;
         };
       };
+
+      groups.admin = ["collin"];
+
       volumes = let
         commonFlags = {
           scan = 60;
@@ -43,15 +46,21 @@ in {
           path = "/media/public";
           access = {
             r = "*";
-            A = ["collin"];
+            A = ["@admin"];
           };
 
           flags = commonFlags;
         };
         "/collin" = {
           path = "/media/collin";
+          access.A = ["collin"];
+
+          flags = commonFlags;
+        };
+        "/public/collin" = {
+          path = "/media/collin/public";
           access = {
-            # r = ""; # how do I make no reading?
+            r = "*a";
             A = ["collin"];
           };
 
