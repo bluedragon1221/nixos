@@ -28,12 +28,8 @@ in {
       };
 
       accounts = {
-        collin = {
-          passwordFile = config.collinux.secrets."collin-copyparty-password".path;
-        };
+        collin.passwordFile = config.collinux.secrets."collin-copyparty-password".path;
       };
-
-      groups.admin = ["collin"];
 
       volumes = let
         commonFlags = {
@@ -46,7 +42,7 @@ in {
           path = "/media/public";
           access = {
             r = "*";
-            A = ["@admin"];
+            A = ["collin"];
           };
 
           flags = commonFlags;
