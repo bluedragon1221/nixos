@@ -31,7 +31,7 @@ in {
         e2dsa = true;
         e2ts = true;
 
-        chmod-d = 775;
+        chmod-d = "775";
       };
 
       accounts =
