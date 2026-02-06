@@ -52,6 +52,16 @@ in {
               };
             };
           }
+          {
+            "/incoming" = {
+              path = "/media/incoming";
+              access = {
+                r = ["@admin"];
+                wG = "*";
+              };
+              flags.fk = 6;
+            };
+          }
         ]
         ++ lib.lists.flatten (cfg.users
           |> lib.attrsets.mapAttrsToList (k: v: [
