@@ -12,11 +12,16 @@ in {
   ];
 
   config = lib.mkIf cfg.enable {
+    users.groups."fileserver".members = [config.collinux.user.name];
+
     services.copyparty = {
       enable = true;
 
+      user = "copyparty";
+      group = "fileserver";
+
       settings = {
-        i = "0.0.0.0";
+        i = cfg.bind_host;
         p = [cfg.port];
         chpw = true;
         rproxy = "1";
@@ -27,47 +32,43 @@ in {
         e2ts = true;
       };
 
-      accounts = {
-        collin = {
-          passwordFile = config.collinux.secrets."collin-copyparty-password".path;
-        };
-      };
+      accounts =
+        cfg.users
+        |> map (x: {
+          inherit (x) passwordFile;
+        });
 
-      groups.admin = ["collin"];
+      groups.admin = cfg.users |> lib.attrs.filterAttrs (k: v: v.isAdmin == true) |> builtins.attrNames;
 
-      volumes = let
-        commonFlags = {
-          scan = 60;
-          chmod_f = "777";
-          chmod_d = "777";
-        };
-      in {
-        "/" = {
-          path = "/media/public";
-          access = {
-            r = "*";
-            A = ["@admin"];
-          };
-
-          flags = commonFlags;
-        };
-
-        "/collin" = {
-          path = "/media/collin";
-          access.A = ["collin"];
-
-          flags = commonFlags;
-        };
-        "/public/collin" = {
-          path = "/media/collin/public";
-          access = {
-            r = "*";
-            A = ["collin"];
-          };
-
-          flags = commonFlags;
-        };
-      };
+      volumes = lib.mkMerge ([
+          {
+            "/" = {
+              path = "/media/public";
+              access = {
+                r = "*";
+                A = ["@admin"];
+              };
+            };
+          }
+        ]
+        ++ lib.lists.flatten (cfg.users
+          |> map (x: [
+            {
+              "/${x.name}" = {
+                path = "/media/${x.name}";
+                access.A = [x.name];
+              };
+            }
+            (lib.optionalAttrs x.hasPublicDir {
+              "/public/${x.name}" = {
+                path = "/media/${x.name}/public";
+                access = {
+                  r = "*";
+                  A = [x.name];
+                };
+              };
+            })
+          ])));
     };
   };
 }

@@ -57,8 +57,16 @@
 
       copyparty = {
         enable = true;
+        bind_host = "127.0.0.1";
+
         root_url = "up.williamsfam.us.com";
         caddy.enable = true;
+
+        users.collin = {
+          isAdmin = true;
+          passwordFile = config.collinux.secrets."collin-copyparty-password".path;
+          hasPublicDir = true;
+        };
       };
 
       ngircd.enable = true;

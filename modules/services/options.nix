@@ -77,10 +77,31 @@ in {
           };
         };
 
-      copyparty = selfhostOptions {
-        service_name = "copyparty";
-        default_port = 8099;
-      };
+      copyparty =
+        (selfhostOptions {
+          service_name = "copyparty";
+          default_port = 8099;
+        })
+        // {
+          users = mkOption {
+            type = lib.types.attrsOf (lib.types.submodule ({config, ...}: {
+              options = {
+                name = mkOption {
+                  type = lib.types.str;
+                  default = config._module.args.name;
+                  internal = true;
+                };
+                isAdmin = mkEnableOption "whether this user is an admin";
+                passwordFile = mkOption {
+                  description = "Absolute path to a file containing the password for this user";
+                  type = lib.types.str;
+                  example = "/run/secrets.d/copyparty-passwd";
+                };
+                hasPublicDir = mkEnableOption "give this user a world-readable directory at /public/<username>";
+              };
+            }));
+          };
+        };
 
       ngircd = {
         enable = mkEnableOption "IRC Server";
