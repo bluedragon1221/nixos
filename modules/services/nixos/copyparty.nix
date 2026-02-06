@@ -56,8 +56,8 @@ in {
             "/incoming" = {
               path = "/media/incoming";
               access = {
-                r = ["@admin"];
                 wG = "*";
+                A = ["@admin"];
               };
               flags.fk = 6;
             };
