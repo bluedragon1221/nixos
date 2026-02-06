@@ -30,6 +30,8 @@ in {
 
         e2dsa = true;
         e2ts = true;
+
+        chmod_d = 775;
       };
 
       accounts =
