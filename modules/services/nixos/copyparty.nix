@@ -22,6 +22,9 @@ in {
         rproxy = "1";
         tls = false;
         usernames = true;
+
+        e2dsa = true;
+        e2ts = true;
       };
 
       accounts = {
@@ -34,8 +37,6 @@ in {
           scan = 60;
           chmod_f = "777";
           chmod_d = "777";
-          ed2sa = true;
-          dedup = true;
         };
       in {
         "/" = {
