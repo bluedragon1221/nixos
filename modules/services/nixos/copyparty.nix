@@ -51,7 +51,7 @@ in {
         "/collin" = {
           path = "/media/collin";
           access = {
-            r = "";
+            # r = ""; # how do I make no reading?
             A = ["collin"];
           };
 
