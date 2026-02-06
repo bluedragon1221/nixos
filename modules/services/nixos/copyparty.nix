@@ -34,11 +34,11 @@ in {
 
       accounts =
         cfg.users
-        |> map (x: {
-          inherit (x) passwordFile;
+        |> builtins.mapAttrs (k: v: {
+          inherit (v) passwordFile;
         });
 
-      groups.admin = cfg.users |> lib.attrs.filterAttrs (k: v: v.isAdmin == true) |> builtins.attrNames;
+      groups.admin = cfg.users |> lib.attrsets.filterAttrs (k: v: v.isAdmin == true) |> builtins.attrNames;
 
       volumes = lib.mkMerge ([
           {
@@ -52,19 +52,19 @@ in {
           }
         ]
         ++ lib.lists.flatten (cfg.users
-          |> map (x: [
+          |> lib.attrsets.mapAttrsToList (k: v: [
             {
-              "/${x.name}" = {
-                path = "/media/${x.name}";
-                access.A = [x.name];
+              "/${k}" = {
+                path = "/media/${k}";
+                access.A = [k];
               };
             }
-            (lib.optionalAttrs x.hasPublicDir {
-              "/public/${x.name}" = {
-                path = "/media/${x.name}/public";
+            (lib.optionalAttrs v.hasPublicDir {
+              "/public/${k}" = {
+                path = "/media/${k}/public";
                 access = {
                   r = "*";
-                  A = [x.name];
+                  A = [k];
                 };
               };
             })
