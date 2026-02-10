@@ -14,6 +14,10 @@
         file = ./collin-copyparty-password.age;
         owner = "copyparty";
       };
+      "collin-forgejo-password" = {
+        file = ./collin-forgejo-password.age;
+        owner = "forgejo";
+      };
     };
 
     terminal = {
@@ -55,12 +59,25 @@
         ];
       };
 
+      # navidrome = {
+      #   enable = true;
+      #   bind_host = "127.0.0.1";
+      #   caddy.local.enable = true;
+      # };
+
+      forgejo = {
+        enable = true;
+        bind_host = "127.0.0.1";
+        root_url = "https://forgejo.collinux";
+        caddy.local.enable = true;
+      };
+
       copyparty = {
         enable = true;
         bind_host = "127.0.0.1";
 
         root_url = "up.williamsfam.us.com";
-        caddy.enable = true;
+        caddy.global.enable = true;
 
         users.collin = {
           isAdmin = true;

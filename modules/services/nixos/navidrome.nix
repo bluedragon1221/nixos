@@ -4,16 +4,20 @@
   ...
 }: let
   cfg = config.collinux.services.selfhost.navidrome;
-in
-  lib.mkIf cfg.enable {
+in {
+  imports = [
+    (import ./mkCaddyCfg.nix cfg)
+  ];
+
+  config = lib.mkIf cfg.enable {
     services.navidrome = {
       enable = true;
-      inherit (cfg) user;
       settings = {
-        Port = 4533;
-        Address = "0.0.0.0";
+        Port = cfg.port;
+        Address = cfg.bind_host;
         EnableInsightsCollector = false;
-        MusicFolder = "/home/${cfg.user}/Music";
+        MusicFolder = "/media/music";
       };
     };
-  }
+  };
+}

@@ -14,7 +14,7 @@ in
           Info = Ganymede IRC Chat
           AdminInfo1 = Collin
 
-          Listen = 0.0.0.0
+          Listen = 127.0.0.1
           Ports = ${toString cfg.port}
 
         [Options]
@@ -26,5 +26,11 @@ in
           Password =  # users authenticate with PAM
           Mask = *@*
       '';
+    };
+
+    users.users.ngircd.extraGroups = ["shadow"];
+
+    security.pam.services.ngircd = {
+      unixAuth = true;
     };
   }

@@ -7,4 +7,5 @@ in {
   "github-ssh-key.age".publicKeys = [mercury.host_pubkey jupiter.host_pubkey];
 
   "collin-copyparty-password.age".publicKeys = [mercury.host_pubkey ganymede.host_pubkey];
+  "collin-forgejo-password.age".publicKeys = [mercury.host_pubkey ganymede.host_pubkey];
 }

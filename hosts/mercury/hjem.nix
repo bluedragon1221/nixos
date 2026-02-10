@@ -19,11 +19,13 @@ in {
     kdePackages.kleopatra
     anki
     musescore
+    libreoffice-qt
 
     mpv
     bluetuith
 
     kew # music player
+    irssi
 
     prismlauncher
 

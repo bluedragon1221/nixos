@@ -85,8 +85,11 @@ in
             }
           '');
 
+          # im not disabled
           "accessibility.force_disabled" = opt 1;
           "browser.aboutConfig.showWarning" = opt false;
+          "media.webspeech.synth.enabled" = opt false;
+          "media.webspeech.synth.dont_notify_on_error" = opt true;
 
           "datareporting.policy.dataSubmissionPolicyBypassNotification" = opt true;
           "browser.startup.homepage" = opt "about:blank";
@@ -94,12 +97,12 @@ in
           "browser.compactmode.show" = opt true;
           "browser.uidensity" = opt 1;
 
-          "media.webspeech.synth.enabled" = opt false; # im not disabled
-          "media.webspeech.synth.dont_notify_on_error" = opt true;
-
           # get that AI out of my browser
           "browser.ml.chat.enabled" = opt false;
           "browser.ml.enable" = opt false;
+
+          # use system pki certificates
+          "security.enterprise_roots.enabled" = opt true;
         };
 
         ExtensionSettings = let

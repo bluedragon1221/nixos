@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   config,
   ...
 }: let
@@ -16,6 +17,7 @@ in {
       settings = {
         server = {
           DOMAIN = "localhost";
+          PROTOCOL = "http";
           ROOT_URL = cfg.root_url;
           HTTP_PORT = cfg.port;
 
@@ -28,8 +30,8 @@ in {
           SSH_LISTEN_PORT = cfg.git_ssh_port;
         };
         service = {
-          DISABLE_REGISTRATION = false;
-          ENABLE_REVERSE_PROXY_AUTHENTICATION = true;
+          DISABLE_REGISTRATION = true;
+          ENABLE_REVERSE_PROXY_AUTHENTICATION = false;
         };
         repository = {
           # disable stuff
@@ -40,9 +42,17 @@ in {
       };
     };
 
-    systemd.services."forgejo" = lib.mkIf config.collinux.services.networking.networkd.enable {
+    systemd.services."forgejo" = {
       after = lib.mkAfter ["network-online.target"];
       wants = lib.mkAfter ["network-online.target"];
+
+      # Ensure users (https://wiki.nixos.org/wiki/Forgejo#Ensure_users)
+      preStart = let
+        adminCmd = "${lib.getExe pkgs.forgejo} admin user";
+        passwd = config.collinux.secrets."collin-forgejo-password";
+      in ''
+        ${adminCmd} create --admin --email "collin@ganymede" --username collin --password "$(tr -d '\n' < ${passwd.path})" || true
+      '';
     };
   };
 }

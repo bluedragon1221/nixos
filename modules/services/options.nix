@@ -14,6 +14,7 @@
 
     service_name = mkOption {
       type = lib.types.str;
+      default = service_name;
       internal = true;
     };
 
@@ -34,7 +35,8 @@
     };
 
     caddy = {
-      enable = mkEnableOption "Automatically create caddy configurations for this service";
+      global.enable = mkEnableOption "Automatically create caddy configurations for this service";
+      local.enable = mkEnableOption "Automatically make this service accessable on ${service_name}.local";
       bind_tailscale = mkEnableOption "Bind the service to ${service_name}.{tailnet}";
     };
   };
@@ -76,6 +78,11 @@ in {
             default = 2225;
           };
         };
+
+      navidrome = selfhostOptions {
+        service_name = "navidrome";
+        default_port = 8070;
+      };
 
       copyparty =
         (selfhostOptions {
