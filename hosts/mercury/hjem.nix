@@ -53,4 +53,8 @@ in {
 
     socks5-addr = "localhost:1666"
   '';
+
+  files.".config/yo.conf".text = ''
+    sudo    run0 --background=
+  '';
 }

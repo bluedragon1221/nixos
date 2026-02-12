@@ -1,6 +1,22 @@
 {pkgs, ...}: let
   yo = pkgs.writeText "yo.lua" ''
-    local SUDO = os.getenv("SUDO") or "sudo"
+    local CONF_FILE = os.getenv("HOME") .. "/.config/yo.conf"
+
+    local conf = {}
+    for l in io.open(CONF_FILE):lines() do
+      if l:match("^(%a+)%s") then
+        local k, v = l:match("^(%a+)%s+(.*)$")
+        conf[k] = v
+      end
+    end
+
+    local SUDO = "sudo"
+    if conf.sudo then
+      SUDO = conf.sudo
+    end
+    if os.getenv("SUDO") then
+      SUDO = os.getenv("SUDO")
+    end
 
     local function collectArgs(start)
       local start = start or 2
@@ -20,7 +36,7 @@
       local flake = args.flake or "/home/collin/nixos"
       local extraArgs = table.concat(args.extraArgs or {}, " ")
 
-      cmd = ("nixos-rebuild %s --flake %s %s --log-format internal-json |& ${pkgs.nix-output-monitor}/bin/nom --json"):format(verb, flake, extraArgs)
+      cmd = ("${pkgs.nixos-rebuild-ng}/bin/nixos-rebuild %s --flake %s %s --log-format internal-json |& ${pkgs.nix-output-monitor}/bin/nom --json"):format(verb, flake, extraArgs)
       if sudo then
         local sudo_cmd = ("%s su -c '%s'"):format(SUDO, cmd)
         print("+ "..sudo_cmd)

@@ -6,6 +6,7 @@
   cfg = config.collinux.terminal.programs.git;
 in
   lib.mkIf cfg.installKey {
+    # public key: "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC3SjzIs3YI8PWJaNrAuaEeRcTcvIVHOKyCh2VwHTHEF"
     collinux.secrets = {
       "github-ssh-key" = {
         file = ./github-ssh-key.age;
@@ -20,6 +21,11 @@ in
       extraConfig = ''
         Host github.com
           User git
+          IdentityFile ${config.collinux.secrets."github-ssh-key".path}
+          IdentitiesOnly yes
+          AddKeysToAgent yes
+
+        Match host williamsfam.us.com user forgejo
           IdentityFile ${config.collinux.secrets."github-ssh-key".path}
           IdentitiesOnly yes
           AddKeysToAgent yes
