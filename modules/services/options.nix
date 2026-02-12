@@ -11,33 +11,30 @@
     default_port ? null,
   }: {
     enable = mkEnableOption "${service_name} selfhosted service";
-
-    service_name = mkOption {
+    serviceName = mkOption {
+      internal = true;
       type = lib.types.str;
       default = service_name;
-      internal = true;
-    };
-
-    bind_host = mkOption {
-      description = "The IP address on which ${service_name} will listen for incoming connections. The default, `0.0.0.0`, means 'all interfaces'";
-      type = ipAddr;
-      default = "0.0.0.0";
     };
     port = mkOption {
       description = "The port on which ${service_name} will listen for incomming connections";
       type = lib.types.port;
       default = default_port;
     };
-
-    root_url = mkOption {
-      description = "The final url that this service will be hosted on. Required for caddy, otherwise optional";
-      type = lib.types.nullOr lib.types.str;
+    listenAddr = mkOption {
+      description = "The IP address on which ${service_name} will listen for incoming connections";
+      type = ipAddr;
+      default = "127.0.0.1";
     };
-
-    caddy = {
-      global.enable = mkEnableOption "Automatically create caddy configurations for this service";
-      local.enable = mkEnableOption "Automatically make this service accessable on ${service_name}.local";
-      bind_tailscale = mkEnableOption "Bind the service to ${service_name}.{tailnet}";
+    privateUrl = mkOption {
+      description = "Internal .local name for the service. Don't put the protocol (https://) in the string";
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+    };
+    publicUrl = mkOption {
+      description = "Public website on which the service will be hosted. Don't put the protocol (https://) in the string";
+      type = lib.types.nullOr lib.types.str;
+      default = null;
     };
   };
 in {
@@ -55,6 +52,12 @@ in {
                 type = lib.types.port;
               };
 
+              listenAddr = mkOption {
+                description = "Address to listen on";
+                type = lib.types.str;
+                default = "127.0.0.1";
+              };
+
               otp = mkEnableOption "Whether to require TOTP (Google Authenticator) 2fa codes for this port";
               rootLogin = mkEnableOption "Whether to allow root login for this port";
             };
@@ -62,22 +65,10 @@ in {
         };
       };
 
-      adguard = selfhostOptions {
-        service_name = "adguard";
-        default_port = 8001;
+      forgejo = selfhostOptions {
+        service_name = "forgejo";
+        default_port = 8010;
       };
-
-      forgejo =
-        (selfhostOptions {
-          service_name = "forgejo";
-          default_port = 8010;
-        })
-        // {
-          git_ssh_port = mkOption {
-            type = lib.types.port;
-            default = 2225;
-          };
-        };
 
       navidrome = selfhostOptions {
         service_name = "navidrome";
@@ -116,11 +107,6 @@ in {
           type = lib.types.port;
           default = 6667;
         };
-      };
-
-      headscale = selfhostOptions {
-        service_name = "headscale";
-        default_port = 8080;
       };
 
       caddy = {

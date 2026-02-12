@@ -50,6 +50,7 @@
         portConfig = [
           {
             port = 2222;
+            listenAddr = "0.0.0.0";
             rootLogin = true;
           }
           {
@@ -59,25 +60,19 @@
         ];
       };
 
-      # navidrome = {
-      #   enable = true;
-      #   bind_host = "127.0.0.1";
-      #   caddy.local.enable = true;
-      # };
+      navidrome = {
+        enable = true;
+        privateURL = "navidrome.collinux";
+      };
 
       forgejo = {
         enable = true;
-        bind_host = "127.0.0.1";
-        root_url = "https://forgejo.collinux";
-        caddy.local.enable = true;
+        privateURL = "forgejo.collinux";
       };
 
       copyparty = {
         enable = true;
-        bind_host = "127.0.0.1";
-
-        root_url = "up.williamsfam.us.com";
-        caddy.global.enable = true;
+        publicURL = "up.williamsfam.us.com";
 
         users.collin = {
           isAdmin = true;

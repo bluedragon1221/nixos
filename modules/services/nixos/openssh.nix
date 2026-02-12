@@ -33,7 +33,7 @@ in {
       listenAddresses =
         cfg.portConfig
         |> builtins.map (x: {
-          addr = "0.0.0.0";
+          addr = x.listenAddr;
           port = x.port;
         });
 

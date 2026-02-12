@@ -3,7 +3,7 @@
   lib,
   ...
 }: let
-  cfg = config.collinux.services.selfhost.navidrome;
+  cfg = config.collinux.services.navidrome;
 in {
   imports = [
     (import ./mkCaddyCfg.nix cfg)
@@ -14,7 +14,7 @@ in {
       enable = true;
       settings = {
         Port = cfg.port;
-        Address = cfg.bind_host;
+        Address = cfg.listenAddr;
         EnableInsightsCollector = false;
         MusicFolder = "/media/music";
       };

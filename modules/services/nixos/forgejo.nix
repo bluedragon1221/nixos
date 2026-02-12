@@ -16,18 +16,25 @@ in {
       database.type = "sqlite3";
       settings = {
         server = {
-          DOMAIN = "localhost";
           PROTOCOL = "http";
-          ROOT_URL = cfg.root_url;
+          ROOT_URL = "https://${
+            if cfg.publicURL
+            then cfg.publicURL
+            else if cfg.privateURL
+            then cfg.privateURL
+            else ""
+          }";
+
+          HTTP_ADDR = cfg.listenAddr;
           HTTP_PORT = cfg.port;
 
+          OFFLINE_MODE = true; # don't use cdns or gravatar
+
           # ssh
-          START_SSH_SERVER = true; # use builtin ssh server
-          BUILTIN_SSH_SERVER_USER = "git";
-          SSH_DOMAIN = cfg.root_url or "ganymede";
-          SSH_PORT = cfg.git_ssh_port; # don't conflict with system ssh
-          SSH_LISTEN_HOST = cfg.bind_host;
-          SSH_LISTEN_PORT = cfg.git_ssh_port;
+          START_SSH_SERVER = false; # use system ssh server
+          SSH_USER = "forgejo";
+          SSH_DOMAIN = "williamsfam.us.com";
+          SSH_PORT = 22;
         };
         service = {
           DISABLE_REGISTRATION = true;
