@@ -21,7 +21,7 @@ in {
       group = "fileserver";
 
       settings = {
-        i = cfg.bind_host;
+        i = cfg.listenAddr;
         p = [cfg.port];
         chpw = true;
         rproxy = "1";

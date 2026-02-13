@@ -62,12 +62,12 @@
 
       forgejo = {
         enable = true;
-        privateURL = "forgejo.ganymede";
+        privateUrl = "forgejo.ganymede";
       };
 
       copyparty = {
         enable = true;
-        publicURL = "up.williamsfam.us.com";
+        publicUrl = "up.williamsfam.us.com";
 
         users.collin = {
           isAdmin = true;

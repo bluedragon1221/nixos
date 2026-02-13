@@ -18,10 +18,10 @@ in {
         server = {
           PROTOCOL = "http";
           ROOT_URL = "https://${
-            if cfg.publicURL
-            then cfg.publicURL
-            else if cfg.privateURL
-            then cfg.privateURL
+            if cfg.publicUrl != null
+            then cfg.publicUrl
+            else if cfg.privateUrl != null
+            then cfg.privateUrl
             else ""
           }";
 
