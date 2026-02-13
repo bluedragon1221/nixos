@@ -60,14 +60,9 @@
         ];
       };
 
-      navidrome = {
-        enable = true;
-        privateURL = "navidrome.collinux";
-      };
-
       forgejo = {
         enable = true;
-        privateURL = "forgejo.collinux";
+        privateURL = "forgejo.ganymede";
       };
 
       copyparty = {
