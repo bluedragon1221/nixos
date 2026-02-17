@@ -48,16 +48,28 @@ in {
               path = "/media/public";
               access = {
                 r = "*";
-                A = ["@admin"];
+                A = "@admin";
               };
             };
-          }
-          {
+
+            "/library" = {
+              path = "/media/library";
+              access = {
+                g = "*";
+                r = "@acct";
+                A = "@admin";
+              };
+              flags = {
+                fk = 6;
+                dk = 6;
+              };
+            };
+
             "/incoming" = {
               path = "/media/incoming";
               access = {
                 wG = "*";
-                A = ["@admin"];
+                A = "@admin";
               };
               flags.fk = 6;
             };
@@ -68,7 +80,7 @@ in {
             {
               "/${k}" = {
                 path = "/media/${k}";
-                access.A = [k];
+                access.A = k;
               };
             }
             (lib.optionalAttrs v.hasPublicDir {
@@ -76,7 +88,7 @@ in {
                 path = "/media/${k}/public";
                 access = {
                   r = "*";
-                  A = [k];
+                  A = k;
                 };
               };
             })

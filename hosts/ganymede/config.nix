@@ -55,19 +55,25 @@
           }
           {
             port = 22;
+            listenAddr = "0.0.0.0";
             otp = true;
           }
         ];
       };
+
+      goaccess.enable = true;
 
       forgejo = {
         enable = true;
         privateUrl = "forgejo.ganymede";
       };
 
+      mopidy.enable = true;
+
       copyparty = {
         enable = true;
         publicUrl = "up.williamsfam.us.com";
+        privateUrl = "ganymede";
 
         users.collin = {
           isAdmin = true;

@@ -70,9 +70,15 @@ in {
         default_port = 8010;
       };
 
-      navidrome = selfhostOptions {
-        service_name = "navidrome";
-        default_port = 8070;
+      goaccess.enable = mkEnableOption "GoAccess Real-Time Analytics";
+
+      mopidy = {
+        enable = mkEnableOption "Mopidy MPD server";
+        port = mkOption {
+          description = "port to run the service on";
+          type = lib.types.port;
+          default = 6600;
+        };
       };
 
       copyparty =
