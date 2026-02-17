@@ -113,8 +113,6 @@ in
 
     packages = with pkgs; [
       sway
-      brightnessctl
-      playerctl
       wl-clipboard
     ];
   }
