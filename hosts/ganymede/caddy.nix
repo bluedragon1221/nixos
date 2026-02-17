@@ -19,8 +19,8 @@
       }
     '';
 
-    virtualHosts."https://williamsfam.us.com".extraConfig = ''
-      root * /media/www
+    virtualHosts."williamsfam.us.com".extraConfig = ''
+      root * /media/public/www
       file_server
     '';
   };

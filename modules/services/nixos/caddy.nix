@@ -19,5 +19,5 @@ in
       environmentFile = cfg.envFile;
     };
     networking.firewall.allowedTCPPorts = [80 443];
-    environment.systemPackages = with pkgs; [nss]; # required for caddy https stuff
+    environment.systemPackages = with pkgs; [nss.tools]; # required for caddy https stuff
   }
