@@ -26,6 +26,7 @@
           enable = true;
           userName = "Collin Williams";
           userEmail = "96917990+bluedragon1221@users.noreply.github.com";
+          installKey = true;
         };
         helix.enable = true;
       };
