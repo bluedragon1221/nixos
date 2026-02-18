@@ -23,15 +23,14 @@ in {
       settings = {
         i = cfg.listenAddr;
         p = [cfg.port];
-        chpw = true;
         rproxy = "1";
         tls = false;
+
         usernames = true;
+        no-robots = true;
+        chmod-d = "775";
 
         e2dsa = true;
-        e2ts = true;
-
-        chmod-d = "775";
       };
 
       accounts =
@@ -62,6 +61,7 @@ in {
               flags = {
                 fk = 6;
                 dk = 6;
+                e2t = true; # enable music indexing
               };
             };
 
@@ -71,7 +71,13 @@ in {
                 wG = "*";
                 A = "@admin";
               };
-              flags.fk = 6;
+              flags = {
+                fk = 6;
+                dk = 6;
+                lifetime = 21600; # files deleted after 6hrs
+                nosub = true; # must upload to top-level folder
+                maxb = "20g,21600"; # each IP can upload a max of 20GB every 6 hrs
+              };
             };
           }
         ]
