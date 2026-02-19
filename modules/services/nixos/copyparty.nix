@@ -31,7 +31,7 @@ in {
         chmod-d = "775";
 
         e2dsa = true;
-        hist = "~/.cache/copyparty";
+        hist = "/var/lib/copyparty/cache";
 
         # customization
         spinner = ",padding:0;border-radius:9em;border:.2em solid #444;border-top:.2em solid #fc0"; # no more tree
