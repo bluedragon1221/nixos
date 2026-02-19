@@ -57,6 +57,11 @@ in {
               };
             };
 
+            "/public" = {
+              path = "/var/empty";
+              access.r = "*";
+            };
+
             "/library" = {
               path = "/media/library";
               access = {
