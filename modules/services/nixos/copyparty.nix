@@ -35,8 +35,8 @@ in {
 
         # customization
         spinner = ",padding:0;border-radius:9em;border:.2em solid #444;border-top:.2em solid #fc0"; # no more tree
-        ui_nolbar = true;
-        ui_norepl = true;
+        ui-nolbar = true;
+        ui-norepl = true;
       };
 
       accounts =
