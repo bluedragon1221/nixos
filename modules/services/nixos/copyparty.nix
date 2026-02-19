@@ -31,6 +31,7 @@ in {
         chmod-d = "775";
 
         e2dsa = true;
+        hist = "~/.cache/copyparty";
       };
 
       accounts =
