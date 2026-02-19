@@ -32,6 +32,11 @@ in {
 
         e2dsa = true;
         hist = "~/.cache/copyparty";
+
+        # customization
+        spinner = ",padding:0;border-radius:9em;border:.2em solid #444;border-top:.2em solid #fc0"; # no more tree
+        ui_nolbar = true;
+        ui_norepl = true;
       };
 
       accounts =
