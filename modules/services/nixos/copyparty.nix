@@ -61,7 +61,7 @@ in {
               flags = {
                 fk = 6;
                 dk = 6;
-                e2t = true; # enable music indexing
+                e2ts = true; # enable music indexing
               };
             };
 
