@@ -64,10 +64,11 @@
 
       goaccess.enable = true;
 
-      forgejo = {
-        enable = true;
-        privateUrl = "forgejo.ganymede";
-      };
+      # forgejo = {
+      #   enable = true;
+      #   privateUrl = "forgejo.ganymede";
+      # };
+      cgit.enable = true;
 
       mopidy.enable = true;
 

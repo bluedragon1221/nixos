@@ -2,6 +2,7 @@
   imports = [
     ./mopidy.nix
     ./forgejo.nix
+    ./cgit.nix
     ./openssh.nix
     # ./jellyfin.nix
     ./caddy.nix
