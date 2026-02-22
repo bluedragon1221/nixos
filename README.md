@@ -1,5 +1,6 @@
 # `bluedragon1221/nixos`
 Cool things:
+
 1. Using [hjem](https://github.com/feel-co/hjem) over [home-manager](https://github.com/nix-community/home-manager)
 2. Features an [awesome tmux configuration](https://github.com/bluedragon1221/tmux-tsunami)
 3. Deployments over ssh using [deploy-rs](https://github.com/serokell/deploy-rs)
