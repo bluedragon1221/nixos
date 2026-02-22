@@ -70,7 +70,7 @@
       # };
       cgit.enable = true;
 
-      mopidy.enable = true;
+      # mopidy.enable = true;
 
       copyparty = {
         enable = true;

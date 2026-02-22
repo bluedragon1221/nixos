@@ -72,6 +72,8 @@ in {
 
       goaccess.enable = mkEnableOption "GoAccess Real-Time Analytics";
 
+      cgit.enable = mkEnableOption "cgit web git frontend";
+
       mopidy = {
         enable = mkEnableOption "Mopidy MPD server";
         port = mkOption {
