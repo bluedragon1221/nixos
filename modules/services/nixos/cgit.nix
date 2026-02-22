@@ -72,11 +72,21 @@ in {
     '';
 
     environment.etc."cgitrc".text = ''
-      scan-path=/var/lib/cgit
-      virtual-root=/
+      logo=/favicon.svg
+      favicon=/favicon.svg
+
       repo.sort=age
+      enable-http-clone=1
+      diff-style=ssdiff
+
+      root-title=Ganymede Public Git Server
+      root-desc=
 
       readme=:README.md
+      about-filter=${pkgs.cgit}/lib/cgit/filters/html-converters/md2html
+
+      virtual-root=/
+      scan-path=/var/lib/cgit
     '';
 
     services.fcgiwrap.instances."cgit" = {
@@ -93,22 +103,31 @@ in {
       };
     };
 
-    networking.extraHosts = ''
-      127.0.0.1 git.ganymede
-    '';
+    networking.extraHosts = "127.0.0.1 git.ganymede";
+    services.caddy.virtualHosts."git.ganymede".extraConfig = let
+      custom_cgit = pkgs.stdenv.mkDerivation {
+        name = "custom-cgit-assets";
+        src = pkgs.cgit;
+        installPhase = ''
+          mkdir -p $out
+          cp -pPR ./cgit/* $out/
 
-    services.caddy.virtualHosts."git.ganymede".extraConfig = ''
+          rm -f $out/cgit.png $out/favicon.ico
+          cp -f ${../favicon.svg} $out/favicon.svg
+        '';
+      };
+    in ''
       tls internal
 
-      @assets path /cgit.css /cgit.js /cgit.png /favicon.ico /robots.txt
+      @assets path /cgit.css /cgit.js /favicon.svg /robots.txt
       handle @assets {
-      	root * ${pkgs.cgit}/cgit
+      	root * ${custom_cgit}
       	file_server
       }
 
       reverse_proxy unix//run/fcgiwrap-cgit.sock {
       	transport fastcgi {
-      		env SCRIPT_FILENAME ${pkgs.cgit}/cgit/cgit.cgi
+      		env SCRIPT_FILENAME ${custom_cgit}/cgit.cgi
       	}
       }
     '';
