@@ -27,7 +27,7 @@
     external-assets = "true";
     all-static-files = "false";
 
-    html-report-title = "Ganymede Stats";
+    html-report-title = "stats@ganymede";
     hl-header = "true";
     agent-list = "false";
     with-output-resolver = "false";

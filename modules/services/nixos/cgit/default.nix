@@ -77,13 +77,16 @@ in {
 
       repo.sort=age
       enable-http-clone=1
-      diff-style=ssdiff
+      enable-commit-graph=1
+      side-by-side-diffs=1
 
-      root-title=Ganymede Public Git Server
-      root-desc=
+      root-title=git@ganymede
+      root-desc=Git repos associated with Ganymede
 
       readme=:README.md
       about-filter=${pkgs.cgit}/lib/cgit/filters/html-converters/md2html
+      source-filter=${pkgs.cgit}/lib/cgit/filters/syntax-highlighting.py
+      footer=
 
       virtual-root=/
       scan-path=/var/lib/cgit
@@ -112,8 +115,9 @@ in {
           mkdir -p $out
           cp -pPR ./cgit/* $out/
 
-          rm -f $out/cgit.png $out/favicon.ico
-          cp -f ${../favicon.svg} $out/favicon.svg
+          rm -f $out/cgit.png $out/favicon.ico $out/cgit.css
+          cp -f ${./favicon.svg} $out/favicon.svg
+          cp -f ${./cgit.css} $out/cgit.css
         '';
       };
     in ''

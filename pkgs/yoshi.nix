@@ -18,6 +18,7 @@
         if isHome() then
           return yoshi.ssh{
             HostName = "192.168.50.2",
+            DynamicForward = 9090,
             Port = 2222
           }
         else

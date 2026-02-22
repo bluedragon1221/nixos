@@ -25,7 +25,7 @@ in
           IdentitiesOnly yes
           AddKeysToAgent yes
 
-        Match host williamsfam.us.com user forgejo
+        Match host williamsfam.us.com user git
           IdentityFile ${config.collinux.secrets."github-ssh-key".path}
           IdentitiesOnly yes
           AddKeysToAgent yes
