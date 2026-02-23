@@ -16,9 +16,14 @@
     log-format = "CADDY";
     tz = "America/Chicago";
 
-    ws-url = "wss://stats.ganymede:443/ws"; # url that the html uses to fetch from
+    ws-url =
+      if cfg.publicUrl != null
+      then "wss://${cfg.publicUrl}:443/ws"
+      else if cfg.privateUrl != null
+      then "wss://${cfg.privateUrl}:443/ws"
+      else null;
     port = "7890";
-    addr = "127.0.0.1";
+    addr = cfg.listenAddr;
 
     real-time-html = "true";
     log-file = "/var/log/caddy/access-williamsfam.us.com.log";
@@ -119,15 +124,9 @@ in {
 
     systemd.tmpfiles.rules = [
       "d /var/www/goaccess/ 755 goaccess goaccess"
-      "Z /var/www/goaccess 755 goaccess goaccess"
     ];
 
-    networking.extraHosts = ''
-      127.0.0.1 stats.ganymede
-    '';
-
-    services.caddy.virtualHosts."stats.ganymede".extraConfig = ''
-      tls internal
+    collinux.services.goaccess.manualCaddyConfig = ''
       root * /var/www/goaccess
       file_server
 

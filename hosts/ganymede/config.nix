@@ -54,26 +54,38 @@
             listenAddr = "0.0.0.0";
             rootLogin = true;
           }
-          # {
-          #   port = 22;
-          #   listenAddr = "0.0.0.0";
-          #   otp = true;
-          # }
           {
+            port = 22;
+            listenAddr = "0.0.0.0";
+            otp = true;
+          }
+          {
+            # also enable ipv6
             port = 22;
             listenAddr = "[::]";
           }
         ];
       };
 
-      goaccess.enable = true;
-      cgit.enable = true;
+      goaccess = {
+        enable = true;
+        privateUrl = "stats.ganymede";
+      };
+
+      cgit = {
+        enable = true;
+        privateUrl = "git.ganymede";
+      };
 
       polaris = {
         enable = true;
         privateUrl = "music.ganymede";
       };
 
+      qbittorrent = {
+        enable = true;
+        privateUrl = "bittorrent.ganymede";
+      };
       copyparty = {
         enable = true;
         publicUrl = "up.williamsfam.us.com";

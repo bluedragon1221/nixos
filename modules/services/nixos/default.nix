@@ -1,15 +1,16 @@
 {
   imports = [
-    # ./mopidy.nix
-    ./forgejo.nix
-    ./cgit
-    ./openssh.nix
-    # ./jellyfin.nix
-    ./polaris.nix
     ./caddy.nix
+    ./openssh.nix
+
+    ./forgejo.nix
     ./goaccess.nix
 
+    ./cgit
+    ./polaris.nix
+    # ./mopidy.nix
+    # ./jellyfin.nix
     ./copyparty.nix
-    # ./ngircd.nix
+    ./qbittorrent.nix
   ];
 }
