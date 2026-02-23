@@ -74,13 +74,18 @@ in {
 
       cgit.enable = mkEnableOption "cgit web git frontend";
 
-      mopidy = {
-        enable = mkEnableOption "Mopidy MPD server";
-        port = mkOption {
-          description = "port to run the service on";
-          type = lib.types.port;
-          default = 6600;
-        };
+      # mopidy = {
+      #   enable = mkEnableOption "Mopidy MPD server";
+      #   port = mkOption {
+      #     description = "port to run the service on";
+      #     type = lib.types.port;
+      #     default = 6600;
+      #   };
+      # };
+
+      polaris = selfhostOptions {
+        service_name = "polaris";
+        default_port = 8079;
       };
 
       copyparty =

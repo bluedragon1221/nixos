@@ -38,20 +38,16 @@ in
       networks."11-lan" = {
         name = "wl*";
 
-        networkConfig =
-          (
-            if dhcp_enabled
-            then {DHCP = "yes";}
-            else {
-              Address = cfg.static.ip;
-              Gateway = cfg.static.gateway;
-              DHCP = "no";
-              # DNS is managed by systemd-resolved (not specified here)
-            }
-          )
-          // {
-            LinkLocalAddressing = "no";
-          };
+        networkConfig = (
+          if dhcp_enabled
+          then {DHCP = "yes";}
+          else {
+            Address = cfg.static.ip;
+            Gateway = cfg.static.gateway;
+            DHCP = "no";
+            # DNS is managed by systemd-resolved (not specified here)
+          }
+        );
 
         dhcpV4Config.UseDNS = "no";
         dhcpV6Config.UseDNS = "no";

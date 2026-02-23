@@ -54,28 +54,30 @@
             listenAddr = "0.0.0.0";
             rootLogin = true;
           }
+          # {
+          #   port = 22;
+          #   listenAddr = "0.0.0.0";
+          #   otp = true;
+          # }
           {
             port = 22;
-            listenAddr = "0.0.0.0";
-            otp = true;
+            listenAddr = "[::]";
           }
         ];
       };
 
       goaccess.enable = true;
-
-      # forgejo = {
-      #   enable = true;
-      #   privateUrl = "forgejo.ganymede";
-      # };
       cgit.enable = true;
 
-      # mopidy.enable = true;
+      polaris = {
+        enable = true;
+        privateUrl = "music.ganymede";
+      };
 
       copyparty = {
         enable = true;
         publicUrl = "up.williamsfam.us.com";
-        privateUrl = "ganymede";
+        privateUrl = "files.ganymede";
 
         users.collin = {
           isAdmin = true;
@@ -83,8 +85,6 @@
           hasPublicDir = true;
         };
       };
-
-      ngircd.enable = true;
 
       caddy = {
         enable = true;

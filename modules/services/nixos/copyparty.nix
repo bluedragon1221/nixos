@@ -26,6 +26,7 @@ in {
         rproxy = "1";
         tls = false;
 
+        name = "files@ganymede";
         usernames = true;
         no-robots = true;
         chmod-d = "775";
