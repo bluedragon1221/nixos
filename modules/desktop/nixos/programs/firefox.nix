@@ -93,6 +93,7 @@ in
 
           "datareporting.policy.dataSubmissionPolicyBypassNotification" = opt true;
           "browser.startup.homepage" = opt "about:blank";
+          "cookiebanners.ui.desktop.enabled" = opt false;
 
           "browser.compactmode.show" = opt true;
           "browser.uidensity" = opt 1;

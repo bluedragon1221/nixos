@@ -57,12 +57,6 @@
           {
             port = 22;
             listenAddr = "0.0.0.0";
-            otp = true;
-          }
-          {
-            # also enable ipv6
-            port = 22;
-            listenAddr = "[::]";
           }
         ];
       };

@@ -14,7 +14,7 @@
   settings = {
     date-format = "%s";
     log-format = "CADDY";
-    tz = "America/Chicago";
+    tz = config.time.timeZone;
 
     ws-url =
       if cfg.publicUrl != null
@@ -27,7 +27,7 @@
 
     real-time-html = "true";
     log-file = "/var/log/caddy/access-williamsfam.us.com.log";
-    geoip-database = "${geoip}";
+    geoip-database = geoip;
     output = "/var/www/goaccess/index.html";
     external-assets = "true";
     all-static-files = "false";
@@ -47,6 +47,10 @@
 
   settingsFile = pkgs.writeText "goaccess.conf" (settings |> builtins.mapAttrs (k: v: "${k} ${v}") |> builtins.attrValues |> lib.concatStringsSep "\n");
 in {
+  imports = [
+    (import ./mkCaddyCfg.nix cfg)
+  ];
+
   config = lib.mkIf cfg.enable {
     users.groups."goaccess" = {};
     users.users."goaccess" = {
@@ -122,9 +126,7 @@ in {
       wantedBy = ["multi-user.target"];
     };
 
-    systemd.tmpfiles.rules = [
-      "d /var/www/goaccess/ 755 goaccess goaccess"
-    ];
+    systemd.tmpfiles.rules = ["d /var/www/goaccess/ 755 goaccess goaccess"];
 
     collinux.services.goaccess.manualCaddyConfig = ''
       root * /var/www/goaccess

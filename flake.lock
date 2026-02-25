@@ -377,6 +377,22 @@
         "type": "github"
       }
     },
+    "nixpkgs_2": {
+      "locked": {
+        "lastModified": 1746663147,
+        "narHash": "sha256-Ua0drDHawlzNqJnclTJGf87dBmaO/tn7iZ+TCkTRpRc=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "dda3dcd3fe03e991015e9a74b22d35950f264a54",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "nixos-unstable",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nmd": {
       "locked": {
         "lastModified": 1759339018,
@@ -430,6 +446,7 @@
         "nixpkgs": "nixpkgs",
         "nmd": "nmd",
         "tmux-tsunami": "tmux-tsunami",
+        "vermilion": "vermilion",
         "yoshi-lua": "yoshi-lua"
       }
     },
@@ -580,6 +597,24 @@
       "original": {
         "owner": "numtide",
         "repo": "flake-utils",
+        "type": "github"
+      }
+    },
+    "vermilion": {
+      "inputs": {
+        "nixpkgs": "nixpkgs_2"
+      },
+      "locked": {
+        "lastModified": 1770166629,
+        "narHash": "sha256-8gP9fuYIN6epnPskX12rm2vEu/u/MjwJ8ZvIAjoPmLk=",
+        "owner": "vaxerski",
+        "repo": "Vermilion",
+        "rev": "7b77acdeb4563351af215a13d77ba4a8cd93cd6c",
+        "type": "github"
+      },
+      "original": {
+        "owner": "vaxerski",
+        "repo": "Vermilion",
         "type": "github"
       }
     },

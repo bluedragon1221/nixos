@@ -12,13 +12,13 @@ in {
   config = lib.mkIf cfg.enable {
     users.users."qbittorrent".extraGroups = ["fileserver"]; # torrent files go to /media/library
 
-    networking.firewall.allowedTCPPorts = [6882];
-    networking.firewall.allowedUDPPorts = [6882];
+    networking.firewall.allowedTCPPorts = [49252];
+    networking.firewall.allowedUDPPorts = [49252];
 
     services.qbittorrent = {
       enable = true;
       webuiPort = cfg.port;
-      torrentingPort = 6882;
+      torrentingPort = 49252;
     };
   };
 }
