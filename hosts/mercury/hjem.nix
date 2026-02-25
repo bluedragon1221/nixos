@@ -24,6 +24,8 @@ in {
     mpv
     bluetuith
 
+    mosh
+
     kew # music player
     irssi
 

@@ -15,7 +15,9 @@
     ./caddy.nix
   ];
 
-  services.tailscale.extraSetFlags = ["--advertise-exit-node"];
+  # services.tailscale.extraSetFlags = ["--advertise-exit-node"];
+
+  programs.mosh.enable = true; # testing
 
   # backup usb teather configuration
   systemd.network.networks."80-usb-teather" = {
