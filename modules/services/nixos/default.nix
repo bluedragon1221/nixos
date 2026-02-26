@@ -5,6 +5,7 @@
 
     ./forgejo.nix
     ./goaccess.nix
+    ./btopweb.nix
 
     ./cgit
     ./polaris.nix
