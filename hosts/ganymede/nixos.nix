@@ -17,8 +17,6 @@
 
   # services.tailscale.extraSetFlags = ["--advertise-exit-node"];
 
-  programs.mosh.enable = true; # testing
-
   # backup usb teather configuration
   systemd.network.networks."80-usb-teather" = {
     name = "enp0s20f0u2";
