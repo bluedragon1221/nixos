@@ -83,6 +83,11 @@ in {
       default_port = 8010;
     };
 
+    btopweb = webserviceOptions {
+      service_name = "btopweb";
+      default_port = 8017;
+    };
+
     goaccess = webserviceOptions {
       service_name = "goaccess";
       reverse_proxy = false;

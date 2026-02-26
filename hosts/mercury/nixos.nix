@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   inputs,
   ...
 }: {
@@ -19,6 +20,15 @@
     user = "collin";
     dataDir = "/home/collin/.local/syncthing";
   };
+
+  services.autossh.sessions = [
+    {
+      name = "ganymede";
+      user = "collin";
+      monitoringPort = 20000;
+      extraArguments = "-N -D 9090 collin@williamsfam.us.com";
+    }
+  ];
 
   security.soteria.enable = true;
 

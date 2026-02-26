@@ -15,6 +15,8 @@
     date-format = "%s";
     log-format = "CADDY";
     tz = config.time.timeZone;
+    log-file = "/var/log/caddy/access-williamsfam.us.com.log";
+    geoip-database = geoip;
 
     ws-url =
       if cfg.publicUrl != null
@@ -22,16 +24,13 @@
       else if cfg.privateUrl != null
       then "wss://${cfg.privateUrl}:443/ws"
       else null;
-    port = "7890";
+    port = 7890;
     addr = cfg.listenAddr;
 
     real-time-html = "true";
-    log-file = "/var/log/caddy/access-williamsfam.us.com.log";
-    geoip-database = geoip;
     output = "/var/www/goaccess/index.html";
     external-assets = "true";
     all-static-files = "false";
-
     html-report-title = "stats@ganymede";
     hl-header = "true";
     agent-list = "false";
@@ -45,7 +44,7 @@
     real-os = "true";
   };
 
-  settingsFile = pkgs.writeText "goaccess.conf" (settings |> builtins.mapAttrs (k: v: "${k} ${v}") |> builtins.attrValues |> lib.concatStringsSep "\n");
+  settingsFile = pkgs.writeText "goaccess.conf" (settings |> builtins.mapAttrs (k: v: "${k} ${toString v}") |> builtins.attrValues |> lib.concatStringsSep "\n");
 in {
   imports = [
     (import ./mkCaddyCfg.nix cfg)

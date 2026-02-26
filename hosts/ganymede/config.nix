@@ -65,6 +65,10 @@
         enable = true;
         privateUrl = "stats.ganymede";
       };
+      btopweb = {
+        enable = true;
+        privateUrl = "btop.ganymede";
+      };
 
       cgit = {
         enable = true;
