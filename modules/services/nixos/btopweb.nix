@@ -28,7 +28,7 @@ in {
         User = "btopweb";
         Type = "simple";
 
-        ExecStart = "${pkgs.gotty}/bin/gotty --reconnect --port ${toString cfg.port} ${pkgs.btop}/bin/btop";
+        ExecStart = ''${pkgs.ttyd}/bin/ttyd -W -i ${cfg.listenAddr} -p ${toString cfg.port} ${pkgs.btop}/bin/btop'';
       };
     };
   };
