@@ -58,20 +58,6 @@
     };
   };
 
-  # kill-switch for qbittorrent traffic
-  networking.firewall.extraCommands =
-    # bash
-    ''
-      # Allow qbittorrent to talk to itself (WebUI on 127.0.0.1)
-      iptables -A OUTPUT -o lo -m owner --uid-owner qbittorrent -j ACCEPT
-
-      # Allow all qbittorrent traffic over WireGuard
-      iptables -A OUTPUT -o wg0 -m owner --uid-owner qbittorrent -j ACCEPT
-
-      # Block everything else from qbittorrent user (kill switch)
-      iptables -A OUTPUT -m owner --uid-owner qbittorrent -j REJECT
-    '';
-
   services.fail2ban.enable = true;
 
   # merge logs from subdomains
