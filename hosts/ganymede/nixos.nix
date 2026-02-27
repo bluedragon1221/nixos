@@ -58,6 +58,17 @@
     };
   };
 
+  # kill-switch for qbittorrent traffic
+  networking.firewall.extraCommands =
+    # bash
+    ''
+      # Allow qbittorrent traffic over wg0
+      iptables -A OUTPUT -o wg0 -m owner --uid-owner qbittorrent -j ACCEPT
+
+      # Drop qbittorrent traffic over anything else
+      iptables -A OUTPUT ! -o wg0 -m owner --uid-owner qbittorrent -j REJECT
+    '';
+
   services.fail2ban.enable = true;
 
   # merge logs from subdomains
