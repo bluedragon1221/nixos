@@ -7,4 +7,5 @@ in {
 
   "hosts/ganymede/collin-copyparty-password.age".publicKeys = [mercury.host_pubkey ganymede.host_pubkey];
   "hosts/ganymede/collin-forgejo-password.age".publicKeys = [mercury.host_pubkey ganymede.host_pubkey];
+  "hosts/ganymede/wireguard-pk.age".publicKeys = [ganymede.host_pubkey];
 }

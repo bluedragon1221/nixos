@@ -33,7 +33,7 @@ in {
     inputs.glide-browser.packages."x86_64-linux".default
     inputs.vermilion.packages."x86_64-linux".default
 
-    (pkgs.callPackage ../../pkgs/yoshi.nix {inherit inputs;})
+    # (pkgs.callPackage ../../pkgs/yoshi.nix {inherit inputs;})
     (pkgs.callPackage ../../pkgs/yo.nix {inherit inputs;})
   ];
 

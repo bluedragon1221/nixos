@@ -25,13 +25,14 @@
       commit.gpgsign = "true";
     })
   ];
-in {
-  files = {
-    ".config/git/config" = {
-      generator = lib.generators.toGitINI;
-      value = git_config;
+in
+  lib.mkIf cfg.enable {
+    files = {
+      ".config/git/config" = {
+        generator = lib.generators.toGitINI;
+        value = git_config;
+      };
     };
-  };
 
-  packages = [pkgs.git];
-}
+    packages = [pkgs.git];
+  }

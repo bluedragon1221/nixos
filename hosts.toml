@@ -13,3 +13,7 @@ host_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPB7feUHl5qoD5zF9AMOV2meViA+w
 [hosts.io]
 hostnames = ["io", "192.168.50.3"]
 host_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJXSvoVpMh/Y84THjKAYqkbuPmmv/yIU8DunMov7tKKT"
+
+[hosts.gliese]
+hostnames = ["gliese", "20.251.8.247"]
+host_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIBRa7adrNY1CskUWepNexmh86a6Lei8xuVzTCyEwbsnY"

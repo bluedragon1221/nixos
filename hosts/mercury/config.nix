@@ -36,9 +36,9 @@
       };
 
       network = {
-        iwd.enable = true;
-        networkd.enable = true;
+        wireless.dynamic = true;
       };
+
       audio.enable = true;
       bluetooth.enable = true;
     };

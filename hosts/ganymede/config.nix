@@ -18,6 +18,10 @@
         file = ./collin-forgejo-password.age;
         owner = "forgejo";
       };
+      "wireguard-pk" = {
+        file = ./wireguard-pk.age;
+        owner = "root";
+      };
     };
 
     terminal = {
@@ -33,13 +37,11 @@
     };
 
     system.network = {
-      networkd = {
-        enable = true;
-        static = {
-          ip = "192.168.50.2/24";
-          gateway = "192.168.50.1";
-        };
-
+      static = {
+        ip = "192.168.50.2/24";
+        gateway = "192.168.50.1";
+      };
+      wireless.static = {
         ssid = "williams";
         pskFile = config.collinux.secrets."williams-psk".path;
       };

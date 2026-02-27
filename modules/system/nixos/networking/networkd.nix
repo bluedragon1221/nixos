@@ -1,56 +1,44 @@
 {
-  lib,
+  # lib,
   config,
   ...
 }: let
-  cfg = config.collinux.system.network.networkd;
-
+  cfg = config.collinux.system.network;
   dhcp_enabled = cfg.static == null;
-in
-  lib.mkIf cfg.enable {
-    networking = {
-      wireless =
-        if !config.collinux.system.network.iwd.enable
-        then {
-          enable = true;
-          networks.${cfg.ssid}.pskRaw = "ext:psk";
-          secretsFile = cfg.pskFile;
-        }
-        else {};
 
-      useNetworkd = true;
+  device =
+    if (cfg.wireless == null)
+    then "eth0"
+    else "wl*";
+in {
+  networking.useNetworkd = true;
+  systemd.network = {
+    enable = true;
 
-      # Disable default networking stuff
-      dhcpcd.enable = false;
-      useDHCP = false;
-      networkmanager.enable = false;
+    wait-online = {
+      enable = true;
+      ignoredInterfaces = ["docker0"];
+      anyInterface = true;
     };
 
-    systemd.network = {
-      enable = true;
+    networks."11-default" =
+      if dhcp_enabled
+      then {
+        name = device;
+        networkConfig.DHCP = "yes";
 
-      wait-online = {
-        enable = true;
-        ignoredInterfaces = ["docker0"];
-        anyInterface = true;
-      };
-
-      networks."11-lan" = {
-        name = "wl*";
-
-        networkConfig = (
-          if dhcp_enabled
-          then {DHCP = "yes";}
-          else {
-            Address = cfg.static.ip;
-            Gateway = cfg.static.gateway;
-            DHCP = "no";
-            # DNS is managed by systemd-resolved (not specified here)
-          }
-        );
-
+        # never accept dhcp dns
         dhcpV4Config.UseDNS = "no";
         dhcpV6Config.UseDNS = "no";
+      }
+      else {
+        name = device;
+        networkConfig = {
+          Address = cfg.static.ip;
+          Gateway = cfg.static.gateway;
+          DHCP = "no";
+          # DNS is managed by systemd-resolved (not specified here)
+        };
       };
-    };
-  }
+  };
+}

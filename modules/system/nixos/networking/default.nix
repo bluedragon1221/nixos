@@ -1,14 +1,22 @@
 {
   imports = [
-    ./iwd.nix
-    ./networkmanager.nix
-    ./networkd.nix
     ./resolved.nix
+
+    ./networkd.nix
+    ./iwd.nix
+    ./wpasupplicant.nix
   ];
 
-  networking.firewall = {
-    enable = true;
-    checkReversePath = "loose";
+  networking = {
+    firewall = {
+      enable = true;
+      checkReversePath = "loose";
+    };
+
+    # Disable default networking stuff
+    dhcpcd.enable = false;
+    useDHCP = false;
+    networkmanager.enable = false;
   };
 
   # disable all ipv6

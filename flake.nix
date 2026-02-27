@@ -99,6 +99,11 @@
       hostname = "ganymede";
       username = "collin";
     };
+    nixosConfigurations."gliese" = mkNixosSystem {
+      inherit inputs;
+      hostname = "gliese";
+      username = "green";
+    };
 
     packages."x86_64-linux".docs = buildPkgs.callPackage genDocs {
       inherit inputs;

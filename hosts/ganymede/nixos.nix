@@ -30,6 +30,33 @@
     wantedBy = ["default.target"];
   };
 
+  # VPN to server
+  systemd.network = {
+    netdevs."10-wg0" = {
+      netdevConfig = {
+        Kind = "wireguard";
+        Name = "wg0";
+      };
+      wireguardConfig = {
+        PrivateKeyFile = config.collinux.secrets."wireguard-pk".path;
+        ListenPort = 51820;
+      };
+      wireguardPeers = [
+        {
+          PublicKey = "seOq75FUGb+KThvOXCEAGdabWbb+jTRUntITpuAPgWA=";
+          AllowedIPs = "0.0.0.0/0";
+          PersistentKeepalive = 25;
+        }
+      ];
+    };
+    networks."wg0" = {
+      matchConfig.Name = "wg0";
+      address = ["10.100.0.2/24"];
+      DHCP = "no";
+      networkConfig.IPv6AcceptRA = false;
+    };
+  };
+
   services.fail2ban.enable = true;
 
   # merge logs from subdomains

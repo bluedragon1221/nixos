@@ -53,9 +53,18 @@
   ];
 
   programs.ssh.extraConfig = ''
-    Host ganymede
+    Match host ganymede exec "nc -z -w1 192.168.50.2 2222"
       HostName 192.168.50.2
       Port 2222
+
+    Host ganymede
+      HostName williamsfam.us.com
+      Port 22
+
+    Host gliese
+      HostName 20.251.8.247
+      Port 22
+      IdentityFile ~/Gliese_key_2.pem
   '';
 
   programs.firefox.policies.ExtensionSettings = {

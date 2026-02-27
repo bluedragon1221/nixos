@@ -3,25 +3,21 @@
   config,
   ...
 }: let
-  cfg = config.collinux.system.network.iwd;
+  cfg = config.collinux.system.network;
+  enabled = cfg.wireless.dynamic;
 in
-  lib.mkIf cfg.enable {
+  lib.mkIf enabled {
     networking = {
       wireless.iwd = {
         enable = true;
         settings = {
           General = {
-            EnableNetworkConfiguration = !config.collinux.system.network.networkd.enable;
+            EnableNetworkConfiguration = false; # always let networkd handle this
             AddressRandomization = "once";
             AddressRandomizationRange = "full";
           };
           Network.NameResolvingService = "systemd"; # either systemd or resolvconf
         };
       };
-
-      # Disable default networking stuff
-      dhcpcd.enable = false;
-      useDHCP = false;
-      networkmanager.enable = false;
     };
   }
