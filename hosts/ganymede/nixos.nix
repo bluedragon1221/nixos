@@ -45,6 +45,7 @@
         {
           PublicKey = "seOq75FUGb+KThvOXCEAGdabWbb+jTRUntITpuAPgWA=";
           AllowedIPs = "0.0.0.0/0";
+          Endpoint = "20.251.8.247:51820";
           PersistentKeepalive = 25;
         }
       ];
