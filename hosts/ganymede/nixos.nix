@@ -62,11 +62,14 @@
   networking.firewall.extraCommands =
     # bash
     ''
-      # Allow qbittorrent traffic over wg0
+      # Allow qbittorrent to talk to itself (WebUI on 127.0.0.1)
+      iptables -A OUTPUT -o lo -m owner --uid-owner qbittorrent -j ACCEPT
+
+      # Allow all qbittorrent traffic over WireGuard
       iptables -A OUTPUT -o wg0 -m owner --uid-owner qbittorrent -j ACCEPT
 
-      # Drop qbittorrent traffic over anything else
-      iptables -A OUTPUT ! -o wg0 -m owner --uid-owner qbittorrent -j REJECT
+      # Block everything else from qbittorrent user (kill switch)
+      iptables -A OUTPUT -m owner --uid-owner qbittorrent -j REJECT
     '';
 
   services.fail2ban.enable = true;
