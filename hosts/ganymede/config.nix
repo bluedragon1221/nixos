@@ -20,7 +20,7 @@
       };
       "wireguard-pk" = {
         file = ./wireguard-pk.age;
-        owner = "root";
+        owner = "systemd-network";
       };
     };
 
