@@ -38,7 +38,6 @@
   settings = ''
     exec ${config.collinux.desktop.wallpaper_cmd}
     exec ${pkgs.dunst}/bin/dunst
-    exec ${pkgs.soteria}/bin/soteria
 
     include catppuccin-mocha
 

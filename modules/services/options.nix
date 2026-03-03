@@ -115,6 +115,7 @@ in {
       })
       // {
         users = mkOption {
+          description = "List of users to configure on the copyparty server";
           type = lib.types.attrsOf (lib.types.submodule ({config, ...}: {
             options = {
               name = mkOption {
@@ -137,6 +138,7 @@ in {
     caddy = {
       enable = mkEnableOption "caddy https server";
       envFile = mkOption {
+        description = "Absolute path to file that contains environment files to run caddy with";
         type = types.str;
         example = "/run/secrets.d/caddy-env";
       };

@@ -7,7 +7,7 @@
     pkgs.writeText "yossh.lua"
     # lua
     ''
-      yoshi = dofile'${inputs.yoshi-lua}/yoshi.lua'
+      yoshi = dofile'${./yoshi.lua}'
 
       local function isHome()
         local _, _, code = os.execute("nc -z -w1 192.168.50.2 2222")

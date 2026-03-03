@@ -68,7 +68,6 @@ let
   genDocs = {
     lib,
     pkgs,
-    inputs,
     hostname,
     ...
   }: let

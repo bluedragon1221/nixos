@@ -1,4 +1,4 @@
-{pkgs ? import <nixpkgs> {system = "x86_64-linux";}, ...}: let
+{pkgs, ...}: let
   lsdbus-src = pkgs.fetchFromGitHub {
     owner = "kmarkus";
     repo = "lsdbus";

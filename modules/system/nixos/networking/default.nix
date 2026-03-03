@@ -19,8 +19,8 @@
     networkmanager.enable = false;
   };
 
-  # disable all ipv6
   boot.kernel.sysctl = {
+    # disable all ipv6
     "net.ipv6.conf.all.disable_ipv6" = 1;
     "net.ipv6.conf.default.disable_ipv6" = 1;
   };

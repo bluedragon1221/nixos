@@ -1,10 +1,6 @@
 {
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    deploy-rs = {
-      url = "github:serokell/deploy-rs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
 
     agenix = {
       url = "github:ryantm/agenix";
@@ -60,30 +56,14 @@
       url = "github:yokoffing/Betterfox";
       flake = false;
     };
-
-    nmd.url = "github:gvolpe/nmd";
   };
 
   outputs = inputs: let
     inherit (import ./lib/nix-furnace/mkSystem.nix) mkNixosSystem genDocs;
 
-    system = "x86_64-linux";
-
-    buildPkgs = import inputs.nixpkgs {inherit system;};
-
-    deployPkgs = import inputs.nixpkgs {
-      inherit system;
-      overlays = [
-        inputs.deploy-rs.overlays.default
-        (self: super: {
-          deploy-rs = {
-            inherit (buildPkgs) deploy-rs;
-            lib = super.deploy-rs.lib;
-          };
-        })
-      ];
-    };
-  in rec {
+    buildSystem = "x86_64-linux";
+    buildPkgs = import inputs.nixpkgs {system = buildSystem;};
+  in {
     nixosConfigurations."mercury" = mkNixosSystem {
       inherit inputs;
       hostname = "mercury";
@@ -99,28 +79,17 @@
       hostname = "ganymede";
       username = "collin";
     };
-    nixosConfigurations."gliese" = mkNixosSystem {
-      inherit inputs;
-      hostname = "gliese";
-      username = "green";
-    };
 
-    packages."x86_64-linux".docs = buildPkgs.callPackage genDocs {
-      inherit inputs;
-      pkgs = buildPkgs;
-      hostname = "mercury";
-    };
-
-    deploy.nodes."ganymede" = {
-      hostname = "ganymede";
-      sshUser = "root";
-
-      profiles.system = {
-        user = "root";
-        path = deployPkgs.deploy-rs.lib.activate.nixos nixosConfigurations."ganymede";
+    packages.${buildSystem} = {
+      "docs" = buildPkgs.callPackage genDocs {
+        pkgs = buildPkgs;
+        hostname = "mercury";
+      };
+      default = buildPkgs.callPackage ./pkgs/yo.nix {
+        pkgs = buildPkgs;
       };
     };
 
-    checks = builtins.mapAttrs (system: deployLib: deployLib.deployChecks deploy) inputs.deploy-rs.lib;
+    projects."nixos-rb" = ./pkgs/yo/nixos.rb;
   };
 }

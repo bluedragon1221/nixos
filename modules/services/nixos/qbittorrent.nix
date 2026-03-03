@@ -10,7 +10,10 @@ in {
   ];
 
   config = lib.mkIf cfg.enable {
-    users.users."qbittorrent".extraGroups = ["fileserver"]; # torrent files go to /media/library
+    users.users."qbittorrent" = {
+      uid = 985;
+      extraGroups = ["fileserver"]; # torrent files go to /media/library
+    };
 
     networking.firewall.allowedTCPPorts = [49252];
     networking.firewall.allowedUDPPorts = [49252];
@@ -20,5 +23,7 @@ in {
       webuiPort = cfg.port;
       torrentingPort = 49252;
     };
+
+    systemd.services.qbittorrent.serviceConfig.PrivateUsers = lib.mkForce false;
   };
 }

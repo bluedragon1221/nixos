@@ -30,8 +30,6 @@
     }
   ];
 
-  security.soteria.enable = true;
-
   services.printing.enable = true;
 
   environment.defaultPackages = lib.mkForce []; # im not a noob

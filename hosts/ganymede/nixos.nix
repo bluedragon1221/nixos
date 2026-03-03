@@ -15,8 +15,6 @@
     ./caddy.nix
   ];
 
-  # services.tailscale.extraSetFlags = ["--advertise-exit-node"];
-
   # backup usb teather configuration
   systemd.network.networks."80-usb-teather" = {
     name = "enp0s20f0u2";
@@ -57,6 +55,30 @@
       networkConfig.IPv6AcceptRA = false;
     };
   };
+
+  # deploy user
+  users.groups."deploy" = {};
+  users.users."deploy" = {
+    isSystemUser = true;
+    group = "deploy";
+
+    openssh.authorizedKeys.keys = config.users.users."collin".openssh.authorizedKeys.keys;
+  };
+  security.sudo.extraRules = [
+    {
+      users = ["deploy"];
+      commands = [
+        {
+          command = "/nix/store/*/bin/switch-to-configuration";
+          options = ["NOPASSWD"];
+        }
+        {
+          command = "/run/current-system/sw/bin/shutdown";
+          options = ["NOPASSWD"];
+        }
+      ];
+    }
+  ];
 
   services.fail2ban.enable = true;
 

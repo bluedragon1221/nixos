@@ -7,8 +7,8 @@
   cfg = config.collinux.services.goaccess;
 
   geoip = pkgs.fetchurl {
-    url = "https://github.com/P3TERX/GeoLite.mmdb/releases/download/2026.02.13/GeoLite2-City.mmdb";
-    hash = "sha256-FnvfGHH8b0506muEvlDXjgNKruorWeMXEbquGdZoH6Q=";
+    url = "https://github.com/P3TERX/GeoLite.mmdb/releases/download/2026.03.01/GeoLite2-City.mmdb";
+    hash = "sha256-SZ/m8b53sawF86Ak46uX7CxdzEMFrmob7Yd12Y+xJfA=";
   };
 
   settings = {

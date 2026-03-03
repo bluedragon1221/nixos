@@ -60,8 +60,8 @@ in {
       root-desc=Git repos associated with Ganymede
 
       readme=:README.md
-      about-filter=${custom_cgit}/lib/cgit/filters/html-converters/md2html
-      source-filter=${custom_cgit}/lib/cgit/filters/syntax-highlighting.py
+      about-filter=${pkgs.cgit}/lib/cgit/filters/html-converters/md2html
+      source-filter=${pkgs.cgit}/lib/cgit/filters/syntax-highlighting.py
       footer=
 
       virtual-root=/

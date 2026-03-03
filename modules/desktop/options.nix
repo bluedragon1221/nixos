@@ -25,6 +25,7 @@ in {
         autologin = {
           enable = mkEnableOption "autologin";
           command = mkOption {
+            internal = true;
             type = lib.types.str;
             default = with config.collinux.desktop;
               if (wm.sway.enable && !gnome.enable && !wm.niri.enable)
