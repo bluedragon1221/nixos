@@ -4,22 +4,22 @@
 
     secrets = {
       "williams-psk" = {
-        file = ./williams-psk.age;
+        file = ./secrets/williams-psk.age;
         owner = "wpa_supplicant";
       };
 
-      "caddy-env".file = ./caddy-env.age;
+      "caddy-env".file = ./secrets/caddy-env.age;
 
       "collin-copyparty-password" = {
-        file = ./collin-copyparty-password.age;
+        file = ./secrets/collin-copyparty-password.age;
         owner = "copyparty";
       };
       "collin-forgejo-password" = {
-        file = ./collin-forgejo-password.age;
+        file = ./secrets/collin-forgejo-password.age;
         owner = "forgejo";
       };
       "wireguard-pk" = {
-        file = ./wireguard-pk.age;
+        file = ./secrets/wireguard-pk.age;
         owner = "systemd-network";
       };
     };
