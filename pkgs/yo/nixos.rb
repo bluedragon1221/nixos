@@ -1,18 +1,20 @@
 module Nix
-  def build_configuration(flake_path:, hostname:)
+  def self.build_configuration(flake_path:, hostname:, use_nom: false)
+    nix_cmd = use_nom ? "nom" : "nix"
+    
     flake_target = "#{flake_path}#nixosConfigurations.'#{hostname}'.config.system.build.toplevel"
-    `nix build --no-link --print-out-paths #{flake_target}`.chomp.tap do
+    `#{nix_cmd} build --no-link --print-out-paths #{flake_target}`.chomp.tap do
       raise "Build command failed" unless $?.success?
     end
   end
 
-  def switch_to_configuration(store_path:, verb:, sudo_cmd: "sudo")
+  def self.switch_to_configuration(store_path:, verb:, sudo_cmd: "sudo")
     create_gen_cmd = "nix build --no-link --profile /nix/var/nix/profiles/system #{store_path}"
     switch_cmd = "#{store_path}/bin/switch-to-configuration #{verb}"
     system("#{sudo_cmd} bash -c '#{create_gen_cmd}; #{switch_cmd}'") or raise "Switch command failed"
   end
 
-  def switch_to_configuration_remote(store_path:, ssh_host:, use_magic_rollback: false)
+  def self.switch_to_configuration_remote(store_path:, ssh_host:, use_magic_rollback: false)
     system("nix copy --to ssh://#{ssh_host} #{store_path}") or raise "Copy closure command failed"
 
     create_gen_cmd = "nix build --no-link --profile /nix/var/nix/profiles/system #{store_path}"

@@ -11,13 +11,15 @@
 
         store_path = Nix.build_configuration(
           flake_path: FLAKE_PATH,
-          hostname: hostname
+          hostname: hostname,
+          use_nom: true
         )
         Nix.switch_to_configuration_remote(store_path: store_path, ssh_host: ssh_host, use_magic_rollback: true)
       when "switch", "sw"
         store_path = Nix.build_configuration(
           flake_path: FLAKE_PATH,
-          hostname: `hostname`.chomp
+          hostname: `hostname`.chomp,
+          use_nom: true
         )
         Nix.switch_to_configuration(
           store_path: store_path,
@@ -27,7 +29,8 @@
       when "boot"
         store_path = Nix.build_configuration(
           flake_path: FLAKE_PATH,
-          hostname: `hostname`.chomp
+          hostname: `hostname`.chomp,
+          use_nom: true
         )
         Nix.switch_to_configuration(
           store_path: store_path,
@@ -37,7 +40,8 @@
       when "test"
         store_path = Nix.build_configuration(
           flake_path: FLAKE_PATH,
-          hostname: `hostname`.chomp
+          hostname: `hostname`.chomp,
+          use_nom: true
         )
         Nix.switch_to_configuration(
           store_path: store_path,
@@ -49,11 +53,25 @@
 
         Nix.build_configuration(
           flake_path: FLAKE_PATH,
-          hostname: hostname
+          hostname: hostname,
+          use_nom: true
         )
     end
   '';
+
+  env = pkgs.stdenv.mkDerivation {
+    name = "ruby-env";
+    src = ./.;
+
+    nativeBuildInputs = [pkgs.makeWrapper];
+    buildInputs = [pkgs.ruby pkgs.nix-output-monitor];
+    installPhase = ''
+      mkdir -p $out/bin
+      makeWrapper ${pkgs.ruby}/bin/ruby $out/bin/ruby \
+        --prefix PATH : ${pkgs.lib.makeBinPath [pkgs.nix-output-monitor]}
+    '';
+  };
 in
   pkgs.writeShellScriptBin "yo" ''
-    exec ${pkgs.ruby}/bin/ruby ${yo} "$@"
+    exec ${env}/bin/ruby ${yo} "$@"
   ''
