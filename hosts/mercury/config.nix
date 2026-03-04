@@ -53,12 +53,11 @@
         fzf.enable = true;
         bat.enable = true;
         eza.enable = true;
+        broot.enable = true;
         helix = {
           enable = true;
           hardMode = true;
         };
-
-        tmux.enable = true;
 
         lazygit.enable = true;
         git = {

@@ -1,40 +1,28 @@
-{
-  pkgs,
-  inputs,
-  ...
-}: let
-  captiveBrowserDesktop = pkgs.makeDesktopItem {
-    name = "captive-browser";
-    desktopName = "Captive Browser";
-    exec = "${pkgs.captive-browser}/bin/captive-browser";
-    icon = "web-browser";
-    terminal = false;
-    categories = ["Application"];
-  };
-in {
+{pkgs, ...}: {
   packages = with pkgs; [
-    tor-browser # don't ask
-
     obsidian
-    kdePackages.kleopatra
     anki
-    musescore
     libreoffice-qt
 
-    mpv
-    bluetuith
-
+    kdePackages.kleopatra
     prismlauncher
+    mpv
 
+    musescore
     vital
 
-    captive-browser # https://words.filippo.io/captive-browser
-    captiveBrowserDesktop
-    # inputs.glide-browser.packages."x86_64-linux".default
-    # inputs.vermilion.packages."x86_64-linux".default
+    bluetuith
+    (pkgs.callPackage ../../pkgs/yo {})
 
-    # (pkgs.callPackage ../../pkgs/yoshi.nix {inherit inputs;})
-    (pkgs.callPackage ../../pkgs/yo {inherit inputs;})
+    captive-browser # https://words.filippo.io/captive-browser
+    (pkgs.makeDesktopItem {
+      name = "captive-browser";
+      desktopName = "Captive Browser";
+      exec = "${pkgs.captive-browser}/bin/captive-browser";
+      icon = "web-browser";
+      terminal = false;
+      categories = ["Application"];
+    })
   ];
 
   files.".config/captive-browser.toml".text = ''
@@ -50,9 +38,5 @@ in {
     dhcp-dns = "echo 10.0.5.82"
 
     socks5-addr = "localhost:1666"
-  '';
-
-  files.".config/yo.conf".text = ''
-    sudo    run0 --background=
   '';
 }

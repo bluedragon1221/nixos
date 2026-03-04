@@ -55,11 +55,6 @@
     Host ganymede
       HostName williamsfam.us.com
       Port 22
-
-    Host gliese
-      HostName 20.251.8.247
-      Port 22
-      IdentityFile ~/Gliese_key_2.pem
   '';
 
   programs.firefox.policies.ExtensionSettings = {
