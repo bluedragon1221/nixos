@@ -29,8 +29,6 @@
     }
   ];
 
-  services.printing.enable = true;
-
   environment.defaultPackages = lib.mkForce []; # im not a noob
 
   security.pki.certificates = [

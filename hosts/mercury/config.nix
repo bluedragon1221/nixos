@@ -41,6 +41,7 @@
 
       audio.enable = true;
       bluetooth.enable = true;
+      printing.enable = true;
     };
 
     terminal = {

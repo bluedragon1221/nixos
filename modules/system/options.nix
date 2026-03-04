@@ -70,6 +70,7 @@ in {
 
     audio.enable = mkEnableOption "pipewire and wireplumber";
     bluetooth.enable = mkEnableOption "bluetooth";
+    printing.enable = mkEnableOption "cups printing server";
   };
 
   config.assertions = [

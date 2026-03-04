@@ -5,5 +5,6 @@
     ./audio.nix
     ./bluetooth.nix
     ./polkit.nix
+    ./printing.nix
   ];
 }
