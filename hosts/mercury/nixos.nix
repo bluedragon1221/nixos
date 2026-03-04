@@ -1,13 +1,12 @@
 {
   lib,
-  pkgs,
   inputs,
   ...
 }: {
   imports = [
     ./disks.nix
     ./battery.nix
-    ./ai.nix
+    # ./ai.nix
 
     inputs.nixos-facter-modules.nixosModules.facter
     inputs.lanzaboote.nixosModules.lanzaboote
