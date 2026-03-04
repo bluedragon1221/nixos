@@ -8,7 +8,20 @@
 
   languages = {
     language-server = {
-      rust-analyzer.command = "${pkgs.rust-analyzer}/bin/rust-analyzer";
+      rust-analyzer.command = let
+        env = pkgs.stdenv.mkDerivation {
+          name = "rust-analyzer-env";
+          src = ./.;
+
+          nativeBuildInputs = [pkgs.makeWrapper];
+          buildInputs = [pkgs.rust-analyzer];
+          installPhase = ''
+            mkdir -p $out/bin
+            makeWrapper ${pkgs.rust-analyzer}/bin/rust-analyzer $out/bin/rust-analyzer \
+              --prefix PATH : ${pkgs.lib.makeBinPath (with pkgs; [rustc cargo])}
+          '';
+        };
+      in "${env}/bin/rust-analyzer";
 
       nil = {
         command = "${pkgs.nil}/bin/nil";
