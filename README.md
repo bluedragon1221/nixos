@@ -5,11 +5,11 @@ Cool things:
 - Deployments over ssh using [deploy-rs](https://github.com/serokell/deploy-rs)
 - Automatic secret decryption with ssh keys using [agenix](https://github.com/ryantm/agenix)
 - Fully declarative self-hosted services, including:
-  - [cgit](./modules/services/nixos/cgit/default.nix)
-  - [GoAccess](./modules/services/nixos/goaccess.nix)
-  - [Polaris](./modules/services/nixos/polaris.nix)
-  - [qBittorrent](./modules/services/nixos/qbittorrent.nix)
-- [Homogenous modules](./docs/homogenous_modules.md)
+  - [cgit](../modules/services/nixos/cgit/default.nix)
+  - [GoAccess](../modules/services/nixos/goaccess.nix)
+  - [Polaris](../modules/services/nixos/polaris.nix)
+  - [qBittorrent](../modules/services/nixos/qbittorrent.nix)
+- [Homogenous modules](../docs/homogenous_modules.md)
 
 # Hosts
 ## [Mercury](./hosts/mercury)
