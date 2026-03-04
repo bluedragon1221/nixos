@@ -9,7 +9,7 @@ Cool things:
   - [GoAccess](../tree/modules/services/nixos/goaccess.nix)
   - [Polaris](../tree/modules/services/nixos/polaris.nix)
   - [qBittorrent](../tree/modules/services/nixos/qbittorrent.nix)
-- [Homogenous modules](../tree/docs/homogenous_modules.md)
+- [Homogenous modules](../about/docs/homogenous_modules.md)
 
 # Hosts
 ## [Mercury](./hosts/mercury)
