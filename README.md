@@ -12,21 +12,21 @@ Cool things:
 - [Homogenous modules](../about/docs/homogenous_modules.md)
 
 # Hosts
-## [Mercury](./hosts/mercury)
+## [Mercury](../tree/hosts/mercury)
 - Device: Lenovo Thinkpad X1 Carbon Gen 6
 - OS: NixOS
 - DE/Compositor: Sway (or Niri, I can't decide)
 
 Goes everywhere with me. Used for programming, school, and browsing the web
 
-## [Jupiter](./hosts/jupiter)
+## [Jupiter](../tree/hosts/jupiter)
 - Device: HP ENVY Desktop
 - OS: NixOS (dual booted with Windows 11 LTSC IoT Enterprise)
 - DE/Compositor: GNOME
 
 Used for heavier tasks, like gaming and music production
 
-## [Ganymede](./hosts/ganymede)
+## [Ganymede](../tree/hosts/ganymede)
 - Device: Lenovo Yoga 730 (broken screen)
 - OS: NixOS
 - DE/Compositor: none
