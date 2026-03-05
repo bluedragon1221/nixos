@@ -16,6 +16,8 @@
 
   facter.reportPath = ./facter.json;
 
+  virtualisation.oci-containers.backend = "docker"; # fix weird issue with minecraft server (only thing running in docker right now)
+
   # backup usb teather configuration
   systemd.network.networks."80-usb-teather" = {
     name = "enp0s20f0u2";
