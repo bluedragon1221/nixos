@@ -8,6 +8,8 @@
     prismlauncher
     mpv
 
+    lagrange
+
     musescore
     vital
 

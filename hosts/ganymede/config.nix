@@ -77,6 +77,16 @@
         privateUrl = "git.ganymede";
       };
 
+      agate = {
+        enable = true;
+        publicUrl = "williamsfam.us.com";
+      };
+
+      minecraft = {
+        enable = true;
+        listenAddr = "0.0.0.0";
+      };
+
       polaris = {
         enable = true;
         privateUrl = "music.ganymede";

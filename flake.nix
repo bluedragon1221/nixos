@@ -89,7 +89,5 @@
         pkgs = buildPkgs;
       };
     };
-
-    projects."nixos-rb" = ./pkgs/yo/nixos.rb;
   };
 }

@@ -98,6 +98,14 @@ in {
       reverse_proxy = false;
     };
 
+    agate = {
+      enable = mkEnableOption "Agate Gemini Protocol Server";
+      publicUrl = mkOption {
+        description = "domain to run this gemini server on";
+        type = lib.types.str;
+      };
+    };
+
     polaris = webserviceOptions {
       service_name = "polaris";
       default_port = 8079;
@@ -134,6 +142,19 @@ in {
           }));
         };
       };
+
+    minecraft = {
+      enable = mkEnableOption "Minecraft bedrock server";
+      listenAddr = mkOption {
+        description = "Address to listen on";
+        type = ipAddr;
+        default = "127.0.0.1";
+      };
+      port = mkOption {
+        type = lib.types.port;
+        default = 19132;
+      };
+    };
 
     caddy = {
       enable = mkEnableOption "caddy https server";

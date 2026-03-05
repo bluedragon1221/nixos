@@ -7,13 +7,14 @@
 }: {
   imports = [
     inputs.disko.nixosModules.disko
+    inputs.nixos-facter-modules.nixosModules.facter
     ./disks.nix
-
-    ./minecraft.nix
 
     ./iwlwifi.nix
     ./caddy.nix
   ];
+
+  facter.reportPath = ./facter.json;
 
   # backup usb teather configuration
   systemd.network.networks."80-usb-teather" = {

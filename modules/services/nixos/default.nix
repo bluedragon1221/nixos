@@ -11,6 +11,8 @@
     ./polaris.nix
     # ./mopidy.nix
     # ./jellyfin.nix
+    ./agate.nix
+    ./minecraft.nix
     ./copyparty.nix
     ./qbittorrent.nix
   ];
