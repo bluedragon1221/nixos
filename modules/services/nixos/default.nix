@@ -15,5 +15,6 @@
     ./minecraft.nix
     ./copyparty.nix
     ./qbittorrent.nix
+    ./copilot-api.nix
   ];
 }

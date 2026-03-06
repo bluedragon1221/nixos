@@ -25,7 +25,7 @@
       name = "ganymede";
       user = "collin";
       monitoringPort = 20000;
-      extraArguments = "-N -D 9090 collin@williamsfam.us.com";
+      extraArguments = "-N -D 9090 -L 4141:localhost:4141 collin@williamsfam.us.com";
     }
   ];
 

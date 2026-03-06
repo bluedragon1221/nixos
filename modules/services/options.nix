@@ -164,5 +164,24 @@ in {
         example = "/run/secrets.d/caddy-env";
       };
     };
+
+    copilot-api = {
+      enable = mkEnableOption "GitHub Copilot API proxy";
+      listenAddr = mkOption {
+        description = "Address to listen on";
+        type = ipAddr;
+        default = "127.0.0.1";
+      };
+      port = mkOption {
+        description = "Port to listen on";
+        type = types.port;
+        default = 4141;
+      };
+      githubToken = mkOption {
+        description = "Path to file containing GitHub token";
+        type = types.nullOr types.str;
+        default = null;
+      };
+    };
   };
 }

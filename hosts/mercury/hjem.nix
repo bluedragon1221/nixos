@@ -8,6 +8,8 @@
     prismlauncher
     mpv
 
+    claude-code
+
     lagrange
 
     musescore

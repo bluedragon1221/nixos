@@ -22,6 +22,11 @@
         file = ./secrets/wireguard-pk.age;
         owner = "systemd-network";
       };
+
+      "copilot-token" = {
+        file = ./secrets/copilot-token.age;
+        owner = "copilot-api";
+      };
     };
 
     terminal = {
@@ -111,6 +116,11 @@
       caddy = {
         enable = true;
         envFile = config.collinux.secrets."caddy-env".path;
+      };
+
+      copilot-api = {
+        enable = true;
+        githubToken = config.collinux.secrets."copilot-token".path;
       };
     };
   };
