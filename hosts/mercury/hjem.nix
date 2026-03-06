@@ -43,4 +43,16 @@
 
     socks5-addr = "localhost:1666"
   '';
+
+  files.".claude/settings.json".text = builtins.toJSON {
+    env = {
+      ANTHROPIC_BASE_URL = "http://localhost:4141";
+      ANTHROPIC_AUTH_TOKEN = "sk-dummy";
+      ANTHROPIC_MODEL = "claude-sonnet-4.5";
+      ANTHROPIC_DEFAULT_HAIKU_MODEL = "gpt-5-mini";
+      DISABLE_NON_ESSENTIAL_MODEL_CALLS = "1";
+      CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = "1";
+      CLAUDE_CODE_ATTRIBUTION_HEADER = "0";
+    };
+  };
 }
