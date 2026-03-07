@@ -64,6 +64,7 @@
   users.users."deploy" = {
     isSystemUser = true;
     group = "deploy";
+    shell = pkgs.bash;
 
     openssh.authorizedKeys.keys = config.users.users."collin".openssh.authorizedKeys.keys;
   };
@@ -84,6 +85,13 @@
   ];
 
   services.fail2ban.enable = true;
+
+  programs.ssh.extraConfig = ''
+    Host gliese
+      HostName 10.100.0.1
+      User green
+      IdentityFile ~/Gliese_key_2.pem
+  '';
 
   # merge logs from subdomains
   services.caddy.virtualHosts."up.williamsfam.us.com".logFormat = lib.mkForce ''
