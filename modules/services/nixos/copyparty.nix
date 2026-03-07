@@ -14,6 +14,8 @@ in {
   config = lib.mkIf cfg.enable {
     users.groups."fileserver".members = [config.collinux.user.name];
 
+    networking.firewall.allowedTCPPorts = lib.optional (cfg.listenAddr == "0.0.0.0") cfg.port;
+
     services.copyparty = {
       enable = true;
 

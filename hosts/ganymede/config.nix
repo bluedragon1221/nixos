@@ -103,6 +103,7 @@
       };
       copyparty = {
         enable = true;
+        listenAddr = "0.0.0.0";
         publicUrl = "up.williamsfam.us.com";
         privateUrl = "files.ganymede";
 
