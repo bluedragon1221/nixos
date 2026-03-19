@@ -6,8 +6,8 @@
 
     case ARGV[0]
       when "deploy", "dep"
-        hostname = ARGV[1] or abort "must specify hostname to build"
-        ssh_host = ARGV[2] or abort "must specify ssh host to target"
+        ssh_host = ARGV[1] or abort "must specify ssh target (host or user@host)"
+        hostname = ssh_host.include?("@") ? ssh_host.split("@", 2).last : ssh_host
 
         store_path = Nix.build_configuration(
           flake_path: FLAKE_PATH,

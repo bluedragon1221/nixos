@@ -59,32 +59,6 @@
     };
   };
 
-  # deploy user
-  nix.settings.trusted-users = ["deploy"];
-  users.groups."deploy" = {};
-  users.users."deploy" = {
-    isSystemUser = true;
-    group = "deploy";
-    shell = pkgs.bash;
-
-    openssh.authorizedKeys.keys = config.users.users."collin".openssh.authorizedKeys.keys;
-  };
-  security.sudo.extraRules = [
-    {
-      users = ["deploy"];
-      commands = [
-        {
-          command = "/nix/store/*/bin/switch-to-configuration";
-          options = ["NOPASSWD"];
-        }
-        {
-          command = "/run/current-system/sw/bin/shutdown";
-          options = ["NOPASSWD"];
-        }
-      ];
-    }
-  ];
-
   services.fail2ban.enable = true;
 
   programs.ssh.extraConfig = ''

@@ -64,6 +64,7 @@
           {
             port = 22;
             listenAddr = "0.0.0.0";
+            rootLogin = true;
           }
         ];
       };
