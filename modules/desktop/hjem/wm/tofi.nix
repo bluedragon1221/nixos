@@ -4,7 +4,7 @@
   config,
   ...
 }: let
-  cfg = config.collinux.desktop.programs.tofi;
+  cfg = config.collinux.desktop.wm.components.tofi;
   flags = {
     drun-launch = "true";
     anchor = "bottom";

@@ -43,9 +43,13 @@ in {
         sway.enable = mkEnableOption "sway";
         niri.enable = mkEnableOption "niri";
 
+        gtkDesktopPortal.enable = mkEnableOption "GTK desktop portal backend";
+        kdeDesktopPortal.enable = mkEnableOption "KDE desktop portal backend";
+
         components = {
           dunst = mkProgramOption "dunst";
           fuzzel = mkProgramOption "fuzzel";
+          tofi = mkProgramOption "tofi";
         };
       };
       gnome.enable = mkEnableOption "gnome";
@@ -116,6 +120,16 @@ in {
         };
       };
 
+      qt = {
+        enable = mkEnableOption "qt theming";
+        theme = mkThemeOption "qt";
+        iconTheme = mkOption {
+          type = types.str;
+          default = "Papirus";
+          description = "Icon theme to use for Qt/KDE applications";
+        };
+      };
+
       programs = {
         firefox = {
           enable = mkEnableOption "firefox";
@@ -132,7 +146,6 @@ in {
         };
 
         foot = mkProgramOption "foot";
-        tofi = mkProgramOption "tofi";
         blackbox.enable = mkEnableOption "blackbox";
         ghostty.enable = mkEnableOption "ghostty";
         alacritty.enable = mkEnableOption "alacritty";
@@ -151,6 +164,10 @@ in {
       {
         assertion = with config.collinux.desktop.greetd; enable -> !(autologin.enable && cosmic-greeter.enable);
         message = "Can't use autologin and cosmic-greeter at the same time";
+      }
+      {
+        assertion = with config.collinux.desktop.wm; !(gtkDesktopPortal.enable && kdeDesktopPortal.enable);
+        message = "Can't enable GTK and KDE desktop portal backends at the same time";
       }
     ];
   };

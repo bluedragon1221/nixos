@@ -4,28 +4,31 @@
   config,
   ...
 }: let
-  isCatppuccin = config.collinux.theme == "catppuccin";
-  useQtDesktop = config.collinux.desktop.wm.sway.enable || config.collinux.desktop.wm.niri.enable;
+  cfg = config.collinux.desktop.qt;
+  isCatppuccin = cfg.theme == "catppuccin";
 in
-  lib.mkIf useQtDesktop {
+  lib.mkIf cfg.enable {
     qt = {
       enable = true;
       platformTheme = "kde";
       style = "kvantum";
     };
 
-    environment.systemPackages = lib.optionals isCatppuccin [
-      pkgs.papirus-icon-theme
-      (pkgs.catppuccin-kde.override {
-        flavour = ["mocha"];
-        accents = ["blue"];
-        winDecStyles = ["modern"];
-      })
-      (pkgs.catppuccin-kvantum.override {
-        variant = "mocha";
-        accent = "blue";
-      })
-    ];
+    environment.systemPackages =
+      [
+        pkgs.papirus-icon-theme
+      ]
+      ++ lib.optionals isCatppuccin [
+        (pkgs.catppuccin-kde.override {
+          flavour = ["mocha"];
+          accents = ["blue"];
+          winDecStyles = ["modern"];
+        })
+        (pkgs.catppuccin-kvantum.override {
+          variant = "mocha";
+          accent = "blue";
+        })
+      ];
 
     environment.pathsToLink = lib.optionals isCatppuccin [
       "/share/color-schemes"
@@ -52,23 +55,5 @@ in
         "KVANTUM_THEME=catppuccin-mocha-blue"
         "KDE_COLOR_SCHEME=CatppuccinMochaBlue"
       ];
-    };
-
-    hjem.users."${config.collinux.user.name}".xdg.config.files = lib.optionalAttrs isCatppuccin {
-      "Kvantum/kvantum.kvconfig".text = ''
-        [General]
-        theme=catppuccin-mocha-blue
-      '';
-
-      "kdeglobals".text = ''
-        [General]
-        ColorScheme=CatppuccinMochaBlue
-
-        [Icons]
-        Theme=Papirus
-
-        [KDE]
-        widgetStyle=kvantum
-      '';
     };
   }

@@ -14,6 +14,7 @@
     desktop = {
       wallpaper = ./wallpapers/abstract-swirls.jpg;
       gtk.enable = true;
+      qt.enable = true;
 
       greetd = {
         enable = true;
@@ -22,17 +23,18 @@
 
       wm = {
         sway.enable = true;
+        kdeDesktopPortal.enable = true;
 
         components = {
           fuzzel.enable = true;
           dunst.enable = true;
+          tofi.enable = true;
         };
       };
 
       programs = {
         firefox.enable = true;
         foot.enable = true;
-        tofi.enable = true;
 
         research.enable = true;
       };
