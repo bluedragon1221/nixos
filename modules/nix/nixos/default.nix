@@ -2,9 +2,16 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }: {
+  imports = [
+    inputs.nix-index-database.nixosModules.default
+  ];
+
   nix = {
+    # package = inputs.determinate.packages.${pkgs.system}.default;
+
     gc.automatic = false; # use nh cleaner instead
 
     # Make builds run with low priority so my system stays responsive
@@ -15,18 +22,23 @@
       extra-experimental-features = ["nix-command" "flakes" "pipe-operators"];
       auto-optimise-store = true;
       use-xdg-base-directories = true;
+
+      # lazy-trees = true;
+      # eval-cores = 0;
     };
 
     # Disable channels
     channel.enable = false;
   };
-
   nixpkgs.config.allowUnfree = true;
 
-  programs.nh = lib.mkIf config.collinux.terminal.programs.nh.enable {
-    enable = true;
-    flake = "/home/${config.collinux.user.name}/nixos";
-    clean.enable = true;
+  programs = {
+    nh = lib.mkIf config.collinux.terminal.programs.nh.enable {
+      enable = true;
+      flake = "/home/${config.collinux.user.name}/nixos";
+      clean.enable = true;
+    };
+    nix-index-database.comma.enable = true;
   };
 
   environment.systemPackages = [pkgs.cached-nix-shell];

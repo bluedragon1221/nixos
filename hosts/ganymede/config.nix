@@ -8,6 +8,11 @@
         owner = "wpa_supplicant";
       };
 
+      "gliese-key" = {
+        file = ../gliese-key.age;
+        owner = "collin";
+      };
+
       "caddy-env".file = ./secrets/caddy-env.age;
 
       "collin-copyparty-password" = {
@@ -21,11 +26,6 @@
       "wireguard-pk" = {
         file = ./secrets/wireguard-pk.age;
         owner = "systemd-network";
-      };
-
-      "copilot-token" = {
-        file = ./secrets/copilot-token.age;
-        owner = "copilot-api";
       };
     };
 
@@ -117,11 +117,6 @@
       caddy = {
         enable = true;
         envFile = config.collinux.secrets."caddy-env".path;
-      };
-
-      copilot-api = {
-        enable = true;
-        githubToken = config.collinux.secrets."copilot-token".path;
       };
     };
   };

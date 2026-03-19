@@ -18,7 +18,7 @@
           installPhase = ''
             mkdir -p $out/bin
             makeWrapper ${pkgs.rust-analyzer}/bin/rust-analyzer $out/bin/rust-analyzer \
-              --prefix PATH : ${pkgs.lib.makeBinPath (with pkgs; [rustc cargo])}
+              --prefix PATH : ${lib.makeBinPath (with pkgs; [rustc cargo])}
           '';
         };
       in "${env}/bin/rust-analyzer";

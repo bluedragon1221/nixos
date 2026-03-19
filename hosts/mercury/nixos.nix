@@ -1,6 +1,8 @@
 {
   lib,
+  pkgs,
   inputs,
+  config,
   ...
 }: {
   imports = [
@@ -29,6 +31,8 @@
     }
   ];
 
+  services.dbus.implementation = "broker";
+
   environment.defaultPackages = lib.mkForce []; # im not a noob
 
   security.pki.certificates = [
@@ -55,7 +59,21 @@
     Host ganymede
       HostName williamsfam.us.com
       Port 22
+
+    Host gliese
+      HostName 10.100.0.1
+      User green
+      IdentityFile ${config.collinux.secrets."gliese-key".path}
+      ProxyJump collin@ganymede
   '';
+
+  ## UUGGGG I DINT"W ATNT TO DO THIS
+  programs.nix-ld = {
+    enable = true;
+    libraries = with pkgs; [
+      libGL
+    ];
+  };
 
   programs.firefox.policies.ExtensionSettings = {
     "foxyproxy@eric.h.jung" = {

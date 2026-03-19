@@ -12,6 +12,10 @@
       shell = "${pkgs.fish}/bin/fish";
     };
 
+    key-bindings = {
+      spawn-terminal = "Control+Return";
+    };
+
     colors = with config.collinux.palette; {
       alpha = "0.6";
 

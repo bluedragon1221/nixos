@@ -60,6 +60,7 @@
   };
 
   # deploy user
+  nix.settings.trusted-users = ["deploy"];
   users.groups."deploy" = {};
   users.users."deploy" = {
     isSystemUser = true;
@@ -90,7 +91,7 @@
     Host gliese
       HostName 10.100.0.1
       User green
-      IdentityFile ~/Gliese_key_2.pem
+      IdentityFile ${config.collinux.secrets."gliese-key".path}
   '';
 
   # merge logs from subdomains

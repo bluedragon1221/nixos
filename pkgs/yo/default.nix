@@ -14,7 +14,11 @@
           hostname: hostname,
           use_nom: true
         )
-        Nix.switch_to_configuration_remote(store_path: store_path, ssh_host: ssh_host, use_magic_rollback: true)
+        Nix.switch_to_configuration_remote(
+          store_path: store_path,
+          ssh_host: ssh_host,
+          use_magic_rollback: true
+        )
       when "switch", "sw"
         store_path = Nix.build_configuration(
           flake_path: FLAKE_PATH,

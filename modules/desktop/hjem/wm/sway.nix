@@ -38,6 +38,7 @@
   settings = ''
     exec ${config.collinux.desktop.wallpaper_cmd}
     exec ${pkgs.dunst}/bin/dunst
+    exec ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd WAYLAND_DISPLAY DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP GTK_USE_PORTAL NIXOS_OZONE_WL MOZ_ENABLE_WAYLAND
 
     include catppuccin-mocha
 
@@ -78,10 +79,12 @@
     bindsym Mod4+Shift+9 move container to workspace number 9
 
     bindsym Mod4+Return       exec ${pkgs.foot}/bin/foot
-    bindsym Mod4+Space        exec ${pkgs.fuzzel}/bin/fuzzel
+    bindsym Mod4+Space        exec tofi-drun
     bindsym Mod4+b            exec ${pkgs.firefox}/bin/firefox
     bindsym Mod4+Shift+b      exec ${pkgs.qutebrowser}/bin/qutebrowser
     bindsym Mod4+q kill
+
+    bindsym Mod4+w exec '${pkgs.iwmenu}/bin/iwmenu -l fuzzel -i font -s 2'
 
     bindsym Mod4+Shift+s exec '${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" ~/Pictures/$(date +"%s_grim.png")'
     bindsym Mod4+Alt+s exec '${pkgs.hyprpicker}/bin/hyprpicker'

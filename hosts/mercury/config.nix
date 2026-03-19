@@ -2,11 +2,19 @@
   collinux = {
     theme = "catppuccin";
 
+    secrets = {
+      "gliese-key" = {
+        file = ../gliese-key.age;
+        owner = "collin";
+      };
+    };
+
     user.useRun0 = true;
 
     desktop = {
       wallpaper = ./wallpapers/abstract-swirls.jpg;
       gtk.enable = true;
+
       greetd = {
         enable = true;
         autologin.enable = true;
@@ -24,6 +32,7 @@
       programs = {
         firefox.enable = true;
         foot.enable = true;
+        tofi.enable = true;
 
         research.enable = true;
       };

@@ -132,6 +132,7 @@ in {
         };
 
         foot = mkProgramOption "foot";
+        tofi = mkProgramOption "tofi";
         blackbox.enable = mkEnableOption "blackbox";
         ghostty.enable = mkEnableOption "ghostty";
         alacritty.enable = mkEnableOption "alacritty";

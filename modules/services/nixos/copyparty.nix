@@ -74,7 +74,7 @@ in {
               };
               flags = {
                 fk = 6;
-                dk = 6;
+                dks = 6;
                 e2ts = true; # enable music indexing
               };
             };
