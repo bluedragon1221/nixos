@@ -23,8 +23,8 @@
       format = "$modified$staged$ahead$behind";
       modified = "[!](red bold)";
       staged = "[+](green bold)";
-      ahead = "[/](green)";
-      behind = "[\](red)";
+      ahead = "[^](green)";
+      behind = "[v](red)";
     };
 
     directory = {
