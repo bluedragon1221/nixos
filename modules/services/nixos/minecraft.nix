@@ -15,7 +15,7 @@ in
 
         SERVER_NAME = "YServer";
         TZ = config.time.timeZone;
-        VERSION = "1.21.131.1";
+        VERSION = "1.26.3.1";
         CONTENT_LOG_FILE_ENABLED = "false";
 
         ALLOW_CHEATS = "false";
