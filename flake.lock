@@ -164,6 +164,22 @@
         "type": "github"
       }
     },
+    "fx-autoconfig": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1773035931,
+        "narHash": "sha256-vOsXpuU2XlbIfXGm1RJicY8ghbkU5FvnctQMBMXCXbs=",
+        "owner": "MrOtherGuy",
+        "repo": "fx-autoconfig",
+        "rev": "8da9268f7afcbf5d438b099e976fe8aa46a111d0",
+        "type": "github"
+      },
+      "original": {
+        "owner": "MrOtherGuy",
+        "repo": "fx-autoconfig",
+        "type": "github"
+      }
+    },
     "gitignore": {
       "inputs": {
         "nixpkgs": [
@@ -405,6 +421,7 @@
         "copyparty": "copyparty",
         "disko": "disko",
         "firefox-csshacks": "firefox-csshacks",
+        "fx-autoconfig": "fx-autoconfig",
         "glide-browser": "glide-browser",
         "hjem": "hjem",
         "lanzaboote": "lanzaboote",
@@ -412,6 +429,7 @@
         "nixos-facter-modules": "nixos-facter-modules",
         "nixpkgs": "nixpkgs",
         "tmux-tsunami": "tmux-tsunami",
+        "uc-css-js": "uc-css-js",
         "vermilion": "vermilion",
         "yoshi-lua": "yoshi-lua"
       }
@@ -530,6 +548,22 @@
       "original": {
         "owner": "bluedragon1221",
         "repo": "tmux-tsunami",
+        "type": "github"
+      }
+    },
+    "uc-css-js": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767720625,
+        "narHash": "sha256-VrOgKNPJ3iTRqXqHYQz8UrZ6FpC1vHWwgy11AAfe4o8=",
+        "owner": "aminomancer",
+        "repo": "uc.css.js",
+        "rev": "88514013ddc375f4770f4a35d8d07a91d6dd7d8f",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aminomancer",
+        "repo": "uc.css.js",
         "type": "github"
       }
     },

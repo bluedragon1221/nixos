@@ -8,7 +8,6 @@
 in
   lib.mkIf cfg.enable {
     packages = with pkgs; [
-      zotero
       zathura
       xournalpp
       ocrmypdf

@@ -1,6 +1,5 @@
 {
   lib,
-  pkgs,
   inputs,
   config,
   ...
@@ -66,14 +65,6 @@
       IdentityFile ${config.collinux.secrets."gliese-key".path}
       ProxyJump collin@ganymede
   '';
-
-  ## UUGGGG I DINT"W ATNT TO DO THIS
-  programs.nix-ld = {
-    enable = true;
-    libraries = with pkgs; [
-      libGL
-    ];
-  };
 
   programs.firefox.policies.ExtensionSettings = {
     "foxyproxy@eric.h.jung" = {

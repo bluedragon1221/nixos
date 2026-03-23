@@ -20,6 +20,8 @@ in
         set -gx CARGO_HOME "$XDG_DATA_HOME/cargo"
         set -gx ANDROID_USER_HOME "$XDG_DATA_HOME/android"
         set -gx WINE_PREFIX "$XDG_DATA_HOME/wine"
+
+        set -gx PYTHON_HISTORY "/dev/null"
       '';
 
       ".config/fish/config.fish".text = ''

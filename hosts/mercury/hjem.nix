@@ -3,17 +3,14 @@
     obsidian
     anki
     libreoffice-qt
+    musescore
 
-    kdePackages.kleopatra
     prismlauncher
     mpv
+    bluetuith
 
     opencode
 
-    musescore
-    vital
-
-    bluetuith
     (pkgs.callPackage ../../pkgs/yo {})
 
     captive-browser # https://words.filippo.io/captive-browser
@@ -25,6 +22,13 @@
       terminal = false;
       categories = ["Application"];
     })
+
+    (pkgs.writeShellScriptBin "battery.sh" ''
+      energy_now=$(cat /sys/class/power_supply/BAT0/energy_now)
+      energy_full=$(cat /sys/class/power_supply/BAT0/energy_full)
+      percentage=$((energy_now * 100 / energy_full))
+      printf "%.0f%%" "$percentage"
+    '')
   ];
 
   files.".config/captive-browser.toml".text = ''

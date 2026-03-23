@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  inputs,
   ...
 }: let
   cfg = config.collinux.desktop.programs.firefox;
@@ -8,6 +9,11 @@ in
   lib.mkIf cfg.enable {
     programs.firefox = {
       enable = true;
+
+      autoConfigFiles = [
+        "${inputs.fx-autoconfig}/program/config.js"
+      ];
+
       policies = {
         PasswordManagerEnabled = false; # use bitwarden instead
         DisableAccounts = true;

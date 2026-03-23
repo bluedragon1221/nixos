@@ -53,12 +53,21 @@
       flake = false;
     };
 
+    # firefox modding stuff
     firefox-csshacks = {
       url = "github:MrOtherGuy/firefox-csshacks";
       flake = false;
     };
     betterfox = {
       url = "github:yokoffing/Betterfox";
+      flake = false;
+    };
+    fx-autoconfig = {
+      url = "github:MrOtherGuy/fx-autoconfig";
+      flake = false;
+    };
+    uc-css-js = {
+      url = "github:aminomancer/uc.css.js";
       flake = false;
     };
   };

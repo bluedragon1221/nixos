@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+{...}: {
   # auto-cpufreq
   services.power-profiles-daemon.enable = false; # conflicts with auto-cpufreq
   services.tlp.enable = false; # conflicts with auto-cpufreq

@@ -33,7 +33,10 @@
       };
 
       programs = {
-        firefox.enable = true;
+        firefox = {
+          enable = true;
+          extensions.zotero.enable = false;
+        };
         foot.enable = true;
 
         research.enable = true;
