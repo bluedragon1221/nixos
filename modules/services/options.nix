@@ -56,26 +56,19 @@ in {
     sshd = {
       enable = mkEnableOption "OpenSSH server";
 
-      portConfig = mkOption {
-        description = "List of ssh bind hosts. see submodule options for details";
-        type = lib.types.listOf (lib.types.submodule {
-          options = {
-            port = mkOption {
-              description = "Port to run on";
-              type = lib.types.port;
-            };
-
-            listenAddr = mkOption {
-              description = "Address to listen on";
-              type = lib.types.str;
-              default = "127.0.0.1";
-            };
-
-            otp = mkEnableOption "Whether to require TOTP (Google Authenticator) 2fa codes for this port";
-            rootLogin = mkEnableOption "Whether to allow root login for this port";
-          };
-        });
+      port = mkOption {
+        description = "Port to run on";
+        type = lib.types.port;
       };
+
+      listenAddr = mkOption {
+        description = "Address to listen on";
+        type = lib.types.str;
+        default = "127.0.0.1";
+      };
+
+      otp = mkEnableOption "Whether to require TOTP (Google Authenticator) 2fa codes";
+      rootLogin = mkEnableOption "Whether to allow root login";
     };
 
     forgejo = webserviceOptions {

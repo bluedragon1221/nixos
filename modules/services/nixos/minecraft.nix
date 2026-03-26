@@ -24,5 +24,7 @@ in
       image = "itzg/minecraft-bedrock-server";
       ports = ["${cfg.listenAddr}:${toString cfg.port}:19132/udp"];
       volumes = ["/var/lib/minecraft/:/data"];
+
+      extraOptions = ["--no-healthcheck"];
     };
   }

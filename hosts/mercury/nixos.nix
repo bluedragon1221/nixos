@@ -1,19 +1,20 @@
 {
   lib,
   inputs,
-  config,
   ...
 }: {
   imports = [
     ./disks.nix
     ./battery.nix
-    # ./ai.nix
 
     inputs.nixos-facter-modules.nixosModules.facter
     inputs.lanzaboote.nixosModules.lanzaboote
   ];
 
   facter.reportPath = ./facter.json;
+  services.dbus.implementation = "broker";
+
+  environment.defaultPackages = lib.mkForce []; # im not a noob
 
   services.syncthing = {
     enable = true;
@@ -26,14 +27,14 @@
       name = "ganymede";
       user = "collin";
       monitoringPort = 20000;
-      extraArguments = "-N -D 9090 -L 4141:localhost:4141 collin@williamsfam.us.com";
+      extraArguments = "-N -D 9090 collin@williamsfam.us.com";
     }
   ];
-
-  services.dbus.implementation = "broker";
-
-  environment.defaultPackages = lib.mkForce []; # im not a noob
-
+  programs.ssh.extraConfig = ''
+    Host ganymede
+      HostName williamsfam.us.com
+      Port 22
+  '';
   security.pki.certificates = [
     ''
       -----BEGIN CERTIFICATE-----
@@ -49,22 +50,6 @@
       -----END CERTIFICATE-----
     ''
   ];
-
-  programs.ssh.extraConfig = ''
-    Match host ganymede exec "nc -z -w1 192.168.50.2 2222"
-      HostName 192.168.50.2
-      Port 2222
-
-    Host ganymede
-      HostName williamsfam.us.com
-      Port 22
-
-    Host gliese
-      HostName 10.100.0.1
-      User green
-      IdentityFile ${config.collinux.secrets."gliese-key".path}
-      ProxyJump collin@ganymede
-  '';
 
   programs.firefox.policies.ExtensionSettings = {
     "foxyproxy@eric.h.jung" = {

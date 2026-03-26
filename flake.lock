@@ -180,6 +180,18 @@
         "type": "github"
       }
     },
+    "geolite-db": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-+9DF7PHaxaMdrnf3IPnuM1Eyyr8MgUCiBBsO0PuaAD4=",
+        "type": "file",
+        "url": "https://github.com/P3TERX/GeoLite.mmdb/releases/latest/download/GeoLite2-City.mmdb"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/P3TERX/GeoLite.mmdb/releases/latest/download/GeoLite2-City.mmdb"
+      }
+    },
     "gitignore": {
       "inputs": {
         "nixpkgs": [
@@ -199,26 +211,6 @@
       "original": {
         "owner": "hercules-ci",
         "repo": "gitignore.nix",
-        "type": "github"
-      }
-    },
-    "glide-browser": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1768858368,
-        "narHash": "sha256-EqqShMa+LXRymE8Vc3or5lHU2ftYTSEgixYtqwRpr0M=",
-        "owner": "glide-browser",
-        "repo": "glide.nix",
-        "rev": "93646ce641920fa1ed4917cc9dbfa56f15e90a06",
-        "type": "github"
-      },
-      "original": {
-        "owner": "glide-browser",
-        "repo": "glide.nix",
         "type": "github"
       }
     },
@@ -375,22 +367,6 @@
         "type": "github"
       }
     },
-    "nixpkgs_2": {
-      "locked": {
-        "lastModified": 1746663147,
-        "narHash": "sha256-Ua0drDHawlzNqJnclTJGf87dBmaO/tn7iZ+TCkTRpRc=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "dda3dcd3fe03e991015e9a74b22d35950f264a54",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "ref": "nixos-unstable",
-        "repo": "nixpkgs",
-        "type": "github"
-      }
-    },
     "pre-commit": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -422,7 +398,7 @@
         "disko": "disko",
         "firefox-csshacks": "firefox-csshacks",
         "fx-autoconfig": "fx-autoconfig",
-        "glide-browser": "glide-browser",
+        "geolite-db": "geolite-db",
         "hjem": "hjem",
         "lanzaboote": "lanzaboote",
         "nix-index-database": "nix-index-database",
@@ -430,7 +406,6 @@
         "nixpkgs": "nixpkgs",
         "tmux-tsunami": "tmux-tsunami",
         "uc-css-js": "uc-css-js",
-        "vermilion": "vermilion",
         "yoshi-lua": "yoshi-lua"
       }
     },
@@ -564,24 +539,6 @@
       "original": {
         "owner": "aminomancer",
         "repo": "uc.css.js",
-        "type": "github"
-      }
-    },
-    "vermilion": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_2"
-      },
-      "locked": {
-        "lastModified": 1770166629,
-        "narHash": "sha256-8gP9fuYIN6epnPskX12rm2vEu/u/MjwJ8ZvIAjoPmLk=",
-        "owner": "vaxerski",
-        "repo": "Vermilion",
-        "rev": "7b77acdeb4563351af215a13d77ba4a8cd93cd6c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "vaxerski",
-        "repo": "Vermilion",
         "type": "github"
       }
     },

@@ -29,18 +29,13 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    glide-browser = {
-      url = "github:glide-browser/glide.nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    vermilion = {
-      url = "github:vaxerski/Vermilion";
-    };
-
     copyparty = {
       url = "github:9001/copyparty";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    geolite-db = {
+      url = "file+https://github.com/P3TERX/GeoLite.mmdb/releases/latest/download/GeoLite2-City.mmdb";
+      flake = false;
     };
 
     tmux-tsunami = {

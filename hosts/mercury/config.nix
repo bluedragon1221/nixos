@@ -2,12 +2,7 @@
   collinux = {
     theme = "catppuccin";
 
-    secrets = {
-      "gliese-key" = {
-        file = ../gliese-key.age;
-        owner = "collin";
-      };
-    };
+    secrets = {};
 
     user.useRun0 = true;
 

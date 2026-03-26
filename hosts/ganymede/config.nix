@@ -8,11 +8,6 @@
         owner = "wpa_supplicant";
       };
 
-      "gliese-key" = {
-        file = ../gliese-key.age;
-        owner = "collin";
-      };
-
       "caddy-env".file = ./secrets/caddy-env.age;
 
       "collin-copyparty-password" = {
@@ -55,18 +50,9 @@
     services = {
       sshd = {
         enable = true;
-        portConfig = [
-          {
-            port = 2222;
-            listenAddr = "0.0.0.0";
-            rootLogin = true;
-          }
-          {
-            port = 22;
-            listenAddr = "0.0.0.0";
-            rootLogin = true;
-          }
-        ];
+        port = 22;
+        listenAddr = "0.0.0.0";
+        rootLogin = true;
       };
 
       goaccess = {
@@ -83,19 +69,14 @@
         privateUrl = "git.ganymede";
       };
 
-      agate = {
-        enable = true;
-        publicUrl = "williamsfam.us.com";
-      };
+      # agate = {
+      #   enable = true;
+      #   publicUrl = "williamsfam.us.com";
+      # };
 
       minecraft = {
         enable = true;
         listenAddr = "0.0.0.0";
-      };
-
-      polaris = {
-        enable = true;
-        privateUrl = "music.ganymede";
       };
 
       qbittorrent = {

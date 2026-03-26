@@ -7,9 +7,6 @@
 }: let
   cfg = config.collinux.services.sshd;
 
-  anyAttr = attr: cfg.portConfig |> builtins.map (x: x.${attr} != null) |> builtins.any (x: x);
-  anyOTP = cfg.portConfig |> builtins.map (x: x.otp == true) |> builtins.any (x: x);
-
   authorizedKeys =
     hosts
     |> builtins.mapAttrs (_: data: data.user_pubkey or null)
@@ -17,7 +14,7 @@
     |> builtins.filter (x: x != null);
 in {
   config = lib.mkIf cfg.enable {
-    networking.firewall.allowedTCPPorts = cfg.portConfig |> builtins.map (x: x.port);
+    networking.firewall.allowedTCPPorts = [cfg.port];
 
     services.openssh = {
       enable = true;
@@ -30,12 +27,12 @@ in {
         }
       ];
 
-      listenAddresses =
-        cfg.portConfig
-        |> builtins.map (x: {
-          addr = x.listenAddr;
-          port = x.port;
-        });
+      listenAddresses = [
+        {
+          addr = cfg.listenAddr;
+          port = cfg.port;
+        }
+      ];
 
       # Lock down everything by default
       settings = {
@@ -46,30 +43,26 @@ in {
         AllowAgentForwarding = false;
       };
 
-      extraConfig =
-        cfg.portConfig
-        |> builtins.map (x:
-          lib.concatStringsSep "\n" [
-            "Match LocalPort ${toString x.port}"
-            (
-              if x.otp
-              then ''
-                ChallengeResponseAuthentication yes
-                PubkeyAuthentication yes
-                KbdInteractiveAuthentication yes
-                AuthenticationMethods publickey,keyboard-interactive:pam
-              ''
-              else ''
-                PubkeyAuthentication yes
-                AuthenticationMethods publickey
-              ''
-            )
-            (lib.optionalString x.rootLogin "PermitRootLogin yes")
-          ])
-        |> lib.concatStringsSep "\n\n";
+      extraConfig = lib.concatStringsSep "\n" [
+        "Match LocalPort ${toString cfg.port}"
+        (
+          if cfg.otp
+          then ''
+            ChallengeResponseAuthentication yes
+            PubkeyAuthentication yes
+            KbdInteractiveAuthentication yes
+            AuthenticationMethods publickey,keyboard-interactive:pam
+          ''
+          else ''
+            PubkeyAuthentication yes
+            AuthenticationMethods publickey
+          ''
+        )
+        (lib.optionalString cfg.rootLogin "PermitRootLogin yes")
+      ];
     };
 
-    security.pam.services = lib.optionalAttrs anyOTP {
+    security.pam.services = lib.optionalAttrs cfg.otp {
       login.googleAuthenticator.enable = true;
 
       sshd.text = ''
@@ -86,7 +79,7 @@ in {
     };
 
     users.users.${config.collinux.user.name}.openssh.authorizedKeys.keys = authorizedKeys;
-    users.users."root".openssh.authorizedKeys.keys = lib.mkIf (anyAttr "rootLogin") authorizedKeys;
+    users.users."root".openssh.authorizedKeys.keys = lib.mkIf cfg.rootLogin authorizedKeys;
 
     systemd.services."openssh" = {
       after = lib.mkAfter ["network-online.target"];

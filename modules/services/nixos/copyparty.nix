@@ -78,21 +78,6 @@ in {
                 e2ts = true; # enable music indexing
               };
             };
-
-            "/incoming" = {
-              path = "/media/incoming";
-              access = {
-                wG = "*";
-                A = "@admin";
-              };
-              flags = {
-                fk = 6;
-                dk = 6;
-                lifetime = 21600; # files deleted after 6hrs
-                nosub = true; # must upload to top-level folder
-                maxb = "20g,21600"; # each IP can upload a max of 20GB every 6 hrs
-              };
-            };
           }
         ]
         ++ lib.lists.flatten (cfg.users
@@ -100,16 +85,13 @@ in {
             {
               "/${k}" = {
                 path = "/media/${k}";
-                access.A = k;
+                access.rwd = k;
               };
             }
             (lib.optionalAttrs v.hasPublicDir {
               "/public/${k}" = {
                 path = "/media/${k}/public";
-                access = {
-                  r = "*";
-                  A = k;
-                };
+                access.r = "*";
               };
             })
           ])));

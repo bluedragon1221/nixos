@@ -35,6 +35,8 @@ in
 
       "${profileDir}/chrome/JS/test.uc.js".source = "${inputs.fx-autoconfig}/profile/chrome/JS/test.uc.js";
 
+      "${profileDir}/chrome/JS/aboutCfg.sys.mjs".source = "${inputs.uc-css-js}/JS/aboutCfg.sys.mjs";
+
       "${profileDir}/chrome/JS/aboutUserChrome.sys.mjs".source = "${inputs.uc-css-js}/JS/aboutUserChrome.sys.mjs";
       "${profileDir}/chrome/resources/aboutuserchrome".source = "${inputs.uc-css-js}/resources/aboutuserchrome";
 
@@ -62,6 +64,4 @@ in
         "compact_extensions_panel"
       ];
     };
-
-    packages = [pkgs.firefox];
   }

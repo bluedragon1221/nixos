@@ -59,7 +59,7 @@
 
       Mod4+Return   exec ${pkgs.foot}/bin/foot
       Mod4+Space    exec tofi-drun
-      Mod4+b        exec ${pkgs.firefox}/bin/firefox
+      Mod4+b        exec firefox
       Mod4+Shift+b  exec ${pkgs.qutebrowser}/bin/qutebrowser
       Mod4+w        exec '${pkgs.iwmenu}/bin/iwmenu -l fuzzel -i font -s 2'
 

@@ -16,8 +16,6 @@
 
   facter.reportPath = ./facter.json;
 
-  virtualisation.oci-containers.backend = "docker"; # fix weird issue with minecraft server (only thing running in docker right now)
-
   # backup usb teather configuration
   systemd.network.networks."80-usb-teather" = {
     name = "enp0s20f0u2";
@@ -31,42 +29,7 @@
     wantedBy = ["default.target"];
   };
 
-  # VPN to server
-  systemd.network = {
-    netdevs."10-wg0" = {
-      netdevConfig = {
-        Kind = "wireguard";
-        Name = "wg0";
-      };
-      wireguardConfig = {
-        PrivateKeyFile = config.collinux.secrets."wireguard-pk".path;
-        ListenPort = 51820;
-      };
-      wireguardPeers = [
-        {
-          PublicKey = "seOq75FUGb+KThvOXCEAGdabWbb+jTRUntITpuAPgWA=";
-          AllowedIPs = "0.0.0.0/0";
-          Endpoint = "20.251.8.247:51820";
-          PersistentKeepalive = 25;
-        }
-      ];
-    };
-    networks."wg0" = {
-      matchConfig.Name = "wg0";
-      address = ["10.100.0.2/24"];
-      DHCP = "no";
-      networkConfig.IPv6AcceptRA = false;
-    };
-  };
-
   services.fail2ban.enable = true;
-
-  programs.ssh.extraConfig = ''
-    Host gliese
-      HostName 10.100.0.1
-      User green
-      IdentityFile ${config.collinux.secrets."gliese-key".path}
-  '';
 
   # merge logs from subdomains
   services.caddy.virtualHosts."up.williamsfam.us.com".logFormat = lib.mkForce ''
