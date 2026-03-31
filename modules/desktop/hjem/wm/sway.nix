@@ -57,11 +57,11 @@
 
       Mod4+q kill
 
-      Mod4+Return   exec ${pkgs.foot}/bin/foot
-      Mod4+Space    exec tofi-drun
+      Mod4+Return   exec foot
+      Mod4+Space    exec fuzzel
       Mod4+b        exec firefox
-      Mod4+Shift+b  exec ${pkgs.qutebrowser}/bin/qutebrowser
       Mod4+w        exec '${pkgs.iwmenu}/bin/iwmenu -l fuzzel -i font -s 2'
+      Mod4+e        exec '${pkgs.bzmenu}/bin/bzmenu -l fuzzel -i font -s 2'
 
       Mod4+Shift+s  exec '${pkgs.grim}/bin/grim -g "$(${pkgs.slurp}/bin/slurp)" ~/Pictures/$(date +"%s_grim.png")'
       Mod4+Alt+s    exec '${pkgs.hyprpicker}/bin/hyprpicker'
