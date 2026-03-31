@@ -20,6 +20,7 @@ in
         set -gx CARGO_HOME "$XDG_DATA_HOME/cargo"
         set -gx ANDROID_USER_HOME "$XDG_DATA_HOME/android"
         set -gx WINE_PREFIX "$XDG_DATA_HOME/wine"
+        set -gx DOTNET_CLI_HOME "$XDG_DATA_HOME/dotnet"
 
         set -gx PYTHON_HISTORY "/dev/null"
       '';
@@ -37,6 +38,7 @@ in
 
     packages = with pkgs; [
       fish
+      just
       ripgrep
       fd
       wget

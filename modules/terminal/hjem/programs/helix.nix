@@ -71,7 +71,7 @@
   }: {
     inherit theme;
     editor = {
-      gutters = ["diff" "diagnostics" "line-numbers" "spacer" "spacer"];
+      gutters = [];
       cursorline = true;
       color-modes = true;
 
@@ -80,9 +80,9 @@
       lsp.display-inlay-hints = true;
 
       statusline = {
-        left = ["mode" "file-name" "spacer" "file-modification-indicator"];
+        left = ["mode" "file-name" "position" "spacer" "file-modification-indicator"];
         right = ["spinner" "spacer" "workspace-diagnostics" "file-type"];
-        separator = "x";
+        separator = "+";
       };
 
       cursor-shape = {

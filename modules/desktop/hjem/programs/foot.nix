@@ -9,12 +9,11 @@
   settings = {
     main = {
       font = "Iosevka Nerd Font:size=12";
-      shell = "${pkgs.fish}/bin/fish";
+      # shell = "${pkgs.fish}/bin/fish";
+      shell = "${pkgs.fish}/bin/fish -c 'br'";
     };
 
-    key-bindings = {
-      spawn-terminal = "Control+Return";
-    };
+    # key-bindings.spawn-terminal = "Control+Return";
 
     colors = with config.collinux.palette; {
       alpha = "0.6";
