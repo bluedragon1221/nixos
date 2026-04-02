@@ -33,6 +33,14 @@
         leave_broot = false;
       }
       {
+        name = "touch";
+        invocation = "touch {filename}";
+        execution = "touch {filename}";
+        working_dir = "{directory}";
+        apply_to = "directory";
+        leave_broot = false;
+      }
+      {
         name = "lazygit";
         key = "ctrl-g";
         invocation = "lazygit";
