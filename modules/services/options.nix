@@ -109,6 +109,11 @@ in {
       default_port = 8076;
     };
 
+    jta = webserviceOptions {
+      service_name = "jta";
+      default_port = 8072;
+    };
+
     copyparty =
       (webserviceOptions {
         service_name = "copyparty";

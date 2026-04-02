@@ -43,11 +43,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    yoshi-lua = {
-      url = "github:bluedragon1221/yoshi";
-      flake = false;
-    };
-
     # firefox modding stuff
     firefox-csshacks = {
       url = "github:MrOtherGuy/firefox-csshacks";

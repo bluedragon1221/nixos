@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>jta@ganymede</title>
+		<link rel="stylesheet" href="style.css">
+		<style>
+			body {
+				margin: 0;
+				max-width: none;
+				padding: 0;
+				background: var(--bg);
+			}
+			
+			header {
+				padding: 1.25rem 1.5rem;
+				text-align: center;
+				font-family: var(--font-heading);
+				font-size: var(--step-2);
+				line-height: 1.2;
+				letter-spacing: -0.01em;
+				font-weight: 700;
+				background: #020617;
+				border-bottom: 1px solid var(--border);
+			}
+			
+			.section {
+				padding: 1rem;
+				max-width: 1100px;
+				margin: 0 auto;
+			}
+			
+			.section-title {
+				font-size: var(--step-1);
+				line-height: 1.25;
+				letter-spacing: -0.01em;
+				margin: 1rem 0 0.5rem 0.5rem;
+				color: var(--text-soft);
+			}
+			
+			.container {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+				gap: 1rem;
+				padding: 0 1rem 1rem 1rem;
+			}
+			
+			.card {
+				background: var(--card);
+				border: 1px solid var(--border);
+				border-radius: 16px;
+				padding: 1rem;
+				box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+				transition: transform 0.15s ease, box-shadow 0.15s ease;
+				cursor: pointer;
+				text-decoration: none;
+				color: var(--text);
+				display: block;
+			}
+			
+			.card:hover {
+				transform: translateY(-4px);
+				box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+			}
+			
+			.title { font-size: var(--step-1); line-height: 1.3; letter-spacing: -0.01em; font-weight: 600; margin-bottom: 0.5rem; }
+			.due { font-size: var(--step--1); color: var(--muted); margin-bottom: 0.5rem; }
+			.desc { font-size: var(--step--1); color: var(--text-soft); line-height: 1.55; }
+		</style>
+	</head>
+	<body>
+		<header>Juksere Trives Aldri</header>
+
+		<div id="app"></div>
+
+		<script>
+			const app = document.getElementById("app");
+			
+			function renderHome(data) {
+				// Group by class
+				const groups = {};
+				data.forEach(item => {
+					const cls = item.class || "Other";
+					if (!groups[cls]) groups[cls] = [];
+					groups[cls].push(item);
+					});
+					
+					// Render sections
+					Object.entries(groups).forEach(([cls, items]) => {
+						const section = document.createElement("div");
+						section.className = "section";
+						
+						const title = document.createElement("div");
+						title.className = "section-title";
+						title.textContent = cls;
+						section.appendChild(title);
+						
+						const container = document.createElement("div");
+						container.className = "container";
+						
+						items.forEach(item => {
+							const card = document.createElement("a");
+							card.className = "card";
+							card.href = item.link || "#";
+							
+							card.innerHTML = `
+							<div class="title">${item.title}</div>
+							<div class="due">Due: ${item.due}</div>
+							${item.description ? `<div class="desc">${item.description}</div>` : ""}
+							`;
+							
+							container.appendChild(card);
+							});
+							
+							section.appendChild(container);
+							app.appendChild(section);
+							});
+						}
+						
+						fetch("assignments.json")
+						.then(res => res.json())
+						.then(data => renderHome(data))
+						.catch(() => {
+							app.innerHTML = "<p style='padding:1rem;'>Failed to load data.</p>";
+							});
+		</script>
+	</body>
+</html>

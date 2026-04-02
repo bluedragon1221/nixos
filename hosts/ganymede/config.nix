@@ -69,11 +69,6 @@
         privateUrl = "git.ganymede";
       };
 
-      # agate = {
-      #   enable = true;
-      #   publicUrl = "williamsfam.us.com";
-      # };
-
       minecraft = {
         enable = true;
         listenAddr = "0.0.0.0";
@@ -94,6 +89,11 @@
           passwordFile = config.collinux.secrets."collin-copyparty-password".path;
           hasPublicDir = true;
         };
+      };
+
+      jta = {
+        enable = true;
+        publicUrl = "jta.williamsfam.us.com";
       };
 
       caddy = {

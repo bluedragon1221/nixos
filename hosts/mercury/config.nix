@@ -23,7 +23,7 @@
         components = {
           fuzzel.enable = true;
           dunst.enable = true;
-          tofi.enable = true;
+          # tofi.enable = true;
         };
       };
 

@@ -13,12 +13,20 @@
 
     default_flags = "-g";
     icon_theme = "nerdfont";
-    special_paths."~/.config".show = "always";
+    special_paths = {
+      "~/ganymede" = {
+        show = "never";
+        list = "never";
+        sum = "never";
+      };
+      "~/.config".show = "always";
+    };
 
     verbs = [
       {
-        name = "open-code";
+        name = "edit";
         key = "enter";
+        invocation = "e";
         execution = "$EDITOR +{line} {file}";
         working_dir = "{root}";
         apply_to = "file";
@@ -27,17 +35,22 @@
       {
         name = "lazygit";
         key = "ctrl-g";
+        invocation = "lazygit";
         execution = "lazygit";
         working_dir = "{root}";
-        apply_to = "any";
+        leave_broot = false;
+      }
+      {
+        invocation = "opencode {extraargs}";
+        execution = "opencode {extraargs}";
+        working_dir = "{root}";
         leave_broot = false;
       }
       {
         name = "justfile";
         key = "ctrl-j";
-        execution = "${pkgs.just}/bin/just --choose";
+        execution = ''just --choose --chooser "fzf --height=25% --color=bg:-1 --preview 'just --show {}'"'';
         working_dir = "{root}";
-        apply_to = "any";
         leave_broot = false;
       }
       {
@@ -48,7 +61,15 @@
         leave_broot = false;
       }
       {
-        name = "home";
+        key = "alt-enter";
+        execution = "swaymsg exec -- foot -D '{root}' fish -c 'br'";
+        leave_broot = false;
+      }
+      {
+        key = "ctrl-a";
+        internal = "toggle_stage";
+      }
+      {
         key = "ctrl-h";
         cmd = ":input_clear;:focus ~";
       }

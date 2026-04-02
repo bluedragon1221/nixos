@@ -7,11 +7,11 @@
 
     prismlauncher
     mpv
-    bluetuith
 
     opencode
 
     (pkgs.callPackage ../../pkgs/yo {})
+    (pkgs.callPackage ../../pkgs/yokey {})
 
     captive-browser # https://words.filippo.io/captive-browser
     (pkgs.makeDesktopItem {

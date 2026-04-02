@@ -405,8 +405,7 @@
         "nixos-facter-modules": "nixos-facter-modules",
         "nixpkgs": "nixpkgs",
         "tmux-tsunami": "tmux-tsunami",
-        "uc-css-js": "uc-css-js",
-        "yoshi-lua": "yoshi-lua"
+        "uc-css-js": "uc-css-js"
       }
     },
     "rust-overlay": {
@@ -539,22 +538,6 @@
       "original": {
         "owner": "aminomancer",
         "repo": "uc.css.js",
-        "type": "github"
-      }
-    },
-    "yoshi-lua": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1772547188,
-        "narHash": "sha256-vmuc/G4tF6WMHUMlHYmwctPRjT+1u15aO0W6xwPALX8=",
-        "owner": "bluedragon1221",
-        "repo": "yoshi",
-        "rev": "fa789d321c1fb4f97755bc199f1666836a87bdcd",
-        "type": "github"
-      },
-      "original": {
-        "owner": "bluedragon1221",
-        "repo": "yoshi",
         "type": "github"
       }
     }

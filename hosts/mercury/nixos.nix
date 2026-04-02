@@ -22,6 +22,19 @@
     dataDir = "/home/collin/.local/syncthing";
   };
 
+  fileSystems."/home/collin/ganymede" = {
+    device = "collin@ganymede:/media";
+    fsType = "fuse.sshfs";
+    options = [
+      "identityfile=/home/collin/.ssh/id_ed25519"
+      "idmap=user"
+      "x-systemd.automount" #< mount the filesystem automatically on first access
+      "allow_other" #< don't restrict access to only the user which `mount`s it (because that's probably systemd who mounts it, not you)
+      "user" #< allow manual `mount`ing, as ordinary user.
+    ];
+  };
+  boot.supportedFilesystems."fuse.sshfs" = true;
+
   services.autossh.sessions = [
     {
       name = "ganymede";
