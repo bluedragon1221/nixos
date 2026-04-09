@@ -7,6 +7,9 @@ hostnames = ["ganymede", "192.168.50.2", "williamsfam.us.com"]
 user_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFeAsRh11Jyv+7Fm4WhzV4XN0LMYQS1/yMbvT+pvFDcd collin@ganymede"
 host_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINlr+53UmlGVP1blkdNl6NFqn1w2umFJyjH1EVUPKIy9"
 
+[hosts.terra]
+user_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINKwMBLWWxpf4jZN3R3iQ7XEAOMq0KAOE/6YN4iTBuJx collin@terra"
+
 [hosts.jupiter]
 host_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPB7feUHl5qoD5zF9AMOV2meViA+wZYdVvbVjPkggZf8"
 

@@ -32,7 +32,7 @@
   services.fail2ban.enable = true;
 
   # merge logs from subdomains
-  services.caddy.virtualHosts."up.williamsfam.us.com".logFormat = lib.mkForce ''
+  services.caddy.virtualHosts."jta.williamsfam.us.com".logFormat = lib.mkForce ''
     output file /var/log/caddy/access-williamsfam.us.com.log
   '';
 

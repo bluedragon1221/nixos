@@ -10,10 +10,10 @@
 
       "caddy-env".file = ./secrets/caddy-env.age;
 
-      "collin-copyparty-password" = {
-        file = ./secrets/collin-copyparty-password.age;
-        owner = "copyparty";
-      };
+      # "collin-copyparty-password" = {
+      #   file = ./secrets/collin-copyparty-password.age;
+      #   owner = "copyparty";
+      # };
       "collin-forgejo-password" = {
         file = ./secrets/collin-forgejo-password.age;
         owner = "forgejo";
@@ -78,18 +78,18 @@
         enable = true;
         privateUrl = "bittorrent.ganymede";
       };
-      copyparty = {
-        enable = true;
-        listenAddr = "0.0.0.0";
-        publicUrl = "up.williamsfam.us.com";
-        privateUrl = "files.ganymede";
+      # copyparty = {
+      #   enable = true;
+      #   listenAddr = "0.0.0.0";
+      #   publicUrl = "up.williamsfam.us.com";
+      #   privateUrl = "files.ganymede";
 
-        users.collin = {
-          isAdmin = true;
-          passwordFile = config.collinux.secrets."collin-copyparty-password".path;
-          hasPublicDir = true;
-        };
-      };
+      #   users.collin = {
+      #     isAdmin = true;
+      #     passwordFile = config.collinux.secrets."collin-copyparty-password".path;
+      #     hasPublicDir = true;
+      #   };
+      # };
 
       jta = {
         enable = true;

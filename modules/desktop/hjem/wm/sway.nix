@@ -6,6 +6,54 @@
 }: let
   cfg = config.collinux.desktop.wm.sway;
 
+  batteryNotify = pkgs.writeShellApplication {
+    name = "battery-notify";
+    runtimeInputs = [
+      pkgs.coreutils
+      pkgs.libnotify
+    ];
+    text = ''
+      energy_now=$(cat /sys/class/power_supply/BAT0/energy_now)
+      energy_full=$(cat /sys/class/power_supply/BAT0/energy_full)
+      percentage=$((energy_now * 100 / energy_full))
+      percent_display=$(printf "%.0f%%" "$percentage")
+
+      notify-send \
+        -t 2000 \
+        -h int:value:"$percentage" \
+        -h string:x-dunst-stack-tag:battery \
+        "Battery" \
+        "$percent_display"
+    '';
+  };
+
+  powerMenu = pkgs.writeShellApplication {
+    name = "power-menu";
+    runtimeInputs = [
+      pkgs.fuzzel
+      pkgs.systemd
+      pkgs.sway
+    ];
+    text = ''
+      selection=$(printf '%s\n' logout suspend reboot shutdown | fuzzel --dmenu --prompt "power: ")
+
+      case "$selection" in
+        logout)
+          swaymsg exit
+          ;;
+        suspend)
+          systemctl suspend
+          ;;
+        reboot)
+          systemctl reboot
+          ;;
+        shutdown)
+          systemctl poweroff
+          ;;
+      esac
+    '';
+  };
+
   settings = with config.collinux.palette; ''
     exec {
       ${config.collinux.desktop.wallpaper_cmd}
@@ -59,7 +107,9 @@
 
       Mod4+Return   exec foot
       Mod4+Space    exec fuzzel
+      Mod4+Escape   exec '${powerMenu}/bin/power-menu'
       Mod4+b        exec firefox
+      Mod4+k        exec '${batteryNotify}/bin/battery-notify'
       Mod4+w        exec '${pkgs.iwmenu}/bin/iwmenu -l fuzzel -i font -s 2'
       Mod4+e        exec '${pkgs.bzmenu}/bin/bzmenu -l fuzzel -i font -s 2'
 

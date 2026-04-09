@@ -33,6 +33,7 @@ in {
       environment = {
         PORT = toString cfg.port;
         ROOT_DIR = "/media/jta";
+        AUTH_PASSWORD_HASH = "550b6785c4bce2ab41a5e2eaa1eb43172d5abbd58237f1c78cd32cb190edc2c5"; # alfreddabuttlerwithtwots
       };
 
       serviceConfig = {

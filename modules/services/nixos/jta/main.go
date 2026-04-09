@@ -29,7 +29,27 @@ var styleCSS string
 //go:embed index.html
 var indexHTML string
 
+//go:embed assignments.html
+var assignmentsHTML string
+
 var pageTmpl = template.Must(template.New("md_template.html").Parse(mdTemplate))
+
+const authCookieName = "jta_auth"
+
+func isAuthenticated(r *http.Request) bool {
+	expectedHash := strings.TrimSpace(os.Getenv("AUTH_PASSWORD_HASH"))
+	if expectedHash == "" {
+		return false
+	}
+
+	cookie, err := r.Cookie(authCookieName)
+	if err != nil {
+		return false
+	}
+
+	providedHash := strings.TrimSpace(cookie.Value)
+	return strings.EqualFold(providedHash, expectedHash)
+}
 
 func serveMarkdown(w http.ResponseWriter, r *http.Request) {
 	// Prevent path traversal
@@ -78,6 +98,17 @@ func main() {
 		if r.URL.Path == "/style.css" {
 			w.Header().Set("Content-Type", "text/css; charset=utf-8")
 			w.Write([]byte(styleCSS))
+			return
+		}
+
+		if !isAuthenticated(r) {
+			http.Error(w, "unauthorized", http.StatusUnauthorized)
+			return
+		}
+
+		if r.URL.Path == "/assignments" || r.URL.Path == "/assignments.html" {
+			w.Header().Set("Content-Type", "text/html; charset=utf-8")
+			w.Write([]byte(assignmentsHTML))
 			return
 		}
 

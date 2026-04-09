@@ -21,6 +21,7 @@
     user = "collin";
     dataDir = "/home/collin/.local/syncthing";
   };
+  programs.kdeconnect.enable = true;
 
   fileSystems."/home/collin/ganymede" = {
     device = "collin@ganymede:/media";

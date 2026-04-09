@@ -34,14 +34,16 @@ in {
   programs.ssh = {
     systemd-ssh-proxy.enable = false;
 
-    knownHosts = builtins.mapAttrs (_: data:
-      {
-        publicKey = data.host_pubkey;
-      }
-      // (lib.optionalAttrs (data ? hostnames) {
-        hostNames = data.hostnames;
-      }))
-    hosts;
+    knownHosts =
+      hosts
+      |> lib.filterAttrs (_: data: data ? host_pubkey)
+      |> builtins.mapAttrs (_: data:
+        {
+          publicKey = data.host_pubkey;
+        }
+        // (lib.optionalAttrs (data ? hostnames) {
+          hostNames = data.hostnames;
+        }));
   };
 
   hjem = {

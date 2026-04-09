@@ -19,12 +19,11 @@
     daemonIOSchedClass = "idle";
 
     settings = {
+      flake-registry = "${inputs.flake-registry}/flake-registry.json";
+
       extra-experimental-features = ["nix-command" "flakes" "pipe-operators"];
       auto-optimise-store = true;
       use-xdg-base-directories = true;
-
-      # lazy-trees = true;
-      # eval-cores = 0;
     };
 
     # Disable channels
