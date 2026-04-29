@@ -33,8 +33,10 @@
         command = "${pkgs.superhtml}/bin/superhtml";
         args = ["lsp"];
       };
-      golsp = {
-        command = "${pkgs.gopls}/bin/gopls";
+      golsp.command = "${pkgs.gopls}/bin/gopls";
+      tinymist = {
+        command = "${pkgs.tinymist}/bin/tinymist";
+        config.exportPdf = "onType";
       };
       dhall-lsp-server.command = "${pkgs.dhall-lsp-server}/bin/dhall-lsp-server";
     };

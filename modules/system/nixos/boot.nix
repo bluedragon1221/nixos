@@ -77,7 +77,7 @@ in {
     enable = true;
     mutable = true; # necessary for installing secrets into etc
   };
-  system.nixos-init.enable = true;
+  # system.nixos-init.enable = true;
 
   # store journald logs in memory
   services.journald.extraConfig = ''

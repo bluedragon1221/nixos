@@ -57,7 +57,7 @@
       {
         name = "justfile";
         key = "ctrl-j";
-        execution = ''just --choose --chooser "fzf --height=25% --color=bg:-1 --preview 'just --show {}'"'';
+        execution = "just --choose";
         working_dir = "{root}";
         leave_broot = false;
       }

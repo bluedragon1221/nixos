@@ -6,31 +6,28 @@
   cfg = config.collinux.services.ngircd;
 in
   lib.mkIf cfg.enable {
+    networking.firewall.allowedTCPPorts = [cfg.port];
+
     services.ngircd = {
       enable = true;
       config = ''
         [Global]
-          Name = irc.williamsfam.us.com
+          Name = williamsfam.us.com
           Info = Ganymede IRC Chat
           AdminInfo1 = Collin
 
-          Listen = 127.0.0.1
+          Listen = 0.0.0.0
           Ports = ${toString cfg.port}
 
+        [Channel]
+          Name = #general
+          AutoJoin = yes
+
         [Options]
-          PAM = yes
-          PAMIsOptional = no
-
-        [Operator]
-          Name = collin
-          Password =  # users authenticate with PAM
-          Mask = *@*
+          RequireAuth = no
+          Ident = no
+          AllowedHosts = *
+          PAM = no
       '';
-    };
-
-    users.users.ngircd.extraGroups = ["shadow"];
-
-    security.pam.services.ngircd = {
-      unixAuth = true;
     };
   }

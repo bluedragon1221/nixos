@@ -9,9 +9,11 @@
 
     ./cgit
     ./jta
+    ./ganyupload
     ./polaris.nix
     ./agate.nix
     ./minecraft.nix
+    ./ngircd.nix
     ./copyparty.nix
     ./qbittorrent.nix
   ];

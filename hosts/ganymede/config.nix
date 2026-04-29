@@ -74,6 +74,8 @@
         listenAddr = "0.0.0.0";
       };
 
+      ngircd.enable = true;
+
       qbittorrent = {
         enable = true;
         privateUrl = "bittorrent.ganymede";
@@ -94,6 +96,11 @@
       jta = {
         enable = true;
         publicUrl = "jta.williamsfam.us.com";
+      };
+
+      ganyupload = {
+        enable = true;
+        publicUrl = "upld.williamsfam.us.com";
       };
 
       caddy = {

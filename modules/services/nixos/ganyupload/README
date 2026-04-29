@@ -1,0 +1,13 @@
+Ganyupload - File Upload Service
+
+Upload files using curl with a PUT request:
+
+  curl -X PUT --data-binary @myfile.txt https://upld.williamsfam.us.com/myfile.txt
+
+The server will respond with "ok" on success.
+
+You can use any path you want:
+
+  curl -X PUT --data-binary @document.pdf https://upld.williamsfam.us.com/docs/document.pdf
+
+Nested directories will be created automatically.

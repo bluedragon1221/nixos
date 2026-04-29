@@ -1,6 +1,7 @@
 {
   lib,
   inputs,
+  pkgs,
   ...
 }: {
   imports = [
@@ -22,6 +23,61 @@
     dataDir = "/home/collin/.local/syncthing";
   };
   programs.kdeconnect.enable = true;
+
+  security.soteria.enable = true;
+
+  virtualisation.podman = {
+    enable = true;
+    dockerCompat = true;
+  };
+  users.users.collin = {
+    extraGroups = ["podman"];
+    subGidRanges = [
+      {
+        count = 65536;
+        startGid = 100000;
+      }
+    ];
+    subUidRanges = [
+      {
+        count = 65536;
+        startUid = 100000;
+      }
+    ];
+  };
+
+  services.jupyter = {
+    enable = true;
+    ip = "127.0.0.1";
+    port = 8888;
+
+    user = "collin"; # to access my files
+
+    package = pkgs.python313Packages.jupyter;
+    command = "jupyter lab --ServerApp.token='' --ServerApp.password=''";
+    password = "";
+
+    notebookDir = "~/brain/notes/schoolyear2025/physics";
+
+    kernels = {
+      python3 = let
+        python = pkgs.python313.withPackages (ps:
+          with ps; [
+            numpy
+            pandas
+            matplotlib
+            sympy
+            ipywidgets
+            ipydatagrid
+            ipykernel
+          ]);
+      in {
+        language = "python";
+        displayName = "Python (Physics)";
+        argv = ["${python}/bin/python" "-m" "ipykernel_launcher" "-f" "{connection_file}"];
+      };
+    };
+  };
 
   fileSystems."/home/collin/ganymede" = {
     device = "collin@ganymede:/media";

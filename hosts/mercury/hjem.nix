@@ -7,6 +7,7 @@
 
     prismlauncher
     mpv
+    irssi
 
     opencode
 

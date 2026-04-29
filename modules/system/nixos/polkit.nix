@@ -69,7 +69,5 @@ in {
         defaultDenyRule
       ];
     };
-
-    soteria.enable = true;
   };
 }

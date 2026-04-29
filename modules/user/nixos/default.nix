@@ -15,7 +15,7 @@ in {
       extraGroups = ["networkmanager" "disks" "input" "video" "dialout" "kvm"] ++ (lib.optional cfg.isAdmin "wheel");
     };
   };
-  services.userborn.enable = true;
+  # services.userborn.enable = true;
 
   # sudo
   security = {

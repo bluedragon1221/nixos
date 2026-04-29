@@ -21,7 +21,6 @@ Guidance for coding agents working in this repository.
 - `lib/nix-furnace/mkSystem.nix`: system composition.
 - `lib/lib.nix`: shared helpers (`my-lib`).
 - `pkgs/yo/`: Ruby deployment/build helper.
-- `pkgs/yossh/`: Lua SSH tooling and tests.
 - `pkgs/jta/`: Go module.
 - `justfile`: command shortcuts.
 
@@ -76,10 +75,6 @@ Go tests (`pkgs/jta`):
 - Run all tests: `go test ./...`
 - Run single test name: `go test ./... -run '^TestName$'`
 - Run single test in current package: `go test . -run '^TestName$'`
-
-Lua tests (`pkgs/yossh`):
-- Run all defined tests: `lua pkgs/yossh/tests/unit_tests.lua`
-- Current single-test method is manual (temporarily call one test in `main()`).
 
 ## 7) Architectural Conventions
 - Preserve homogenous module layout:

@@ -114,6 +114,11 @@ in {
       default_port = 8072;
     };
 
+    ganyupload = webserviceOptions {
+      service_name = "ganyupload";
+      default_port = 8073;
+    };
+
     copyparty =
       (webserviceOptions {
         service_name = "copyparty";
@@ -140,6 +145,14 @@ in {
           }));
         };
       };
+
+    ngircd = {
+      enable = mkEnableOption "ncircd IRC server";
+      port = mkOption {
+        type = lib.types.port;
+        default = 6667;
+      };
+    };
 
     minecraft = {
       enable = mkEnableOption "Minecraft bedrock server";
