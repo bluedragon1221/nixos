@@ -78,11 +78,6 @@
       hostname = "mercury";
       username = "collin";
     };
-    nixosConfigurations."jupiter" = mkNixosSystem {
-      inherit inputs;
-      hostname = "jupiter";
-      username = "collin";
-    };
     nixosConfigurations."ganymede" = mkNixosSystem {
       inherit inputs;
       hostname = "ganymede";

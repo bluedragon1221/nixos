@@ -1,7 +1,7 @@
 let
-  inherit ((builtins.fromTOML (builtins.readFile ./hosts.toml)).hosts) mercury ganymede jupiter;
+  inherit ((builtins.fromTOML (builtins.readFile ./hosts.toml)).hosts) mercury ganymede;
 in {
-  "modules/terminal/nixos/github-ssh-key.age".publicKeys = [mercury.host_pubkey jupiter.host_pubkey ganymede.host_pubkey];
+  "modules/terminal/nixos/github-ssh-key.age".publicKeys = [mercury.host_pubkey ganymede.host_pubkey];
 
   "hosts/ganymede/secrets/caddy-env.age".publicKeys = [ganymede.host_pubkey];
   "hosts/ganymede/secrets/williams-psk.age".publicKeys = [ganymede.host_pubkey];

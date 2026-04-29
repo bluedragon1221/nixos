@@ -19,13 +19,6 @@ Cool things:
 
 Goes everywhere with me. Used for programming, school, and browsing the web
 
-## [Jupiter](../tree/hosts/jupiter)
-- Device: HP ENVY Desktop
-- OS: NixOS (dual booted with Windows 11 LTSC IoT Enterprise)
-- DE/Compositor: GNOME
-
-Used for heavier tasks, like gaming and music production
-
 ## [Ganymede](../tree/hosts/ganymede)
 - Device: Lenovo Yoga 730 (broken screen)
 - OS: NixOS

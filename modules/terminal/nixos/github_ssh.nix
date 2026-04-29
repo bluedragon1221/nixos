@@ -29,6 +29,11 @@ in
           IdentityFile ${config.collinux.secrets."github-ssh-key".path}
           IdentitiesOnly yes
           AddKeysToAgent yes
+
+        Match host tangled.org user git
+          IdentityFile ${config.collinux.secrets."github-ssh-key".path}
+          IdentitiesOnly yes
+          AddKeysToAgent yes
       '';
     };
   }
