@@ -55,42 +55,37 @@ in {
   options.collinux.services = {
     sshd = {
       enable = mkEnableOption "OpenSSH server";
-
       port = mkOption {
         description = "Port to run on";
         type = lib.types.port;
+        default = 22;
+      };
+      public = mkEnableOption "whether to make this service accessable over the internet";
+
+      conf = {
+        otp = mkEnableOption "Whether to require TOTP (Google Authenticator) 2fa codes to login";
+        rootLogin = mkEnableOption "Whether to allow root login";
+      };
+    };
+    minecraft = {
+      enable = mkEnableOption "Minecraft bedrock server";
+      port = mkOption {
+        description = "port to run on";
+        type = lib.types.port;
+        default = 19132;
       };
 
-      listenAddr = mkOption {
-        description = "Address to listen on";
-        type = lib.types.str;
-        default = "127.0.0.1";
+      public = mkEnableOption "whether to make this service accessable over the internet";
+    };
+    ngircd = {
+      enable = mkEnableOption "ncircd IRC server";
+      port = mkOption {
+        type = lib.types.port;
+        default = 6667;
       };
 
-      otp = mkEnableOption "Whether to require TOTP (Google Authenticator) 2fa codes";
-      rootLogin = mkEnableOption "Whether to allow root login";
+      public = mkEnableOption "whether to make this service accessable over the internet";
     };
-
-    forgejo = webserviceOptions {
-      service_name = "forgejo";
-      default_port = 8010;
-    };
-
-    btopweb = webserviceOptions {
-      service_name = "btopweb";
-      default_port = 8017;
-    };
-
-    goaccess = webserviceOptions {
-      service_name = "goaccess";
-      reverse_proxy = false;
-    };
-
-    cgit = webserviceOptions {
-      service_name = "cgit";
-      reverse_proxy = false;
-    };
-
     agate = {
       enable = mkEnableOption "Agate Gemini Protocol Server";
       publicUrl = mkOption {
@@ -99,26 +94,34 @@ in {
       };
     };
 
-    polaris = webserviceOptions {
-      service_name = "polaris";
-      default_port = 8079;
-    };
-
-    qbittorrent = webserviceOptions {
-      service_name = "qbittorrent";
-      default_port = 8076;
-    };
-
     jta = webserviceOptions {
       service_name = "jta";
       default_port = 8072;
     };
-
     ganyupload = webserviceOptions {
       service_name = "ganyupload";
       default_port = 8073;
     };
-
+    forgejo = webserviceOptions {
+      service_name = "forgejo";
+      default_port = 8010;
+    };
+    btopweb = webserviceOptions {
+      service_name = "btopweb";
+      default_port = 8017;
+    };
+    goaccess = webserviceOptions {
+      service_name = "goaccess";
+      reverse_proxy = false;
+    };
+    cgit = webserviceOptions {
+      service_name = "cgit";
+      reverse_proxy = false;
+    };
+    qbittorrent = webserviceOptions {
+      service_name = "qbittorrent";
+      default_port = 8076;
+    };
     copyparty =
       (webserviceOptions {
         service_name = "copyparty";
@@ -145,27 +148,6 @@ in {
           }));
         };
       };
-
-    ngircd = {
-      enable = mkEnableOption "ncircd IRC server";
-      port = mkOption {
-        type = lib.types.port;
-        default = 6667;
-      };
-    };
-
-    minecraft = {
-      enable = mkEnableOption "Minecraft bedrock server";
-      listenAddr = mkOption {
-        description = "Address to listen on";
-        type = ipAddr;
-        default = "127.0.0.1";
-      };
-      port = mkOption {
-        type = lib.types.port;
-        default = 19132;
-      };
-    };
 
     caddy = {
       enable = mkEnableOption "caddy https server";

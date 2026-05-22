@@ -16,6 +16,11 @@
 
   facter.reportPath = ./facter.json;
 
+  environment.systemPackages = [
+    pkgs.python313
+    pkgs.net-tools
+  ];
+
   # backup usb teather configuration
   systemd.network.networks."80-usb-teather" = {
     name = "enp0s20f0u2";

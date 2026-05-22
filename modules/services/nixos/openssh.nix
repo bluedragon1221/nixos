@@ -6,15 +6,9 @@
   ...
 }: let
   cfg = config.collinux.services.sshd;
-
-  authorizedKeys =
-    hosts
-    |> builtins.mapAttrs (_: data: data.user_pubkey or null)
-    |> builtins.attrValues
-    |> builtins.filter (x: x != null);
 in {
   config = lib.mkIf cfg.enable {
-    networking.firewall.allowedTCPPorts = [cfg.port];
+    networking.firewall.allowedTCPPorts = lib.optional cfg.public cfg.port;
 
     services.openssh = {
       enable = true;
@@ -29,7 +23,10 @@ in {
 
       listenAddresses = [
         {
-          addr = cfg.listenAddr;
+          addr =
+            if cfg.public
+            then "0.0.0.0"
+            else "127.0.0.1";
           port = cfg.port;
         }
       ];
@@ -46,7 +43,7 @@ in {
       extraConfig = lib.concatStringsSep "\n" [
         "Match LocalPort ${toString cfg.port}"
         (
-          if cfg.otp
+          if cfg.conf.otp
           then ''
             ChallengeResponseAuthentication yes
             PubkeyAuthentication yes
@@ -58,11 +55,11 @@ in {
             AuthenticationMethods publickey
           ''
         )
-        (lib.optionalString cfg.rootLogin "PermitRootLogin yes")
+        (lib.optionalString cfg.conf.rootLogin "PermitRootLogin yes")
       ];
     };
 
-    security.pam.services = lib.optionalAttrs cfg.otp {
+    security.pam.services = lib.optionalAttrs cfg.conf.otp {
       login.googleAuthenticator.enable = true;
 
       sshd.text = ''
@@ -78,8 +75,16 @@ in {
       '';
     };
 
-    users.users.${config.collinux.user.name}.openssh.authorizedKeys.keys = authorizedKeys;
-    users.users."root".openssh.authorizedKeys.keys = lib.mkIf cfg.rootLogin authorizedKeys;
+    users.users = let
+      k.openssh.authorizedKeys.keys =
+        hosts
+        |> builtins.mapAttrs (_: data: data.user_pubkey or null)
+        |> builtins.attrValues
+        |> builtins.filter (x: x != null);
+    in {
+      ${config.collinux.user.name} = k;
+      "root" = lib.mkIf cfg.conf.rootLogin k;
+    };
 
     systemd.services."openssh" = {
       after = lib.mkAfter ["network-online.target"];

@@ -133,16 +133,8 @@ in {
       programs = {
         firefox = {
           enable = mkEnableOption "firefox";
-          profileName = mkOption {
-            type = types.str;
-            default = config.collinux.user.name;
-            internal = true;
-          };
           theme = mkThemeOption "firefox";
-          extensions.zotero.enable = mkOption {
-            description = "install Zotero Connector for Firefox";
-            default = config.collinux.desktop.programs.research.enable;
-          };
+          extensions.foxyproxy.enable = mkEnableOption "install FoxyProxy extension";
         };
 
         foot = mkProgramOption "foot";
@@ -150,7 +142,7 @@ in {
         ghostty.enable = mkEnableOption "ghostty";
         alacritty.enable = mkEnableOption "alacritty";
 
-        research.enable = mkEnableOption "zathura, Xournal++, Zotero";
+        research.enable = mkEnableOption "zathura, Xournal++";
       };
     };
   };

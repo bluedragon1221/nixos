@@ -8,15 +8,16 @@
 
   git_config = lib.mkMerge [
     {
+      user = {
+        email = cfg.userEmail;
+        name = cfg.userName;
+      };
       alias = {
         stage = "add";
         unstage = "restore --staged";
       };
       init.defaultBranch = "main";
-      user = {
-        email = cfg.userEmail;
-        name = cfg.userName;
-      };
+      push.autoSetupRemote = true;
     }
     (lib.mkIf cfg.installKey {
       # commit signing

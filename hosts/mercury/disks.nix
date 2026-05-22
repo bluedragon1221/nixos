@@ -3,17 +3,25 @@
     device = "/dev/disk/by-uuid/3d80a86b-3268-4209-a833-b531b8bc0ebc";
     fsType = "ext4";
   };
-
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/45A4-2E5B";
     fsType = "vfat";
     options = ["fmask=0022" "dmask=0022"];
   };
-
+  swapDevices = [
+    {
+      device = "/dev/disk/by-label/swap";
+      priority = 10;
+    }
+  ];
   zramSwap = {
     enable = true;
     priority = 100;
     algorithm = "lz4";
     memoryPercent = 50;
   };
+
+  boot.kernelParams = [
+    "resume=LABEL=swap"
+  ];
 }

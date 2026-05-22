@@ -44,7 +44,7 @@
     };
 
     tmux-tsunami = {
-      url = "github:bluedragon1221/tmux-tsunami";
+      url = "./tmux-tsunami";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

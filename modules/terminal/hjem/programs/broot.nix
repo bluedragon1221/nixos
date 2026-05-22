@@ -7,9 +7,10 @@
   cfg = config.collinux.terminal.programs.broot;
 
   conf = {
-    imports = [
-      "skins/catppuccin-mocha.hjson"
-    ];
+    imports =
+      if config.collinux.theme == "catppuccin"
+      then ["skins/catppuccin-mocha.hjson"]
+      else ["skins/dark-gruvbox.hjson"];
 
     default_flags = "-g";
     icon_theme = "nerdfont";

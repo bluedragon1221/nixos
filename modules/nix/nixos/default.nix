@@ -10,8 +10,6 @@
   ];
 
   nix = {
-    # package = inputs.determinate.packages.${pkgs.system}.default;
-
     gc.automatic = false; # use nh cleaner instead
 
     # Make builds run with low priority so my system stays responsive
@@ -43,5 +41,5 @@
   environment.systemPackages = [pkgs.cached-nix-shell];
 
   nixpkgs.hostPlatform = "x86_64-linux";
-  system.stateVersion = "25.05";
+  system.stateVersion = "25.11";
 }

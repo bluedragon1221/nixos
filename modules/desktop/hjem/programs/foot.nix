@@ -9,8 +9,7 @@
   settings = {
     main = {
       font = "Iosevka Nerd Font:size=12";
-      # shell = "${pkgs.fish}/bin/fish";
-      shell = "${pkgs.fish}/bin/fish -c 'br'";
+      shell = "fish -c '${pkgs.broot}/bin/broot'";
     };
 
     # key-bindings.spawn-terminal = "Control+Return";

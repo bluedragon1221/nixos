@@ -1,9 +1,12 @@
 {pkgs, ...}: {
   packages = with pkgs; [
-    # obsidian
     anki
     libreoffice-qt
     musescore
+    (pkgs.callPackage ../../pkgs/obsidian.nix {})
+
+    lmms # (?)
+    eq10q
 
     prismlauncher
     mpv
@@ -12,7 +15,6 @@
     opencode
 
     (pkgs.callPackage ../../pkgs/yo {})
-    (pkgs.callPackage ../../pkgs/yokey {})
 
     captive-browser # https://words.filippo.io/captive-browser
     (pkgs.makeDesktopItem {

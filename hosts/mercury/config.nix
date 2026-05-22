@@ -1,13 +1,16 @@
-{
+{config, ...}: {
   collinux = {
-    theme = "catppuccin";
+    theme = "adwaita";
 
     secrets = {};
 
     user.useRun0 = true;
 
     desktop = {
-      wallpaper = ./wallpapers/abstract-swirls.jpg;
+      wallpaper =
+        if (config.collinux.theme == "catppuccin")
+        then ./wallpapers/abstract-swirls.jpg
+        else ./wallpapers/hintergrund2.png;
       gtk.enable = true;
       qt.enable = true;
 
@@ -23,14 +26,13 @@
         components = {
           fuzzel.enable = true;
           dunst.enable = true;
-          # tofi.enable = true;
         };
       };
 
       programs = {
         firefox = {
           enable = true;
-          extensions.zotero.enable = false;
+          extensions.foxyproxy.enable = true;
         };
         foot.enable = true;
 
@@ -44,9 +46,7 @@
         secureBoot.enable = true;
       };
 
-      network = {
-        wireless.dynamic = true;
-      };
+      network.wireless.dynamic = true;
 
       audio.enable = true;
       bluetooth.enable = true;
@@ -54,8 +54,10 @@
     };
 
     terminal = {
-      shells.fish.enable = true;
-      shells.bash.enable = true; # for nix-shells
+      shells = {
+        fish.enable = true;
+        bash.enable = true; # for nix-shells
+      };
 
       programs = {
         starship.enable = true;
@@ -63,6 +65,7 @@
         bat.enable = true;
         eza.enable = true;
         broot.enable = true;
+        tmux.enable = true;
         helix = {
           enable = true;
           hardMode = true;

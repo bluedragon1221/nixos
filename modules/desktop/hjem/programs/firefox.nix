@@ -1,5 +1,4 @@
 {
-  pkgs,
   lib,
   config,
   inputs,
@@ -44,18 +43,13 @@ in
 
       "${profileDir}/chrome/userChrome.css".text = mkCssHacks [
         # Tabs
-        (
-          if cfg.theme == "catppuccin"
-          then "hide_tabs_with_one_tab"
-          else "hide_tabs_with_one_tab_w_window_controls"
-        )
+        "hide_tabs_with_one_tab"
         "tabs_on_bottom_v2"
         "tab_close_button_always_on_hover"
         "tabs_fill_available_width"
 
         # Icons!
         "iconized_main_menu"
-        # "iconized_menubar_items"
         "iconized_places_context_menu"
         "iconized_tabs_context_menu"
         "icon_only_context_menu_text_controls"

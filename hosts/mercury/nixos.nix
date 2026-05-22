@@ -11,20 +11,17 @@
     inputs.nixos-facter-modules.nixosModules.facter
     inputs.lanzaboote.nixosModules.lanzaboote
   ];
-
   facter.reportPath = ./facter.json;
+
   services.dbus.implementation = "broker";
 
   environment.defaultPackages = lib.mkForce []; # im not a noob
 
-  services.syncthing = {
-    enable = true;
-    user = "collin";
-    dataDir = "/home/collin/.local/syncthing";
-  };
-  programs.kdeconnect.enable = true;
-
-  security.soteria.enable = true;
+  programs.ssh.extraConfig = ''
+    Host ganymede
+      HostName williamsfam.us.com
+      Port 22
+  '';
 
   virtualisation.podman = {
     enable = true;
@@ -45,66 +42,34 @@
       }
     ];
   };
-
-  services.jupyter = {
+  virtualisation.waydroid = {
+    package = pkgs.waydroid-nftables;
     enable = true;
-    ip = "127.0.0.1";
-    port = 8888;
-
-    user = "collin"; # to access my files
-
-    package = pkgs.python313Packages.jupyter;
-    command = "jupyter lab --ServerApp.token='' --ServerApp.password=''";
-    password = "";
-
-    notebookDir = "~/brain/notes/schoolyear2025/physics";
-
-    kernels = {
-      python3 = let
-        python = pkgs.python313.withPackages (ps:
-          with ps; [
-            numpy
-            pandas
-            matplotlib
-            sympy
-            ipywidgets
-            ipydatagrid
-            ipykernel
-          ]);
-      in {
-        language = "python";
-        displayName = "Python (Physics)";
-        argv = ["${python}/bin/python" "-m" "ipykernel_launcher" "-f" "{connection_file}"];
-      };
-    };
   };
 
-  fileSystems."/home/collin/ganymede" = {
-    device = "collin@ganymede:/media";
-    fsType = "fuse.sshfs";
-    options = [
-      "identityfile=/home/collin/.ssh/id_ed25519"
-      "idmap=user"
-      "x-systemd.automount" #< mount the filesystem automatically on first access
-      "allow_other" #< don't restrict access to only the user which `mount`s it (because that's probably systemd who mounts it, not you)
-      "user" #< allow manual `mount`ing, as ordinary user.
-    ];
-  };
-  boot.supportedFilesystems."fuse.sshfs" = true;
+  programs.kdeconnect.enable = true;
 
   services.autossh.sessions = [
     {
       name = "ganymede";
       user = "collin";
       monitoringPort = 20000;
-      extraArguments = "-N -D 9090 collin@williamsfam.us.com";
+      extraArguments = "-N -D 9090 collin@ganymede";
     }
   ];
-  programs.ssh.extraConfig = ''
-    Host ganymede
-      HostName williamsfam.us.com
-      Port 22
-  '';
+  boot.supportedFilesystems."fuse.sshfs" = true;
+  fileSystems."/home/collin/ganymede" = {
+    device = "collin@ganymede:/media";
+    fsType = "fuse.sshfs";
+    options = [
+      "identityfile=/home/collin/.ssh/id_ed25519"
+      "idmap=user"
+      "x-systemd.automount" # mount the filesystem automatically on first access
+      "allow_other" # don't restrict access to only the user which `mount`s it (because that's probably systemd who mounts it, not you)
+      "user" # allow manual `mount`ing, as ordinary user.
+    ];
+  };
+
   security.pki.certificates = [
     ''
       -----BEGIN CERTIFICATE-----
@@ -120,11 +85,4 @@
       -----END CERTIFICATE-----
     ''
   ];
-
-  programs.firefox.policies.ExtensionSettings = {
-    "foxyproxy@eric.h.jung" = {
-      installation_mode = "force_installed";
-      install_url = "https://addons.mozilla.org/firefox/downloads/latest/foxyproxy-standard/latest.xpi";
-    };
-  };
 }

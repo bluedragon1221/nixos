@@ -64,8 +64,6 @@ in {
         };
         dynamic = lib.mkEnableOption "Enable dynamically joining wireless networks with iwd";
       };
-
-      tailscale.enable = mkEnableOption "tailscale";
     };
 
     audio.enable = mkEnableOption "pipewire and wireplumber";

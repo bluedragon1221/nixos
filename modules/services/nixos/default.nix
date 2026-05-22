@@ -6,11 +6,10 @@
     ./forgejo.nix
     ./goaccess.nix
     ./btopweb.nix
-
     ./cgit
-    ./jta
     ./ganyupload
-    ./polaris.nix
+
+    ./jta
     ./agate.nix
     ./minecraft.nix
     ./ngircd.nix

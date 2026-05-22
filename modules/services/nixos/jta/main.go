@@ -36,19 +36,35 @@ var pageTmpl = template.Must(template.New("md_template.html").Parse(mdTemplate))
 
 const authCookieName = "jta_auth"
 
-func isAuthenticated(r *http.Request) bool {
+func isAuthenticated(w http.ResponseWriter, r *http.Request) bool {
 	expectedHash := strings.TrimSpace(os.Getenv("AUTH_PASSWORD_HASH"))
 	if expectedHash == "" {
 		return false
 	}
 
-	cookie, err := r.Cookie(authCookieName)
-	if err != nil {
-		return false
+	// Try cookie first
+	if cookie, err := r.Cookie(authCookieName); err == nil {
+		providedHash := strings.TrimSpace(cookie.Value)
+		if providedHash != "" && strings.EqualFold(providedHash, expectedHash) {
+			return true
+		}
 	}
 
-	providedHash := strings.TrimSpace(cookie.Value)
-	return strings.EqualFold(providedHash, expectedHash)
+	// Fallback to URL parameter
+	paramHash := strings.TrimSpace(r.URL.Query().Get(authCookieName))
+	if paramHash != "" && strings.EqualFold(paramHash, expectedHash) {
+		http.SetCookie(w, &http.Cookie{
+			Name:     authCookieName,
+			Value:    paramHash,
+			Path:     "/",
+			HttpOnly: true,                 // Security: Protects against XSS cookie theft
+			Secure:   false,                // Set to true if you are hosting over HTTPS
+			SameSite: http.SameSiteLaxMode, // Prevents CSRF vulnerabilities
+		})
+		return true
+	}
+
+	return false
 }
 
 func serveMarkdown(w http.ResponseWriter, r *http.Request) {
@@ -101,7 +117,7 @@ func main() {
 			return
 		}
 
-		if !isAuthenticated(r) {
+		if !isAuthenticated(w, r) {
 			http.Error(w, "unauthorized", http.StatusUnauthorized)
 			return
 		}

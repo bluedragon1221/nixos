@@ -35,11 +35,14 @@
       pkgs.sway
     ];
     text = ''
-      selection=$(printf '%s\n' logout suspend reboot shutdown | fuzzel --dmenu --prompt "power: ")
+      selection=$(printf '%s\n' logout hibernate suspend reboot shutdown | fuzzel --dmenu --prompt "power: ")
 
       case "$selection" in
         logout)
           swaymsg exit
+          ;;
+        hibernate)
+          systemctl hibernate
           ;;
         suspend)
           systemctl suspend
@@ -60,6 +63,8 @@
       ${pkgs.dunst}/bin/dunst
       ${pkgs.dbus}/bin/dbus-update-activation-environment --systemd WAYLAND_DISPLAY DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP GTK_USE_PORTAL NIXOS_OZONE_WL MOZ_ENABLE_WAYLAND
     }
+
+    seat seat0 xcursor_theme ${config.collinux.desktop.gtk.cursor_data.name}
 
     # target                 title      bg         text       indicator  border
     client.focused           #${base07} #${base00} #${base05} #${base06} #${base13}
@@ -107,8 +112,8 @@
 
       Mod4+Return   exec foot
       Mod4+Space    exec fuzzel
-      Mod4+Escape   exec '${powerMenu}/bin/power-menu'
       Mod4+b        exec firefox
+      Mod4+Escape   exec '${powerMenu}/bin/power-menu'
       Mod4+k        exec '${batteryNotify}/bin/battery-notify'
       Mod4+w        exec '${pkgs.iwmenu}/bin/iwmenu -l fuzzel -i font -s 2'
       Mod4+e        exec '${pkgs.bzmenu}/bin/bzmenu -l fuzzel -i font -s 2'

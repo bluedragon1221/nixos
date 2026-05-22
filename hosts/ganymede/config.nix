@@ -9,19 +9,6 @@
       };
 
       "caddy-env".file = ./secrets/caddy-env.age;
-
-      # "collin-copyparty-password" = {
-      #   file = ./secrets/collin-copyparty-password.age;
-      #   owner = "copyparty";
-      # };
-      "collin-forgejo-password" = {
-        file = ./secrets/collin-forgejo-password.age;
-        owner = "forgejo";
-      };
-      "wireguard-pk" = {
-        file = ./secrets/wireguard-pk.age;
-        owner = "systemd-network";
-      };
     };
 
     terminal = {
@@ -41,6 +28,7 @@
         ip = "192.168.50.2/24";
         gateway = "192.168.50.1";
       };
+
       wireless.static = {
         ssid = "williams";
         pskFile = config.collinux.secrets."williams-psk".path;
@@ -50,11 +38,29 @@
     services = {
       sshd = {
         enable = true;
-        port = 22;
-        listenAddr = "0.0.0.0";
-        rootLogin = true;
+        public = true;
+
+        conf.rootLogin = true;
       };
 
+      minecraft = {
+        enable = true;
+        public = true;
+      };
+
+      ngircd = {
+        enable = true;
+        public = true;
+      };
+
+      jta = {
+        enable = true;
+        publicUrl = "jta.williamsfam.us.com";
+      };
+      ganyupload = {
+        enable = true;
+        publicUrl = "upld.williamsfam.us.com";
+      };
       goaccess = {
         enable = true;
         privateUrl = "stats.ganymede";
@@ -63,44 +69,13 @@
         enable = true;
         privateUrl = "btop.ganymede";
       };
-
-      cgit = {
-        enable = true;
-        privateUrl = "git.ganymede";
-      };
-
-      minecraft = {
-        enable = true;
-        listenAddr = "0.0.0.0";
-      };
-
-      ngircd.enable = true;
-
       qbittorrent = {
         enable = true;
         privateUrl = "bittorrent.ganymede";
       };
-      # copyparty = {
-      #   enable = true;
-      #   listenAddr = "0.0.0.0";
-      #   publicUrl = "up.williamsfam.us.com";
-      #   privateUrl = "files.ganymede";
-
-      #   users.collin = {
-      #     isAdmin = true;
-      #     passwordFile = config.collinux.secrets."collin-copyparty-password".path;
-      #     hasPublicDir = true;
-      #   };
-      # };
-
-      jta = {
+      cgit = {
         enable = true;
-        publicUrl = "jta.williamsfam.us.com";
-      };
-
-      ganyupload = {
-        enable = true;
-        publicUrl = "upld.williamsfam.us.com";
+        privateUrl = "git.ganymede";
       };
 
       caddy = {

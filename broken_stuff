@@ -1,1 +1,10 @@
-- automount filesganymede-dav (code removed)
+idea:
+	- tmux
+	- projects are sessions (but ditch old sessionizer)
+	- new session with C-x C-n or whatever
+	- opens new session with broot window
+	- broot window controls entire session
+		- selecting dir changes session dir
+		- <enter> on file opens it in new tmux window
+	- use standard join-pane split-pane for splitting stuff
+	- alt-t creates new terminal pane within session with dir = session dir

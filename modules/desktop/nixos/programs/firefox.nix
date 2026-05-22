@@ -25,6 +25,8 @@ in
 
         NewTabPage = false;
 
+        SearchEngines.Default = "DuckDuckGo";
+
         Preferences = let
           opt = Value: {
             inherit Value;
@@ -32,12 +34,9 @@ in
           };
         in {
           "toolkit.legacyUserProfileCustomizations.stylesheets" = opt true;
-          "browser.tabs.inTitlebar" = opt (
-            if cfg.theme == "catppuccin"
-            then 0
-            else 1
-          );
+          "browser.tabs.inTitlebar" = opt 0;
           "browser.tabs.hoverPreview.enabled" = opt 0;
+          "browser.profiles.enabled" = opt false;
 
           "browser.theme.content-theme" = opt 0;
           "browser.theme.toolbar-theme" = opt 0;
@@ -99,7 +98,6 @@ in
 
           "datareporting.policy.dataSubmissionPolicyBypassNotification" = opt true;
           "browser.startup.homepage" = opt "about:blank";
-          "cookiebanners.ui.desktop.enabled" = opt false;
 
           "browser.compactmode.show" = opt true;
           "browser.uidensity" = opt 1;
@@ -107,9 +105,6 @@ in
           # get that AI out of my browser
           "browser.ml.chat.enabled" = opt false;
           "browser.ml.enable" = opt false;
-
-          # use system pki certificates
-          "security.enterprise_roots.enabled" = opt true;
         };
 
         ExtensionSettings = let
@@ -130,10 +125,10 @@ in
           // (lib.optionalAttrs (cfg.theme == "adwaita") {
             "{f1128560-8b23-46c1-aa6f-fb3e79f23cf3}" = ext "gnome-adwaita-gtk4-dark";
           })
-          // (lib.optionalAttrs (cfg.extensions.zotero.enable) {
-            "zotero@chnm.gmu.edu" = {
+          // (lib.optionalAttrs (cfg.extensions.foxyproxy.enable) {
+            "foxyproxy@eric.h.jung" = {
               installation_mode = "force_installed";
-              install_url = "https://download.zotero.org/connector/firefox/release/Zotero_Connector-5.0.181.xpi";
+              install_url = "https://addons.mozilla.org/firefox/downloads/latest/foxyproxy-standard/latest.xpi";
             };
           });
       };
