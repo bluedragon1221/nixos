@@ -85,4 +85,8 @@
       -----END CERTIFICATE-----
     ''
   ];
+
+  virtualisation.vmVariant = {
+    virtualisation.diskSize = 8192;
+  };
 }

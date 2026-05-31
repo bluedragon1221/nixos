@@ -89,7 +89,7 @@
         pkgs = buildPkgs;
         hostname = "mercury";
       };
-      default = buildPkgs.callPackage ./pkgs/yo.nix {
+      default = buildPkgs.callPackage ./pkgs/yo {
         pkgs = buildPkgs;
       };
     };

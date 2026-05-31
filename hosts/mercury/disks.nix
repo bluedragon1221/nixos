@@ -1,4 +1,4 @@
-{
+{lib, ...}: {
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/3d80a86b-3268-4209-a833-b531b8bc0ebc";
     fsType = "ext4";
@@ -24,4 +24,9 @@
   boot.kernelParams = [
     "resume=LABEL=swap"
   ];
+
+  virtualisation.vmVariant = {
+    swapDevices = lib.mkForce [];
+    boot.kernelParams = lib.mkForce [];
+  };
 }
