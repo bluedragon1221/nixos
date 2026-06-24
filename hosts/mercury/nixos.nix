@@ -14,6 +14,7 @@
   facter.reportPath = ./facter.json;
 
   services.dbus.implementation = "broker";
+  services.upower.enable = true;
 
   environment.defaultPackages = lib.mkForce []; # im not a noob
 

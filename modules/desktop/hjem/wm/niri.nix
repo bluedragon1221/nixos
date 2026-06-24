@@ -9,8 +9,7 @@ in
   lib.mkIf cfg.enable {
     files.".config/niri/config.kdl".text = ''
       spawn-sh-at-startup "${config.collinux.desktop.wallpaper_cmd}"
-      spawn-at-startup "${pkgs.playerctl}/bin/playerctld daemon"
-      spawn-at-startup "dunst"
+      spawn-at-startup "noctalia-shell"
 
       prefer-no-csd
       environment {
@@ -45,10 +44,10 @@ in
         Mod+S repeat=false { screenshot; }
         Mod+M repeat=false { maximize-column; }
 
-        XF86MonBrightnessUp { spawn "~/.config/util.lua" "brightness" "5%+"; }
-        XF86MonBrightnessDown { spawn "~/.config/util.lua" "brightness" "5%-"; }
-        XF86AudioRaiseVolume { spawn "~/.config/util.lua" "vol" "5%+"; }
-        XF86AudioLowerVolume { spawn "~/.config/util.lua" "vol" "5%-"; }
+        XF86MonBrightnessUp { spawn-sh "noctalia-shell ipc call brightness increase"; }
+        XF86MonBrightnessDown { spawn-sh "noctalia-shell ipc call brightness decrease"; }
+        XF86AudioRaiseVolume { spawn-sh "noctalia-shell ipc call volume increase"; }
+        XF86AudioLowerVolume { spawn-sh "noctalia-shell ipc call volume decrease"; }
       }
 
       gestures {
@@ -71,13 +70,6 @@ in
           off
         }
 
-        border {
-          width 3
-          active-color "#ffffff00"
-          inactive-color "#ffffff00"
-          urgent-color "#ffffff00"
-        }
-
         struts {
           left 0
           right 0
@@ -85,26 +77,22 @@ in
           bottom 0
         }
 
+        border {
+          width 2
+          active-color "#89b4faff"
+          inactive-color "#ffffff00"
+        }
+
         background-color "transparent"
+      }
+
+      blur {
+        on
       }
 
       layer-rule {
           match namespace="^wallpaper$"
           place-within-backdrop true
-      }
-
-      layer-rule {
-        match namespace="^launcher$"
-        shadow {
-          on
-        }
-      }
-
-      layer-rule {
-        match namespace="^notifications$"
-        shadow {
-          on
-        }
       }
 
       window-rule {
@@ -113,12 +101,11 @@ in
       }
 
       window-rule {
-        match is-focused=true
-        shadow {
-          on
+        match app-id="foot"
+        background-effect {
+          blur true
         }
       }
-
     '';
 
     packages = [pkgs.niri pkgs.xwayland-satellite];

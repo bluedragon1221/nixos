@@ -15,7 +15,7 @@
     # key-bindings.spawn-terminal = "Control+Return";
 
     colors-dark = with config.collinux.palette; {
-      alpha = "0.6";
+      alpha = "0.85";
 
       foreground = base05;
       background = base00;

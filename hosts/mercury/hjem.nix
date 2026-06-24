@@ -5,8 +5,7 @@
     musescore
     (pkgs.callPackage ../../pkgs/obsidian.nix {})
 
-    lmms # (?)
-    eq10q
+    noctalia-shell
 
     prismlauncher
     mpv

@@ -1,6 +1,6 @@
 {config, ...}: {
   collinux = {
-    theme = "adwaita";
+    theme = "catppuccin";
 
     secrets = {};
 
@@ -9,7 +9,7 @@
     desktop = {
       wallpaper =
         if (config.collinux.theme == "catppuccin")
-        then ./wallpapers/abstract-swirls.jpg
+        then ./wallpapers/astronaut.jpg
         else ./wallpapers/hintergrund2.png;
       gtk.enable = true;
       qt.enable = true;
@@ -20,12 +20,12 @@
       };
 
       wm = {
-        sway.enable = true;
+        niri.enable = true;
+        # sway.enable = true;
         kdeDesktopPortal.enable = true;
 
         components = {
           fuzzel.enable = true;
-          dunst.enable = true;
         };
       };
 
