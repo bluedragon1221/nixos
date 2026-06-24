@@ -20,7 +20,6 @@
   };
 in {
   imports = [
-    (import ../mkCaddyCfg.nix cfg)
     ./gitShellCommands.nix
   ];
 
@@ -82,7 +81,9 @@ in {
       };
     };
 
-    collinux.services.cgit.manualCaddyConfig = ''
+    services.caddy.virtualHosts."git.ganymede".extraConfig = ''
+      tls internal
+
       @assets path /cgit.css /cgit.js /favicon.svg /robots.txt
       handle @assets {
       	root * ${custom_cgit}

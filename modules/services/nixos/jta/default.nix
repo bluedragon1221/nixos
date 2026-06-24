@@ -5,13 +5,8 @@
   ...
 }: let
   cfg = config.collinux.services.jta;
-
   package = pkgs.callPackage ./pkg.nix {};
 in {
-  imports = [
-    (import ../mkCaddyCfg.nix cfg)
-  ];
-
   config = lib.mkIf cfg.enable {
     users.groups."jta" = {};
     users.users."jta" = {
@@ -25,7 +20,6 @@ in {
     };
 
     systemd.services."jta" = {
-      description = "Juksere trives aldri, kids";
       restartIfChanged = true;
       wants = ["network-online.target" "caddy.service"];
       after = ["network-online.target" "caddy.service"];
@@ -46,5 +40,9 @@ in {
 
       wantedBy = ["multi-user.target"];
     };
+
+    services.caddy.virtualHosts."jta.williamsfam.us.com".extraConfig = ''
+      reverse_proxy 127.0.0.1:${toString cfg.port}
+    '';
   };
 }

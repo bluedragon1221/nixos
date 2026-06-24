@@ -15,10 +15,6 @@
     proc_colors = true
   '';
 in {
-  imports = [
-    (import ./mkCaddyCfg.nix cfg)
-  ];
-
   config = lib.mkIf cfg.enable {
     users.groups."btopweb" = {};
     users.users."btopweb" = {
@@ -40,5 +36,10 @@ in {
         ExecStart = ''${pkgs.ttyd}/bin/ttyd -W -i ${cfg.listenAddr} -p ${toString cfg.port} -t renderType=canvas -t fontSize=16 ${pkgs.btop}/bin/btop -c ${btopSettings}'';
       };
     };
+
+    services.caddy.virtualHosts."btop.ganymede".extraConfig = ''
+      tls internal
+      reverse_proxy 127.0.0.1:${toString cfg.port}
+    '';
   };
 }

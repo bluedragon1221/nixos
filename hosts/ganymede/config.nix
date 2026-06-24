@@ -45,32 +45,39 @@
 
       minecraft = {
         enable = true;
+        port = 19132; # standard
         public = true;
       };
 
       ngircd = {
         enable = true;
+        port = 6667; # standard
         public = true;
       };
 
       jta = {
         enable = true;
+        port = 8072;
         publicUrl = "jta.williamsfam.us.com";
       };
       ganyupload = {
         enable = true;
+        port = 8073;
         publicUrl = "upld.williamsfam.us.com";
       };
       goaccess = {
         enable = true;
+        port = 7890;
         privateUrl = "stats.ganymede";
       };
       btopweb = {
         enable = true;
+        port = 8017;
         privateUrl = "btop.ganymede";
       };
       qbittorrent = {
         enable = true;
+        port = 8076;
         privateUrl = "bittorrent.ganymede";
       };
       cgit = {

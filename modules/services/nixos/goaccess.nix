@@ -14,13 +14,8 @@
     log-file = "/var/log/caddy/access-williamsfam.us.com.log";
     geoip-database = inputs.geolite-db;
 
-    ws-url =
-      if cfg.publicUrl != null
-      then "wss://${cfg.publicUrl}:443/ws"
-      else if cfg.privateUrl != null
-      then "wss://${cfg.privateUrl}:443/ws"
-      else null;
-    port = 7890;
+    ws-url = "wss://stats.ganymede:443/ws";
+    port = cfg.port;
     addr = cfg.listenAddr;
 
     real-time-html = "true";
@@ -42,10 +37,6 @@
 
   settingsFile = pkgs.writeText "goaccess.conf" (settings |> builtins.mapAttrs (k: v: "${k} ${toString v}") |> builtins.attrValues |> lib.concatStringsSep "\n");
 in {
-  imports = [
-    (import ./mkCaddyCfg.nix cfg)
-  ];
-
   config = lib.mkIf cfg.enable {
     users.groups."goaccess" = {};
     users.users."goaccess" = {
@@ -59,75 +50,35 @@ in {
       restartIfChanged = true;
       wants = ["network-online.target" "caddy.service"];
       after = ["network-online.target" "caddy.service"];
+      wantedBy = ["multi-user.target"];
 
       serviceConfig = {
         User = "goaccess";
         Type = "simple";
 
+        ReadWritePaths = "/var/www/goaccess";
         WorkingDirectory = "/var/www/goaccess";
         ExecStart = "${pkgs.goaccess}/bin/goaccess -p ${settingsFile}";
 
-        AmbientCapabilities = [];
-        CapabilityBoundingSet = [
-          "~CAP_RAWIO"
-          "~CAP_MKNOD"
-          "~CAP_AUDIT_CONTROL"
-          "~CAP_AUDIT_READ"
-          "~CAP_AUDIT_WRITE"
-          "~CAP_SYS_BOOT"
-          "~CAP_SYS_TIME"
-          "~CAP_SYS_MODULE"
-          "~CAP_SYS_PACCT"
-          "~CAP_LEASE"
-          "~CAP_LINUX_IMMUTABLE"
-          "~CAP_IPC_LOCK"
-          "~CAP_BLOCK_SUSPEND"
-          "~CAP_WAKE_ALARM"
-          "~CAP_SYS_TTY_CONFIG"
-          "~CAP_MAC_ADMIN"
-          "~CAP_MAC_OVERRIDE"
-          "~CAP_NET_ADMIN"
-          "~CAP_NET_BROADCAST"
-          "~CAP_NET_RAW"
-          "~CAP_SYS_ADMIN"
-          "~CAP_SYS_PTRACE"
-          "~CAP_SYSLOG"
-        ];
-        DevicePolicy = "closed";
-        KeyringMode = "private";
-        LockPersonality = true;
         NoNewPrivileges = true;
-        PrivateDevices = true;
-        PrivateMounts = true;
         PrivateTmp = true;
-        ProtectClock = true;
-        ProtectControlGroups = true;
+        ProtectSystem = "strict";
         ProtectHome = true;
-        ProtectHostname = true;
-        ProtectKernelLogs = true;
-        ProtectKernelModules = true;
         ProtectKernelTunables = true;
-        ProtectSystem = "full";
-        RemoveIPC = true;
-        RestrictAddressFamilies = [
-          "AF_UNIX"
-          "AF_INET"
-          "AF_INET6"
-        ];
-        RestrictNamespaces = true;
-        RestrictRealtime = true;
+        ProtectKernelModules = true;
+        ProtectControlGroups = true;
       };
-
-      wantedBy = ["multi-user.target"];
     };
 
     systemd.tmpfiles.rules = ["d /var/www/goaccess/ 755 goaccess goaccess"];
 
-    collinux.services.goaccess.manualCaddyConfig = ''
+    services.caddy.virtualHosts."stats.ganymede".extraConfig = ''
+      tls internal
+
       root * /var/www/goaccess
       file_server
 
-      reverse_proxy /ws 127.0.0.1:7890
+      reverse_proxy /ws 127.0.0.1:${toString cfg.port}
     '';
   };
 }

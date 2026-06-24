@@ -9,7 +9,6 @@
   # A helper function to generate the submodule
   webserviceOptions = {
     service_name,
-    default_port ? null,
     reverse_proxy ? true,
   }:
     {
@@ -41,7 +40,6 @@
         port = mkOption {
           description = "The port on which ${service_name} will listen for incomming connections";
           type = lib.types.port;
-          default = default_port;
         };
       }
       else {
@@ -78,7 +76,7 @@ in {
       public = mkEnableOption "whether to make this service accessable over the internet";
     };
     ngircd = {
-      enable = mkEnableOption "ncircd IRC server";
+      enable = mkEnableOption "ngircd IRC server";
       port = mkOption {
         type = lib.types.port;
         default = 6667;
@@ -86,33 +84,21 @@ in {
 
       public = mkEnableOption "whether to make this service accessable over the internet";
     };
-    agate = {
-      enable = mkEnableOption "Agate Gemini Protocol Server";
-      publicUrl = mkOption {
-        description = "domain to run this gemini server on";
-        type = lib.types.str;
-      };
-    };
 
     jta = webserviceOptions {
       service_name = "jta";
-      default_port = 8072;
     };
     ganyupload = webserviceOptions {
       service_name = "ganyupload";
-      default_port = 8073;
     };
     forgejo = webserviceOptions {
       service_name = "forgejo";
-      default_port = 8010;
     };
     btopweb = webserviceOptions {
       service_name = "btopweb";
-      default_port = 8017;
     };
     goaccess = webserviceOptions {
       service_name = "goaccess";
-      reverse_proxy = false;
     };
     cgit = webserviceOptions {
       service_name = "cgit";
@@ -120,34 +106,7 @@ in {
     };
     qbittorrent = webserviceOptions {
       service_name = "qbittorrent";
-      default_port = 8076;
     };
-    copyparty =
-      (webserviceOptions {
-        service_name = "copyparty";
-        default_port = 8099;
-      })
-      // {
-        users = mkOption {
-          description = "List of users to configure on the copyparty server";
-          type = lib.types.attrsOf (lib.types.submodule ({config, ...}: {
-            options = {
-              name = mkOption {
-                type = lib.types.str;
-                default = config._module.args.name;
-                internal = true;
-              };
-              isAdmin = mkEnableOption "whether this user is an admin";
-              passwordFile = mkOption {
-                description = "Absolute path to a file containing the password for this user";
-                type = lib.types.str;
-                example = "/run/secrets.d/copyparty-passwd";
-              };
-              hasPublicDir = mkEnableOption "give this user a world-readable directory at /public/<username>";
-            };
-          }));
-        };
-      };
 
     caddy = {
       enable = mkEnableOption "caddy https server";

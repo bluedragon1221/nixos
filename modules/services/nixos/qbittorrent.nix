@@ -5,10 +5,6 @@
 }: let
   cfg = config.collinux.services.qbittorrent;
 in {
-  imports = [
-    (import ./mkCaddyCfg.nix cfg)
-  ];
-
   config = lib.mkIf cfg.enable {
     users.users."qbittorrent" = {
       uid = 985;
@@ -23,7 +19,11 @@ in {
       webuiPort = cfg.port;
       torrentingPort = 49252;
     };
-
     systemd.services.qbittorrent.serviceConfig.PrivateUsers = lib.mkForce false;
+
+    services.caddy.virtualHosts."bittorrent.ganymede".extraConfig = ''
+      tls internal
+      reverse_proxy ${toString cfg.port}
+    '';
   };
 }
