@@ -1,94 +1,54 @@
 {
   config,
   lib,
-  pkgs,
   hosts,
   ...
 }: let
   cfg = config.collinux.services.sshd;
+
+  pure = x: [x];
+
+  authorizedKeys =
+    hosts
+    |> builtins.mapAttrs (_: data: data.user_pubkey or null)
+    |> builtins.attrValues
+    |> builtins.filter (x: x != null);
 in {
   config = lib.mkIf cfg.enable {
-    networking.firewall.allowedTCPPorts = lib.optional cfg.public cfg.port;
-
     services.openssh = {
       enable = true;
       allowSFTP = true;
 
-      hostKeys = [
-        {
-          path = "/etc/ssh/ssh_host_ed25519_key";
-          type = "ed25519";
-        }
-      ];
-
-      listenAddresses = [
-        {
-          addr =
-            if cfg.public
-            then "0.0.0.0"
-            else "127.0.0.1";
-          port = cfg.port;
-        }
-      ];
-
-      # Lock down everything by default
-      settings = {
-        PermitRootLogin = "no";
-        PasswordAuthentication = false;
-        PubkeyAuthentication = false;
-        KbdInteractiveAuthentication = false;
-        AllowAgentForwarding = false;
+      hostKeys = pure {
+        path = "/etc/ssh/ssh_host_ed25519_key";
+        type = "ed25519";
       };
 
-      extraConfig = lib.concatStringsSep "\n" [
-        "Match LocalPort ${toString cfg.port}"
-        (
-          if cfg.conf.otp
-          then ''
-            ChallengeResponseAuthentication yes
-            PubkeyAuthentication yes
-            KbdInteractiveAuthentication yes
-            AuthenticationMethods publickey,keyboard-interactive:pam
-          ''
-          else ''
-            PubkeyAuthentication yes
-            AuthenticationMethods publickey
-          ''
-        )
-        (lib.optionalString cfg.conf.rootLogin "PermitRootLogin yes")
-      ];
+      listenAddresses = pure {
+        addr = "0.0.0.0";
+        port = cfg.port;
+      };
+
+      settings = {
+        PermitRootLogin =
+          if cfg.conf.rootLogin
+          then "yes"
+          else "no";
+
+        PasswordAuthentication = false;
+        KbdInteractiveAuthentication = false;
+        PubkeyAuthentication = true;
+      };
     };
 
-    security.pam.services = lib.optionalAttrs cfg.conf.otp {
-      login.googleAuthenticator.enable = true;
-
-      sshd.text = ''
-        account required pam_unix.so
-
-        auth required ${pkgs.google-authenticator}/lib/security/pam_google_authenticator.so nullok no_increment_hotp
-        auth sufficient pam_permit.so
-
-        session required pam_env.so conffile=/etc/pam/environment readenv=0
-        session required pam_unix.so
-        session required pam_loginuid.so
-        session optional ${pkgs.systemd}/lib/security/pam_systemd.so
-      '';
+    users.users = {
+      ${config.collinux.user.name}.openssh.authorizedKeys.keys = authorizedKeys;
+      root.openssh.authorizedKeys.keys = lib.mkIf cfg.conf.rootLogin authorizedKeys;
     };
 
-    users.users = let
-      k.openssh.authorizedKeys.keys =
-        hosts
-        |> builtins.mapAttrs (_: data: data.user_pubkey or null)
-        |> builtins.attrValues
-        |> builtins.filter (x: x != null);
-    in {
-      ${config.collinux.user.name} = k;
-      "root" = lib.mkIf cfg.conf.rootLogin k;
-    };
-
-    systemd.services."openssh" = {
-      after = lib.mkAfter ["network-online.target"];
-      wants = lib.mkAfter ["network-online.target"];
+    systemd.services.openssh = {
+      after = ["network-online.target"];
+      wants = ["network-online.target"];
     };
   };
 }

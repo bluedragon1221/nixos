@@ -2,7 +2,12 @@
   collinux = {
     theme = "catppuccin";
 
-    secrets = {};
+    secrets = {
+      "wireguard-privkey" = {
+        file = ./secrets/wg-privkey.age;
+        owner = "systemd-network";
+      };
+    };
 
     user.useRun0 = true;
 
@@ -17,32 +22,28 @@
       greetd = {
         enable = true;
         autologin.enable = true;
+        # cosmic-greeter.enable = true;
       };
 
       wm = {
         niri.enable = true;
-        # sway.enable = true;
         kdeDesktopPortal.enable = true;
 
-        components = {
-          fuzzel.enable = true;
-        };
+        components.fuzzel.enable = true; # noctalia launcher SUCKS
       };
 
       programs = {
-        firefox = {
-          enable = true;
-          extensions.foxyproxy.enable = true;
-        };
-        foot.enable = true;
-
+        firefox.enable = true;
         research.enable = true;
+
+        foot.enable = true;
       };
     };
 
     system = {
       boot = {
         systemd-boot.enable = true;
+        plymouth.enable = true;
         secureBoot.enable = true;
       };
 
@@ -65,7 +66,6 @@
         bat.enable = true;
         eza.enable = true;
         broot.enable = true;
-        tmux.enable = true;
         helix = {
           enable = true;
           hardMode = true;

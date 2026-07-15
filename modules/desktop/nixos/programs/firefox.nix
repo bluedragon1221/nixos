@@ -23,9 +23,23 @@ in
         OverrideFirstRunPage = "";
         OverridePostUpdatePage = "";
 
-        NewTabPage = false;
-
         SearchEngines.Default = "DuckDuckGo";
+        Homepage = {
+          URL = "https://home.ganymede";
+          Locked = true;
+          StartPage = "homepage-locked";
+        };
+
+        AIControls = {
+          Default = {
+            Value = "blocked";
+            Locked = true;
+          };
+          Translations = {
+            Value = "available";
+            Locked = true;
+          };
+        };
 
         Preferences = let
           opt = Value: {
@@ -97,7 +111,6 @@ in
           "media.webspeech.synth.dont_notify_on_error" = opt true;
 
           "datareporting.policy.dataSubmissionPolicyBypassNotification" = opt true;
-          "browser.startup.homepage" = opt "about:blank";
 
           "browser.compactmode.show" = opt true;
           "browser.uidensity" = opt 1;

@@ -3,7 +3,7 @@
     anki
     libreoffice-qt
     musescore
-    (pkgs.callPackage ../../pkgs/obsidian.nix {})
+    obsidian
 
     noctalia-shell
 

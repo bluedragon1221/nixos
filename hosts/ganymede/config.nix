@@ -9,6 +9,11 @@
       };
 
       "caddy-env".file = ./secrets/caddy-env.age;
+
+      "wireguard-privkey" = {
+        file = ./secrets/wg-privkey.age;
+        owner = "systemd-network";
+      };
     };
 
     terminal = {
@@ -83,6 +88,10 @@
       cgit = {
         enable = true;
         privateUrl = "git.ganymede";
+      };
+      glance = {
+        enable = true;
+        port = 8081;
       };
 
       caddy = {

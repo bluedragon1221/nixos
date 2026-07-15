@@ -9,23 +9,11 @@
     inputs.disko.nixosModules.disko
     inputs.nixos-facter-modules.nixosModules.facter
     ./disks.nix
-
-    ./iwlwifi.nix
     ./caddy.nix
+    ./wireguard.nix
   ];
 
   facter.reportPath = ./facter.json;
-
-  environment.systemPackages = [
-    pkgs.python313
-    pkgs.net-tools
-  ];
-
-  # backup usb teather configuration
-  systemd.network.networks."80-usb-teather" = {
-    name = "enp0s20f0u2";
-    networkConfig.DHCP = "yes";
-  };
 
   systemd.services."disable-wifi-powersave" = {
     description = "Disable wifi powersaving using iw";

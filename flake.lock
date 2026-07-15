@@ -468,14 +468,18 @@
         ]
       },
       "locked": {
-        "path": "./tmux-tsunami",
-        "type": "path"
+        "lastModified": 1784116563,
+        "narHash": "sha256-D4WE/Lq6DDTCRIcvaV8ea288wZa7nc1uSst4uXgOnM8=",
+        "ref": "refs/heads/main",
+        "rev": "3e15502bcb48f2ab010a4f5d0a13771474b06f28",
+        "revCount": 2,
+        "type": "git",
+        "url": "https://git.ganymede/tmux-tsunami"
       },
       "original": {
-        "path": "./tmux-tsunami",
-        "type": "path"
-      },
-      "parent": []
+        "type": "git",
+        "url": "https://git.ganymede/tmux-tsunami"
+      }
     },
     "uc-css-js": {
       "flake": false,

@@ -8,6 +8,7 @@
     ./cgit
     ./ganyupload
     ./jta
+    ./glance.nix
 
     ./minecraft.nix
     ./ngircd.nix

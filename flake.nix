@@ -44,7 +44,7 @@
     };
 
     tmux-tsunami = {
-      url = "./tmux-tsunami";
+      url = "git+https://git.ganymede/tmux-tsunami";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

@@ -1,75 +1,24 @@
-{
-  lib,
-  inputs,
-  pkgs,
-  ...
-}: {
+{inputs, ...}: {
   imports = [
     ./disks.nix
     ./battery.nix
+
+    ./wireguard.nix
 
     inputs.nixos-facter-modules.nixosModules.facter
     inputs.lanzaboote.nixosModules.lanzaboote
   ];
   facter.reportPath = ./facter.json;
 
-  services.dbus.implementation = "broker";
   services.upower.enable = true;
-
-  environment.defaultPackages = lib.mkForce []; # im not a noob
 
   programs.ssh.extraConfig = ''
     Host ganymede
-      HostName williamsfam.us.com
+      HostName 10.100.0.1
       Port 22
   '';
 
-  virtualisation.podman = {
-    enable = true;
-    dockerCompat = true;
-  };
-  users.users.collin = {
-    extraGroups = ["podman"];
-    subGidRanges = [
-      {
-        count = 65536;
-        startGid = 100000;
-      }
-    ];
-    subUidRanges = [
-      {
-        count = 65536;
-        startUid = 100000;
-      }
-    ];
-  };
-  virtualisation.waydroid = {
-    package = pkgs.waydroid-nftables;
-    enable = true;
-  };
-
   programs.kdeconnect.enable = true;
-
-  services.autossh.sessions = [
-    {
-      name = "ganymede";
-      user = "collin";
-      monitoringPort = 20000;
-      extraArguments = "-N -D 9090 collin@ganymede";
-    }
-  ];
-  boot.supportedFilesystems."fuse.sshfs" = true;
-  fileSystems."/home/collin/ganymede" = {
-    device = "collin@ganymede:/media";
-    fsType = "fuse.sshfs";
-    options = [
-      "identityfile=/home/collin/.ssh/id_ed25519"
-      "idmap=user"
-      "x-systemd.automount" # mount the filesystem automatically on first access
-      "allow_other" # don't restrict access to only the user which `mount`s it (because that's probably systemd who mounts it, not you)
-      "user" # allow manual `mount`ing, as ordinary user.
-    ];
-  };
 
   security.pki.certificates = [
     ''
@@ -87,7 +36,6 @@
     ''
   ];
 
-  virtualisation.vmVariant = {
-    virtualisation.diskSize = 8192;
-  };
+  # required for vm testing
+  virtualisation.vmVariant.virtualisation.diskSize = 8192;
 }

@@ -19,8 +19,21 @@
       }
     '';
 
+    virtualHosts."lindsey.williamsfam.us.com".extraConfig = ''
+      redir https://williams-ryan-lindsey.blogspot.com permanent
+    '';
+
+    virtualHosts."daniel.williamsfam.us.com".extraConfig = ''
+      root * /media/public/www/daniel
+      file_server
+    '';
+
+    # virtualHosts."collin.williamsfam.us.com".extraConfig = ''
+    #   root * /med
+    # '';
+
     virtualHosts."williamsfam.us.com".extraConfig = ''
-      root * /media/public/www
+      root * /media/public/www/root
       file_server
     '';
   };

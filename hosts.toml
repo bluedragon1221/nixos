@@ -2,20 +2,22 @@
 user_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAvxtKW0rmRBi8J67gLrLv8Zv338AcmZ3P20DePiUfnX collin@mercury"
 host_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIQtMAgPdWwrOzlZT/lEIRQZ+ajhafG9AEJCrF2/bsmN"
 
-wg_pubkey = "merTd71QvuMVQiRix/0NPAjVDvwRyLor20t+N9dDSEU="
+wg_pubkey = "JOeHQM6y6znsyze55jjLLMPWAbAyD8rbe04UBL45GiQ="
+wg_ip = "10.100.0.5"
 
 [hosts.ganymede]
 hostnames = ["ganymede", "192.168.50.2", "williamsfam.us.com"]
 user_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFeAsRh11Jyv+7Fm4WhzV4XN0LMYQS1/yMbvT+pvFDcd collin@ganymede"
 host_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINlr+53UmlGVP1blkdNl6NFqn1w2umFJyjH1EVUPKIy9"
 
-wg_pubkey = "ganyuu2I5DY1VQm3fPvQGBI2veW43Rgs3lAVzckWR2I="
+wg_pubkey = "7BdBTJ/FQUOPjSU+Q1Ieg9VqMd2y8BCMqk61I5rMAnY="
+wg_ip = "10.100.0.1"
 
 [hosts.terra]
 user_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINKwMBLWWxpf4jZN3R3iQ7XEAOMq0KAOE/6YN4iTBuJx collin@terra"
 
-wg_pubkey = "ter/93FM8jf5b73+psVuU5cVNaoy00Z/wB6XGrvH1G8="
-wg_privkey = "yBiEnhSZZInc+irnVhZNHF5y7Z7tsR/IS6j32F4tPWc="
+wg_pubkey = "CWsD6IJYAbbAX756zb5TlChjEJEm0Q3KpeakfuaZIyA="
+wg_ip = "10.100.0.24"
 
 [hosts.io]
 hostnames = ["io", "192.168.50.3"]

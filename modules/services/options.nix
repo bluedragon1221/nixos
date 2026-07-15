@@ -100,6 +100,12 @@ in {
     goaccess = webserviceOptions {
       service_name = "goaccess";
     };
+    glance = {
+      enable = mkEnableOption "Glance homepage";
+      port = lib.mkOption {
+        type = lib.types.port;
+      };
+    };
     cgit = webserviceOptions {
       service_name = "cgit";
       reverse_proxy = false;
