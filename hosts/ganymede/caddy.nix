@@ -9,7 +9,7 @@
         "github.com/tailscale/caddy-tailscale@v0.0.0-20251204171825-f070d146dd61"
         "github.com/caddy-dns/porkbun@v0.3.1"
       ];
-      hash = "sha256-FrAI7Fpz3bXclmKcizBMv/VI1hTAWT6DQnj7S09MwNY=";
+      hash = "sha256-3BRyQ/fqPUemW1KqwyvkO1LeZB7PyBMIL/5a2u1mqqU=";
     });
 
     globalConfig = ''
@@ -19,22 +19,25 @@
       }
     '';
 
-    virtualHosts."lindsey.williamsfam.us.com".extraConfig = ''
-      redir https://williams-ryan-lindsey.blogspot.com permanent
-    '';
+    virtualHosts = {
+      "lindsey.williamsfam.us.com".extraConfig = ''
+        redir https://williams-ryan-lindsey.blogspot.com permanent
+      '';
 
-    virtualHosts."daniel.williamsfam.us.com".extraConfig = ''
-      root * /media/public/www/daniel
-      file_server
-    '';
+      "daniel.williamsfam.us.com".extraConfig = ''
+        root * /media/public/www/daniel
+        file_server
+      '';
 
-    # virtualHosts."collin.williamsfam.us.com".extraConfig = ''
-    #   root * /med
-    # '';
+      "williamsfam.us.com".extraConfig = ''
+        root * /media/public/www/root
+        file_server
+      '';
+    };
+  };
 
-    virtualHosts."williamsfam.us.com".extraConfig = ''
-      root * /media/public/www/root
-      file_server
-    '';
+  collinux.services.glance.homelabServices."website" = {
+    url = "https://williamsfam.us.com";
+    icon = "mdi:web";
   };
 }

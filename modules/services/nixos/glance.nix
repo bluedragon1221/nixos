@@ -8,6 +8,8 @@
 
   pure = x: [x];
 
+  servicesLinks = builtins.attrValues cfg.homelabServices;
+
   settings = {
     server = {
       inherit (cfg) port;
@@ -68,33 +70,7 @@
             type = "monitor";
             cache = "1m";
             title = "Services";
-            sites = [
-              {
-                title = "stats";
-                url = "https://stats.ganymede";
-                icon = "mdi:poll";
-              }
-              {
-                title = "btop";
-                url = "https://btop.ganymede";
-                icon = "si:htop";
-              }
-              {
-                title = "git";
-                url = "https://git.ganymede";
-                icon = "si:git";
-              }
-              {
-                title = "bittorrent";
-                url = "https://bittorrent.ganymede";
-                icon = "si:qbittorrent";
-              }
-              {
-                title = "website";
-                url = "https://williamsfam.us.com";
-                icon = "mdi:web";
-              }
-            ];
+            sites = servicesLinks;
           }
         ];
       };
@@ -117,6 +93,7 @@ in {
       restartIfChanged = true;
       wants = ["network-online.target"];
       after = ["network-online.target"];
+      wantedBy = ["multi-user.target"];
 
       serviceConfig = {
         User = "glance";
@@ -138,7 +115,6 @@ in {
 
     services.caddy.virtualHosts."home.ganymede".extraConfig = ''
       tls internal
-
       reverse_proxy 127.0.0.1:${toString cfg.port}
     '';
   };

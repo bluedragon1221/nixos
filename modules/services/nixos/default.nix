@@ -9,6 +9,7 @@
     ./ganyupload
     ./jta
     ./glance.nix
+    ./filebrowser.nix
 
     ./minecraft.nix
     ./ngircd.nix

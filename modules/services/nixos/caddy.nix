@@ -7,8 +7,10 @@
   cfg = config.collinux.services.caddy;
 in
   lib.mkIf cfg.enable {
+    users.users."caddy".extraGroups = ["fileserver"];
     networking.firewall.allowedTCPPorts = [80 443];
-    environment.systemPackages = with pkgs; [nss.tools]; # required for caddy https stuff
+    environment.systemPackages = [pkgs.nss.tools]; # required for caddy https stuff
+
     services.caddy = {
       enable = true;
       environmentFile = cfg.envFile;

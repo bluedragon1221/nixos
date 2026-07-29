@@ -16,7 +16,7 @@
 
     ws-url = "wss://stats.ganymede:443/ws";
     port = cfg.port;
-    addr = cfg.listenAddr;
+    addr = "127.0.0.1";
 
     real-time-html = "true";
     output = "/var/www/goaccess/index.html";
@@ -80,5 +80,10 @@ in {
 
       reverse_proxy /ws 127.0.0.1:${toString cfg.port}
     '';
+
+    collinux.services.glance.homelabServices."stats" = {
+      url = "https://stats.ganymede";
+      icon = "mdi:poll";
+    };
   };
 }

@@ -29,6 +29,7 @@
     };
 
     system.network = {
+      dns.areYouAServer = true;
       static = {
         ip = "192.168.50.2/24";
         gateway = "192.168.50.1";
@@ -41,57 +42,34 @@
     };
 
     services = {
-      sshd = {
-        enable = true;
-        public = true;
-
-        conf.rootLogin = true;
-      };
-
-      minecraft = {
-        enable = true;
-        port = 19132; # standard
-        public = true;
-      };
-
-      ngircd = {
-        enable = true;
-        port = 6667; # standard
-        public = true;
-      };
+      sshd.enable = true; # :22
+      minecraft.enable = true; # :19132
+      ngircd.enable = true; # :6667
 
       jta = {
         enable = true;
         port = 8072;
-        publicUrl = "jta.williamsfam.us.com";
-      };
-      ganyupload = {
-        enable = true;
-        port = 8073;
-        publicUrl = "upld.williamsfam.us.com";
       };
       goaccess = {
         enable = true;
         port = 7890;
-        privateUrl = "stats.ganymede";
       };
       btopweb = {
         enable = true;
         port = 8017;
-        privateUrl = "btop.ganymede";
       };
       qbittorrent = {
         enable = true;
         port = 8076;
-        privateUrl = "bittorrent.ganymede";
       };
-      cgit = {
-        enable = true;
-        privateUrl = "git.ganymede";
-      };
+      cgit.enable = true;
       glance = {
         enable = true;
         port = 8081;
+      };
+      filebrowser = {
+        enable = true;
+        port = 8082;
       };
 
       caddy = {

@@ -96,5 +96,10 @@ in {
       	}
       }
     '';
+
+    collinux.services.glance.homelabServices."git" = {
+      url = "https://git.ganymede";
+      icon = "si:git";
+    };
   };
 }

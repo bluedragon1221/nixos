@@ -6,19 +6,13 @@
 }: {
   environment.systemPackages = [pkgs.wireguard-tools];
 
-  services.dnsmasq = {
-    enable = true;
-    settings = {
-      port = 5353;
-      local = "/ganymede/";
-      address = "/.ganymede/10.100.0.1";
-      listen-address = ["127.0.0.1" "10.100.0.1"];
-    };
-  };
-
   boot.kernel.sysctl."net.ipv4.ip_forward" = 1;
 
-  networking.firewall.allowedUDPPorts = [51820 5353];
+  networking.firewall = {
+    allowedUDPPorts = [51820];
+    trustedInterfaces = ["wg0"]; # bypass firewall inside wireguard
+  };
+
   systemd.network.netdevs."50-wg0" = {
     netdevConfig = {
       Kind = "wireguard";
@@ -43,15 +37,9 @@
   systemd.network.networks."wg0" = {
     matchConfig.Name = "wg0";
     address = ["${hosts.ganymede.wg_ip}/24"];
-    dns = ["127.0.0.1:5353"];
-    domains = ["~ganymede"];
     networkConfig = {
       IPMasquerade = "ipv4";
       IPv4Forwarding = true;
     };
-    extraConfig = ''
-      DNSOverTLS=no
-      DNSSEC=no
-    '';
   };
 }

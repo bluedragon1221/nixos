@@ -6,7 +6,7 @@
   cfg = config.collinux.services.minecraft;
 in
   lib.mkIf cfg.enable {
-    networking.firewall.allowedUDPPorts = lib.optional cfg.public cfg.port;
+    networking.firewall.allowedUDPPorts = [cfg.port];
 
     virtualisation.oci-containers.containers."Minecraft" = {
       environment = {
@@ -23,11 +23,7 @@ in
       };
       image = "itzg/minecraft-bedrock-server";
       ports = [
-        "${
-          if cfg.public
-          then "0.0.0.0"
-          else "127.0.0.1"
-        }:${toString cfg.port}:19132/udp"
+        "0.0.0.0:${toString cfg.port}:19132/udp"
       ];
       volumes = ["/var/lib/minecraft/:/data"];
 

@@ -6,21 +6,6 @@
 }: {
   environment.systemPackages = [pkgs.wireguard-tools];
 
-  networking.firewall.interfaces."wg0" = {
-    allowedTCPPortRanges = [
-      {
-        from = 1714;
-        to = 1764;
-      }
-    ];
-    allowedUDPPortRanges = [
-      {
-        from = 1714;
-        to = 1764;
-      }
-    ];
-  };
-
   systemd.network.netdevs."10-wg" = {
     netdevConfig = {
       Kind = "wireguard";
@@ -43,7 +28,7 @@
     matchConfig.Name = "wg0";
     address = ["${hosts.mercury.wg_ip}/24"];
     DHCP = "no";
-    dns = ["${hosts.ganymede.wg_ip}:5353"];
+    dns = [hosts.ganymede.wg_ip];
     domains = ["~ganymede"];
     networkConfig.IPv6AcceptRA = false;
     extraConfig = ''

@@ -28,7 +28,4 @@
   services.caddy.virtualHosts."jta.williamsfam.us.com".logFormat = lib.mkForce ''
     output file /var/log/caddy/access-williamsfam.us.com.log
   '';
-
-  # i broke something and this fixes it
-  environment.etc."systemd/resolved.conf.d/10-dns.conf".text = config.environment.etc."systemd/resolved.conf".text;
 }

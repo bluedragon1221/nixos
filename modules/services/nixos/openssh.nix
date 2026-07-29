@@ -5,7 +5,6 @@
   ...
 }: let
   cfg = config.collinux.services.sshd;
-
   pure = x: [x];
 
   authorizedKeys =
@@ -30,11 +29,7 @@ in {
       };
 
       settings = {
-        PermitRootLogin =
-          if cfg.conf.rootLogin
-          then "yes"
-          else "no";
-
+        PermitRootLogin = "yes";
         PasswordAuthentication = false;
         KbdInteractiveAuthentication = false;
         PubkeyAuthentication = true;
@@ -43,7 +38,7 @@ in {
 
     users.users = {
       ${config.collinux.user.name}.openssh.authorizedKeys.keys = authorizedKeys;
-      root.openssh.authorizedKeys.keys = lib.mkIf cfg.conf.rootLogin authorizedKeys;
+      root.openssh.authorizedKeys.keys = authorizedKeys;
     };
 
     systemd.services.openssh = {

@@ -6,7 +6,7 @@
   cfg = config.collinux.services.ngircd;
 in
   lib.mkIf cfg.enable {
-    networking.firewall.allowedTCPPorts = lib.optional cfg.public cfg.port;
+    networking.firewall.allowedTCPPorts = [cfg.port];
 
     services.ngircd = {
       enable = true;
@@ -16,11 +16,7 @@ in
           Info = Ganymede IRC Chat
           AdminInfo1 = Collin
 
-          Listen = ${
-          if cfg.public
-          then "0.0.0.0"
-          else "127.0.0.1"
-        }
+          Listen = 0.0.0.0
           Ports = ${toString cfg.port}
 
         [Channel]

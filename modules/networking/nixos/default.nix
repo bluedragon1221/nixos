@@ -1,7 +1,7 @@
 {
   imports = [
     ./resolved.nix
-
+    ./unbound.nix
     ./networkd.nix
     ./iwd.nix
     ./wpasupplicant.nix
@@ -14,14 +14,9 @@
     };
 
     # Disable default networking stuff
+    resolvconf.enable = false;
     dhcpcd.enable = false;
     useDHCP = false;
     networkmanager.enable = false;
-  };
-
-  boot.kernel.sysctl = {
-    # disable all ipv6
-    "net.ipv6.conf.all.disable_ipv6" = 1;
-    "net.ipv6.conf.default.disable_ipv6" = 1;
   };
 }

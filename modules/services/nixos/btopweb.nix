@@ -33,7 +33,7 @@ in {
         User = "btopweb";
         Type = "simple";
 
-        ExecStart = ''${pkgs.ttyd}/bin/ttyd -W -i ${cfg.listenAddr} -p ${toString cfg.port} -t renderType=canvas -t fontSize=16 ${pkgs.btop}/bin/btop -c ${btopSettings}'';
+        ExecStart = ''${lib.getExe pkgs.ttyd} -W -i 127.0.0.1 -p ${toString cfg.port} -t renderType=canvas -t fontSize=16 ${pkgs.btop}/bin/btop -c ${btopSettings}'';
       };
     };
 
@@ -41,5 +41,10 @@ in {
       tls internal
       reverse_proxy 127.0.0.1:${toString cfg.port}
     '';
+
+    collinux.services.glance.homelabServices."btop" = {
+      url = "https://btop.ganymede";
+      icon = "si:htop";
+    };
   };
 }

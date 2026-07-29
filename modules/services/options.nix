@@ -1,117 +1,62 @@
-{
-  lib,
-  my-lib,
-  ...
-}: let
+{lib, ...}: let
   inherit (lib) mkOption mkEnableOption types;
-  inherit (my-lib.netTypes {inherit lib;}) ipAddr;
 
-  # A helper function to generate the submodule
-  webserviceOptions = {
-    service_name,
-    reverse_proxy ? true,
-  }:
-    {
-      enable = mkEnableOption "${service_name} selfhosted service";
-      listenAddr = mkOption {
-        description = "The IP address on which ${service_name} will listen for incoming connections";
-        type = ipAddr;
-        default = "127.0.0.1";
-      };
-      privateUrl = mkOption {
-        description = "Internal .local name for the service. Don't put the protocol (https://) in the string";
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-      };
-      publicUrl = mkOption {
-        description = "Public website on which the service will be hosted. Don't put the protocol (https://) in the string";
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-      };
-    }
-    // (
-      if reverse_proxy
-      then {
-        reverseProxy = mkOption {
-          internal = true;
-          type = lib.types.bool;
-          default = true;
-        };
-        port = mkOption {
-          description = "The port on which ${service_name} will listen for incomming connections";
-          type = lib.types.port;
-        };
-      }
-      else {
-        manualCaddyConfig = mkOption {
-          description = "Configuration to describe this service in caddy, since reverse_proxy = false.";
-          type = lib.types.str;
-        };
-      }
-    );
+  basicService = {
+    desc,
+    default_port ? null,
+  }: {
+    enable = mkEnableOption desc;
+    port = mkOption {
+      type = lib.types.port;
+      default = default_port;
+    };
+  };
 in {
   options.collinux.services = {
-    sshd = {
-      enable = mkEnableOption "OpenSSH server";
-      port = mkOption {
-        description = "Port to run on";
-        type = lib.types.port;
-        default = 22;
-      };
-      public = mkEnableOption "whether to make this service accessable over the internet";
-
-      conf = {
-        otp = mkEnableOption "Whether to require TOTP (Google Authenticator) 2fa codes to login";
-        rootLogin = mkEnableOption "Whether to allow root login";
-      };
-    };
-    minecraft = {
-      enable = mkEnableOption "Minecraft bedrock server";
-      port = mkOption {
-        description = "port to run on";
-        type = lib.types.port;
-        default = 19132;
-      };
-
-      public = mkEnableOption "whether to make this service accessable over the internet";
-    };
-    ngircd = {
-      enable = mkEnableOption "ngircd IRC server";
-      port = mkOption {
-        type = lib.types.port;
-        default = 6667;
-      };
-
-      public = mkEnableOption "whether to make this service accessable over the internet";
+    sshd = basicService {
+      desc = "OpenSSH server";
+      default_port = 22;
     };
 
-    jta = webserviceOptions {
-      service_name = "jta";
-    };
-    ganyupload = webserviceOptions {
-      service_name = "ganyupload";
-    };
-    forgejo = webserviceOptions {
-      service_name = "forgejo";
-    };
-    btopweb = webserviceOptions {
-      service_name = "btopweb";
-    };
-    goaccess = webserviceOptions {
-      service_name = "goaccess";
-    };
-    glance = {
-      enable = mkEnableOption "Glance homepage";
-      port = lib.mkOption {
-        type = lib.types.port;
+    jta = basicService {desc = "personal project";};
+    ganyupload = basicService {desc = "anonymous file uploads";};
+    btopweb = basicService {desc = "btop accessable in a browser tab";};
+
+    forgejo = basicService {desc = "Self-hosted git forge";};
+    qbittorrent = basicService {desc = "webui for qBittorrent";};
+    goaccess = basicService {desc = "webserver stats from caddy logs";};
+    filebrowser = basicService {desc = "dufs file browser";};
+    cgit.enable = mkEnableOption "cgit git webui";
+
+    glance =
+      (basicService {desc = "Glance homepage";})
+      // {
+        homelabServices = lib.mkOption {
+          type = lib.types.attrsOf (lib.types.submodule ({config, ...}: {
+            options = {
+              title = lib.mkOption {
+                type = lib.types.str;
+                default = config._module.args.name;
+              };
+              url = lib.mkOption {
+                type = lib.types.str;
+              };
+              icon = lib.mkOption {
+                type = lib.types.nullOr lib.types.str;
+                default = null;
+              };
+            };
+          }));
+        };
       };
+
+    minecraft = basicService {
+      desc = "Minecraft bedrock server";
+      default_port = 19132;
     };
-    cgit = webserviceOptions {
-      service_name = "cgit";
-      reverse_proxy = false;
-    };
-    qbittorrent = webserviceOptions {
-      service_name = "qbittorrent";
+    ngircd = basicService {
+      desc = "ngircd IRC server";
+      default_port = 6667;
     };
 
     caddy = {
