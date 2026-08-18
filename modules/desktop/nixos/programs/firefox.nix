@@ -24,21 +24,20 @@ in
         OverridePostUpdatePage = "";
 
         SearchEngines.Default = "DuckDuckGo";
-        Homepage = {
-          URL = "https://home.ganymede";
-          Locked = true;
-          StartPage = "homepage-locked";
-        };
+        # Homepage = {
+        #   URL = "https://home.ganymede";
+        #   Locked = true;
+        #   StartPage = "homepage-locked";
+        # };
 
-        AIControls = {
-          Default = {
-            Value = "blocked";
+        AIControls = let
+          opt = Value: {
+            inherit Value;
             Locked = true;
           };
-          Translations = {
-            Value = "available";
-            Locked = true;
-          };
+        in {
+          Default = opt "blocked";
+          Translations = opt "available";
         };
 
         Preferences = let
@@ -54,7 +53,7 @@ in
 
           "browser.theme.content-theme" = opt 0;
           "browser.theme.toolbar-theme" = opt 0;
-          "browser.display.background_color.dark" = opt "${config.collinux.palette.base00}";
+          "browser.display.background_color.dark" = opt config.collinux.palette.base00;
 
           "browser.tabs.loadBookmarksInTabs" = opt true;
           "browser.toolbars.bookmarks.visibility" = opt "never";

@@ -26,7 +26,10 @@ in {
         Defaults pwfeedback
       '';
     };
-    run0.enableSudoAlias = cfg.useRun0;
+    run0 = {
+      enable = cfg.useRun0;
+      enableSudoAlias = cfg.useRun0;
+    };
   };
 
   time.timeZone = "America/Chicago";

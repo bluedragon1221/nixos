@@ -5,18 +5,21 @@
   ...
 }: let
   cfg = config.collinux.desktop.gnome;
+
+  shellExtensions = with pkgs.gnomeExtensions; [blur-my-shell dash-to-dock];
 in
   lib.mkIf cfg.enable {
-    services.desktopManager.gnome.enable = true;
-
-    services.gnome.gcr-ssh-agent.enable = false; # conflicts with normal ssh-agent
+    services = {
+      desktopManager.gnome.enable = true;
+      gnome.gcr-ssh-agent.enable = false; # conflicts with normal ssh-agent
+    };
 
     environment.gnome.excludePackages = with pkgs; [
       orca
       evince
       # file-roller
       geary
-      # gnome-disk-utility
+      gnome-disk-utility
       seahorse
       # sushi
       # sysprof
@@ -33,23 +36,23 @@ in
       # glib # for gsettings program
       # gnome-menus
       # gtk3.out # for gtk-launch program
-      # xdg-user-dirs # Update user dirs as described in https://freedesktop.org/wiki/Software/xdg-user-dirs/
-      # xdg-user-dirs-gtk # Used to create the default bookmarks
-      #
+      xdg-user-dirs # Update user dirs as described in https://freedesktop.org/wiki/Software/xdg-user-dirs/
+      xdg-user-dirs-gtk # Used to create the default bookmarks
+
       baobab
       epiphany
       gnome-text-editor
       gnome-calculator
       gnome-calendar
       gnome-characters
-      # gnome-clocks
+      gnome-clocks
       gnome-console
       gnome-contacts
       gnome-font-viewer
       gnome-logs
       gnome-maps
       gnome-music
-      # gnome-system-monitor
+      gnome-system-monitor
       gnome-weather
       # loupe
       # nautilus
@@ -61,7 +64,7 @@ in
       gnome-software
     ];
 
-    hjem.users."${config.collinux.user.name}".packages = with pkgs.gnomeExtensions; [blur-my-shell dash-to-dock] ++ [pkgs.wl-clipboard];
+    environment.systemPackages = shellExtensions ++ [pkgs.wl-clipboard];
 
     programs.dconf = {
       enable = true;
@@ -103,17 +106,14 @@ in
 
             # Background
             "org/gnome/desktop/background" = rec {
-              picture-uri = "file://${pkgs.gnome-backgrounds}/share/backgrounds/gnome/blobs-d.svg";
+              picture-uri = "file://${config.collinux.desktop.wallpaper}";
               picture-uri-dark = picture-uri;
             };
 
             # Extensions
             "org/gnome/shell" = {
               disable-user-extensions = false;
-              enabled-extensions = with pkgs.gnomeExtensions; [
-                blur-my-shell.extensionUuid
-                dash-to-dock.extensionUuid
-              ];
+              enabled-extensions = shellExtensions |> map (x: x.extensionUuid);
             };
 
             "org/gnome/shell/extensions/dash-to-dock" = {

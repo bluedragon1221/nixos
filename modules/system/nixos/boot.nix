@@ -74,7 +74,7 @@ in {
       };
     });
 
-  system.etc.overlay.enable = true;
+  # system.etc.overlay.enable = true;
   system.nixos-init.enable = true;
 
   # store journald logs in memory

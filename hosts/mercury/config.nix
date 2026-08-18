@@ -1,4 +1,8 @@
-{config, ...}: {
+{
+  config,
+  pkgs,
+  ...
+}: {
   collinux = {
     theme = "catppuccin";
 
@@ -12,30 +16,25 @@
     user.useRun0 = true;
 
     desktop = {
-      wallpaper =
-        if (config.collinux.theme == "catppuccin")
-        then ./wallpapers/astronaut.jpg
-        else ./wallpapers/hintergrund2.png;
+      wallpaper = "${pkgs.gnome-backgrounds}/share/backgrounds/gnome/blobs-d.svg";
+
       gtk.enable = true;
       qt.enable = true;
 
       greetd = {
         enable = true;
         autologin.enable = true;
-        # cosmic-greeter.enable = true;
       };
 
       wm = {
         niri.enable = true;
         kdeDesktopPortal.enable = true;
-
         components.fuzzel.enable = true; # noctalia launcher SUCKS
       };
 
       programs = {
         firefox.enable = true;
         research.enable = true;
-
         foot.enable = true;
       };
     };
@@ -47,7 +46,7 @@
         secureBoot.enable = true;
       };
 
-      network.wireless.dynamic = true;
+      # network.wireless.dynamic = true;
 
       audio.enable = true;
       bluetooth.enable = true;

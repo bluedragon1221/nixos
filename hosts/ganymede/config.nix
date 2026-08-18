@@ -28,19 +28,6 @@
       };
     };
 
-    system.network = {
-      dns.areYouAServer = true;
-      static = {
-        ip = "192.168.50.2/24";
-        gateway = "192.168.50.1";
-      };
-
-      wireless.static = {
-        ssid = "williams";
-        pskFile = config.collinux.secrets."williams-psk".path;
-      };
-    };
-
     services = {
       sshd.enable = true; # :22
       minecraft.enable = true; # :19132

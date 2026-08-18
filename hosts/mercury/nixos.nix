@@ -4,6 +4,7 @@
     ./battery.nix
 
     ./wireguard.nix
+    ./networking.nix
 
     inputs.nixos-facter-modules.nixosModules.facter
     inputs.lanzaboote.nixosModules.lanzaboote

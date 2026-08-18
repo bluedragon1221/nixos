@@ -39,13 +39,6 @@ in
       KVANTUM_THEME = "catppuccin-mocha-blue";
     };
 
-    systemd.user.extraConfig = lib.optionalString isCatppuccin ''
-      DefaultEnvironment=KVANTUM_THEME=catppuccin-mocha-blue
-      DefaultEnvironment=QT_STYLE_OVERRIDE=kvantum
-      DefaultEnvironment=QT_QPA_PLATFORMTHEME=kde
-      DefaultEnvironment=KDE_COLOR_SCHEME=CatppuccinMochaBlue
-    '';
-
     systemd.user.services.plasma-xdg-desktop-portal-kde = lib.mkIf isCatppuccin {
       overrideStrategy = "asDropin";
       serviceConfig.Environment = [

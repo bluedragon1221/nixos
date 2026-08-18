@@ -29,14 +29,4 @@ in {
     bluetooth.enable = mkEnableOption "bluetooth";
     printing.enable = mkEnableOption "cups printing server";
   };
-
-  config.assertions = [
-    {
-      assertion = let
-        cfg = config.collinux.system.network.wireless;
-      in
-        !(cfg.static != null && cfg.dynamic);
-      message = "Configure a static wireless connection or a dynamic one; not both.";
-    }
-  ];
 }

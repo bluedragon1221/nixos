@@ -36,6 +36,11 @@
     };
   };
 
+  # merge logs from subdomains
+  services.caddy.virtualHosts."jta.williamsfam.us.com".logFormat = lib.mkForce ''
+    output file /var/log/caddy/access-williamsfam.us.com.log
+  '';
+
   collinux.services.glance.homelabServices."website" = {
     url = "https://williamsfam.us.com";
     icon = "mdi:web";
