@@ -37,6 +37,12 @@
     ''
   ];
 
+  # get perl out of my closure
+  system = {
+    etc.overlay.enable = true;
+    nixos-init.enable = true;
+  };
+
   # required for vm testing
   virtualisation.vmVariant.virtualisation.diskSize = 8192;
 }

@@ -21,7 +21,7 @@ in {
           configurationLimit = 3;
         };
         efi.canTouchEfiVariables = true;
-        timeout = cfg.timeout; # hold space to show boot menu if timeout == 0
+        timeout = cfg.timeout; # hold space to show boot menu if timeout == 0 (`systemctl reboot --boot-loader-menu=0` reboots with the bootloader showing)
       };
 
       plymouth = lib.mkIf cfg.plymouth.enable {
@@ -73,9 +73,6 @@ in {
         pkiBundle = "/var/lib/sbctl";
       };
     });
-
-  # system.etc.overlay.enable = true;
-  system.nixos-init.enable = true;
 
   # store journald logs in memory
   services.journald.extraConfig = ''

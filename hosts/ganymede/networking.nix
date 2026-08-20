@@ -6,7 +6,7 @@
 }: let
   static = {
     ssid = "williams";
-    pskFile = config.collinux.secrets."williams-psk".path;
+    pskFile = config.collinux.secrets."williams-psk".path; # file should look like "psk=<PSK>"
     ip = "192.168.50.2/24";
     gateway = "192.168.50.1";
   };
@@ -28,8 +28,8 @@ in {
 
     wireless = {
       enable = true;
-      networks.${static.ssid}.pskRaw = "ext:psk";
       secretsFile = static.pskFile;
+      networks.${static.ssid}.pskRaw = "ext:psk";
     };
   };
   systemd = {
@@ -53,6 +53,14 @@ in {
           Address = static.ip;
           Gateway = static.gateway;
           DHCP = "no";
+        };
+      };
+
+      networks."20-teather" = {
+        # for next time I break networking...
+        name = "enp*";
+        networkConfig = {
+          DHCP = "yes";
         };
       };
     };

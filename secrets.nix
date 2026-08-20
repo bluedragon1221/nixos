@@ -3,8 +3,8 @@ let
 in {
   "modules/terminal/nixos/github-ssh-key.age".publicKeys = [mercury.host_pubkey ganymede.host_pubkey];
 
-  "hosts/ganymede/secrets/caddy-env.age".publicKeys = [ganymede.host_pubkey];
-  "hosts/ganymede/secrets/williams-psk.age".publicKeys = [ganymede.host_pubkey];
+  "hosts/ganymede/secrets/caddy-env.age".publicKeys = [mercury.host_pubkey ganymede.host_pubkey];
+  "hosts/ganymede/secrets/williams-psk.age".publicKeys = [mercury.host_pubkey ganymede.host_pubkey];
 
   "hosts/mercury/secrets/wg-privkey.age".publicKeys = [mercury.host_pubkey];
   "hosts/ganymede/secrets/wg-privkey.age".publicKeys = [mercury.host_pubkey ganymede.host_pubkey];
