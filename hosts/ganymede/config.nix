@@ -9,6 +9,10 @@
       };
 
       "caddy-env".file = ./secrets/caddy-env.age;
+      "caddy-root-ca-key" = {
+        file = ./secrets/caddy-root-ca.key.age;
+        owner = "caddy";
+      };
 
       "wireguard-privkey" = {
         file = ./secrets/wg-privkey.age;
@@ -33,30 +37,17 @@
       minecraft.enable = true; # :19132
       ngircd.enable = true; # :6667
 
-      jta = {
-        enable = true;
-        port = 8072;
-      };
-      goaccess = {
-        enable = true;
-        port = 7890;
-      };
-      btopweb = {
-        enable = true;
-        port = 8017;
-      };
+      goaccess.enable = true;
+      btopweb.enable = true;
       qbittorrent = {
         enable = true;
         port = 8076;
       };
       cgit.enable = true;
+      filebrowser.enable = true;
       glance = {
         enable = true;
         port = 8081;
-      };
-      filebrowser = {
-        enable = true;
-        port = 8082;
       };
 
       caddy = {

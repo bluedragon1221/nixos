@@ -6,10 +6,7 @@
   cfg = config.collinux.services.qbittorrent;
 in {
   config = lib.mkIf cfg.enable {
-    users.users."qbittorrent" = {
-      uid = 985;
-      extraGroups = ["fileserver"]; # torrent files go to /media/library
-    };
+    users.users."qbittorrent" = {};
 
     networking.firewall = {
       allowedTCPPorts = [49252];

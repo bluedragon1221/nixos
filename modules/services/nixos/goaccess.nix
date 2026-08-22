@@ -14,12 +14,11 @@
     log-file = "/var/log/caddy/access-williamsfam.us.com.log";
     geoip-database = inputs.geolite-db;
 
-    ws-url = "wss://stats.ganymede:443/ws";
-    port = cfg.port;
-    addr = "127.0.0.1";
+    ws-url = "wss://stats.ganymede:443/ws"; # url that the frontend uses to fetch data
+    unix-socket = "/run/goaccess/goaccess.sock";
 
     real-time-html = "true";
-    output = "/var/www/goaccess/index.html";
+    output = "/var/lib/goaccess/index.html";
     external-assets = "true";
     all-static-files = "false";
     html-report-title = "stats@ganymede";
@@ -44,6 +43,7 @@ in {
       group = "goaccess";
       extraGroups = ["caddy"]; # to read caddy log files
     };
+    users.users.caddy.extraGroups = ["goaccess"];
 
     systemd.services."goaccess" = {
       description = "GoAccess Real-Time Log Analyzer";
@@ -56,9 +56,14 @@ in {
         User = "goaccess";
         Type = "simple";
 
-        ReadWritePaths = "/var/www/goaccess";
-        WorkingDirectory = "/var/www/goaccess";
-        ExecStart = "${pkgs.goaccess}/bin/goaccess -p ${settingsFile}";
+        RuntimeDirectory = "goaccess";
+        RuntimeDirectoryMode = "0770";
+        UMask = "0007";
+
+        StateDirectory = "goaccess";
+        StateDirectoryMode = "0750"; # caddy must read this dir
+
+        ExecStart = "${lib.getExe pkgs.goaccess} -p ${settingsFile}";
 
         NoNewPrivileges = true;
         PrivateTmp = true;
@@ -70,15 +75,13 @@ in {
       };
     };
 
-    systemd.tmpfiles.rules = ["d /var/www/goaccess/ 755 goaccess goaccess"];
-
     services.caddy.virtualHosts."stats.ganymede".extraConfig = ''
       tls internal
 
-      root * /var/www/goaccess
+      root * /var/lib/goaccess
       file_server
 
-      reverse_proxy /ws 127.0.0.1:${toString cfg.port}
+      reverse_proxy /ws unix//run/goaccess/goaccess.sock
     '';
 
     collinux.services.glance.homelabServices."stats" = {

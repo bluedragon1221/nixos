@@ -20,12 +20,12 @@ in {
 
     jta = basicService {desc = "personal project";};
     ganyupload = basicService {desc = "anonymous file uploads";};
-    btopweb = basicService {desc = "btop accessable in a browser tab";};
+    btopweb.enable = mkEnableOption "btop accessable in a browser tab";
 
     forgejo = basicService {desc = "Self-hosted git forge";};
     qbittorrent = basicService {desc = "webui for qBittorrent";};
-    goaccess = basicService {desc = "webserver stats from caddy logs";};
-    filebrowser = basicService {desc = "dufs file browser";};
+    goaccess.enable = mkEnableOption "webserver stats from caddy logs";
+    filebrowser.enable = mkEnableOption "dufs file browser";
     cgit.enable = mkEnableOption "cgit git webui";
 
     glance =

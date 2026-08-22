@@ -20,15 +20,12 @@ in
         DisablePocket = true;
         NoDefaultBookmarks = true;
 
+        Certificates.ImportEnterpriseRoots = true;
+
         OverrideFirstRunPage = "";
         OverridePostUpdatePage = "";
 
         SearchEngines.Default = "DuckDuckGo";
-        # Homepage = {
-        #   URL = "https://home.ganymede";
-        #   Locked = true;
-        #   StartPage = "homepage-locked";
-        # };
 
         AIControls = let
           opt = Value: {

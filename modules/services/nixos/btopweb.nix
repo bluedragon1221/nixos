@@ -21,6 +21,7 @@ in {
       isSystemUser = true;
       group = "btopweb";
     };
+    users.users.caddy.extraGroups = ["btopweb"];
 
     systemd.services."btopweb" = {
       description = "Host btop on a website";
@@ -31,15 +32,27 @@ in {
 
       serviceConfig = {
         User = "btopweb";
+        Group = "btopweb";
         Type = "simple";
 
-        ExecStart = ''${lib.getExe pkgs.ttyd} -W -i 127.0.0.1 -p ${toString cfg.port} -t renderType=canvas -t fontSize=16 ${pkgs.btop}/bin/btop -c ${btopSettings}'';
+        RuntimeDirectory = "btopweb";
+        RuntimeDirectoryMode = "0770";
+        UMask = "0007";
+
+        ExecStart = ''
+          ${lib.getExe pkgs.ttyd} \
+            -W \
+            -i /run/btopweb/ttyd.sock \
+            -t renderType=canvas \
+            -t fontSize=16 \
+            ${pkgs.btop}/bin/btop -c ${btopSettings}
+        '';
       };
     };
 
     services.caddy.virtualHosts."btop.ganymede".extraConfig = ''
       tls internal
-      reverse_proxy 127.0.0.1:${toString cfg.port}
+      reverse_proxy unix//run/btopweb/ttyd.sock
     '';
 
     collinux.services.glance.homelabServices."btop" = {

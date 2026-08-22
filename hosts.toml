@@ -8,11 +8,24 @@ wg_ip = "10.100.0.5"
 [hosts.ganymede]
 hostnames = ["ganymede", "192.168.50.2", "williamsfam.us.com"]
 user_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFeAsRh11Jyv+7Fm4WhzV4XN0LMYQS1/yMbvT+pvFDcd collin@ganymede"
-# host_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINlr+53UmlGVP1blkdNl6NFqn1w2umFJyjH1EVUPKIy9"
 host_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL9ogXwOPZbAyAq9ecuzJGeRXobWrT9I7icHeEKnpzwB"
 
 wg_pubkey = "7BdBTJ/FQUOPjSU+Q1Ieg9VqMd2y8BCMqk61I5rMAnY="
 wg_ip = "10.100.0.1"
+
+caddy-root-ca = '''
+-----BEGIN CERTIFICATE-----
+MIIBmzCCAUGgAwIBAgIUZOdBpjHNZvJ8XKdFgVYi19a101owCgYIKoZIzj0EAwIw
+GzEZMBcGA1UEAwwQR2FueW1lZGUgSG9tZSBDQTAeFw0yNjA4MjIxMjExMDRaFw0z
+NjA4MTkxMjExMDRaMBsxGTAXBgNVBAMMEEdhbnltZWRlIEhvbWUgQ0EwWTATBgcq
+hkjOPQIBBggqhkjOPQMBBwNCAATme8gCEPAnxmilt/aqZpVClp7J5+3Y++ZSmXqp
+ibnTWa7RNhk/GzXZ8Ks0ez1Pc/lTLAYoIbQk6/Gjk4wg7ipbo2MwYTAfBgNVHSME
+GDAWgBSapoWPxw4f0+lBQwNHuRtiXiPDbDAPBgNVHRMBAf8EBTADAQH/MA4GA1Ud
+DwEB/wQEAwIBBjAdBgNVHQ4EFgQUmqaFj8cOH9PpQUMDR7kbYl4jw2wwCgYIKoZI
+zj0EAwIDSAAwRQIhAKD1PjqoVnPdrlLKl6/rr4WG74gG8ND/QpwAdPxon2fnAiBJ
+WR/WOxlBMpXQqxF7rttr/+zLAUx1wotKugI8FbdrQA==
+-----END CERTIFICATE-----
+'''
 
 [hosts.terra]
 user_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINKwMBLWWxpf4jZN3R3iQ7XEAOMq0KAOE/6YN4iTBuJx collin@terra"

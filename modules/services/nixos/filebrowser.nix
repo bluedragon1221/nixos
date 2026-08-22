@@ -13,6 +13,7 @@ in
       group = "dufs";
       extraGroups = ["fileserver"];
     };
+    users.users.caddy.extraGroups = ["dufs"];
 
     systemd.services."dufs" = {
       description = "dufs file server";
@@ -22,15 +23,14 @@ in
       wantedBy = ["multi-user.target"];
 
       serviceConfig = {
-        # ExecStart = "${pkgs.dufs}/bin/dufs /media --port ${toString cfg.port}";
         ExecStart = "${lib.getExe pkgs.dufs} /media --bind /run/dufs/dufs.sock";
 
-        RuntimeDirectory = "dufs"; # /run/dufs
+        RuntimeDirectory = "dufs";
 
         User = "dufs";
         Group = "dufs";
+        UMask = "0007";
 
-        # Hardening
         ProtectSystem = "strict";
         ProtectHome = true;
         PrivateTmp = true;
@@ -47,6 +47,6 @@ in
 
     collinux.services.glance.homelabServices."files" = {
       url = "https://files.ganymede";
-      icon = "si:folder";
+      icon = "mdi:folder";
     };
   }

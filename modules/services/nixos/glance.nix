@@ -6,8 +6,6 @@
 }: let
   cfg = config.collinux.services.glance;
 
-  pure = x: [x];
-
   servicesLinks = builtins.attrValues cfg.homelabServices;
 
   settings = {
@@ -19,76 +17,73 @@
     };
 
     branding.hide-footer = true;
-    pages = pure {
-      name = "Dashboard";
-      width = "slim";
-      hide-desktop-navigation = true;
-      center-vertically = true;
-      columns = pure {
-        size = "full";
-        widgets = [
+    pages = [
+      {
+        name = "Dashboard";
+        width = "slim";
+        hide-desktop-navigation = true;
+        center-vertically = true;
+        columns = [
           {
-            type = "search";
-            autofocus = true;
-            search-engine = "duckduckgo";
-            bangs = [
+            size = "full";
+            widgets = [
               {
-                title = "GitHub";
-                shortcut = "gh";
-                url = "https://github.com/search?q={QUERY}&type=repositories";
+                type = "search";
+                autofocus = true;
+                search-engine = "duckduckgo";
+                bangs = [
+                  {
+                    title = "GitHub";
+                    shortcut = "gh";
+                    url = "https://github.com/search?q={QUERY}&type=repositories";
+                  }
+                  {
+                    title = "I'm Feeling Lucky";
+                    shortcut = "!";
+                    url = "https://www.google.com/search?q={QUERY}&btnI=&sourceid=navclient&gfns=1";
+                  }
+                  {
+                    title = "YouTube Music";
+                    shortcut = "ytm";
+                    url = "https://music.youtube.com/search?q={QUERY}";
+                  }
+                  {
+                    title = "Google AI Mode";
+                    shortcut = "ai";
+                    url = "https://www.google.com/search?udm=50&q={QUERY}";
+                  }
+                ];
               }
               {
-                title = "I'm Feeling Lucky";
-                shortcut = "!";
-                url = "https://www.google.com/search?q={QUERY}&btnI=&sourceid=navclient&gfns=1";
+                type = "server-stats";
+                servers = [
+                  {
+                    type = "local";
+                    name = "ganymede";
+                    hide-mountpoints-by-default = true;
+                    mountpoints = {
+                      "/".hide = false;
+                      "/media".hide = false;
+                    };
+                  }
+                ];
               }
               {
-                title = "YouTube Music";
-                shortcut = "ytm";
-                url = "https://music.youtube.com/search?q={QUERY}";
-              }
-              {
-                title = "Google AI Mode";
-                shortcut = "ai";
-                url = "https://www.google.com/search?udm=50&q={QUERY}";
+                type = "monitor";
+                cache = "1m";
+                title = "Services";
+                sites = servicesLinks;
               }
             ];
           }
-          {
-            type = "server-stats";
-            servers = pure {
-              type = "local";
-              name = "Ganymede";
-              hide-mountpoints-by-default = true;
-              mountpoints = {
-                "/".hide = false;
-                "/media".hide = false;
-              };
-            };
-          }
-          {
-            type = "monitor";
-            cache = "1m";
-            title = "Services";
-            sites = servicesLinks;
-          }
         ];
-      };
-    };
+      }
+    ];
   };
 
   settingsFile = (pkgs.formats.yaml {}).generate "config.yml" settings;
 in {
   config = lib.mkIf cfg.enable {
-    users.groups."glance" = {};
-    users.users."glance" = {
-      isSystemUser = true;
-      group = "glance";
-
-      home = "/var/lib/glance";
-      createHome = true;
-    };
-
     systemd.services."glance" = {
       restartIfChanged = true;
       wants = ["network-online.target"];
@@ -96,12 +91,12 @@ in {
       wantedBy = ["multi-user.target"];
 
       serviceConfig = {
-        User = "glance";
         Type = "simple";
 
-        ReadWritePaths = "/var/lib/glance";
-        WorkingDirectory = "/var/lib/glance";
-        ExecStart = "${pkgs.glance}/bin/glance -config ${settingsFile}";
+        DynamicUser = true;
+        StateDirectory = "glance";
+
+        ExecStart = "${lib.getExe pkgs.glance} -config ${settingsFile}";
 
         NoNewPrivileges = true;
         PrivateTmp = true;

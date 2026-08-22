@@ -15,4 +15,6 @@
     ./ngircd.nix
     ./qbittorrent.nix
   ];
+
+  users.groups."fileserver" = {};
 }
