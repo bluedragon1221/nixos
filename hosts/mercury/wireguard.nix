@@ -7,11 +7,22 @@
 }: {
   environment.systemPackages = [pkgs.wireguard-tools];
 
+  systemd.services.udp2raw-client = {
+    description = "udp2raw WireGuard transport";
+    wantedBy = ["multi-user.target"];
+    after = ["network-online.target"];
+    wants = ["network-online.target"];
+    serviceConfig = {
+      ExecStart = "${lib.getExe pkgs.udp2raw} -c -l 127.0.0.1:51820 -r 104.53.197.192:51843 -k shared-secret -a";
+      Restart = "on-failure";
+    };
+  };
+
   systemd.network.netdevs."10-wg" = {
     netdevConfig = {
       Kind = "wireguard";
       Name = "wg0";
-      MTUBytes = 1200;
+      MTUBytes = "1200";
     };
     wireguardConfig = {
       PrivateKeyFile = config.collinux.secrets."wireguard-privkey".path;
@@ -21,7 +32,7 @@
       {
         PublicKey = hosts.ganymede.wg_pubkey;
         AllowedIPs = ["10.100.0.0/24"];
-        Endpoint = "williamsfam.us.com:51820";
+        Endpoint = "127.0.0.1:51820";
       }
     ];
   };

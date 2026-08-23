@@ -72,7 +72,7 @@ in {
     unbound = {
       enable = true;
       settings.server = {
-        interface = ["0.0.0.0"];
+        interface = ["0.0.0.0" "::1"];
         port = 53;
         access-control = [
           "127.0.0.0/8 allow"

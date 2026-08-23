@@ -11,15 +11,31 @@
 
   networking.firewall = {
     allowedUDPPorts = [51820];
+    allowedTCPPorts = [51843];
 
     trustedInterfaces = ["wg0"];
+  };
+
+  systemd.services.udp2raw-server = {
+    description = "udp2raw WireGuard transport";
+
+    wantedBy = ["multi-user.target"];
+    after = ["network-online.target"];
+    wants = ["network-online.target"];
+
+    serviceConfig = {
+      ExecStart = "${lib.getExe pkgs.udp2raw} -s -l 0.0.0.0:51843 -r 127.0.0.1:51820 -k shared-secret -a";
+
+      Restart = "on-failure";
+      RestartSec = "2s";
+    };
   };
 
   systemd.network.netdevs."50-wg0" = {
     netdevConfig = {
       Kind = "wireguard";
       Name = "wg0";
-      MTUBytes = 1200;
+      MTUBytes = "1200";
     };
 
     wireguardConfig = {
