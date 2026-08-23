@@ -1,385 +1,685 @@
-html {
-  height: 100vh;
-  width: 100vw;
+@import url('https://static.williamsfam.us.com/fonts.css');
+@import url('https://static.williamsfam.us.com/prose.css');
+
+:root {
+    --bg: #121212;
+    --fg: #e6e6e6;
+    --muted: #888;
+    --accent: #49f;
+    --border: #888;
+    --add: #6e7;
+    --del: #e76;
+    --lh: 1.5;
 }
 
-body {
-    /* Ensure the parent allows the child to center */
-    margin: 0;
+html, body {
+    background-color: var(--bg);
+}
+
+body, table, form {
     padding: 0;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    margin: 0;
+}
+body {
+    font-family: var(--fontSerif);
+    font-size: 1rem;
+    line-height: var(--lh);
+    color: var(--fg);
+    padding: 2rem;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+}
+a {
+    color: var(--accent);
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+a:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+table {
+    border-collapse: collapse;
 }
 
 div#cgit {
-  padding: 4px;
-  margin: 0 auto;
+    max-width: fit-content;
+    margin: 0 auto;
+}
 
-  width: 95%;
-  max-width: 1200px;
-  
-  font-family: sans-serif;
-  font-size: 10pt;
-  color: #333;
-  background: white;
-
-  /* Global element styles within cgit */
-  a {
-    color: blue;
-    text-decoration: none;
-
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  img {
-    border: none;
-  }
-
-  input#switch-btn {
-    margin: 2px 0px 0px 0px;
-  }
-
-  .oid {
-    font-family: monospace;
-    font-size: 90%;
-  }
-
-  /* Utility Classes */
-  .left { text-align: left; }
-  .right { text-align: right; }
-
-  /* Header Table */
-  table#header {
+table#header {
     width: 100%;
-    margin-bottom: 1em;
-    border-collapse: collapse;
+    margin-bottom: 1.5rem;
 
-    td {
-      &.logo {
+    td.logo {
         width: 96px;
         vertical-align: top;
-      }
-
-      &.main {
-        font-size: 250%;
-        padding-left: 10px;
-        white-space: nowrap;
-        a { color: #000; }
-      }
-
-      &.form {
-        text-align: right;
-        vertical-align: bottom;
-        padding-right: 1em;
-        padding-bottom: 2px;
-        white-space: nowrap;
-
-        form, input, select {
-          font-size: 90%;
-        }
-      }
-
-      &.sub {
-        color: #777;
-        border-top: solid 1px #ccc;
-        padding-left: 10px;
-      }
     }
-  }
 
-  /* Tabs Table */
-  table.tabs {
-    border-bottom: solid 3px #ccc;
+    td.main {
+        font-family: var(--fontSerif);
+        font-size: 2rem;
+        font-weight: 600;
+        padding: 0 0 0 0.75rem;
+        white-space: nowrap;
+
+        a {
+            color: var(--fg);
+            &:hover { color: var(--accent); }
+        }
+    }
+
+    td.sub {
+        color: var(--muted);
+        padding-left: 0.75rem;
+        padding-top: 0.25rem;
+        font-family: var(--fontSerif);
+    }
+}
+
+td.form {
+    text-align: right;
+}
+
+/* TABS */
+table.tabs {
+    border-bottom: 2px solid var(--border);
     border-collapse: collapse;
-    margin-top: 2em;
-    margin-bottom: 0px;
+    margin-top: 2rem;
+    margin-bottom: 0;
     width: 100%;
 
     td {
-      padding: 0px 1em;
-      vertical-align: bottom;
+        padding: 0;
+        vertical-align: bottom;
 
-      a {
-        padding: 2px 0.75em;
-        color: #777;
-        font-size: 110%;
+        a {
+            padding: 2px 0.75em;
+            color: var(--muted);
+            font-size: 1rem;
+            font-family: var(--fontSerif);
 
-        &.active {
-          color: #000;
-          background-color: #ccc;
+            &:hover {
+                color: var(--fg);
+                text-decoration: none;
+            }
+
+            &.active {
+                color: var(--bg);
+                font-weight: bold;
+                background-color: #888;
+            }
         }
-      }
-
-      &.form {
-        text-align: right;
-        form {
-          padding-bottom: 2px;
-          font-size: 90%;
-          white-space: nowrap;
-        }
-        input, select { font-size: 90%; }
-      }
     }
-  }
+}
 
-  /* Content Sections */
-  div.path {
-    margin: 0px;
-    padding: 5px 2em 2px 2em;
-    color: #000;
-    background-color: #eee;
-  }
+/* PATH / CONTENT */
+div.path {
+    margin: 0;
+    padding: 5px 0 2px 0;
+    color: var(--fg);
+    background-color: rgba(255, 255, 255, 0.04);
+    font-family: var(--fontMono); /* it's a filesystem path — code stuff */
+}
+div.content {
+    margin: 0;
+    padding: 1.5em 0;
+    border-bottom: 2px solid var(--border);
+}
 
-  div.content {
-    margin: 0px;
-    padding: 2em;
-    border-bottom: solid 3px #ccc;
-  }
-
-  /* List Tables (Repo index, log, etc) */
-  table.list {
+/* LISTINGS */
+table.list {
     width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
     border: none;
     border-collapse: collapse;
+    font-family: var(--fontSerif);
+}
+table.list tr {
+    background: transparent;
+}
+table.list tr.logheader {
+    background: rgba(255, 255, 255, 0.04);
+}
+table.list tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+table.list tr.nohover:hover {
+    background: transparent;
+}
+table.list th {
+    font-weight: 600;
+    color: var(--fg);
+    padding: 0.1em 0.5em 0.3em 0.5em;
+    border-bottom: 1px solid var(--border);
+    vertical-align: baseline;
+    text-align: left;
+}
+table.list td {
+    border: none;
+    padding: 0.15em 0.5em;
+    color: var(--fg);
+}
+table.list td.commitgraph {
+    font-family: var(--fontMono);
+    white-space: pre;
+}
+table.list td.commitgraph .column1 { color: #e76; }
+table.list td.commitgraph .column2 { color: #6e7; }
+table.list td.commitgraph .column3 { color: #d69; }
+table.list td.commitgraph .column4 { color: #49f; }
+table.list td.commitgraph .column5 { color: #bcd; }
+table.list td.commitgraph .column6 { color: #4d9; }
+table.list td.logsubject {
+    font-family: var(--fontSerif); /* human-written commit summary, not code */
+    font-weight: 600;
+}
+table.list td.logmsg {
+    font-family: var(--fontMono); /* white-space:pre */
+    white-space: pre;
+    padding: 0 0.5em;
+    color: var(--muted);
+}
+table.list td a {
+    color: var(--fg);
+}
+table.list td a.ls-dir {
+    font-weight: 600;
+    color: var(--accent);
+}
+table.list td a:hover {
+    color: var(--accent);
+}
+table.list td.reposection {
+    font-style: italic;
+    color: var(--muted);
+}
+table.list td.sublevel-repo {
+    padding-left: 1.5em;
+}
 
-    tr {
-      background: white;
-
-      &.logheader { background: #eee; }
-      &:nth-child(even) { background: #f7f7f7; }
-      &:nth-child(odd) { background: white; }
-      &:hover { background: #eee; }
-
-      &.nohover {
-        background: white;
-        &:hover { background: white; }
-      }
-
-      &.nohover-highlight:hover {
-        &:nth-child(even) { background: #f7f7f7; }
-        &:nth-child(odd) { background: white; }
-      }
-    }
-
-    th {
-      font-weight: bold;
-      padding: 0.1em 0.5em 0.05em 0.5em;
-      vertical-align: baseline;
-    }
-
-    td {
-      border: none;
-      padding: 0.1em 0.5em 0.1em 0.5em;
-
-      a {
-        color: black;
-        &:hover { color: #00f; }
-        &.ls-dir { font-weight: bold; color: #00f; }
-      }
-
-      &.commitgraph {
-        font-family: monospace;
-        white-space: pre;
-        .column1 { color: #a00; }
-        .column2 { color: #0a0; }
-        .column3 { color: #aa0; }
-        .column4 { color: #00a; }
-        .column5 { color: #a0a; }
-        .column6 { color: #0aa; }
-      }
-
-      &.logsubject { font-family: monospace; font-weight: bold; }
-      &.logmsg { font-family: monospace; white-space: pre; padding: 0 0.5em; }
-      &.reposection { font-style: italic; color: #888; }
-      &.sublevel-repo { padding-left: 1.5em; }
-    }
-  }
-
-  /* File Blob / Blame Views */
-  table.blob, table.ssdiff, table.blame {
-    td.linenumbers, td.lineno {
-      a {
-        color: gray;
-        text-align: right;
-        text-decoration: none;
-        &:hover { color: black; }
-      }
-    }
-  }
-
-  table.blob {
-    margin-top: 0.5em;
-    border-top: solid 1px black;
-
-    td.hashes, td.lines {
-      margin: 0; padding: 0 0 0 0.5em;
-      vertical-align: top;
-      color: black;
-    }
-
-    td.linenumbers {
-      margin: 0; padding: 0 0.5em 0 0.5em;
-      vertical-align: top;
-      text-align: right;
-      border-right: 1px solid gray;
-    }
-
-    pre { padding: 0; margin: 0; }
-  }
-
-  table.blame {
-    td.hashes, td.lines, td.linenumbers { padding: 0; }
-    td.hashes div.alt, td.lines div.alt { padding: 0 0.5em; }
-    td.linenumbers div.alt { padding: 0 0.5em 0 0; }
-
-    div.alt {
-      &:nth-child(even) { background: #eee; }
-      &:nth-child(odd) { background: white; }
-    }
-
-    td.lines > div {
-      position: relative;
-      & > pre {
-        padding: 0 0 0 0.5em;
-        position: absolute;
-        top: 0;
-      }
-    }
-  }
-
-  /* Diffstat and Panels */
-  table.diffstat {
-    border-collapse: collapse;
-    border: solid 1px #aaa;
-    background-color: #eee;
-
-    th {
-      font-weight: normal;
-      text-align: left;
-      text-decoration: underline;
-      padding: 0.1em 1em 0.1em 0.1em;
-    }
-
-    td {
-      padding: 0.2em 0.2em 0.1em 0.1em;
-      border: none;
-
-      &.mode { white-space: nowrap; }
-      span.modechange { padding-left: 1em; color: red; }
-      &.add a { color: green; }
-      &.del a { color: red; }
-      &.upd a { color: blue; }
-
-      &.graph {
-        width: 500px;
-        vertical-align: middle;
-        table { border: none; }
-        td {
-          padding: 0px;
-          border: 0px;
-          height: 7pt;
-          &.add { background-color: #5c5; }
-          &.rem { background-color: #c55; }
-        }
-      }
-    }
-  }
-
-  /* Side-by-side Diff (ssdiff) */
-  table.ssdiff {
+/* MISC */
+img {
+    border: none;
+}
+input#switch-btn {
+    margin: 2px 0 0 0;
+}
+td#sidebar input.txt {
     width: 100%;
-    td {
-      font-size: 75%;
-      font-family: monospace;
-      white-space: pre;
-      padding: 1px 4px;
-      border-left: solid 1px #aaa;
-      border-right: solid 1px #aaa;
+    margin: 2px 0 0 0;
+    background: transparent;
+    color: var(--fg);
+    border: 1px solid var(--border);
+}
+td#content {
+    vertical-align: top;
+    padding: 1em 0;
+    border: none;
+}
+div#summary {
+    vertical-align: top;
+    margin-bottom: 1em;
+}
+table#downloads {
+    float: right;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+    margin-left: 0.5em;
+    margin-bottom: 0.5em;
+    font-family: var(--fontSerif);
+}
+table#downloads th {
+    background-color: rgba(255, 255, 255, 0.06);
+    color: var(--fg);
+}
+table#downloads td {
+    color: var(--fg);
+}
+div#blob {
+    border: 1px solid var(--border);
+}
+div.error {
+    color: var(--del);
+    font-weight: 600;
+    margin: 1em 0;
+}
+a.ls-blob, a.ls-dir, a.ls-mod {
+    font-family: var(--fontMono);
+}
+td.ls-size {
+    text-align: right;
+    font-family: var(--fontMono);
+    width: 10em;
+    color: var(--muted);
+}
+td.ls-mode {
+    font-family: var(--fontMono);
+    width: 10em;
+    color: var(--muted);
+}
 
-      &.add { color: black; background: #cfc; min-width: 50%; }
-      &.add_dark { color: black; background: #aca; min-width: 50%; }
-      &.del { color: black; background: #fcc; min-width: 50%; }
-      &.del_dark { color: black; background: #caa; min-width: 50%; }
-      &.changed { color: black; background: #ffc; min-width: 50%; }
-      &.changed_dark { color: black; background: #cca; min-width: 50%; }
-      &.lineno { color: black; background: #eee; text-align: right; width: 3em; }
-      &.hunk { color: black; background: #ccf; border-top: solid 1px #aaa; border-bottom: solid 1px #aaa; }
-      &.head { 
-        border-top: solid 1px #aaa; border-bottom: solid 1px #aaa; 
-        div.head { font-weight: bold; color: black; }
-      }
-      &.foot { border-top: solid 1px #aaa; border-left: none; border-right: none; border-bottom: none; }
-      &.space { border: none; div { min-height: 3em; } }
-    }
-    span.add { background: #cfc; font-weight: bold; }
-    span.del { background: #fcc; font-weight: bold; }
-  }
+/* FILE VIEW */
+table.blob {
+    max-width: 100%;
+    overflow-x: auto;
+    margin-top: 0.5em;
+    border-top: 1px solid var(--border);
+    font-family: var(--fontMono);
+}
+table.blob td.lines {
+    margin: 0;
+    padding: 0 0 0 0.5em;
+    vertical-align: top;
+    color: var(--fg);
+}
+table.blob td.linenumbers {
+    margin: 0;
+    padding: 0 0.5em;
+    vertical-align: top;
+    text-align: right;
+    border-right: 1px solid var(--border);
+    color: var(--muted);
+}
+table.blob pre {
+    padding: 0;
+    margin: 0;
+}
+table.blob a.no:hover {
+    color: var(--fg);
+}
+table.bin-blob {
+    max-width: 100%;
+    overflow-x: auto;
+    margin-top: 0.5em;
+    border: 1px solid var(--border);
+}
+table.bin-blob th {
+    font-family: var(--fontMono);
+    white-space: pre;
+    border: 1px solid var(--border);
+    padding: 0.5em 1em;
+    color: var(--fg);
+}
+table.bin-blob td {
+    font-family: var(--fontMono);
+    white-space: pre;
+    border-left: 1px solid var(--border);
+    padding: 0 1em;
+    color: var(--fg);
+}
+table.nowrap td {
+    white-space: nowrap;
+}
 
-  /* Footer & Pager */
-  ul.pager {
-    list-style-type: none;
+/* COMMIT VIEW */
+table.commit-info {
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    margin-top: 1.5em;
+    font-family: var(--fontSerif);
+}
+table.commit-info th {
+    text-align: left;
+    font-weight: 400;
+    color: var(--muted);
+    padding: 0.1em 1em 0.1em 0.1em;
+    vertical-align: top;
+}
+table.commit-info td {
+    font-weight: 400;
+    color: var(--fg);
+    padding: 0.1em 1em 0.1em 0.1em;
+}
+div.commit-subject {
+    font-family: var(--fontSerif);
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin: 1.5em 0 0.5em 0;
+    padding: 0;
+    color: var(--fg);
+}
+div.commit-msg {
+    white-space: pre;
+    font-family: var(--fontMono);
+    color: var(--fg);
+}
+div.notes-header {
+    font-weight: 600;
+    padding-top: 1.5em;
+    color: var(--fg);
+    font-family: var(--fontSerif);
+}
+div.notes {
+    white-space: pre;
+    font-family: var(--fontMono);
+    border: 1px solid #665;
+    background-color: rgba(255, 255, 136, 0.08);
+    color: var(--fg);
+    padding: 0.3em 2em 0.3em 1em;
+    float: left;
+}
+div.notes-footer {
+    clear: left;
+}
+
+/* DIFFSTAT */
+div.diffstat-header {
+    font-weight: 600;
+    padding-top: 1.5em;
+    color: var(--fg);
+    font-family: var(--fontSerif);
+}
+table.diffstat {
+    max-width: 100%;
+    overflow-x: auto;
+    border-collapse: collapse;
+    border: 1px solid var(--border);
+    background-color: rgba(255, 255, 255, 0.03);
+    font-family: var(--fontMono);
+}
+table.diffstat th {
+    font-weight: 400;
+    text-align: left;
+    text-decoration: underline;
+    padding: 0.1em 1em 0.1em 0.1em;
+    font-size: 1em;
+    color: var(--fg);
+}
+table.diffstat td {
+    padding: 0.2em 0.2em 0.1em 0.1em;
+    font-size: 1em;
+    border: none;
+    color: var(--fg);
+}
+table.diffstat td.mode {
+    white-space: nowrap;
+}
+table.diffstat td span.modechange {
+    padding-left: 1em;
+    color: var(--del);
+}
+table.diffstat td.add a { color: var(--add); }
+table.diffstat td.del a { color: var(--del); }
+table.diffstat td.upd a { color: var(--accent); }
+table.diffstat td.graph {
+    width: 500px;
+    vertical-align: middle;
+}
+table.diffstat td.graph table {
+    border: none;
+}
+table.diffstat td.graph td {
+    padding: 0;
+    border: 0;
+    height: 7pt;
+}
+table.diffstat td.graph td.add { background-color: var(--add); }
+table.diffstat td.graph td.rem { background-color: var(--del); }
+div.diffstat-summary {
+    color: var(--muted);
+    padding-top: 0.5em;
+    font-family: var(--fontSerif);
+}
+
+/* DIFF */
+table.diff {
+    max-width: 100%;
+    overflow-x: auto;
+    width: 100%;
+}
+table.diff td {
+    font-family: var(--fontMono);
+    white-space: pre;
+    color: var(--fg);
+}
+table.diff td div.head {
+    font-weight: 600;
+    margin-top: 1em;
+    color: var(--fg);
+}
+table.diff td div.hunk { color: #8cf; }
+table.diff td div.add { color: var(--add); }
+table.diff td div.del { color: var(--del); }
+
+.sha1 {
+    font-family: var(--fontMono);
+    font-size: 0.9em;
+    color: var(--muted);
+}
+.left { text-align: left; }
+.right { text-align: right; }
+
+/* BUTTONS / PAGER */
+a.button {
+    font-size: 0.85em;
+    padding: 0 0.5em;
+}
+a.primary { font-size: 1em; }
+a.secondary { font-size: 0.9em; }
+div.pager {
     text-align: center;
     margin: 1em 0 0 0;
-    padding: 0;
-    li { display: inline-block; margin: 0.25em 0.5em; }
-    a { color: #777; }
-    .current { font-weight: bold; }
-  }
-
-  div.footer {
-    margin-top: 0.5em;
-    text-align: center;
-    font-size: 80%;
-    color: #ccc;
-    a {
-      color: #ccc;
-      text-decoration: none;
-      &:hover { text-decoration: underline; }
-    }
-  }
-
-  /* Decorators (Branches/Tags) */
-  a.branch-deco, a.tag-deco, a.tag-annotated-deco, a.remote-deco, a.deco {
-    color: #000;
-    margin: 0px 0.5em;
-    padding: 0px 0.25em;
-    border: solid 1px;
-  }
-  a.branch-deco { background-color: #88ff88; border-color: #007700; }
-  a.tag-deco { background-color: #ffff88; border-color: #777700; }
-  a.tag-annotated-deco { background-color: #ffcc88; border-color: #777700; }
-  a.remote-deco { background-color: #ccccff; border-color: #000077; }
-  a.deco { background-color: #ff8888; border-color: #770000; }
-
-  div.commit-subject {
-    font-weight: bold;
-    font-size: 125%;
-    margin: 1.5em 0em 0.5em 0em;
-    padding: 0em;
-    
-    a.branch-deco, a.tag-deco, a.tag-annotated-deco, a.remote-deco, a.deco {
-      margin-left: 1em;
-      font-size: 75%;
-    }
-  }
-
-  /* Misc specific IDs */
-  td#sidebar input.txt { width: 100%; margin: 2px 0 0 0; }
-  div#summary { vertical-align: top; margin-bottom: 1em; }
-  div.error { color: red; font-weight: bold; margin: 1em 2em; }
-  
-  /* Age Spans */
-  span {
-    &.age-mins, &.age-hours { color: #080; }
-    &.age-mins { font-weight: bold; }
-    &.age-days { color: #040; }
-    &.age-weeks { color: #444; }
-    &.age-months { color: #888; }
-    &.age-years { color: #bbb; }
-    &.insertions { color: #080; }
-    &.deletions { color: #800; }
-  }
+    font-family: var(--fontSerif);
 }
+div.pager a {
+    color: var(--muted);
+    margin: 0 0.5em;
+}
+div.pager a:hover {
+    color: var(--accent);
+}
+
+/* RELATIVE AGE COLORING */
+span.age-mins  { font-weight: 600; color: var(--add); }
+span.age-hours { color: var(--add); }
+span.age-days  { color: #4a8; }
+span.age-weeks { color: var(--fg); }
+span.age-months{ color: var(--muted); }
+span.age-years { color: #555; }
+
+div.footer {
+    margin-top: 1.5em;
+    text-align: center;
+    font-size: 0.85em;
+    color: var(--muted);
+    font-family: var(--fontSerif);
+
+    a {
+        color: var(--muted);
+        &:hover { color: var(--accent); }
+    }
+}
+
+a.branch-deco {
+    margin: 0 0.5em;
+    padding: 0 0.35em;
+    background-color: rgba(102, 238, 102, 0.15);
+    border: 1px solid #4a8;
+    color: #8e8;
+    font-family: var(--fontMono);
+    font-size: 0.85em;
+    border-radius: 3px;
+}
+a.tag-deco {
+    margin: 0 0.5em;
+    padding: 0 0.35em;
+    background-color: rgba(255, 255, 136, 0.15);
+    border: 1px solid #aa5;
+    color: #eeb;
+    font-family: var(--fontMono);
+    font-size: 0.85em;
+    border-radius: 3px;
+}
+a.remote-deco {
+    margin: 0 0.5em;
+    padding: 0 0.35em;
+    background-color: rgba(136, 136, 255, 0.15);
+    border: 1px solid var(--accent);
+    color: #aaf;
+    font-family: var(--fontMono);
+    font-size: 0.85em;
+    border-radius: 3px;
+}
+a.deco {
+    margin: 0 0.5em;
+    padding: 0 0.35em;
+    background-color: rgba(255, 136, 136, 0.15);
+    border: 1px solid var(--del);
+    color: #f99;
+    font-family: var(--fontMono);
+    font-size: 0.85em;
+    border-radius: 3px;
+}
+
+div.commit-subject a.branch-deco,
+div.commit-subject a.tag-deco,
+div.commit-subject a.remote-deco,
+div.commit-subject a.deco {
+    margin-left: 1em;
+    font-size: 0.75em;
+}
+
+table.stats {
+    max-width: 100%;
+    overflow-x: auto;
+    border: 1px solid var(--border);
+    border-collapse: collapse;
+    font-family: var(--fontSerif);
+}
+table.stats th {
+    text-align: left;
+    padding: 1px 0.5em;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: var(--fg);
+}
+table.stats td {
+    text-align: right;
+    padding: 1px 0.5em;
+    border: 1px solid var(--border);
+    color: var(--fg);
+    font-variant-numeric: tabular-nums;
+}
+table.stats td.total { font-weight: 600; text-align: left; }
+table.stats td.sum { color: var(--del); font-weight: 600; }
+table.stats td.left { text-align: left; }
+
+table.vgraph {
+    border-collapse: separate;
+    border: 1px solid var(--border);
+    height: 200px;
+    font-family: var(--fontSerif);
+}
+table.vgraph th {
+    background-color: rgba(255, 255, 255, 0.05);
+    font-weight: 600;
+    border: 1px solid var(--bg);
+    padding: 1px 0.5em;
+    color: var(--fg);
+}
+table.vgraph td {
+    vertical-align: bottom;
+    padding: 0 10px;
+}
+table.vgraph div.bar {
+    background-color: var(--accent);
+}
+table.hgraph {
+    max-width: 100%;
+    overflow-x: auto;
+    width: 100%;
+    border: 1px solid var(--border);
+    font-family: var(--fontSerif);
+}
+table.hgraph th {
+    background-color: rgba(255, 255, 255, 0.05);
+    font-weight: 600;
+    border: 1px solid var(--border);
+    padding: 1px 0.5em;
+    color: var(--fg);
+}
+table.hgraph td {
+    vertical-align: middle;
+    padding: 2px;
+}
+table.hgraph div.bar {
+    background-color: var(--accent);
+    height: 1em;
+}
+
+table.blob .num  { color: #9c9; }
+table.blob .esc  { color: #d69; }
+table.blob .str  { color: #6e7; }
+table.blob .dstr { color: #6e7; }
+table.blob .slc  { color: #888; font-style: italic; }
+table.blob .com  { color: #888; font-style: italic; }
+table.blob .dir  { color: #d69; }
+table.blob .sym  { color: var(--fg); }
+table.blob .kwa  { color: #49f; font-weight: 600; }
+table.blob .kwb  { color: #4d9; }
+table.blob .kwc  { color: #7bf; font-weight: 600; }
+table.blob .kwd  { color: #bcd; }
+
+div#summary {
+    min-width: 0;
+    contain: inline-size;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .header-top {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .header-logo-link {
+        width: 5.5rem;
+        height: 5.5rem;
+        flex-shrink: 0;
+        background-color: #e6e6e6;
+        mask-image: url("https://static.williamsfam.us.com/Logo.svg");
+        mask-size: contain;
+        mask-repeat: no-repeat;
+        mask-position: center;
+    }
+
+    .header-logo-link:hover {
+        background-color: #49f;
+    }
+
+    .header-info {
+        min-width: 0;
+
+        h1 {
+            font-family: var(--fontMono); /* makes more sense for a git repo title */
+            line-height: 1;
+            margin: 0;
+        }
+    }
+
+    p.description {
+        color: #888;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    hr {
+        display: block;
+        height: 2px;
+        border: 0;
+        border-top: 2px solid #888;
+        width: 100%;
+        margin: 1rem 0;
+        padding: 0;
+    }
+}
+

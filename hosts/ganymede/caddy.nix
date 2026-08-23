@@ -75,6 +75,37 @@
           file_server
         '';
       };
+      # collin's stuff
+      "static.williamsfam.us.com" = {
+        logFormat = lib.mkForce ''
+          output file /var/log/caddy/access-williamsfam.us.com.log
+        '';
+        extraConfig = ''
+          root * /media/public/www/static
+          file_server
+
+          @allowed_origins header_regexp Origin ^https?://([a-z0-9-]+)\.(williamsfam\.us\.com|ganymede)(:[0-9]+)?$
+          header @allowed_origins Access-Control-Allow-Origin "{header.Origin}"
+          header @allowed_origins Vary "Origin"
+        '';
+      };
+      "collin.williamsfam.us.com" = {
+        logFormat = lib.mkForce ''
+          output file /var/log/caddy/access-williamsfam.us.com.log
+        '';
+        extraConfig = ''
+          root * /media/public/www/collin
+          try_files {path} {path}.html {path}/index.html
+          file_server
+        '';
+      };
+      # "git.collin.williamsfam.us.com" = {
+      #   logFormat = lib.mkForce ''
+      #     output file /var/log/caddy/access-williamsfam.us.com.log
+      #   '';
+      #   extraConfig = ''
+      #   '';
+      # };
     };
   };
 

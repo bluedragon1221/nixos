@@ -1,0 +1,39 @@
+<script>
+	document.addEventListener("DOMContentLoaded", () => {
+		const oldHeader = document.querySelector("table#header");
+		if (!oldHeader) return;
+		
+		const main = oldHeader.querySelector("td.main");
+		const description = oldHeader.querySelector("td.sub");
+		
+		if (!main) return;
+		
+		const header = document.createElement("header");
+		
+		const headerTop = document.createElement("div");
+		headerTop.className = "header-top";
+		
+		const logoLink = document.createElement("a");
+		logoLink.className = "header-logo-link";
+		logoLink.href = "/";
+		
+		const headerInfo = document.createElement("div");
+		headerInfo.className = "header-info";
+		
+		const title = document.createElement("h1");
+		const repo = main.querySelector("a:last-of-type");
+		title.textContent = repo?.textContent.trim() ?? "";
+		
+		const desc = document.createElement("p");
+		desc.className = "description";
+		desc.textContent = description?.textContent.trim() ?? "";
+		
+		headerInfo.append(title, desc);
+		headerTop.append(logoLink, headerInfo);
+		
+		const hr = document.createElement("hr");
+		
+		header.append(headerTop, hr);
+		oldHeader.replaceWith(header);
+		});
+</script>

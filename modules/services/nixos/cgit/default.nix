@@ -14,21 +14,29 @@
       cp -pPR ./cgit/* $out/
 
       rm -f $out/cgit.png $out/favicon.ico $out/cgit.css
-      cp -f ${./favicon.svg} $out/favicon.svg
       cp -f ${./cgit.css} $out/cgit.css
     '';
   };
+
+  md2html = pkgs.writeShellScriptBin "md2html.sh" ''
+    #!/bin/sh
+    echo '<div class="markdown-body">'
+    ${lib.getExe pkgs.cmark-gfm} \
+      --extension table \
+      --extension tasklist \
+      --extension strikethrough \
+      --extension autolink
+    echo '</div>'
+  '';
 in {
-  imports = [
-    ./gitShellCommands.nix
-  ];
+  imports = [./gitShellCommands.nix];
 
   config = lib.mkIf cfg.enable {
     users.groups."git" = {};
     users.users."git" = {
       isSystemUser = true;
       group = "git";
-      shell = "${pkgs.git}/bin/git-shell";
+      shell = lib.getExe pkgs.git;
 
       home = "/var/lib/cgit";
       createHome = true;
@@ -47,20 +55,17 @@ in {
     '';
 
     environment.etc."cgitrc".text = ''
-      logo=/favicon.svg
-      favicon=/favicon.svg
-
       repo.sort=age
       enable-http-clone=1
       enable-commit-graph=1
-      side-by-side-diffs=1
 
       root-title=git@ganymede
       root-desc=Git repos associated with Ganymede
 
       readme=:README.md
-      about-filter=${pkgs.cgit}/lib/cgit/filters/html-converters/md2html
+      about-filter=${md2html}/bin/md2html.sh
       source-filter=${pkgs.cgit}/lib/cgit/filters/syntax-highlighting.py
+      head-include=${./cgit-head.html}
       footer=
 
       virtual-root=/
