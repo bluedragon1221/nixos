@@ -1,17 +1,15 @@
-# `bluedragon1221/nixos`
-Cool things:
-
+Features:
 - Using [hjem](https://github.com/feel-co/hjem) over [home-manager](https://github.com/nix-community/home-manager)
-- Deployments over ssh using [deploy-rs](https://github.com/serokell/deploy-rs)
+- Remote and local deployments using a self-written cli tool [yo](tree/pkgs/yo)
 - Automatic secret decryption with ssh keys using [agenix](https://github.com/ryantm/agenix)
-- Fully declarative self-hosted services, including:
-  - [cgit](../tree/modules/services/nixos/cgit/default.nix)
+- Fully declarative locally-accessable self-hosted services, including:
+  - [wireguard](tree/hosts/ganymede/wireguard.nix)
   - [GoAccess](../tree/modules/services/nixos/goaccess.nix)
-  - [Polaris](../tree/modules/services/nixos/polaris.nix)
+  - [cgit](../tree/modules/services/nixos/cgit/default.nix)
+  - [dufs](../tree/modules/services/nixos/polaris.nix)
   - [qBittorrent](../tree/modules/services/nixos/qbittorrent.nix)
 - [Homogenous modules](../about/docs/homogenous_modules.md)
 
-# Hosts
 ## [Mercury](../tree/hosts/mercury)
 - Device: Lenovo Thinkpad X1 Carbon Gen 6
 - OS: NixOS
@@ -23,7 +21,6 @@ Goes everywhere with me. Used for programming, school, and browsing the web
 - Device: Lenovo Yoga 730 (broken screen)
 - OS: NixOS
 - DE/Compositor: none
-
 Hosts my family's webserver and a few other self-hosted services over ssh
 
 ## Terra
