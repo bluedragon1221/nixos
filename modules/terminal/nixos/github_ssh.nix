@@ -19,18 +19,7 @@ in
       startAgent = true;
 
       extraConfig = ''
-        Host github.com
-          User git
-          IdentityFile ${config.collinux.secrets."github-ssh-key".path}
-          IdentitiesOnly yes
-          AddKeysToAgent yes
-
-        Match host williamsfam.us.com user git
-          IdentityFile ${config.collinux.secrets."github-ssh-key".path}
-          IdentitiesOnly yes
-          AddKeysToAgent yes
-
-        Match host tangled.org user git
+        Match user git
           IdentityFile ${config.collinux.secrets."github-ssh-key".path}
           IdentitiesOnly yes
           AddKeysToAgent yes
