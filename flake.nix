@@ -2,11 +2,6 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
-    flake-registry = {
-      url = "github:NixOS/flake-registry";
-      flake = false;
-    };
-
     nix-index-database = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -44,7 +39,7 @@
     };
 
     tmux-tsunami = {
-      url = "git+https://git.ganymede/tmux-tsunami";
+      url = "git+https://git.collin.williamsfam.us.com/tmux-tsunami";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
