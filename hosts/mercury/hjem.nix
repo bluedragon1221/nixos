@@ -1,9 +1,37 @@
-{pkgs, ...}: {
+{pkgs, ...}: let
+  rust-shell = let
+    rustProfile = pkgs.buildEnv {
+      name = "rust-profile";
+      paths = with pkgs; [rustc cargo rust-analyzer];
+    };
+  in
+    pkgs.writeShellScriptBin "rust-shell" ''
+      export PATH="${rustProfile}/bin:$PATH"
+      export RUST_BACKTRACE=1
+      exec $SHELL
+    '';
+
+  py-shell = let
+    pythonProfile = pkgs.python314.withPackages (ps:
+      with ps; [
+        numpy
+        matplotlib
+        pandas
+        jupyter
+        ipython
+      ]);
+  in
+    pkgs.writeShellScriptBin "py-shell" ''
+      export PATH="${pythonProfile}/bin:$PATH"
+      export PYTHONSTARTUP=""
+      exec $SHELL
+    '';
+in {
   packages = with pkgs; [
     anki
     libreoffice-qt
     musescore
-    obsidian
+    vscodium
 
     noctalia-shell
 
@@ -11,33 +39,9 @@
     mpv
     irssi
 
-    opencode
-
     (pkgs.callPackage ../../pkgs/yo {})
 
-    captive-browser # https://words.filippo.io/captive-browser
-    (pkgs.makeDesktopItem {
-      name = "captive-browser";
-      desktopName = "Captive Browser";
-      exec = "${pkgs.captive-browser}/bin/captive-browser";
-      icon = "web-browser";
-      terminal = false;
-      categories = ["Application"];
-    })
+    rust-shell
+    py-shell
   ];
-
-  files.".config/captive-browser.toml".text = ''
-    browser = """
-      ${pkgs.ungoogled-chromium}/bin/chromium \
-        --proxy-server="socks5://$PROXY" \
-        --no-default-browser-check \
-        --no-first-run \
-        --no-managed-user-acknowledgment-check \
-        --app=http://neverssl.com
-    """
-
-    dhcp-dns = "echo 10.0.5.82"
-
-    socks5-addr = "localhost:1666"
-  '';
 }
