@@ -4,8 +4,36 @@
   pkgs,
   lib,
   ...
-}: {
-  environment.systemPackages = [pkgs.wireguard-tools];
+}: let
+  wg-mode = pkgs.writeShellScriptBin "wg-mode" ''
+    PEER_KEY="${hosts.ganymede.wg_pubkey}"
+    IFACE="wg0"
+    case "$1" in
+      full)
+        sudo bash -c "
+          wg set '$IFACE' peer '$PEER_KEY' allowed-ips 0.0.0.0/0,::/0
+          ip route add default dev '$IFACE' metric 100
+        "
+        echo "Switched $IFACE to Full Tunnel"
+        ;;
+      split)
+        sudo bash -c "
+          ip route del default dev '$IFACE' metric 100
+          wg set '$IFACE' peer '$PEER_KEY' allowed-ips 10.0.0.0/24
+        "
+        echo "Switched $IFACE to Split Tunnel"
+        ;;
+      *)
+        echo "Usage: wg-mode [full|split]"
+        exit 1
+        ;;
+    esac
+  '';
+in {
+  environment.systemPackages = [
+    pkgs.wireguard-tools
+    wg-mode
+  ];
 
   systemd.services.udp2raw-client = {
     description = "udp2raw WireGuard transport";
