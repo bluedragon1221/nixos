@@ -19,21 +19,24 @@
 		
 		const headerInfo = document.createElement("div");
 		headerInfo.className = "header-info";
-		
-		const title = document.createElement("h1");
+
 		const repo = main.querySelector("a:last-of-type");
-		title.textContent = repo?.textContent.trim() ?? "";
+		const title = document.createElement("h1");
+		if (repo && repo !== main.querySelector("a:first-of-type")) {
+		    title.textContent = repo.textContent.trim();
+		} else {
+		    title.textContent = document.title; // we must be on the title page
+				title.className = "main-page";
+		}
 		
 		const desc = document.createElement("p");
-		desc.className = "description";
+		desc.className = "description"
 		desc.textContent = description?.textContent.trim() ?? "";
 		
 		headerInfo.append(title, desc);
 		headerTop.append(logoLink, headerInfo);
+		header.append(headerTop);
 		
-		const hr = document.createElement("hr");
-		
-		header.append(headerTop, hr);
 		oldHeader.replaceWith(header);
-		});
+	});
 </script>

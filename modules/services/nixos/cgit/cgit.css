@@ -1,5 +1,5 @@
-@import url('https://static.williamsfam.us.com/fonts.css');
-@import url('https://static.williamsfam.us.com/prose.css');
+@import url('https://collin.williamsfam.us.com/static/fonts.css');
+@import url('https://collin.williamsfam.us.com/static/prose.css');
 
 :root {
     --bg: #121212;
@@ -46,37 +46,8 @@ table {
 
 div#cgit {
     max-width: fit-content;
+    min-width: 904.9px;
     margin: 0 auto;
-}
-
-table#header {
-    width: 100%;
-    margin-bottom: 1.5rem;
-
-    td.logo {
-        width: 96px;
-        vertical-align: top;
-    }
-
-    td.main {
-        font-family: var(--fontSerif);
-        font-size: 2rem;
-        font-weight: 600;
-        padding: 0 0 0 0.75rem;
-        white-space: nowrap;
-
-        a {
-            color: var(--fg);
-            &:hover { color: var(--accent); }
-        }
-    }
-
-    td.sub {
-        color: var(--muted);
-        padding-left: 0.75rem;
-        padding-top: 0.25rem;
-        font-family: var(--fontSerif);
-    }
 }
 
 td.form {
@@ -87,8 +58,8 @@ td.form {
 table.tabs {
     border-bottom: 2px solid var(--border);
     border-collapse: collapse;
-    margin-top: 2rem;
-    margin-bottom: 0;
+    margin: 0;
+    margin-top: 1rem;
     width: 100%;
 
     td {
@@ -646,7 +617,7 @@ header {
         height: 5.5rem;
         flex-shrink: 0;
         background-color: #e6e6e6;
-        mask-image: url("https://static.williamsfam.us.com/Logo.svg");
+        mask-image: url("https://collin.williamsfam.us.com/static/Logo.svg");
         mask-size: contain;
         mask-repeat: no-repeat;
         mask-position: center;
@@ -663,6 +634,10 @@ header {
             font-family: var(--fontMono); /* makes more sense for a git repo title */
             line-height: 1;
             margin: 0;
+
+            &.main-page {
+                font-family: var(--fontSerif); /* makes more sense for the "Repositories" title of the main page*/
+            }
         }
     }
 

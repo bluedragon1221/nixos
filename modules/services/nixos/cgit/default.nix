@@ -36,7 +36,7 @@ in {
     users.users."git" = {
       isSystemUser = true;
       group = "git";
-      shell = lib.getExe pkgs.git;
+      shell = "${pkgs.git}/bin/git-shell";
 
       home = "/var/lib/cgit";
       createHome = true;
@@ -59,8 +59,8 @@ in {
       enable-http-clone=1
       enable-commit-graph=1
 
-      root-title=git@ganymede
-      root-desc=Git repos associated with Ganymede
+      root-title=Repositories
+      root-desc=Git repos for my various personal projects
 
       readme=:README.md
       about-filter=${md2html}/bin/md2html.sh
@@ -86,9 +86,7 @@ in {
       };
     };
 
-    services.caddy.virtualHosts."git.ganymede".extraConfig = ''
-      tls internal
-
+    services.caddy.virtualHosts."git.collin.williamsfam.us.com".extraConfig = ''
       @assets path /cgit.css /cgit.js /favicon.svg /robots.txt
       handle @assets {
       	root * ${custom_cgit}
