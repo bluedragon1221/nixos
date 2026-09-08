@@ -17,7 +17,10 @@
         unstage = "restore --staged";
       };
       init.defaultBranch = "main";
+
+      # automatic remote config
       push.autoSetupRemote = true;
+      checkout.defaultRemote = "origin";
     }
     (lib.mkIf cfg.installKey {
       # commit signing

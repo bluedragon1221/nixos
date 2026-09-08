@@ -40,10 +40,23 @@ in {
     wantedBy = ["multi-user.target"];
     after = ["network-online.target"];
     wants = ["network-online.target"];
-    serviceConfig = {
-      ExecStart = "${lib.getExe pkgs.udp2raw} -c -l 127.0.0.1:51820 -r 104.53.197.192:51843 -k shared-secret -a";
-      Restart = "on-failure";
-    };
+    script = ''
+      REMOTE_IP=$(${pkgs.dnsutils}/bin/dig +short williamsfam.us.com | ${pkgs.gawk}/bin/awk 'NR==1')
+
+      if [[ -z "$REMOTE_IP" ]]; then
+        echo "Failed to resolve DNS for configured domain" >&2
+        exit 1
+      fi
+
+      ${lib.getExe pkgs.udp2raw} \
+        -c \
+        -l 127.0.0.1:51820 \
+        -r "$REMOTE_IP":51843 \
+        --raw-mode faketcp \
+        --key "shared-secret" \
+        --auto-rule
+    '';
+    serviceConfig.Restart = "on-failure";
   };
 
   systemd.network.netdevs."10-wg" = {

@@ -8,26 +8,24 @@
 
   languages = {
     language-server = {
-      rust-analyzer.command = let
-        env = pkgs.stdenv.mkDerivation {
-          name = "rust-analyzer-env";
-          src = ./.;
+      # rust-analyzer.command = let
+      #   env = pkgs.stdenv.mkDerivation {
+      #     name = "rust-analyzer-env";
+      #     src = ./.;
 
-          nativeBuildInputs = [pkgs.makeWrapper];
-          buildInputs = [pkgs.rust-analyzer];
-          installPhase = ''
-            mkdir -p $out/bin
-            makeWrapper ${pkgs.rust-analyzer}/bin/rust-analyzer $out/bin/rust-analyzer \
-              --prefix PATH : ${lib.makeBinPath (with pkgs; [rustc cargo])}
-          '';
-        };
-      in "${env}/bin/rust-analyzer";
+      #     nativeBuildInputs = [pkgs.makeWrapper];
+      #     buildInputs = [pkgs.rust-analyzer];
+      #     installPhase = ''
+      #       mkdir -p $out/bin
+      #       makeWrapper ${pkgs.rust-analyzer}/bin/rust-analyzer $out/bin/rust-analyzer \
+      #         --prefix PATH : ${lib.makeBinPath (with pkgs; [rustc cargo])}
+      #     '';
+      #   };
+      # in "${env}/bin/rust-analyzer";
 
       nil = {
         command = "${pkgs.nil}/bin/nil";
-        config = {
-          nil.nix.flake.autoArchive = true;
-        };
+        config.nil.nix.flake.autoArchive = true;
       };
       superhtml = {
         command = "${pkgs.superhtml}/bin/superhtml";
@@ -57,7 +55,7 @@
         name = "html";
         file-types = ["html"];
         language-servers = ["superhtml"];
-        auto-format = true;
+        auto-format = false;
       }
     ];
   };

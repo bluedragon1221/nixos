@@ -2,7 +2,7 @@
   rust-shell = let
     rustProfile = pkgs.buildEnv {
       name = "rust-profile";
-      paths = with pkgs; [rustc cargo rust-analyzer];
+      paths = with pkgs; [rustc cargo rust-analyzer gcc];
     };
   in
     pkgs.writeShellScriptBin "rust-shell" ''
