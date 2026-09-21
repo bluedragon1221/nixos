@@ -7,11 +7,12 @@ wg_ip = "10.100.0.5"
 
 [hosts.ganymede]
 hostnames = ["ganymede", "192.168.50.2", "williamsfam.us.com"]
+ip = "10.100.0.1"
 user_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFeAsRh11Jyv+7Fm4WhzV4XN0LMYQS1/yMbvT+pvFDcd collin@ganymede"
 host_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIL9ogXwOPZbAyAq9ecuzJGeRXobWrT9I7icHeEKnpzwB"
 
-wg_pubkey = "7BdBTJ/FQUOPjSU+Q1Ieg9VqMd2y8BCMqk61I5rMAnY="
 wg_ip = "10.100.0.1"
+wg_pubkey = "7BdBTJ/FQUOPjSU+Q1Ieg9VqMd2y8BCMqk61I5rMAnY="
 
 caddy-root-ca = '''
 -----BEGIN CERTIFICATE-----
@@ -32,3 +33,18 @@ user_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINKwMBLWWxpf4jZN3R3iQ7XEAOMq0
 
 wg_pubkey = "CWsD6IJYAbbAX756zb5TlChjEJEm0Q3KpeakfuaZIyA="
 wg_ip = "10.100.0.24"
+
+[hosts.saturn]
+ip = "192.168.50.3"
+jump = "collin@ganymede"
+user_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAUURqA833VJRX59xMsrqsgT4uXCKWRaO+4Q5A4f5Vou admin@saturn"
+
+[hosts.mimas]
+ip = "192.168.50.4"
+jump = "collin@ganymede"
+user_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIJ9g9DIR8aOTOPME41waUoAXDqEWhsgxrHgk8j7HfLkf admin@mimas"
+
+[hosts.tethys]
+ip = "192.168.50.5"
+jump = "collin@ganymede"
+user_pubkey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDBaEvYE22LOXV3KzlFW5g169BBd/gux0GNs5l11mzhM admin@tethys"

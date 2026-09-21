@@ -10,13 +10,15 @@ in
     files =
       (lib.optionalAttrs config.collinux.terminal.shells.fish.enable {
         ".config/fish/conf.d/eza.fish".text = ''
-          alias ls "eza -A -w 80 --group-directories-first -I '.git*'"
+          alias ls "eza -A -w 80 --group-directories-first --git"
+          alias ll "eza -Alho --no-permissions --group --group-directories-first --git"
           alias tree "eza -T"
         '';
       })
-      // (lib.optionalAttrs config.collinux.terminal.shells.fish.enable {
+      // (lib.optionalAttrs config.collinux.terminal.shells.bash.enable {
         ".config/bash/conf.d/eza.bash".text = ''
-          alias ls="eza -A -w 80 --group-directories-first -I '.git*'"
+          alias ls="eza -A -w 80 --group-directories-first --git"
+          alias ll="eza -Alho --no-permissions --group --group-directories-first --git"
           alias tree="eza -T"
         '';
       });

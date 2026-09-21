@@ -42,7 +42,6 @@ in {
     wants = ["network-online.target"];
     script = ''
       REMOTE_IP=$(${pkgs.dnsutils}/bin/dig +short williamsfam.us.com | ${pkgs.gawk}/bin/awk 'NR==1')
-
       if [[ -z "$REMOTE_IP" ]]; then
         echo "Failed to resolve DNS for configured domain" >&2
         exit 1

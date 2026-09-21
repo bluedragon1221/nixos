@@ -1,6 +1,7 @@
 {
   inputs,
   hosts,
+  lib,
   ...
 }: {
   imports = [
@@ -17,11 +18,22 @@
 
   services.upower.enable = true;
 
-  programs.ssh.extraConfig = ''
-    Host ganymede
-      HostName 10.100.0.1
-      Port 22
-  '';
+  programs.ssh.extraConfig =
+    hosts
+    |> (lib.mapAttrsToList (hostname: hostAttrs:
+      if hostAttrs ? ip
+      then ''
+        Host ${hostname}
+          ${
+          if hostAttrs ? jump
+          then "ProxyJump ${hostAttrs.jump}"
+          else ""
+        }
+          HostName ${hostAttrs.ip}
+      ''
+      else ""))
+    |> (builtins.filter (s: s != ""))
+    |> (lib.concatStringsSep "\n");
 
   programs.kdeconnect.enable = true;
 

@@ -36,12 +36,12 @@
     '';
 
     virtualHosts = {
-      "jta.williamsfam.us.com" = {
+      "questions.williamsfam.us.com" = {
         logFormat = lib.mkForce ''
           output file /var/log/caddy/access-williamsfam.us.com.log
         '';
         extraConfig = ''
-          root * /media/public/www/jta
+          root * /media/public/www/questions
 
           @hidden path */.*
           respond @hidden "Not Found" 404

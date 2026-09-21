@@ -7,7 +7,7 @@
   cfg = config.collinux.terminal.programs.lazygit;
 
   settings = {
-    git.pagers = [{pager = "diff-so-fancy";}];
+    git.diffRenderers = [{command = "diff-so-fancy";}];
     gui = {
       showRandomTip = false;
       commitLength.show = false;

@@ -5,7 +5,6 @@
   ...
 }: let
   cfg = config.collinux.services.sshd;
-  pure = x: [x];
 
   authorizedKeys =
     hosts
@@ -18,15 +17,19 @@ in {
       enable = true;
       allowSFTP = true;
 
-      hostKeys = pure {
-        path = "/etc/ssh/ssh_host_ed25519_key";
-        type = "ed25519";
-      };
+      hostKeys = [
+        {
+          path = "/etc/ssh/ssh_host_ed25519_key";
+          type = "ed25519";
+        }
+      ];
 
-      listenAddresses = pure {
-        addr = "0.0.0.0";
-        port = cfg.port;
-      };
+      listenAddresses = [
+        {
+          addr = "0.0.0.0";
+          port = cfg.port;
+        }
+      ];
 
       settings = {
         PermitRootLogin = "yes";

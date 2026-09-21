@@ -45,7 +45,13 @@ in {
           publicKey = data.host_pubkey;
         }
         // (lib.optionalAttrs (data ? hostnames) {
-          hostNames = data.hostnames;
+          hostNames =
+            data.hostnames
+            ++ (
+              if data ? ip
+              then [data.ip]
+              else []
+            );
         }));
   };
 

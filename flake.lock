@@ -183,7 +183,7 @@
     "geolite-db": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-Zf+qhr5wN6JFf9BKxY4dAH7g6F3AZpDB3ZRxNbt0PeM=",
+        "narHash": "sha256-Na5E1pifzdXc9jGDMh53zzvQG571QMfKldCtulw+ibE=",
         "type": "file",
         "url": "https://github.com/P3TERX/GeoLite.mmdb/releases/latest/download/GeoLite2-City.mmdb"
       },
