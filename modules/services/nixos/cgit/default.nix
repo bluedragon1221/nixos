@@ -101,7 +101,7 @@ in {
     '';
 
     collinux.services.glance.homelabServices."git" = {
-      url = "https://git.ganymede";
+      url = "https://git.collin.williamsfam.us.com";
       icon = "si:git";
     };
   };
