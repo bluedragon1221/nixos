@@ -15,16 +15,15 @@ in {
     dhcpcd.enable = false;
     useDHCP = false;
     networkmanager.enable = false;
-
     useNetworkd = true;
+
+    nameservers = ["127.0.0.1"];
+    resolvconf.enable = true;
 
     firewall = {
       enable = true;
       checkReversePath = "loose";
     };
-
-    resolvconf.enable = true;
-    nameservers = ["127.0.0.1"];
 
     wireless = {
       enable = true;
@@ -56,12 +55,10 @@ in {
         };
       };
 
+      # for next time I break networking...
       networks."20-teather" = {
-        # for next time I break networking...
         name = "enp*";
-        networkConfig = {
-          DHCP = "yes";
-        };
+        networkConfig.DHCP = "yes";
       };
     };
   };

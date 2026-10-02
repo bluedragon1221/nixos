@@ -183,7 +183,7 @@
     "geolite-db": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-Na5E1pifzdXc9jGDMh53zzvQG571QMfKldCtulw+ibE=",
+        "narHash": "sha256-rsuzb27O5bkv5U2s6+AClaY/9G3SIMXiEZwJYnRrsDo=",
         "type": "file",
         "url": "https://github.com/P3TERX/GeoLite.mmdb/releases/latest/download/GeoLite2-City.mmdb"
       },
@@ -231,22 +231,6 @@
         "owner": "nix-community",
         "repo": "home-manager",
         "type": "github"
-      }
-    },
-    "keys-repo": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1789787816,
-        "narHash": "sha256-seSEweu5KYkVwWqLhgk5loEX/3gN+5fw35x2+dhH3ZM=",
-        "ref": "refs/heads/main",
-        "rev": "0d5e2f739dd549db5c31c23209a0bee02abec1da",
-        "revCount": 14,
-        "type": "git",
-        "url": "ssh://git@github.com/modernidiots-org/keys"
-      },
-      "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/modernidiots-org/keys"
       }
     },
     "lanzaboote": {
@@ -370,12 +354,10 @@
         "fx-autoconfig": "fx-autoconfig",
         "geolite-db": "geolite-db",
         "hjem": "hjem",
-        "keys-repo": "keys-repo",
         "lanzaboote": "lanzaboote",
         "nix-index-database": "nix-index-database",
         "nixos-facter-modules": "nixos-facter-modules",
         "nixpkgs": "nixpkgs",
-        "shared_assets": "shared_assets",
         "tmux-tsunami": "tmux-tsunami",
         "uc-css-js": "uc-css-js"
       }
@@ -400,18 +382,6 @@
         "repo": "rust-overlay",
         "type": "github"
       }
-    },
-    "shared_assets": {
-      "flake": false,
-      "locked": {
-        "path": "git+ssh:/git@ganymede:shared-assets",
-        "type": "path"
-      },
-      "original": {
-        "path": "git+ssh:/git@ganymede:shared-assets",
-        "type": "path"
-      },
-      "parent": []
     },
     "systems": {
       "locked": {

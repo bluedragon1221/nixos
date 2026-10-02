@@ -7,78 +7,107 @@
 }: let
   cfg = config.collinux.services.goaccess;
 
-  settings = {
-    date-format = "%s";
-    log-format = "CADDY";
-    tz = config.time.timeZone;
-    log-file = "/var/log/caddy/access-williamsfam.us.com.log";
-    geoip-database = inputs.geolite-db;
+  modularService = {
+    lib,
+    config,
+    options,
+    ...
+  }: let
+    cfg = config.goaccess;
 
-    ws-url = "wss://stats.ganymede:443/ws"; # url that the frontend uses to fetch data
-    unix-socket = "/run/goaccess/goaccess.sock";
+    settings =
+      cfg.settings
+      // {
+        unix-socket = "/run/goaccess/goaccess.sock";
+        output = "/run/goaccess/www/index.html";
+      };
+  in {
+    options.goaccess = {
+      package = lib.mkOption {
+        description = "the `goaccess` package";
+        type = lib.types.package;
+      };
+      settings = lib.mkOption {
+        description = "goaccess.conf options";
+        type = lib.types.attrsOf lib.types.str;
+      };
+    };
 
-    real-time-html = "true";
-    output = "/var/lib/goaccess/index.html";
-    external-assets = "true";
-    all-static-files = "false";
-    html-report-title = "stats@ganymede";
-    hl-header = "true";
-    agent-list = "false";
-    with-output-resolver = "false";
-    http-method = "yes";
-    http-protocol = "yes";
-    "4xx-to-unique-count" = "false";
-    ignore-crawlers = "false";
-    crawlers-only = "false";
-    unknowns-as-crawlers = "false";
-    real-os = "true";
+    config =
+      {
+        configData."goaccess.conf".text =
+          settings
+          |> lib.mapAttrsToList (k: v: "${k} ${v}")
+          |> lib.concatStringsSep "\n";
+
+        process.argv = [(lib.getExe cfg.package) "-p" config.configData."goaccess.conf".path];
+      }
+      // lib.optionalAttrs (options ? systemd) {
+        systemd.service = {
+          description = "GoAccess Real-Time Log Analyzer";
+          restartIfChanged = true;
+          wants = ["network-online.target" "caddy.service"];
+          after = ["network-online.target" "caddy.service"];
+          wantedBy = ["multi-user.target"];
+
+          serviceConfig = {
+            DynamicUser = true;
+            Group = "caddy";
+
+            RuntimeDirectory = ["goaccess" "goaccess/www"];
+            RuntimeDirectoryMode = "0750";
+            UMask = "0007"; # socket -> 0770, files -> 0660
+
+            NoNewPrivileges = true;
+            PrivateTmp = true;
+            ProtectSystem = "strict";
+            ProtectHome = true;
+            ProtectKernelTunables = true;
+            ProtectKernelModules = true;
+            ProtectControlGroups = true;
+
+            Restart = "on-failure";
+          };
+        };
+      };
   };
-
-  settingsFile = pkgs.writeText "goaccess.conf" (settings |> builtins.mapAttrs (k: v: "${k} ${toString v}") |> builtins.attrValues |> lib.concatStringsSep "\n");
 in {
   config = lib.mkIf cfg.enable {
-    users.groups."goaccess" = {};
-    users.users."goaccess" = {
-      isSystemUser = true;
-      group = "goaccess";
-      extraGroups = ["caddy"]; # to read caddy log files
-    };
-    users.users.caddy.extraGroups = ["goaccess"];
+    system.services."goaccess" = {
+      imports = [modularService];
+      goaccess = {
+        package = pkgs.goaccess;
+        settings = {
+          date-format = "%s";
+          log-format = "CADDY";
+          tz = config.time.timeZone;
+          log-file = "/var/log/caddy/access-williamsfam.us.com.log";
+          geoip-database = toString inputs.geolite-db;
 
-    systemd.services."goaccess" = {
-      description = "GoAccess Real-Time Log Analyzer";
-      restartIfChanged = true;
-      wants = ["network-online.target" "caddy.service"];
-      after = ["network-online.target" "caddy.service"];
-      wantedBy = ["multi-user.target"];
+          ws-url = "wss://stats.ganymede:443/ws"; # url that the frontend uses to fetch data
 
-      serviceConfig = {
-        User = "goaccess";
-        Type = "simple";
-
-        RuntimeDirectory = "goaccess";
-        RuntimeDirectoryMode = "0770";
-        UMask = "0007";
-
-        StateDirectory = "goaccess";
-        StateDirectoryMode = "0750"; # caddy must read this dir
-
-        ExecStart = "${lib.getExe pkgs.goaccess} -p ${settingsFile}";
-
-        NoNewPrivileges = true;
-        PrivateTmp = true;
-        ProtectSystem = "strict";
-        ProtectHome = true;
-        ProtectKernelTunables = true;
-        ProtectKernelModules = true;
-        ProtectControlGroups = true;
+          real-time-html = "true";
+          external-assets = "true";
+          all-static-files = "false";
+          html-report-title = "stats@ganymede";
+          hl-header = "true";
+          agent-list = "false";
+          with-output-resolver = "false";
+          http-method = "yes";
+          http-protocol = "yes";
+          "4xx-to-unique-count" = "false";
+          ignore-crawlers = "false";
+          crawlers-only = "false";
+          unknowns-as-crawlers = "false";
+          real-os = "true";
+        };
       };
     };
 
     services.caddy.virtualHosts."stats.ganymede".extraConfig = ''
       tls internal
 
-      root * /var/lib/goaccess
+      root * /run/goaccess/www
       file_server
 
       reverse_proxy /ws unix//run/goaccess/goaccess.sock

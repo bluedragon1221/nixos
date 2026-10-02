@@ -24,31 +24,30 @@ in {
 
     forgejo = basicService {desc = "Self-hosted git forge";};
     qbittorrent = basicService {desc = "webui for qBittorrent";};
+    dufs.enable = mkEnableOption "dufs file browser";
     goaccess.enable = mkEnableOption "webserver stats from caddy logs";
-    filebrowser.enable = mkEnableOption "dufs file browser";
     cgit.enable = mkEnableOption "cgit git webui";
 
-    glance =
-      (basicService {desc = "Glance homepage";})
-      // {
-        homelabServices = lib.mkOption {
-          type = lib.types.attrsOf (lib.types.submodule ({config, ...}: {
-            options = {
-              title = lib.mkOption {
-                type = lib.types.str;
-                default = config._module.args.name;
-              };
-              url = lib.mkOption {
-                type = lib.types.str;
-              };
-              icon = lib.mkOption {
-                type = lib.types.nullOr lib.types.str;
-                default = null;
-              };
+    glance = {
+      enable = mkEnableOption "glance homelab homepage";
+      homelabServices = lib.mkOption {
+        type = lib.types.attrsOf (lib.types.submodule ({config, ...}: {
+          options = {
+            title = lib.mkOption {
+              type = lib.types.str;
+              default = config._module.args.name;
             };
-          }));
-        };
+            url = lib.mkOption {
+              type = lib.types.str;
+            };
+            icon = lib.mkOption {
+              type = lib.types.nullOr lib.types.str;
+              default = null;
+            };
+          };
+        }));
       };
+    };
 
     minecraft = basicService {
       desc = "Minecraft bedrock server";

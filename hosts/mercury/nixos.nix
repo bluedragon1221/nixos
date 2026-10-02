@@ -22,15 +22,16 @@
     hosts
     |> (lib.mapAttrsToList (hostname: hostAttrs:
       if hostAttrs ? ip
-      then ''
-        Host ${hostname}
-          ${
+      then
+        ''
+          Host ${hostname}
+            HostName ${hostAttrs.ip}
+        ''
+        + (
           if hostAttrs ? jump
-          then "ProxyJump ${hostAttrs.jump}"
+          then "  ProxyJump ${hostAttrs.jump}"
           else ""
-        }
-          HostName ${hostAttrs.ip}
-      ''
+        )
       else ""))
     |> (builtins.filter (s: s != ""))
     |> (lib.concatStringsSep "\n");

@@ -63,7 +63,7 @@ in {
       root-desc=Git repos for my various personal projects
 
       readme=:README.md
-      about-filter=${md2html}/bin/md2html.sh
+      about-filter=${lib.getExe md2html}
       source-filter=${pkgs.cgit}/lib/cgit/filters/syntax-highlighting.py
       head-include=${./cgit-head.html}
       footer=
@@ -72,31 +72,35 @@ in {
       scan-path=/var/lib/cgit
     '';
 
-    services.fcgiwrap.instances."cgit" = {
-      process = {
-        user = "git";
-        group = "git";
+    systemd.sockets."fcgiwrap-cgit" = {
+      wantedBy = ["sockets.target"];
+      listenStreams = ["/run/cgit/fcgiwrap.sock"];
+      socketConfig = {
+        SocketMode = "0660";
+        SocketGroup = "caddy";
       };
+    };
 
-      socket = {
-        user = "caddy";
-        group = "caddy";
-        type = "unix";
-        address = "/run/fcgiwrap-cgit.sock";
+    systemd.services."fcgiwrap-cgit" = {
+      after = ["nss-user-lookup.target"];
+      serviceConfig = {
+        ExecStart = "${lib.getExe pkgs.fcgiwrap} -c 1";
+        User = "git";
+        Group = "git";
       };
     };
 
     services.caddy.virtualHosts."git.collin.williamsfam.us.com".extraConfig = ''
       @assets path /cgit.css /cgit.js /favicon.svg /robots.txt
       handle @assets {
-      	root * ${custom_cgit}
-      	file_server
+          root * ${custom_cgit}
+          file_server
       }
 
-      reverse_proxy unix//run/fcgiwrap-cgit.sock {
-      	transport fastcgi {
-      		env SCRIPT_FILENAME ${custom_cgit}/cgit.cgi
-      	}
+      reverse_proxy unix//run/cgit/fcgiwrap.sock {
+          transport fastcgi {
+              env SCRIPT_FILENAME ${custom_cgit}/cgit.cgi
+          }
       }
     '';
 

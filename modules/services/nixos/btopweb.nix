@@ -6,46 +6,89 @@
 }: let
   cfg = config.collinux.services.btopweb;
 
-  btopSettings = pkgs.writeText "btop.conf" ''
-    color_theme = "tomorrow-night"
-    enable_mouse = true
-    background_update = false
+  modularService = {
+    lib,
+    config,
+    options,
+    ...
+  }: let
+    cfg = config.btopweb;
+  in {
+    options.btopweb = {
+      ttydPackage = lib.mkOption {
+        description = "the `ttyd` package";
+        type = lib.types.package;
+      };
+      btopPackage = lib.mkOption {
+        description = "the `btop` package";
+        type = lib.types.package;
+      };
+      btopSettings = lib.mkOption {
+        description = "configuration file for btop";
+        type = lib.types.lines;
+      };
+    };
 
-    proc_tree = true
-    proc_colors = true
-  '';
+    config =
+      {
+        configData."btop.conf".text = cfg.btopSettings;
+        process.argv = [
+          (lib.getExe cfg.ttydPackage)
+          "-W"
+          "-i"
+          "/run/btopweb/ttyd.sock"
+          "-t"
+          "renderType=canvas"
+          "-t"
+          "fontSize=16"
+          (lib.getExe cfg.btopPackage)
+          "-c"
+          config.configData."btop.conf".path
+        ];
+      }
+      // lib.optionalAttrs (options ? systemd) {
+        systemd.service = {
+          description = "Host btop on a website";
+          wants = ["network-online.target"];
+          after = ["network-online.target"];
+          wantedBy = ["multi-user.target"];
+
+          serviceConfig = {
+            DynamicUser = true;
+            Group = "caddy";
+
+            RuntimeDirectory = "btopweb";
+            RuntimeDirectoryMode = "0750";
+            UMask = "0002";
+
+            # allow btop to monitor system stats
+            ProtectProc = "default";
+            ProcSubset = "all";
+
+            ProtectSystem = "strict";
+            ProtectHome = true;
+            PrivateTmp = true;
+            NoNewPrivileges = true;
+
+            Restart = "on-failure";
+          };
+        };
+      };
+  };
 in {
   config = lib.mkIf cfg.enable {
-    users.groups."btopweb" = {};
-    users.users."btopweb" = {
-      isSystemUser = true;
-      group = "btopweb";
-    };
-    users.users.caddy.extraGroups = ["btopweb"];
+    system.services."btopweb" = {
+      imports = [modularService];
+      btopweb = {
+        ttydPackage = pkgs.ttyd;
+        btopPackage = pkgs.btop;
+        btopSettings = ''
+          color_theme = "tomorrow-night"
+          enable_mouse = true
+          background_update = false
 
-    systemd.services."btopweb" = {
-      description = "Host btop on a website";
-      restartIfChanged = true;
-      wants = ["network-online.target"];
-      after = ["network-online.target"];
-      wantedBy = ["multi-user.target"];
-
-      serviceConfig = {
-        User = "btopweb";
-        Group = "btopweb";
-        Type = "simple";
-
-        RuntimeDirectory = "btopweb";
-        RuntimeDirectoryMode = "0770";
-        UMask = "0007";
-
-        ExecStart = ''
-          ${lib.getExe pkgs.ttyd} \
-            -W \
-            -i /run/btopweb/ttyd.sock \
-            -t renderType=canvas \
-            -t fontSize=16 \
-            ${pkgs.btop}/bin/btop -c ${btopSettings}
+          proc_tree = true
+          proc_colors = true
         '';
       };
     };

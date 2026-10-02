@@ -18,25 +18,11 @@
 
   systemd.network = {
     enable = true;
-
     networks."11-default" = {
       name = "wl*";
       networkConfig.DHCP = "yes";
-
-      # never accept dhcp dns
-      # dhcpV4Config.UseDNS = "no";
-      # dhcpV6Config.UseDNS = "no";
     };
   };
 
-  services.resolved = {
-    enable = true;
-    settings.Resolve = {
-      # DNSOverTLS = true;
-      # DNSSEC = "allow-downgrade";
-
-      # LLMNR = false;
-      # MulticastDNS = false;
-    };
-  };
+  services.resolved.enable = true;
 }

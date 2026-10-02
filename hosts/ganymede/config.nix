@@ -44,11 +44,8 @@
         port = 8076;
       };
       cgit.enable = true;
-      filebrowser.enable = true;
-      glance = {
-        enable = true;
-        port = 8081;
-      };
+      dufs.enable = true;
+      glance.enable = true;
 
       caddy = {
         enable = true;

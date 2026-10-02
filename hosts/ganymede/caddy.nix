@@ -90,7 +90,7 @@
   };
 
   collinux.services.glance.homelabServices."website" = {
-    url = "https://williamsfam.us.com";
+    url = "https://collin.williamsfam.us.com";
     icon = "mdi:web";
   };
 }

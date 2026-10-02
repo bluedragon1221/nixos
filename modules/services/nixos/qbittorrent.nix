@@ -6,8 +6,6 @@
   cfg = config.collinux.services.qbittorrent;
 in {
   config = lib.mkIf cfg.enable {
-    users.users."qbittorrent" = {};
-
     networking.firewall = {
       allowedTCPPorts = [49252];
       allowedUDPPorts = [49252];
@@ -18,7 +16,6 @@ in {
       webuiPort = cfg.port;
       torrentingPort = 49252;
     };
-    systemd.services.qbittorrent.serviceConfig.PrivateUsers = lib.mkForce false;
 
     services.caddy.virtualHosts."bittorrent.ganymede".extraConfig = ''
       tls internal

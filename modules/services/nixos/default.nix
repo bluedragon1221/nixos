@@ -7,14 +7,11 @@
     ./btopweb.nix
     ./cgit
     ./ganyupload
-    ./jta
     ./glance.nix
-    ./filebrowser.nix
+    ./dufs.nix
 
     ./minecraft.nix
     ./ngircd.nix
     ./qbittorrent.nix
   ];
-
-  users.groups."fileserver" = {};
 }
