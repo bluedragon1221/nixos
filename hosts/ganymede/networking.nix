@@ -52,6 +52,11 @@ in {
           Address = static.ip;
           Gateway = static.gateway;
           DHCP = "no";
+          IPv6AcceptRA = "yes";
+        };
+        ipv6AcceptRAConfig = {
+          Token = "prefixstable";
+          UseDNS = false;
         };
       };
 
