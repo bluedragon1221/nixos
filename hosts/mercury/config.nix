@@ -33,7 +33,10 @@
       };
 
       programs = {
-        firefox.enable = true;
+        firefox = {
+          enable = true;
+          extensions.foxyproxy.enable = true;
+        };
         research.enable = true;
         foot.enable = true;
       };
