@@ -39,7 +39,7 @@
     };
 
     shared-assets = {
-      url = "git+ssh://git@ganymede/~/shared-assets";
+      url = "git+https://git.collin.williamsfam.us.com/shared-assets";
       flake = false;
     };
 

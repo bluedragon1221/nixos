@@ -105,7 +105,7 @@ in {
     };
 
     services.caddy.virtualHosts."stats.ganymede".extraConfig = ''
-      tls internal
+      import internal
 
       root * /run/goaccess/www
       file_server

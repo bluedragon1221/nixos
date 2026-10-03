@@ -10,8 +10,6 @@
   ];
 
   nix = {
-    gc.automatic = false; # use nh cleaner instead
-
     # Make builds run with low priority so my system stays responsive
     daemonCPUSchedPolicy = "idle";
     daemonIOSchedClass = "idle";

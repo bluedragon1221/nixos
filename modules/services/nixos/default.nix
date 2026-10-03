@@ -6,7 +6,6 @@
     ./goaccess.nix
     ./btopweb.nix
     ./cgit
-    ./ganyupload
     ./glance.nix
     ./dufs.nix
 

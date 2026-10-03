@@ -16,6 +16,7 @@ in {
     services.openssh = {
       enable = true;
       allowSFTP = true;
+      openFirewall = false;
 
       hostKeys = [
         {

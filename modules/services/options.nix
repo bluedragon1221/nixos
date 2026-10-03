@@ -18,11 +18,8 @@ in {
       default_port = 22;
     };
 
-    jta = basicService {desc = "personal project";};
-    ganyupload = basicService {desc = "anonymous file uploads";};
     btopweb.enable = mkEnableOption "btop accessable in a browser tab";
 
-    forgejo = basicService {desc = "Self-hosted git forge";};
     qbittorrent = basicService {desc = "webui for qBittorrent";};
     dufs.enable = mkEnableOption "dufs file browser";
     goaccess.enable = mkEnableOption "webserver stats from caddy logs";

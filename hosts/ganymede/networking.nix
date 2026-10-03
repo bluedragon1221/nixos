@@ -32,11 +32,19 @@ in {
     };
   };
   systemd = {
-    services."disable-wifi-powersave" = {
-      description = "Disable wifi powersaving using iw";
-      after = ["network.target"];
-      serviceConfig.ExecStart = "${lib.getExe pkgs.iw} dev wlp108s0 set power_save off";
-      wantedBy = ["default.target"];
+    services."disable-wifi-powersave" = let
+      interface = "wlp108s0";
+      dev = "sys-subsystem-net-devices-${interface}.device";
+    in {
+      bindsTo = [dev];
+      after = [dev];
+      wantedBy = [dev];
+
+      serviceConfig = {
+        Type = "oneshot";
+        RemainAfterExit = true;
+        ExecStart = "${lib.getExe pkgs.iw} dev ${interface} set power_save off";
+      };
     };
 
     network = {

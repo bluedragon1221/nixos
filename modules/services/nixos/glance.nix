@@ -156,7 +156,7 @@ in {
     };
 
     services.caddy.virtualHosts."home.ganymede".extraConfig = ''
-      tls internal
+      import internal
       reverse_proxy unix///run/glance/glance.sock
     '';
   };

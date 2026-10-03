@@ -62,7 +62,7 @@ in
     };
 
     services.caddy.virtualHosts."files.ganymede".extraConfig = ''
-      tls internal
+      import internal
       reverse_proxy unix//run/dufs/dufs.sock
     '';
 

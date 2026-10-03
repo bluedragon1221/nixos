@@ -12,7 +12,7 @@ in {
     users.${cfg.name} = {
       isNormalUser = true;
       description = cfg.name;
-      extraGroups = ["networkmanager" "disks" "input" "video" "dialout" "kvm"] ++ (lib.optional cfg.isAdmin "wheel");
+      extraGroups = ["networkmanager" "disk" "input" "video" "dialout" "kvm"] ++ (lib.optional cfg.isAdmin "wheel");
     };
   };
   services.userborn.enable = true;

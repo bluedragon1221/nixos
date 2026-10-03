@@ -42,6 +42,11 @@
     hosts.ganymede.caddy-root-ca
   ];
 
+  services.journald.extraConfig = ''
+    Storage=volatile
+    RuntimeMaxUse=100M
+  '';
+
   # get perl out of my closure
   system = {
     etc.overlay.enable = true;

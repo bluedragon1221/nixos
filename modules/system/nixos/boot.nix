@@ -70,15 +70,10 @@ in {
     // (lib.optionalAttrs cfg.secureBoot.enable {
       lanzaboote = {
         enable = true;
+        configurationLimit = 3;
         pkiBundle = "/var/lib/sbctl";
       };
     });
-
-  # store journald logs in memory
-  services.journald.extraConfig = ''
-    Storage=volatile
-    RuntimeMaxUse=100M
-  '';
 
   environment.systemPackages = [pkgs.efibootmgr] ++ lib.optional cfg.secureBoot.enable pkgs.sbctl;
 }

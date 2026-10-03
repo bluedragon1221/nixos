@@ -9,11 +9,8 @@
 
   services.caddy = {
     package = lib.mkForce (pkgs.caddy.withPlugins {
-      plugins = [
-        "github.com/tailscale/caddy-tailscale@v0.0.0-20251204171825-f070d146dd61"
-        "github.com/caddy-dns/porkbun@v0.3.1"
-      ];
-      hash = "sha256-3BRyQ/fqPUemW1KqwyvkO1LeZB7PyBMIL/5a2u1mqqU=";
+      plugins = ["github.com/caddy-dns/porkbun@v0.3.1"];
+      hash = "sha256-CjL8dMdnsiawaPiQGRvL3he4Ydd3nIbQs6tBWMwUbaw=";
     });
 
     globalConfig = ''

@@ -18,7 +18,7 @@ in {
     };
 
     services.caddy.virtualHosts."bittorrent.ganymede".extraConfig = ''
-      tls internal
+      import internal
       reverse_proxy 127.0.0.1:${toString cfg.port}
     '';
 

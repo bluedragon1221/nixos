@@ -393,11 +393,11 @@
         "rev": "03f93890672d169de4f77f0149b3a39c30be2ec9",
         "revCount": 3,
         "type": "git",
-        "url": "ssh://git@ganymede/~/shared-assets"
+        "url": "https://git.collin.williamsfam.us.com/shared-assets"
       },
       "original": {
         "type": "git",
-        "url": "ssh://git@ganymede/~/shared-assets"
+        "url": "https://git.collin.williamsfam.us.com/shared-assets"
       }
     },
     "systems": {

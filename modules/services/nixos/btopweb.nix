@@ -94,7 +94,7 @@ in {
     };
 
     services.caddy.virtualHosts."btop.ganymede".extraConfig = ''
-      tls internal
+      import internal
       reverse_proxy unix//run/btopweb/ttyd.sock
     '';
 
