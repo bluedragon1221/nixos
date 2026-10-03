@@ -35,7 +35,6 @@
     services = {
       sshd.enable = true; # :22
       minecraft.enable = true; # :19132
-      ngircd.enable = true; # :6667
 
       goaccess.enable = true;
       btopweb.enable = true;
