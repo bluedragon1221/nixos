@@ -358,6 +358,7 @@
         "nix-index-database": "nix-index-database",
         "nixos-facter-modules": "nixos-facter-modules",
         "nixpkgs": "nixpkgs",
+        "shared-assets": "shared-assets",
         "tmux-tsunami": "tmux-tsunami",
         "uc-css-js": "uc-css-js"
       }
@@ -381,6 +382,22 @@
         "owner": "oxalica",
         "repo": "rust-overlay",
         "type": "github"
+      }
+    },
+    "shared-assets": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1789870017,
+        "narHash": "sha256-oVMFG9t9eZBMIIz2EV0KdC7T74eC8LZh3PpxDYxkepo=",
+        "ref": "refs/heads/main",
+        "rev": "03f93890672d169de4f77f0149b3a39c30be2ec9",
+        "revCount": 3,
+        "type": "git",
+        "url": "ssh://git@ganymede/~/shared-assets"
+      },
+      "original": {
+        "type": "git",
+        "url": "ssh://git@ganymede/~/shared-assets"
       }
     },
     "systems": {

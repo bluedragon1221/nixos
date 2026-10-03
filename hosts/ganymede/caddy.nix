@@ -82,7 +82,6 @@
         '';
         extraConfig = ''
           root * /media/public/www/collin
-          try_files {path} {path}.html {path}/index.html
           file_server
         '';
       };

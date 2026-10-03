@@ -2,6 +2,7 @@
   pkgs,
   config,
   lib,
+  inputs,
   ...
 }: let
   cfg = config.collinux.services.cgit;
@@ -97,9 +98,16 @@ in {
           file_server
       }
 
-      reverse_proxy unix//run/cgit/fcgiwrap.sock {
-          transport fastcgi {
-              env SCRIPT_FILENAME ${custom_cgit}/cgit.cgi
+      handle_path /static/* {
+          root * ${inputs.shared-assets}
+          file_server
+      }
+
+      handle {
+          reverse_proxy unix//run/cgit/fcgiwrap.sock {
+              transport fastcgi {
+                  env SCRIPT_FILENAME ${custom_cgit}/cgit.cgi
+              }
           }
       }
     '';

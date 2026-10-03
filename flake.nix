@@ -38,6 +38,11 @@
       flake = false;
     };
 
+    shared-assets = {
+      url = "git+ssh://git@ganymede/~/shared-assets";
+      flake = false;
+    };
+
     tmux-tsunami = {
       url = "git+https://git.collin.williamsfam.us.com/tmux-tsunami";
       inputs.nixpkgs.follows = "nixpkgs";

@@ -1,5 +1,5 @@
-@import url('https://collin.williamsfam.us.com/static/fonts.css');
-@import url('https://collin.williamsfam.us.com/static/prose.css');
+@import url('/static/fonts.css');
+@import url('/static/prose.css');
 
 :root {
     --bg: #121212;
@@ -617,7 +617,7 @@ header {
         height: 5.5rem;
         flex-shrink: 0;
         background-color: #e6e6e6;
-        mask-image: url("https://collin.williamsfam.us.com/static/Logo.svg");
+        mask-image: url("/static/Logo.svg");
         mask-size: contain;
         mask-repeat: no-repeat;
         mask-position: center;
