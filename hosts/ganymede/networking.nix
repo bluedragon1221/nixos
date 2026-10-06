@@ -11,6 +11,10 @@
     gateway = "192.168.50.1";
   };
 in {
+  imports = [
+    ./mythra.nix
+  ];
+
   networking = {
     dhcpcd.enable = false;
     useDHCP = false;
@@ -69,7 +73,7 @@ in {
       };
 
       # for next time I break networking...
-      networks."20-teather" = {
+      networks."20-tether" = {
         name = "enp*";
         networkConfig.DHCP = "yes";
       };

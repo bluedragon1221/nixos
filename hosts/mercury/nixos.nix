@@ -42,6 +42,11 @@
     hosts.ganymede.caddy-root-ca
   ];
 
+  systemd.network.networks."20-tether" = {
+    name = "enp*";
+    networkConfig.DHCP = "yes";
+  };
+
   services.journald.extraConfig = ''
     Storage=volatile
     RuntimeMaxUse=100M
