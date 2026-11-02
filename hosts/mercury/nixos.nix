@@ -36,7 +36,7 @@
     |> (builtins.filter (s: s != ""))
     |> (lib.concatStringsSep "\n");
 
-  programs.kdeconnect.enable = true;
+  programs.localsend.enable = true;
 
   security.pki.certificates = [
     hosts.ganymede.caddy-root-ca

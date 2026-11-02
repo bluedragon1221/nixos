@@ -322,6 +322,26 @@
         "type": "github"
       }
     },
+    "noshell": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1788901493,
+        "narHash": "sha256-R06JhPFbVFJ8yuM+ZnggbK2xdr0pnk/N18cA1E0zVOQ=",
+        "ref": "refs/heads/master",
+        "rev": "2c15bae98d9de1c669ecebd8e9c185092dc8edef",
+        "revCount": 36,
+        "type": "git",
+        "url": "https://codeberg.org/viperML/noshell"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/viperML/noshell"
+      }
+    },
     "pre-commit": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -358,6 +378,7 @@
         "nix-index-database": "nix-index-database",
         "nixos-facter-modules": "nixos-facter-modules",
         "nixpkgs": "nixpkgs",
+        "noshell": "noshell",
         "shared-assets": "shared-assets",
         "tmux-tsunami": "tmux-tsunami",
         "uc-css-js": "uc-css-js"

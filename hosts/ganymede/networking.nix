@@ -11,11 +11,8 @@
     gateway = "192.168.50.1";
   };
 in {
-  imports = [
-    ./mythra.nix
-  ];
-
   networking = {
+    nftables.enable = true;
     dhcpcd.enable = false;
     useDHCP = false;
     networkmanager.enable = false;
@@ -93,6 +90,8 @@ in {
           "10.100.0.0/24 allow"
           "0.0.0.0/0 refuse"
         ];
+
+        val-permissive-mode = "yes";
 
         local-zone = [''"ganymede." redirect''];
         local-data = [''"ganymede. IN A 10.100.0.1"''];

@@ -1,8 +1,4 @@
-{
-  pkgs,
-  lib,
-  ...
-}: let
+{pkgs, ...}: let
   rust-shell = let
     rustProfile = pkgs.buildEnv {
       name = "rust-profile";
@@ -27,7 +23,7 @@
   in
     pkgs.writeShellScriptBin "py-shell" ''
       export PATH="${pythonProfile}/bin:$PATH"
-      export PYTHONSTARTUP=""
+      export PYTHON_HISTORY="/dev/null"
       exec $SHELL
     '';
 
@@ -75,6 +71,7 @@ in {
     libreoffice-qt
     musescore
     vscodium
+    google-chrome
     smallObsidian
 
     noctalia-shell

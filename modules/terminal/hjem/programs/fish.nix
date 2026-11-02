@@ -34,6 +34,8 @@ in
 
         direnv hook fish | source
       '';
+
+      ".config/shell".source = pkgs.fish;
     };
 
     packages = with pkgs; [

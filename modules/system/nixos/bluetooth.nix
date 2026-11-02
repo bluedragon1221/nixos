@@ -18,17 +18,11 @@ in
     };
 
     systemd.user.services."mpris-proxy" = {
-      unitConfig = {
-        BindsTo = ["bluetooth.target"];
-        After = ["bluetooth.target"];
-      };
-
+      bindsTo = ["bluetooth.target"];
+      after = ["bluetooth.target"];
       wantedBy = ["bluetooth.target"];
-
-      # serviceConfig already exists (?)
     };
 
-    # hardening (down to 2.1 OK)
     systemd.services."bluetooth".serviceConfig = {
       IPAddressDeny = "any";
       ProtectKernelLogs = true;

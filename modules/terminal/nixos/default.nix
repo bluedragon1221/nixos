@@ -1,15 +1,18 @@
-{config, ...}: let
-  cfg = config.collinux.terminal.shells;
-in {
+{inputs, ...}: {
   imports = [
-    ./bash.nix
     ./github_ssh.nix
+
+    inputs.noshell.nixosModules.default
   ];
 
   programs.command-not-found.enable = false; # broken without nix-channels
+  programs.noshell.enable = true;
 
-  users.users."${config.collinux.user.name}" = {
-    shell = cfg.defaultShell;
-    ignoreShellProgramCheck = true;
+  environment.etc = {
+    "bashrc.local".text = ''
+      if [ -s "''${XDG_CONFIG_HOME:-$HOME/.config}/bash/bashrc" ]; then
+        . "''${XDG_CONFIG_HOME:-$HOME/.config}/bash/bashrc"
+      fi
+    '';
   };
 }

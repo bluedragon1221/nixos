@@ -4,35 +4,9 @@
   pkgs,
   lib,
   ...
-}: let
-  wg-mode = pkgs.writeShellScriptBin "wg-mode" ''
-    PEER_KEY="${hosts.ganymede.wg_pubkey}"
-    IFACE="wg0"
-    case "$1" in
-      full)
-        sudo bash -c "
-          wg set '$IFACE' peer '$PEER_KEY' allowed-ips 0.0.0.0/0,::/0
-          ip route add default dev '$IFACE' metric 100
-        "
-        echo "Switched $IFACE to Full Tunnel"
-        ;;
-      split)
-        sudo bash -c "
-          ip route del default dev '$IFACE' metric 100
-          wg set '$IFACE' peer '$PEER_KEY' allowed-ips 10.0.0.0/24
-        "
-        echo "Switched $IFACE to Split Tunnel"
-        ;;
-      *)
-        echo "Usage: wg-mode [full|split]"
-        exit 1
-        ;;
-    esac
-  '';
-in {
+}: {
   environment.systemPackages = [
     pkgs.wireguard-tools
-    wg-mode
   ];
 
   systemd.services.udp2raw-client = {
@@ -82,7 +56,7 @@ in {
     DHCP = "no";
     dns = [hosts.ganymede.wg_ip];
     domains = ["~ganymede"];
-    networkConfig.IPv6AcceptRA = false;
+    networkConfig.IPv6AcceptRA = "no";
     extraConfig = ''
       DNSOverTLS=no
       DNSSEC=no

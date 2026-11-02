@@ -12,6 +12,9 @@ in
         eval "$(direnv hook bash)"
 
         for file in ~/.config/bash/conf.d/*; do source "$file"; done
+
+         export HISTFILE="$XDG_STATE_HOME"/bash/history
+         alias wget="wget --hsts-file /dev/null"
       '';
     };
 
